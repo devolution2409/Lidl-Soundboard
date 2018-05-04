@@ -173,7 +173,7 @@ void WrapperProperties::AddSound()
     // if the playback is singleton and we already have one we don't do nuffin
     if ( !(_soundListDisplay->count()>=1 && _radioGroup->checkedId() == 1 ))
     {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav *.mp3 *.ogg)"));
         // if the fileName isn't empty, the user selected a file, so we add it.
         if (!fileName.isEmpty())
         {

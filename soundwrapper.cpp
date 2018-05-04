@@ -7,7 +7,7 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 
 
 // Constructor to be used in the add sound window
-SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
+SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent) : QObject(parent)
 {
     for(int row = 0; row < soundList->count(); row++)
     {
@@ -21,7 +21,18 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
     this->setKeySequence(*shortcut);
      //qDebug() << this->_playMode;
      //qDebug() << this->_keySequence.toString();
+    this->_player = new CustomPlayer(this->getSoundList(),this->getPlayMode());
 
+}
+
+
+/********************************************
+ *                SLOT                      *
+ ********************************************/
+
+void SoundWrapper::Play()
+{
+    _player->PlayNext();
 }
 
 
@@ -90,7 +101,11 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 
 
 
+void SoundWrapper::OutputDeviceChanged(int index)
+{
 
+    qDebug() << "LUL:" << index;
+}
 
 
 

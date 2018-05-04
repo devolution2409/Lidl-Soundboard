@@ -23,3 +23,11 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass
+else:unix: LIBS += -L$$PWD/lib/ -lbass
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.

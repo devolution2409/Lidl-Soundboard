@@ -34,6 +34,7 @@
 #include <QFileInfo>
 #include <QList>
 #include <QStandardItem>
+#include <CustomPlayer.h>
 class SoundWrapper : public QObject
 {
     Q_OBJECT
@@ -60,20 +61,21 @@ public:
 
 
 private:
-    // Vector pour stocker la liste des fichiers.
-    // Ce tableau est un tableau de pointeur
+    // Vector to store the soundlist
      QVector<QFile*> _soundList;
-    // mode de lecture
+    //  playblack mode
     // TODO: remplacer par une enum
     int _playMode;
 
-    // Raccourci sous forme de QKeySequence
+    // shortcut
     QKeySequence _keySequence;
-
-
+    // the player to play the sounds
+    CustomPlayer * _player;
 signals:
 
 public slots:
+    void Play();
+    void OutputDeviceChanged(int);
 
 };
 

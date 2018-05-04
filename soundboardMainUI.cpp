@@ -118,8 +118,15 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
     // Adding null device
     comboBox->addItem("<No device selected>",Qt::DisplayRole);
 
-    for (auto &deviceInfo: QAudioDeviceInfo::availableDevices(mode))
-        comboBox->addItem(deviceInfo.deviceName(),Qt::DisplayRole);
+//    for (auto &deviceInfo: QAudioDeviceInfo::availableDevices(mode))
+//        comboBox->addItem(deviceInfo.deviceName(),Qt::DisplayRole);
+   // Modifying this so it is the same order as BASS library
+   BASS_DEVICEINFO info;
+   if (mode == QAudio::AudioOutput)
+        for (long i=1; BASS_GetDeviceInfo(i, &info); i++)
+            if (info.flags&BASS_DEVICE_ENABLED) // device is enabled
+                comboBox->addItem(info.name, Qt::DisplayRole);
+
 
 }
 // The dialogue to be opened when the Add button is pressed
@@ -136,6 +143,8 @@ void SoundboardMainUI::deleteSound()
     // check if selected sound is inside the array
     if (this->lastSelectedRow <= this->_sounds.size())
     {
+        //Schedule deletion just in case
+        this->_sounds.at(lastSelectedRow)->deleteLater();
         this->_sounds.removeAt(lastSelectedRow);
         this->_data.removeAt(lastSelectedRow);
         this->_model->removeRow(lastSelectedRow);
@@ -153,6 +162,8 @@ void SoundboardMainUI::deleteSound()
 
 void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound)
 {
+    //connecting the wrappper to the combo box
+     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
 
     _sounds.append(modifiedSound);
     QList<QStandardItem*> tempList;
@@ -167,8 +178,6 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound)
 
     _model->appendRow(_data.last());
     this->resultView->resizeRowsToContents();
-    // Enabling the edit button
-
 
 }
 
@@ -176,11 +185,16 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound)
 // Dealing with click on a row: update index
 void SoundboardMainUI::onCellClicked(QModelIndex index)
 {
+    // disconnect the play button
+    disconnect(_btnPlay,0,0,0);
     lastSelectedRow = index.row();
     this->_btnEdit->setEnabled(true);
     this->_btnDelete->setEnabled(true);
-    //qDebug() << "User clicked a cell on row number: " << index.row();
+    this->_btnPlay->setEnabled(true);
+    // qDebug() << "User clicked a cell on row number: " << index.row();
+    // connect it to the selected cell
 
+    connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
 }
 
 // open the dialog to edit sound
@@ -232,6 +246,7 @@ void SoundboardMainUI::disableButtons()
     _btnDelete->setEnabled(false);
 
 }
+
 
 
 
