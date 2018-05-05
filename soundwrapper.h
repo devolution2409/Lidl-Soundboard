@@ -76,6 +76,7 @@ signals:
 public slots:
     void Play();
     void OutputDeviceChanged(int);
+    void VACDeviceChanged(int);
 
 };
 

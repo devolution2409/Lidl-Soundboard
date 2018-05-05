@@ -2,13 +2,9 @@
 
 CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 {
-     BASS_Init(-1, 44100, 0, 0, nullptr);
-//    int a, count=0;
-//    BASS_DEVICEINFO info;
-//    for (a=1; BASS_GetDeviceInfo(a, &info); a++)
-//        if (info.flags&BASS_DEVICE_ENABLED) // device is enabled
-//            qDebug() << info.name;
-
+    _mainOutputDevice = 0;
+    _VACOutputDevice = 0;
+    _count = 0;
 }
 
 CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent) : CustomPlayer(parent)
@@ -28,7 +24,7 @@ void CustomPlayer::PlayNext()
     {
 
         int duration = static_cast<int>(this->PlayAt(_index++) * 1000);
-        qDebug() << duration;
+        // qDebug() << duration;
         // IF playmode is 3 (which is sequential auto, we register the sound to be played)
         if (this->_playMode == 3)
             QTimer::singleShot(duration, this, SLOT(OnTimerTick()));
@@ -36,15 +32,17 @@ void CustomPlayer::PlayNext()
 
     }
     // else if it is oob and we are NOT in sequential auto mode we circle. Else we don't.
-    else if ((this->_playMode != 3))
+    else if ((this->_playMode == 2))
     {
         _index = 0;
         this->PlayAt(_index++);
     }
-    else
+    else if ((this->_playMode == 1))
     {
         _index = 0;
     }
+
+       qDebug() << "count:" << _count++;
 }
 
 
@@ -60,16 +58,41 @@ void CustomPlayer::OnTimerTick()
 // Play the sound and return the duration in secs.
 double CustomPlayer::PlayAt(int index)
 {
-    qDebug() << "Attempting to play file index number:" << index
-             << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
+    // if it's 0 it SHOULD NOT play but since it does anyway we are going to add a test forsenE
+    double duration = -1;
+    if (_mainOutputDevice != 0)
+    {
+        BASS_Init(_mainOutputDevice, 44100, 0, 0, nullptr);
 
-    // adding the channel number in the thingy
-    _streamHandle.append( BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, 0));
-    BASS_ChannelPlay(_streamHandle.at(index),true);
-    double duration = BASS_ChannelBytes2Seconds(_streamHandle.at(index),
-                                                     BASS_ChannelGetLength(_streamHandle.at(index),BASS_POS_BYTE));
+        qDebug() << "Attempting to play file index number:" << index
+                 << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
+
+        // handle for main output
+        int mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
+        //Playing the sound on main device
+        qDebug() << "Setting output on device number: " << _mainOutputDevice;
+        BASS_ChannelSetDevice(mainChannel,_mainOutputDevice);
+        BASS_ChannelPlay(mainChannel,true);
+
+        duration = BASS_ChannelBytes2Seconds(mainChannel,
+                                                    BASS_ChannelGetLength(mainChannel,BASS_POS_BYTE));
+
+    }
+    // same for VAC output, and we check the two outputs aren't the same
+    if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
+    {
+        BASS_Init(_VACOutputDevice, 44100, 0, 0, nullptr);
+        int vacChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
+        BASS_ChannelSetDevice(vacChannel,_VACOutputDevice);
+        BASS_ChannelPlay(vacChannel,true);
+        duration = BASS_ChannelBytes2Seconds(vacChannel,
+                                                    BASS_ChannelGetLength(vacChannel,BASS_POS_BYTE));
+    }
+
 
     qDebug() << "Duration: " << duration;
+
+
     return duration;
 }
 
@@ -97,12 +120,17 @@ double CustomPlayer::PlayAt(int index)
 void CustomPlayer::SetOutputDevice(int deviceIndex)
 {
     // if this function recieved 0 it means we passed the <no device selected> thingy
-    if (deviceIndex == 0)
-        return;
-    else // hence the -1
-        BASS_GetDeviceInfo(deviceIndex - 1, &_mainOutputDevice);
+    // http://www.un4seen.com/doc/#bass/BASS_ChannelSetDevice.html
+    _mainOutputDevice = deviceIndex;
 
 }
+
+void CustomPlayer::SetVACDevice(int deviceIndex)
+{
+    _VACOutputDevice = deviceIndex;
+}
+
+
 
 CustomPlayer::~CustomPlayer()
 {

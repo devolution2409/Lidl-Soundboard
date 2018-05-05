@@ -92,7 +92,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
       // Fetching the devices
       this->fetchDeviceList(_deviceListOutput,QAudio::AudioOutput);
-      this->fetchDeviceList(_deviceListVAC,QAudio::AudioInput);
+      this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
       this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
 
       // connecting signals
@@ -121,12 +121,23 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 //    for (auto &deviceInfo: QAudioDeviceInfo::availableDevices(mode))
 //        comboBox->addItem(deviceInfo.deviceName(),Qt::DisplayRole);
    // Modifying this so it is the same order as BASS library
-   BASS_DEVICEINFO info;
+    //http://www.un4seen.com/doc/#bass/BASS_GetDeviceInfo.html
+  //device 0 is always the "no sound" device, so you should start at device 1 if you only want to list real output devices.
+
    if (mode == QAudio::AudioOutput)
+   {
+        BASS_DEVICEINFO info;
         for (long i=1; BASS_GetDeviceInfo(i, &info); i++)
             if (info.flags&BASS_DEVICE_ENABLED) // device is enabled
                 comboBox->addItem(info.name, Qt::DisplayRole);
+   }
+   else if (mode == QAudio::AudioInput)
+   {
+        BASS_DEVICEINFO info;
+        for (int n=0; BASS_RecordGetDeviceInfo(n, &info); n++)
+            comboBox->addItem(info.name, Qt::DisplayRole);
 
+   }
 
 }
 // The dialogue to be opened when the Add button is pressed
@@ -164,7 +175,7 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound)
 {
     //connecting the wrappper to the combo box
      connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
-
+     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
     _sounds.append(modifiedSound);
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();

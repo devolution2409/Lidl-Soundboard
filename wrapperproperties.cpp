@@ -232,10 +232,13 @@ void WrapperProperties::SetKeySequence(QKeySequence shortcut)
 
 void WrapperProperties::CreateWrapper()
 {
-    // We remove the add button from the list before sending to the constructor
-    // deleting it will call its destructor and will remove it from the view and the list
-    //delete this->_itemAdd;
+    // we check for the sound being singleton or not, if it is, we don't accept if we have more than 1 sound
 
+    if( (this->_playBackMode == 1) && (this->_soundListDisplay->count()  >1))
+    {
+        QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
+        return;
+    }
     //SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
     SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,this->_playBackMode,this->_shortcutSequence,nullptr);
     // we emit the signal so that the main window knows
@@ -246,10 +249,11 @@ void WrapperProperties::CreateWrapper()
 
 void WrapperProperties::SendEditedWrapper()
 {
-    // We remove the add button from the list before sending to the constructor
-    // deleting it will call its destructor and will remove it from the view and the list
-    //delete this->_itemAdd;
-
+    if( (this->_playBackMode == 1) && (this->_soundListDisplay->count()  >1))
+    {
+        QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
+        return;
+    }
     //SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
     SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,this->_playBackMode,this->_shortcutSequence,nullptr);
     // we emit the signal so that the main window knows

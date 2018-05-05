@@ -103,10 +103,14 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 
 void SoundWrapper::OutputDeviceChanged(int index)
 {
-
-    qDebug() << "LUL:" << index;
+    qDebug() << "output device changed, new is: " << index;
+    _player->SetOutputDevice(index);
 }
 
+void SoundWrapper::VACDeviceChanged(int index)
+{
+    _player->SetVACDevice(index);
+}
 
 
 

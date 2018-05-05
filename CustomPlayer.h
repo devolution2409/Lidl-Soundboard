@@ -42,6 +42,7 @@ public:
     explicit CustomPlayer(QObject *parent = nullptr);
     CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
+    void SetVACDevice(int);
     ~CustomPlayer();
 
 signals:
@@ -58,11 +59,16 @@ private:
     QVector<QFile*> _soundList;
     int _playMode;
     int _index;
-
+    int _count;
     // 1rst Output device info
-    BASS_DEVICEINFO _mainOutputDevice;
+    //BASS_DEVICEINFO _mainOutputDevice;
+    //BASS_DEVICEINFO _VACOutputDevice;
+    int _mainOutputDevice;
+    int _VACOutputDevice;
+
+    // handle
     QVector<int>    _streamHandle;
-    // bass stream files, we have to malloc. IN FUCKING C++
+
 
 };
 

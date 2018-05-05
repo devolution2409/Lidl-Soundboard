@@ -31,6 +31,7 @@
 // The class to save me from going insane
 #include <QKeySequenceEdit>
 #include "CustomShortcutEdit.h"
+#include <QMessageBox>
 class WrapperProperties : public QWidget
 {
     Q_OBJECT
