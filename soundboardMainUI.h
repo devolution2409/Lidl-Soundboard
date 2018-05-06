@@ -75,7 +75,6 @@ class SoundboardMainUI : public QWidget
 
 private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
-
     // sound list
     QVector<SoundWrapper*> _sounds;
     // shorcut list
@@ -116,18 +115,21 @@ private:
     QLabel      * _label3;
     QComboBox   * _deviceListInjector;
 
-    // The windows
+    // The property window
     WrapperProperties *_propertiesWindow;
-   // WrapperProperties *_editWindow;
-    //
+
+
+
     void fetchDeviceList(QComboBox*,QAudio::Mode);
     void setUpMenu();
     void closeEvent (QCloseEvent *event);
+    // keep track of selection
     int lastSelectedRow;
+
+
 
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
-
 signals:
 
 public slots:

@@ -3,10 +3,11 @@
 #include "soundboardMainUI.h"
 #include <QFile>
 
-
+#include <QDebug>
 
 //#include "stdafx.h"
 #include <QDebug>
+#define WM_QUIT 0x0012
 
 int main(int argc, char *argv[])
 {
@@ -43,9 +44,8 @@ int main(int argc, char *argv[])
         if (msg.message == WM_HOTKEY)
             container.winHotKeyPressed(static_cast<int>(msg.wParam));
 
-        //  if (msg.wParam == 1) qDebug() << "Hot Key activated : ALT + B";
-        // if (msg.wParam == 2) qDebug() << "Hot Key activated : ALT + D";
     }
-
+    // Re-send post quit message or the app runs as a daemon for some reason forsenT
+    PostQuitMessage(0);
     return app.exec();
 }

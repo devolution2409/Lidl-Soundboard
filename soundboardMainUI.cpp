@@ -3,10 +3,6 @@
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
 {
-
-
-
-
     // Setting up the layouts
     vLayout = new QVBoxLayout(this);
     // not need since adding a parent in the constructor set layout by itself
@@ -379,5 +375,10 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     {
         UnregisterHotKey(NULL,i);
     }
-    event->accept();
+
+    // send message to stop the listening loop L OMEGALUL OMEGALUL P
+    PostQuitMessage(0);
+    QWidget::closeEvent(event);
 }
+
+
