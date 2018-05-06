@@ -2,6 +2,7 @@ QT += widgets \
       multimedia \
       core \
       gui \
+      testlib \
       multimedia
 
 SOURCES += \

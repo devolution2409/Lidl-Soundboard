@@ -59,7 +59,9 @@ public:
     int setKeySequence(QKeySequence);
     int setPlayMode(int);
 
-
+    void setPlayerPTTKeySequence(QKeySequence);
+    void setPlayerMainOutput(int);
+    void setPlayerVACOutput(int);
 private:
     // Vector to store the soundlist
      QVector<QFile*> _soundList;
@@ -77,6 +79,7 @@ public slots:
     void Play();
     void OutputDeviceChanged(int);
     void VACDeviceChanged(int);
+    void PTTKeyChanged(QKeySequence);
 
 };
 

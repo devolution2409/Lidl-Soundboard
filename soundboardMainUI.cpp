@@ -96,6 +96,15 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
       this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
 
+      // Adding the thingy for ptt
+      _label4 = new QLabel("Push to talk key to auto-hold:");
+      _shortcutEdit = new CustomShortcutEdit();
+      _btnClear = new QPushButton("Clear");
+
+      _gLayout->addWidget(_label4,7,0,1,3);
+      _gLayout->addWidget(_shortcutEdit,7,4,1,1);
+      _gLayout->addWidget(_btnClear,7,5,1,1);
+
       // connecting signals
       connect(this->_btnAdd, SIGNAL(clicked()), this, SLOT(addSoundDialog()));
       connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
@@ -106,9 +115,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
       connect(this->resultView,SIGNAL(enableButtons()),this,SLOT(enableButtons()));
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
+      connect(this->_btnClear,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
 
-
-
+      // Connection for the combo box and PTT changes are made when adding the wrapper, see
+      // soundAdded()
 }
 
 //SoundboardMainUI::addSound
@@ -146,7 +156,12 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 void SoundboardMainUI::addSoundDialog()
 {
     this->setEnabled(false);
-    _propertiesWindow = new WrapperProperties(this);
+
+    _propertiesWindow = new WrapperProperties(
+                this->_deviceListOutput->currentIndex(),
+                this->_deviceListVAC->currentIndex(),
+                this->_deviceListInjector->currentIndex(),
+                this->_shortcutEdit->keySequence(),this);
     _propertiesWindow->show();
 
 }
@@ -186,7 +201,7 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     //connecting the wrappper to the combo box
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
-
+    connect(this->_shortcutEdit, SIGNAL(keySequenceChanged(QKeySequence)),modifiedSound,SLOT(PTTKeyChanged(QKeySequence)));
     // creating temp list to hold the sound
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -250,7 +265,13 @@ void SoundboardMainUI::editSoundDialog()
     //if lastSelectedRow is valid (ie we didn't delete this entry)
     if (this->lastSelectedRow <= this->_sounds.size())
     {
-       _propertiesWindow= new WrapperProperties(this->_sounds.at(this->lastSelectedRow)  ,this);
+        //int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,
+       _propertiesWindow= new WrapperProperties(
+                   this->_deviceListOutput->currentIndex(),
+                   this->_deviceListVAC->currentIndex(),
+                   this->_deviceListInjector->currentIndex(),
+                   this->_shortcutEdit->keySequence(),
+                   this->_sounds.at(this->lastSelectedRow)  ,this);
        _propertiesWindow->show();
     }
 }
@@ -381,4 +402,9 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     QWidget::closeEvent(event);
 }
 
+
+void SoundboardMainUI::resetPushToTalkEdit()
+{
+    _shortcutEdit->clear();
+}
 

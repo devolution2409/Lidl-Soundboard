@@ -37,11 +37,10 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QLabel>
-//#include <QListWidget>
+
 #include <QComboBox>
 
-// Media management
-#include <QAudioDeviceInfo>
+
 // Property window
 #include "wrapperproperties.h"
 #include <QVector>
@@ -55,9 +54,9 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QAudio>
 
-//#include <QInputMethod>
-//#include <QLocale>;
+
 #include "Utility.h"
 
 #define MOD_NOREPEAT    0x4000
@@ -65,6 +64,7 @@
 #define MOD_CONTROL     0x0002
 
 #include <QCloseEvent>
+#include "CustomShortcutEdit.h"
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
 
@@ -114,6 +114,10 @@ private:
 
     QLabel      * _label3;
     QComboBox   * _deviceListInjector;
+    // Auto-hold ptt
+    QLabel      * _label4;
+    CustomShortcutEdit *_shortcutEdit;
+    QPushButton *_btnClear;
 
     // The property window
     WrapperProperties *_propertiesWindow;
@@ -145,8 +149,7 @@ public slots:
       void disableButtons();
       void winHotKeyPressed(int);
       void GenerateGlobalShortcuts();
-
-
+      void resetPushToTalkEdit();
 
 
 };

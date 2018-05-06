@@ -138,3 +138,8 @@ CustomPlayer::~CustomPlayer()
     for (auto i:_streamHandle)
         BASS_StreamFree(i);
 }
+
+void CustomPlayer::SetPTTKey(QKeySequence sequence)
+{
+    _pushToTalkKey = sequence;
+}

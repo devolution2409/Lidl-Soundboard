@@ -1,7 +1,12 @@
 #include "wrapperproperties.h"
 
+
+
+
 WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 {
+
+
     this->setFocusPolicy(Qt::StrongFocus);
 
     this->setFixedWidth(380);
@@ -124,9 +129,19 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
 }
 
+// overload to ADD sound
+WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,QWidget *parent) : WrapperProperties(parent)
+{
+    this->_mainOutput = mainOutput;
+    this->_VACOutput = VACOutput;
+    this->_microphone = microphone;
+    this->_pttSequence = pttSequence;
+}
+
 // Overloaded contructor to show properties of already built SoundWrapper object
 // we call the other constructor so we don't have to to this twice forsenE
-WrapperProperties::WrapperProperties(SoundWrapper *sound, QWidget *parent) : WrapperProperties(parent) //: QWidget(parent)
+WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,SoundWrapper *sound, QWidget *parent)
+    : WrapperProperties(mainOutput,VACOutput, microphone,pttSequence,parent) //: QWidget(parent)
 {
     // Disconnect the done button because else it will create another wrapper
     disconnect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
@@ -243,6 +258,11 @@ void WrapperProperties::CreateWrapper()
     SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,this->_playBackMode,this->_shortcutSequence,nullptr);
     // we emit the signal so that the main window knows
     // IT KNOWS forsenKek
+    //tmpSound->setPTTKeySequence( _mainWidget->getPTTKeySequence());
+    tmpSound->setPlayerPTTKeySequence(_pttSequence);
+    tmpSound->setPlayerMainOutput(_mainOutput);
+    tmpSound->setPlayerVACOutput(_VACOutput);
+
     emit signalAddDone(tmpSound);
     this->close();
 }
@@ -258,6 +278,11 @@ void WrapperProperties::SendEditedWrapper()
     SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,this->_playBackMode,this->_shortcutSequence,nullptr);
     // we emit the signal so that the main window knows
     // IT KNOWS forsenKek
+    tmpSound->setPlayerPTTKeySequence(_pttSequence);
+    tmpSound->setPlayerMainOutput(_mainOutput);
+    tmpSound->setPlayerVACOutput(_VACOutput);
+
+
     emit signalEditDone(tmpSound);
     //qDebug() << "forsenT";
     this->close();

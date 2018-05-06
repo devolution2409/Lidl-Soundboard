@@ -32,13 +32,15 @@
 #include <QKeySequenceEdit>
 #include "CustomShortcutEdit.h"
 #include <QMessageBox>
+
+
 class WrapperProperties : public QWidget
 {
     Q_OBJECT
 public:
     explicit WrapperProperties(QWidget *parent = nullptr);
-    WrapperProperties(SoundWrapper * sound,QWidget *parent = nullptr);
-
+    WrapperProperties(int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,SoundWrapper * sound,QWidget *parent = nullptr);
+    WrapperProperties(int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,QWidget *parent = nullptr);
 private:
     // Pointer to the main window
     QWidget     * _mainWidget;
@@ -81,6 +83,11 @@ private:
     //reimplementation de l'event close
     void  closeEvent(QCloseEvent *event);
 
+    // variables to store which output device and PTT are already set (if any)
+    int _mainOutput;
+    int _VACOutput;
+    int _microphone;
+    QKeySequence _pttSequence;
 
 
 // TODO ajouter volume

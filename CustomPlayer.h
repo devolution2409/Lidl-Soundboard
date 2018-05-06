@@ -4,15 +4,14 @@
 #include <QObject>
 #include <QVector>
 #include <QFile>
-#include <QAudioOutput>
-#include <QAudioDeviceInfo>
+
 #include <QDebug>
 //#include <QMediaPlayer>
 //#include <QMediaService>
 //#include <QAudioOutputSelectorControl>
 #include "lib/bass.h"
 #include <QTimer>
-
+#include <QKeySequence>
 
 #ifndef MAKEWORD
    #define MAKEWORD(a,b) Cast(WORD, ((a) And &hFF) Or ((b) Shl 8))
@@ -43,6 +42,7 @@ public:
     CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
     void SetVACDevice(int);
+    void SetPTTKey(QKeySequence);
     ~CustomPlayer();
 
 signals:
@@ -66,6 +66,7 @@ private:
     int _mainOutputDevice;
     int _VACOutputDevice;
 
+    QKeySequence _pushToTalkKey;
     // handle
     QVector<int>    _streamHandle;
 

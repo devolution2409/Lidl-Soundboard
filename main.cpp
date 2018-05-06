@@ -5,9 +5,6 @@
 
 #include <QDebug>
 
-//#include "stdafx.h"
-#include <QDebug>
-#define WM_QUIT 0x0012
 
 int main(int argc, char *argv[])
 {

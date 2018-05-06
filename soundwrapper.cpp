@@ -103,7 +103,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 
 void SoundWrapper::OutputDeviceChanged(int index)
 {
-    qDebug() << "output device changed, new is: " << index;
+    qDebug() << "SLOT: SoundWrapper OutputDeviceChanged output device changed, new is: " << index;
     _player->SetOutputDevice(index);
 }
 
@@ -112,7 +112,10 @@ void SoundWrapper::VACDeviceChanged(int index)
     _player->SetVACDevice(index);
 }
 
-
+void SoundWrapper::PTTKeyChanged(QKeySequence seq)
+{
+    _player->SetPTTKey(seq);
+}
 
 
 
@@ -150,4 +153,18 @@ int SoundWrapper::setPlayMode(int playmode)
     return 0;
 }
 
+// SETTERS for the players, need when constructing new objects forsenT
+void SoundWrapper::setPlayerPTTKeySequence(QKeySequence sequence)
+{
+    this->_player->SetPTTKey(sequence);
+}
 
+void SoundWrapper::setPlayerMainOutput(int index)
+{
+    this->_player->SetOutputDevice(index);
+}
+
+void SoundWrapper::setPlayerVACOutput(int index)
+{
+    this->_player->SetVACDevice(index);
+}
