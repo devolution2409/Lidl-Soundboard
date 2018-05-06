@@ -3,13 +3,18 @@
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
 {
+
+
+
+
     // Setting up the layouts
     vLayout = new QVBoxLayout(this);
     // not need since adding a parent in the constructor set layout by itself
     // this->setLayout(vLayout);
 
 
-
+    //Adding Menu bar
+ //   this->setUpMenu();
     // we use MVC architecture. This is the declaration of the _model
     // each case of the view is a model forsenT
     _model = new QStandardItemModel(0,3,this);
@@ -107,6 +112,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
 
 
+
 }
 
 //SoundboardMainUI::addSound
@@ -159,6 +165,14 @@ void SoundboardMainUI::deleteSound()
         this->_sounds.removeAt(lastSelectedRow);
         this->_data.removeAt(lastSelectedRow);
         this->_model->removeRow(lastSelectedRow);
+        // Unregistering the hotkey
+        UnregisterHotKey(NULL,_winShorcutHandle.at(lastSelectedRow));
+        // Deleting the associated handle and keysquence
+        this->_winShorcutHandle.removeAt(lastSelectedRow);
+        this->_keySequence.removeAt(lastSelectedRow);
+
+        // Regenerate shortcuts so that it doesn't go OOB when trying to play a non-existing handle
+        GenerateGlobalShortcuts();
     }
     // If we have no more sounds in the soundboard, disable delete and edit button
     if (this->_sounds.size() == 0)
@@ -170,24 +184,50 @@ void SoundboardMainUI::deleteSound()
 }
 
 
-
-void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound)
+// Add a sound if whereToInsert isn't
+void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert)
 {
     //connecting the wrappper to the combo box
-     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
-     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
-    _sounds.append(modifiedSound);
+    connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
+    connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
+
+    // creating temp list to hold the sound
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
-    //setting the flags
+
+    //setting the flags so that it can be clicked on
     for (auto &i:tempList)
         i->setFlags(Qt::ItemIsSelectable |Qt::ItemIsEnabled);
 
+    // if sound was added we append it
+    if (whereToInsert == -1)
+    {
+        _sounds.append(modifiedSound);
+        _data.append(tempList);
+        _model->appendRow(_data.last());
+        // addind the key sequence to the shortcut list
+        _winShorcutHandle.append(_winShorcutHandle.size());
+        _keySequence.append(modifiedSound->getKeySequence());
+    }
+    // else it was modified, need to swap  the previous item by the new, and than delete the item
+    else
+    {
+        _sounds.removeAt(lastSelectedRow);
+        _sounds.insert(lastSelectedRow,modifiedSound);
+        // change data too
+        _data.removeAt(lastSelectedRow);
+        _data.insert(lastSelectedRow,tempList);
+        //we need to update model accordingly
+        _model->removeRow(lastSelectedRow);
+        _model->insertRow(lastSelectedRow,_data.at(lastSelectedRow));
+        // updating the shortcuts table
+        _keySequence.removeAt(lastSelectedRow);
+        _keySequence.insert(lastSelectedRow,modifiedSound->getKeySequence());
+    }
 
+    this->GenerateGlobalShortcuts();
 
-    _data.append(tempList);
-
-    _model->appendRow(_data.last());
+    // we resize
     this->resultView->resizeRowsToContents();
 
 }
@@ -221,26 +261,7 @@ void SoundboardMainUI::editSoundDialog()
 // deal with modified sound
 void SoundboardMainUI::soundModified(SoundWrapper *modifiedSound)
 {
-    // we must delete the previous sound and insert this one in place
-    // lastSelectedRow should still be the same
-    _sounds.removeAt(lastSelectedRow);
-    _sounds.insert(lastSelectedRow,modifiedSound);
-
-    QList<QStandardItem*> tempList;
-    tempList = modifiedSound->getSoundAsItem();
-    //setting the flags
-    for (auto &i:tempList)
-        i->setFlags(Qt::ItemIsSelectable |Qt::ItemIsEnabled);
-
-    // Need to update the model data as well
-    _data.removeAt(lastSelectedRow);
-    _data.insert(lastSelectedRow,tempList);
-
-    //we need to update model accordingly
-    _model->removeRow(lastSelectedRow);
-    _model->insertRow(lastSelectedRow,_data.at(lastSelectedRow));
-    //Resizing policy
-    this->resultView->resizeRowsToContents();
+    this->soundAdded(modifiedSound,lastSelectedRow);
 }
 
 void SoundboardMainUI::enableButtons()
@@ -258,7 +279,105 @@ void SoundboardMainUI::disableButtons()
 
 }
 
+void SoundboardMainUI::GenerateGlobalShortcuts()
+{
+    // _keySequence and _winShortcutHandle should always be same size
+    if (_keySequence.size() != _winShorcutHandle.size())
+    {
+        qDebug() <<"DansGame";
+        return;
+    }
+    //need to UNREGISTER ALL hotkeys and rebind them
+    //https://msdn.microsoft.com/fr-fr/library/windows/desktop/ms646327(v=vs.85).aspx
+    qDebug() << "Unregistering all hotkeys";
+    for (auto i: _winShorcutHandle)
+    {
+        UnregisterHotKey(NULL,i);
+    }
+
+    // now we register the hotkeys
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms646309(v=vs.85).aspx
+    int count = 0;
+    for (auto i: _keySequence)
+    {
+        // if they key is empty we skip it duh, but we still increment count so that table matches
+        if (!i.isEmpty())
+        {
+            // since alt and ctrl CANNOT be binded alone
+            // first argument will either be a modifier (Ctrl, alt) or the key
+            //qDebug() << i.toString();
+
+            // Looking for the flags and setting no repeat as default. to check for spamming sound forsenT
+            int tempFlags = MOD_NOREPEAT;
+            for (auto j: i.toString().split("+"))
+            {
+                if (j=="Ctrl")
+                    tempFlags = tempFlags | MOD_CONTROL;
+                else if (j=="Alt")
+                    tempFlags = tempFlags | MOD_ALT;
+                else if (j=="Shift")
+                    tempFlags = tempFlags | MOD_SHIFT;
+            }
+            qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
+            // Registering it
+            // RegisterHotkey(? whichWindow,unsigned it handle, flags,unsigned int whichVirtualKey)
+            RegisterHotKey(NULL, count,tempFlags, Utility::GetKeyAsVK(i.toString().split("+").last()));
+
+        }
+        count++;
+    }
 
 
 
 
+}
+
+
+// Method to run the sound via hotkeys
+void SoundboardMainUI::winHotKeyPressed(int handle)
+{
+
+    qDebug() << "Pressed hotkey handle: " << handle;
+   _sounds.at(handle)->Play();
+}
+
+
+void SoundboardMainUI::setUpMenu()
+{
+
+    _menuBar = new QMenuBar(this);
+    vLayout->addWidget(_menuBar);
+    QMenu * fileMenu = _menuBar->addMenu(tr("File"));
+    _actions.append(   new QAction("New",this));
+    _actions.append(   new QAction("Open",this));
+    _actions.append(   new QAction("Open EXP soundboard file",this));
+
+    _actions.append(   new QAction("Save",this));
+    _actions.append(   new QAction("Save as..",this));
+    fileMenu->addSeparator();
+    _actions.append(   new QAction("Exit",this));
+
+    fileMenu->addAction(_actions.at(0));
+    fileMenu->addAction(_actions.at(1));
+    fileMenu->addAction(_actions.at(2));
+
+    fileMenu->addSeparator();
+    fileMenu->addAction(_actions.at(3));
+    fileMenu->addAction(_actions.at(4));
+    fileMenu->addSeparator();
+    fileMenu->addAction(_actions.at(5));
+
+    _actions.append(   new QAction("Save soundboard as JSON",this));
+    _actions.append(   new QAction("Open",this));
+}
+
+//Reimplementing to kill all shortcuts
+void SoundboardMainUI::closeEvent (QCloseEvent *event)
+{
+
+    for (auto i: _winShorcutHandle)
+    {
+        UnregisterHotKey(NULL,i);
+    }
+    event->accept();
+}

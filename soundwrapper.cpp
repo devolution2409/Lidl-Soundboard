@@ -149,3 +149,5 @@ int SoundWrapper::setPlayMode(int playmode)
     this->_playMode = playmode;
     return 0;
 }
+
+

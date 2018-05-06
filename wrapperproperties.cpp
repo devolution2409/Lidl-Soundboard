@@ -74,7 +74,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     //_shortcutEdit       = new QKeySequenceEdit();
     _shortcutEdit       = new CustomShortcutEdit();
     _shortcutResetBtn   = new QPushButton("Reset");
-     _shortcutHint      = new QLabel("Set one or several shortcuts.\nWait one second after last released key to apply.");
+     _shortcutHint      = new QLabel("Set a shortcut to play the sound.\nWait one second after last released key to apply.");
     _shortcutResetBtn->setFixedHeight(22);
     _shortcutLayout->addWidget(_shortcutEdit,1,0,1,2);
     _shortcutLayout->addWidget(_shortcutResetBtn,1,2,1,1);

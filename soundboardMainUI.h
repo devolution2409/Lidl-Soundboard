@@ -48,6 +48,25 @@
 #include <QModelIndex>
 // custom table view to reimplement focus out
 #include "CustomTableView.h"
+#include <QShortcut>
+#include <QKeySequence>
+#include <string>
+
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
+
+//#include <QInputMethod>
+//#include <QLocale>;
+#include "Utility.h"
+
+#define MOD_NOREPEAT    0x4000
+#define MOD_ALT         0x0001
+#define MOD_CONTROL     0x0002
+
+#include <QCloseEvent>
+// mod_shift already defined for some reason
+//#define MOD_SHIFT       0x0003
 
 
 class SoundboardMainUI : public QWidget
@@ -57,8 +76,12 @@ class SoundboardMainUI : public QWidget
 private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
 
-    // La liste de son
+    // sound list
     QVector<SoundWrapper*> _sounds;
+    // shorcut list
+    QVector<QKeySequence> _keySequence;
+    // Windows Shorcut HANDLE
+    QVector<int> _winShorcutHandle;
 
     // vertical layout
     QVBoxLayout *vLayout;
@@ -69,7 +92,8 @@ private:
     // DATA of the model:
     QVector<QList< QStandardItem* >> _data;
 
-
+    QMenuBar *_menuBar;
+    QVector<QAction*> _actions;
 
     // view
   //  QTableView *resultView;
@@ -97,7 +121,8 @@ private:
    // WrapperProperties *_editWindow;
     //
     void fetchDeviceList(QComboBox*,QAudio::Mode);
-
+    void setUpMenu();
+    void closeEvent (QCloseEvent *event);
     int lastSelectedRow;
 
 public:
@@ -108,7 +133,7 @@ signals:
 public slots:
      //This slot will allow us to add a sound, opens a file explorer dialogue
       void addSoundDialog();
-      void soundAdded(SoundWrapper * modifiedSound);
+      void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1);
       void soundModified(SoundWrapper * modifiedSound);
       void onCellClicked(QModelIndex index);
       void deleteSound();
@@ -116,15 +141,11 @@ public slots:
 
       void enableButtons();
       void disableButtons();
+      void winHotKeyPressed(int);
+      void GenerateGlobalShortcuts();
 
-  //    cellClicked(int row, int column)
-   //   SLOT(soundModified(SoundWrapper *)
 
-     //void openEmptySoundProperties();
-     //void deleteSound();
-     //void editSound();
-     //void play
-     // void stop
+
 
 };
 

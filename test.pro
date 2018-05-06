@@ -11,7 +11,8 @@ SOURCES += \
     soundboardMainUI.cpp \
     CustomTableView.cpp \
     CustomShortcutEdit.cpp \
-    CustomPlayer.cpp
+    CustomPlayer.cpp \
+    Utility.cpp
 
 HEADERS += \
     wrapperproperties.h \
@@ -19,7 +20,8 @@ HEADERS += \
     soundboardMainUI.h \
     CustomTableView.h \
     CustomShortcutEdit.h \
-    CustomPlayer.h
+    CustomPlayer.h \
+    Utility.h
 
 RESOURCES += \
     resources.qrc
