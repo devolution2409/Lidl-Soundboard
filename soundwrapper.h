@@ -21,6 +21,8 @@
 #ifndef SOUNDWRAPPER_H
 #define SOUNDWRAPPER_H
 
+//#include <QDebug>
+
 #include <QObject>
 #include <QFile>
 #include <QVector>
@@ -29,7 +31,6 @@
 #include <QString>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include <QDebug>
 #include <QString>
 #include <QFileInfo>
 #include <QList>

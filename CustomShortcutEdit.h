@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QKeySequenceEdit>
-#include <QDebug>
+//#include <QDebug>
 #include <QWidget>
 #include <QKeyEvent>
 

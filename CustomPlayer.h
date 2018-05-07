@@ -74,6 +74,7 @@ private:
     void holdPTT(int duration);
 
 
+
 };
 
 #endif // CUSTOMPLAYER_H

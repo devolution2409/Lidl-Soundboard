@@ -84,11 +84,10 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _shortcutLayout->addWidget(_shortcutEdit,1,0,1,2);
     _shortcutLayout->addWidget(_shortcutResetBtn,1,2,1,1);
     _shortcutLayout->addWidget(_shortcutHint,0,0,1,3);
-
-
+    _shortcutWarning = new QLabel("⚠️ The symbols/numbers keys above letters aren't bindable yet,\n      and will not work.");
+    _shortcutLayout->addWidget(_shortcutWarning,2,0,1,3);
 
     _gLayout->addWidget(_shortcutGroup,2,0,1,4);
-
 
 
     //Done button

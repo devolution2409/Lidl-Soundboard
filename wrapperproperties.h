@@ -1,7 +1,9 @@
 #ifndef WRAPPERPROPERTIES_H
 #define WRAPPERPROPERTIES_H
-// On inclut QApplication, QWidget et QPushButton
-#include <QApplication>
+
+//#include <QDebug>
+
+
 #include <QWidget>
 #include <QPushButton>
 #include <QListWidget>
@@ -19,7 +21,7 @@
 //#include <QTreeWidget>
 //#include <QTreeWidgetItem>
 #include <QString>
-#include <QDebug>
+
 #include <QButtonGroup>
 #include <QKeySequence>
 #include <QKeyEvent>
@@ -70,11 +72,12 @@ private:
     // Hotkey
     QGroupBox   *_shortcutGroup;
     QGridLayout *_shortcutLayout;
-    // QKeySequenceEdit *_shortcutEdit;
+
     CustomShortcutEdit *_shortcutEdit;
     QKeySequence   *_shortcutSequence;
     QPushButton    *_shortcutResetBtn;
     QLabel         *_shortcutHint;
+    QLabel         *_shortcutWarning;
 
     // Abort and done button
     QPushButton *_btnDone;

@@ -20,7 +20,7 @@ CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *paren
 void CustomPlayer::PlayNext()
 {
     // if index++ isn't oob:
-        qDebug() <<"index is:" <<_index << "soundlist size is:" << _soundList.size();
+        //qDebug() <<"index is:" <<_index << "soundlist size is:" << _soundList.size();
     if ((_index +1) <= _soundList.size() )
     {
         // play at returns duration of the sound in double, or -1
@@ -66,13 +66,12 @@ double CustomPlayer::PlayAt(int index)
     {
         BASS_Init(_mainOutputDevice, 44100, 0, 0, nullptr);
 
-        qDebug() << "Attempting to play file index number:" << index
-                 << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
+        //qDebug() << "Attempting to play file index number:" << index << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
 
         // handle for main output
         int mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
         //Playing the sound on main device
-        qDebug() << "Setting output on device number: " << _mainOutputDevice;
+        //qDebug() << "Setting output on device number: " << _mainOutputDevice;
         BASS_ChannelSetDevice(mainChannel,_mainOutputDevice);
         BASS_ChannelPlay(mainChannel,true);
 
@@ -99,7 +98,7 @@ double CustomPlayer::PlayAt(int index)
     }
 
 
-    qDebug() << "Duration: " << duration;
+    //qDebug() << "Duration: " << duration;
 
 
     return duration;
@@ -122,7 +121,7 @@ double CustomPlayer::PlayAt(int index)
     //connect(audio, SIGNAL(stateChanged(QAudio::State)), this, SLOT(handleStateChanged(QAudio::State)));
     //_audio->start(_soundList.at(index));
 
-    qDebug()  << "playing file: " << _soundList.at(0)->fileName();
+    //qDebug()  << "playing file: " << _soundList.at(0)->fileName();
 }*/
 
 
@@ -153,29 +152,18 @@ void CustomPlayer::SetPTTKey(QKeySequence sequence)
     _pushToTalkKey = sequence;
 }
 
-
 // Duration is in milli sec
 void CustomPlayer::holdPTT(int duration)
 {
-    // https://msdn.microsoft.com/en-us/library/ms646271%28v=VS.85%29.aspx
-    // https://stackoverflow.com/questions/3644881/simulating-keyboard-with-sendinput-api-in-directinput-applications/3647975#3647975
-    //KEYBDINPUT test;
-    //  qDebug() <<
-    // Setting key to be pressed
-
-    //INPUT input;
-    //input.type = INPUT_KEYBOARD;
-    //input.ki.wScan = MapVirtualKey( Utility::GetKeyAsVK(pttKey.toString())          ,MAPVK_VK_TO_VSC);
-    //input.ki.wScan = ;
-    //input.ki.dwFlags =KEYEVENTF_SCANCODE;
-    qDebug() <<"Attemting to hold the PTT key: "<<this->_pushToTalkKey.toString();
-    keybd_event(  Utility::GetKeyAsVK(this->_pushToTalkKey.toString())   , 0, KEYEVENTF_EXTENDEDKEY, 0);
-    qDebug() << "Will attempt to release this key in: " << duration << "milliseconds";
-    QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
+    // Pressing key as a SCAN CODE so that it is "physically" pressed
+    keybd_event(0,Utility::GetKeyAsScanCode(_pushToTalkKey.toString()),KEYEVENTF_EXTENDEDKEY, 0);
+    QTimer::singleShot(duration+100,this,SLOT(unHoldPTT()));
 }
 
 void CustomPlayer::unHoldPTT()
 {
-    keybd_event(  Utility::GetKeyAsVK(this->_pushToTalkKey.toString())   , 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-    qDebug() << "Releasing ptt key";
+    // Unpressing the key physically
+    keybd_event(0,Utility::GetKeyAsScanCode(_pushToTalkKey.toString()),KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
 }
+
+

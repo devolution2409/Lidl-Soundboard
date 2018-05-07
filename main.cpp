@@ -3,7 +3,7 @@
 #include "soundboardMainUI.h"
 #include <QFile>
 
-#include <QDebug>
+//#include <QDebug>
 
 
 int main(int argc, char *argv[])

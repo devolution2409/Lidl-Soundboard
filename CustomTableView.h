@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QTableView>
-#include <QDebug>
+//#include <QDebug>
 #include <QFocusEvent>
 //#include <QEvent>
 //#include <QMouseEvent>

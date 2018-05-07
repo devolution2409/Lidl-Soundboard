@@ -6,7 +6,7 @@ Utility::Utility()
 }
 
 
-int Utility::GetKeyAsVK(std::string key)
+int Utility::GetKeyAsVirtualKey(std::string key)
 {
     // Check out if key is a regular key
     std::map<std::string,unsigned int> hexValue
@@ -91,9 +91,14 @@ int Utility::GetKeyAsVK(std::string key)
         return -1;
 
 }
-int Utility::GetKeyAsVK(QString key)
+int Utility::GetKeyAsVirtualKey(QString key)
 {
-    return Utility::GetKeyAsVK(key.toStdString());
+    return Utility::GetKeyAsVirtualKey(key.toStdString());
 
 
+}
+
+int Utility::GetKeyAsScanCode(QString key)
+{
+    return MapVirtualKey(GetKeyAsVirtualKey(key),MAPVK_VK_TO_VSC);
 }

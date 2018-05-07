@@ -301,12 +301,12 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
     // _keySequence and _winShortcutHandle should always be same size
     if (_keySequence.size() != _winShorcutHandle.size())
     {
-        qDebug() <<"DansGame";
+        //qDebug() <<"DansGame";
         return;
     }
     //need to UNREGISTER ALL hotkeys and rebind them
     //https://msdn.microsoft.com/fr-fr/library/windows/desktop/ms646327(v=vs.85).aspx
-    qDebug() << "Unregistering all hotkeys";
+//    qDebug() << "Unregistering all hotkeys";
     for (auto i: _winShorcutHandle)
     {
         UnregisterHotKey(NULL,i);
@@ -335,10 +335,10 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
                 else if (j=="Shift")
                     tempFlags = tempFlags | MOD_SHIFT;
             }
-            qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
+  //          qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
             // Registering it
             // RegisterHotkey(? whichWindow,unsigned it handle, flags,unsigned int whichVirtualKey)
-            RegisterHotKey(NULL, count,tempFlags, Utility::GetKeyAsVK(i.toString().split("+").last()));
+            RegisterHotKey(NULL, count,tempFlags, Utility::GetKeyAsVirtualKey(i.toString().split("+").last()));
 
         }
         count++;
@@ -354,7 +354,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
 
-    qDebug() << "Pressed hotkey handle: " << handle;
+  //  qDebug() << "Pressed hotkey handle: " << handle;
    _sounds.at(handle)->Play();
 }
 
