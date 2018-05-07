@@ -61,7 +61,7 @@ private:
     QVector<QFile*> _soundList;
     int _playMode;
     int _index;
-    int _count;
+ //   int _count;
     // 1rst Output device info
     //BASS_DEVICEINFO _mainOutputDevice;
     //BASS_DEVICEINFO _VACOutputDevice;

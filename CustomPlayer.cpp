@@ -4,7 +4,7 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 {
     _mainOutputDevice = 0;
     _VACOutputDevice = 0;
-    _count = 0;
+    //_count = 0;
 }
 
 CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent) : CustomPlayer(parent)
@@ -20,9 +20,10 @@ CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *paren
 void CustomPlayer::PlayNext()
 {
     // if index++ isn't oob:
-    if ((_index+1) <= _soundList.size())
+        qDebug() <<"index is:" <<_index << "soundlist size is:" << _soundList.size();
+    if ((_index +1) <= _soundList.size() )
     {
-        // play at returns duration of the sound, or -1
+        // play at returns duration of the sound in double, or -1
         int duration = static_cast<int>(this->PlayAt(_index++) * 1000);
         // qDebug() << duration;
         // IF playmode is 3 (which is sequential auto, we register the sound to be played)
@@ -40,9 +41,10 @@ void CustomPlayer::PlayNext()
     else if ((this->_playMode == 1))
     {
         _index = 0;
+        this->PlayAt(_index);
     }
 
-       qDebug() << "count:" << _count++;
+
 }
 
 

@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
   //  container.setFixedSize(400,600);
     container.setFixedWidth(400);
     container.setMinimumHeight(600);
-    container.setWindowTitle("Lidl soundboard v0.2");
+    container.setWindowTitle("Lidl soundboard v0.3");
     container.show();
 
     container.setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
