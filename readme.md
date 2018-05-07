@@ -43,9 +43,9 @@ So that the soundboard hold the game PTT key for you, if you set it accordingly 
 
 ## Known issues
 ### 0.3
-  *Can't bind 1234567890 keys above the letters (shortcut will not work).
-  *Can't also bind num pad 1234567890 keys (shortcut will not work).
-  *Can't use the mic injector (not coded yet forsenE).
+  * Can't bind 1234567890 keys above the letters (shortcut will not work).
+  * Can't also bind num pad 1234567890 keys (shortcut will not work).
+  * Can't use the mic injector (not coded yet forsenE).
 
 ## License
 
