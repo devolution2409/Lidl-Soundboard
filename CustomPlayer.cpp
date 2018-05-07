@@ -22,7 +22,7 @@ void CustomPlayer::PlayNext()
     // if index++ isn't oob:
     if ((_index+1) <= _soundList.size())
     {
-
+        // play at returns duration of the sound, or -1
         int duration = static_cast<int>(this->PlayAt(_index++) * 1000);
         // qDebug() << duration;
         // IF playmode is 3 (which is sequential auto, we register the sound to be played)
@@ -88,6 +88,13 @@ double CustomPlayer::PlayAt(int index)
         duration = BASS_ChannelBytes2Seconds(vacChannel,
                                                     BASS_ChannelGetLength(vacChannel,BASS_POS_BYTE));
     }
+    // We check if any of the outputs are valid, if they are, we hold the PTT key
+    // if it's not empty
+    if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && !(_pushToTalkKey.isEmpty()))
+    {
+        this->holdPTT(static_cast<int>(duration*1000) );
+       // SendInput();
+    }
 
 
     qDebug() << "Duration: " << duration;
@@ -142,4 +149,31 @@ CustomPlayer::~CustomPlayer()
 void CustomPlayer::SetPTTKey(QKeySequence sequence)
 {
     _pushToTalkKey = sequence;
+}
+
+
+// Duration is in milli sec
+void CustomPlayer::holdPTT(int duration)
+{
+    // https://msdn.microsoft.com/en-us/library/ms646271%28v=VS.85%29.aspx
+    // https://stackoverflow.com/questions/3644881/simulating-keyboard-with-sendinput-api-in-directinput-applications/3647975#3647975
+    //KEYBDINPUT test;
+    //  qDebug() <<
+    // Setting key to be pressed
+
+    //INPUT input;
+    //input.type = INPUT_KEYBOARD;
+    //input.ki.wScan = MapVirtualKey( Utility::GetKeyAsVK(pttKey.toString())          ,MAPVK_VK_TO_VSC);
+    //input.ki.wScan = ;
+    //input.ki.dwFlags =KEYEVENTF_SCANCODE;
+    qDebug() <<"Attemting to hold the PTT key: "<<this->_pushToTalkKey.toString();
+    keybd_event(  Utility::GetKeyAsVK(this->_pushToTalkKey.toString())   , 0, KEYEVENTF_EXTENDEDKEY, 0);
+    qDebug() << "Will attempt to release this key in: " << duration << "milliseconds";
+    QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
+}
+
+void CustomPlayer::unHoldPTT()
+{
+    keybd_event(  Utility::GetKeyAsVK(this->_pushToTalkKey.toString())   , 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    qDebug() << "Releasing ptt key";
 }

@@ -12,7 +12,8 @@
 #include "lib/bass.h"
 #include <QTimer>
 #include <QKeySequence>
-
+#include "Utility.h"
+#include "windows.h"
 #ifndef MAKEWORD
    #define MAKEWORD(a,b) Cast(WORD, ((a) And &hFF) Or ((b) Shl 8))
 #endif
@@ -52,6 +53,7 @@ public slots:
     double PlayAt(int index);
     void PlayNext();
     void OnTimerTick();
+    void unHoldPTT();
 private:
     // we only need one audio pointer
    // QAudioOutput    * _audio;
@@ -69,6 +71,7 @@ private:
     QKeySequence _pushToTalkKey;
     // handle
     QVector<int>    _streamHandle;
+    void holdPTT(int duration);
 
 
 };
