@@ -47,6 +47,7 @@ public:
                  QKeySequence * shortcut,
                  QObject *parent = nullptr   );
 
+
     SoundWrapper(QListWidget *soundList,
                  int playbackMode,
                  QKeySequence * shortcut,
@@ -67,7 +68,9 @@ public:
     int setKeySequence(QKeySequence);
     int setPlayMode(int);
 
-    void setPlayerPTTKeySequence(int);
+    void setPlayerPTTScanCode(int);
+    void setPlayerPTTVirtualKey(int);
+
     void setPlayerMainOutput(int);
     void setPlayerVACOutput(int);
     int getShortcutVirtualKey();
@@ -90,7 +93,8 @@ public slots:
     void Play();
     void OutputDeviceChanged(int);
     void VACDeviceChanged(int);
-    void PTTKeyChanged(int);
+    void PTTVirtualKeyChanged(int);
+    void PTTScanCodeChanged(int);
 
 };
 

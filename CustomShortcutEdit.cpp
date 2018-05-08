@@ -49,5 +49,6 @@ int CustomShortcutEdit::getScanCode()
 
 void CustomShortcutEdit::sendSignal()
 {
+   emit virtualKeyChanged(_virtualKey);
    emit scanCodeChanged(_scanCode);
 }

@@ -25,16 +25,14 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
 
 }
 
+
+
 SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut,int virtualKey, QObject * parent)
     : SoundWrapper(soundList, playbackMode,shortcut,parent)
 {
    _virtualKey  = virtualKey;
 
 }
-
-
-
-
 
 /********************************************
  *                SLOT                      *
@@ -132,11 +130,15 @@ void SoundWrapper::VACDeviceChanged(int index)
     _player->SetVACDevice(index);
 }
 
-void SoundWrapper::PTTKeyChanged(int scanCode)
+void SoundWrapper::PTTScanCodeChanged(int scanCode)
 {
-    _player->SetPTTKey(scanCode);
+    _player->SetPTTScanCode(scanCode);
 }
 
+void SoundWrapper::PTTVirtualKeyChanged(int key)
+{
+    _player->SetPTTVirtualKey(key);
+}
 
 
 
@@ -170,10 +172,16 @@ int SoundWrapper::setPlayMode(int playmode)
 }
 
 // SETTERS for the players, need when constructing new objects forsenT
-void SoundWrapper::setPlayerPTTKeySequence(int pttScanCode)
+void SoundWrapper::setPlayerPTTScanCode(int pttScanCode)
 {
-    this->_player->SetPTTKey(pttScanCode);
+    this->_player->SetPTTScanCode(pttScanCode);
 }
+void SoundWrapper::setPlayerPTTVirtualKey(int vKey)
+{
+    this->_player->SetPTTVirtualKey(vKey);
+}
+
+
 
 void SoundWrapper::setPlayerMainOutput(int index)
 {

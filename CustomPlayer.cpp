@@ -140,24 +140,34 @@ CustomPlayer::~CustomPlayer()
         BASS_StreamFree(i);
 }
 
-void CustomPlayer::SetPTTKey(int scanCode)
+void CustomPlayer::SetPTTScanCode(int scanCode)
 {
     _PTTScanCode = scanCode;
 }
 
+void CustomPlayer::SetPPTKeys(int scanCode, int virtualKey)
+{
+    _PTTScanCode = scanCode;
+    _PTTVirtualKey = virtualKey;
+}
+
+void CustomPlayer::SetPTTVirtualKey(int virtualKey)
+{
+    _PTTVirtualKey = virtualKey;
+}
 // Duration is in milli sec
 void CustomPlayer::holdPTT(int duration)
 {
 
     // Pressing key as a SCAN CODE so that it is "physically" pressed
-    keybd_event(0,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
+    keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
     QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
 }
 
 void CustomPlayer::unHoldPTT()
 {
     // Unpressing the key physically
-    keybd_event(0,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
 }
 
 

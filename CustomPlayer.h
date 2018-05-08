@@ -43,7 +43,11 @@ public:
     CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
     void SetVACDevice(int);
-    void SetPTTKey(int scanCode);
+    void SetPTTScanCode(int scanCode);
+    void SetPTTVirtualKey(int virtualKey);
+
+    void SetPPTKeys(int scanCode, int virtualKey);
+
     ~CustomPlayer();
 
 signals:
@@ -69,6 +73,7 @@ private:
     int _VACOutputDevice;
 
     int _PTTScanCode;
+    int _PTTVirtualKey;
     // handle
     QVector<int>    _streamHandle;
     void holdPTT(int duration);

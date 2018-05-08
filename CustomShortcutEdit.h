@@ -26,7 +26,7 @@ private:
 signals:
      void keyPressed();
      void scanCodeChanged(int);
-
+     void virtualKeyChanged(int);
 public slots:
      void sendSignal();
 };

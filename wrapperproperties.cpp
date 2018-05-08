@@ -124,17 +124,18 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
     /*******************BUTTON DONE AND ABORT*****************/
     connect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
-    connect(this,SIGNAL(signalAddDone(SoundWrapper*)),_mainWidget,SLOT(soundAdded(SoundWrapper *)));
+    connect(this,SIGNAL(signalAddDone(SoundWrapper*)),_mainWidget,SLOT(soundAdded(SoundWrapper*)));
     connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
 }
 
 // overload to ADD sound
-WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,QWidget *parent) : WrapperProperties(parent)
+WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,int pttVirtualKey,QWidget *parent) : WrapperProperties(parent)
 {
     this->_mainOutput = mainOutput;
     this->_VACOutput = VACOutput;
     this->_microphone = microphone;
     this->_pttScanCode = pttScanCode;
+    this->_pttVirtualKey = pttVirtualKey;
 }
 
 // Overloaded contructor to show properties of already built SoundWrapper object
@@ -145,10 +146,10 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone
 // the main audio output
 // the VAC output
 // the microphone to inject
-// and the PTT key to autohold
+// and the PTT key to autohold (as both Scan Code and Virtual Key)
 // last item is the soundwrapper
-WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,SoundWrapper *sound, QWidget *parent)
-    : WrapperProperties(mainOutput,VACOutput, microphone,pttScanCode,parent) //: QWidget(parent)
+WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,int pttVirtualKey,SoundWrapper *sound, QWidget *parent)
+    : WrapperProperties(mainOutput,VACOutput, microphone,pttScanCode,pttVirtualKey,parent) //: QWidget(parent)
 {
     // Disconnect the done button because else it will create another wrapper
     disconnect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
@@ -169,8 +170,7 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone
     }
     // set the shortcut
     this->_shortcutEdit->setKeySequence(sound->getKeySequence());
-    // set the previous scan code aswell
-    this->_shortcutVirtualKey = sound->getShortcutVirtualKey();
+
 
     connect(_btnDone, SIGNAL(clicked()), this, SLOT(SendEditedWrapper()));
     connect(this,SIGNAL(signalEditDone(SoundWrapper*)),_mainWidget,SLOT(soundModified(SoundWrapper *)));
@@ -265,11 +265,16 @@ void WrapperProperties::CreateWrapper()
         return;
     }
 
-    SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,this->_playBackMode,this->_shortcutSequence,_shortcutVirtualKey,nullptr);
+    SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
+                                              this->_playBackMode,
+                                              this->_shortcutSequence,
+                                              this->_shortcutEdit->getVirtualKey(),
+                                              nullptr);
     // we emit the signal so that the main window knows
     // IT KNOWS forsenKek
     //tmpSound->setPTTKeySequence( _mainWidget->getPTTKeySequence());
-    tmpSound->setPlayerPTTKeySequence(_pttScanCode);
+    tmpSound->setPlayerPTTScanCode(_pttScanCode);
+    tmpSound->setPlayerPTTVirtualKey(_pttVirtualKey);
     tmpSound->setPlayerMainOutput(_mainOutput);
     tmpSound->setPlayerVACOutput(_VACOutput);
 
@@ -285,10 +290,16 @@ void WrapperProperties::SendEditedWrapper()
         return;
     }
     //SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
-    SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,this->_playBackMode,this->_shortcutSequence,_shortcutVirtualKey,nullptr);
+    // We construct the item first and than set the player parameters.
+    SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
+                                              this->_playBackMode,
+                                              this->_shortcutSequence,
+                                              this->_shortcutEdit->getVirtualKey() ,
+                                              nullptr);
     // we emit the signal so that the main window knows
     // IT KNOWS forsenKek
-    tmpSound->setPlayerPTTKeySequence(_pttScanCode);
+    tmpSound->setPlayerPTTScanCode(_pttScanCode);
+    tmpSound->setPlayerPTTVirtualKey(_pttVirtualKey);
     tmpSound->setPlayerMainOutput(_mainOutput);
     tmpSound->setPlayerVACOutput(_VACOutput);
 
@@ -301,7 +312,6 @@ void WrapperProperties::SendEditedWrapper()
 void WrapperProperties::editingDone()
 {
     this->_btnDone->setEnabled(true);
-    this->_shortcutVirtualKey = _shortcutEdit->getVirtualKey();
 }
 
 void WrapperProperties::editingStarted()

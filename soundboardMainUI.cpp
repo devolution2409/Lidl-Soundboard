@@ -161,7 +161,9 @@ void SoundboardMainUI::addSoundDialog()
                 this->_deviceListOutput->currentIndex(),
                 this->_deviceListVAC->currentIndex(),
                 this->_deviceListInjector->currentIndex(),
-                this->_shortcutEdit->getScanCode(),this);
+                this->_shortcutEdit->getScanCode(),
+                this->_shortcutEdit->getVirtualKey(),
+                this);
     _propertiesWindow->show();
 
 }
@@ -202,7 +204,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
    // connect(this->_shortcutEdit, SIGNAL(keySequenceChanged(QKeySequence)),modifiedSound,SLOT(PTTKeyChanged(QKeySequence)));
-    connect(this->_shortcutEdit,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTKeyChanged(int)));
+    connect(this->_shortcutEdit,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
+    connect(this->_shortcutEdit,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
     // creating temp list to hold the sound
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -278,7 +281,9 @@ void SoundboardMainUI::editSoundDialog()
                    this->_deviceListVAC->currentIndex(),
                    this->_deviceListInjector->currentIndex(),
                    this->_shortcutEdit->getScanCode(),
-                   this->_sounds.at(this->lastSelectedRow)  ,this);
+                   this->_shortcutEdit->getVirtualKey(),
+                   this->_sounds.at(this->lastSelectedRow)  ,
+                   this);
        _propertiesWindow->show();
     }
 }
@@ -313,7 +318,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
     }
     //need to UNREGISTER ALL hotkeys and rebind them
     //https://msdn.microsoft.com/fr-fr/library/windows/desktop/ms646327(v=vs.85).aspx
-//    qDebug() << "Unregistering all hotkeys";
+   // qDebug() << "Unregistering all hotkeys";
     for (auto i: _winShorcutHandle)
     {
         UnregisterHotKey(NULL,i);
@@ -329,7 +334,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
         {
             // since alt and ctrl CANNOT be binded alone
             // first argument will either be a modifier (Ctrl, alt) or the key
-            //qDebug() << i.toString();
+        //    qDebug() << i.toString();
 
             // Looking for the flags and setting no repeat as default. to check for spamming sound forsenT
             int tempFlags = MOD_NOREPEAT;
