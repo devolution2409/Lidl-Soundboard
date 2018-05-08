@@ -46,6 +46,13 @@ public:
                  int playbackMode,
                  QKeySequence * shortcut,
                  QObject *parent = nullptr   );
+
+    SoundWrapper(QListWidget *soundList,
+                 int playbackMode,
+                 QKeySequence * shortcut,
+                 int virtualKey,
+                 QObject *parent = nullptr   );
+
     //Accesseurs
     // getSoundList renvoie un tableau de pointeurs
     QVector<QFile*> getSoundList();
@@ -60,9 +67,11 @@ public:
     int setKeySequence(QKeySequence);
     int setPlayMode(int);
 
-    void setPlayerPTTKeySequence(QKeySequence);
+    void setPlayerPTTKeySequence(int);
     void setPlayerMainOutput(int);
     void setPlayerVACOutput(int);
+    int getShortcutVirtualKey();
+
 private:
     // Vector to store the soundlist
      QVector<QFile*> _soundList;
@@ -72,6 +81,7 @@ private:
 
     // shortcut
     QKeySequence _keySequence;
+    int _virtualKey;
     // the player to play the sounds
     CustomPlayer * _player;
 signals:
@@ -80,7 +90,7 @@ public slots:
     void Play();
     void OutputDeviceChanged(int);
     void VACDeviceChanged(int);
-    void PTTKeyChanged(QKeySequence);
+    void PTTKeyChanged(int);
 
 };
 

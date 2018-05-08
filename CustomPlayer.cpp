@@ -12,8 +12,6 @@ CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *paren
     _soundList = soundList;
     _playMode  = playMode;
     _index = 0;
-  // _streamHandle.append( BASS_StreamCreateFile(true, buffer, 0, file.getSize(), BASS_STREAM_AUTOFREE);             );
-    //musicStreamID = BASS_StreamCreateFile(true, buffer, 0, file.getSize(), BASS_STREAM_AUTOFREE);
 }
 
 // Can even be used to make it play from start FeelsGoodMan
@@ -89,18 +87,13 @@ double CustomPlayer::PlayAt(int index)
         duration = BASS_ChannelBytes2Seconds(vacChannel,
                                                     BASS_ChannelGetLength(vacChannel,BASS_POS_BYTE));
     }
+
     // We check if any of the outputs are valid, if they are, we hold the PTT key
     // if it's not empty
-    if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && !(_pushToTalkKey.isEmpty()))
+    if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
     {
         this->holdPTT(static_cast<int>(duration*1000) );
-       // SendInput();
     }
-
-
-    //qDebug() << "Duration: " << duration;
-
-
     return duration;
 }
 
@@ -147,23 +140,24 @@ CustomPlayer::~CustomPlayer()
         BASS_StreamFree(i);
 }
 
-void CustomPlayer::SetPTTKey(QKeySequence sequence)
+void CustomPlayer::SetPTTKey(int scanCode)
 {
-    _pushToTalkKey = sequence;
+    _PTTScanCode = scanCode;
 }
 
 // Duration is in milli sec
 void CustomPlayer::holdPTT(int duration)
 {
+
     // Pressing key as a SCAN CODE so that it is "physically" pressed
-    keybd_event(0,Utility::GetKeyAsScanCode(_pushToTalkKey.toString()),KEYEVENTF_EXTENDEDKEY, 0);
-    QTimer::singleShot(duration+100,this,SLOT(unHoldPTT()));
+    keybd_event(0,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
+    QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
 }
 
 void CustomPlayer::unHoldPTT()
 {
     // Unpressing the key physically
-    keybd_event(0,Utility::GetKeyAsScanCode(_pushToTalkKey.toString()),KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    keybd_event(0,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
 }
 
 

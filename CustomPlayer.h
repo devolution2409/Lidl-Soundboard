@@ -12,7 +12,7 @@
 #include "lib/bass.h"
 #include <QTimer>
 #include <QKeySequence>
-#include "Utility.h"
+//#include "Utility.h"
 #include "windows.h"
 #ifndef MAKEWORD
    #define MAKEWORD(a,b) Cast(WORD, ((a) And &hFF) Or ((b) Shl 8))
@@ -43,7 +43,7 @@ public:
     CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
     void SetVACDevice(int);
-    void SetPTTKey(QKeySequence);
+    void SetPTTKey(int scanCode);
     ~CustomPlayer();
 
 signals:
@@ -68,7 +68,7 @@ private:
     int _mainOutputDevice;
     int _VACOutputDevice;
 
-    QKeySequence _pushToTalkKey;
+    int _PTTScanCode;
     // handle
     QVector<int>    _streamHandle;
     void holdPTT(int duration);

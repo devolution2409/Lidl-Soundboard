@@ -25,6 +25,16 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
 
 }
 
+SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut,int virtualKey, QObject * parent)
+    : SoundWrapper(soundList, playbackMode,shortcut,parent)
+{
+   _virtualKey  = virtualKey;
+
+}
+
+
+
+
 
 /********************************************
  *                SLOT                      *
@@ -76,6 +86,8 @@ QString SoundWrapper::getSoundListAsQString()
 }
 
 
+
+
 QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 {
     QList<QStandardItem*> tempItem;
@@ -100,6 +112,14 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 
 
 
+int SoundWrapper::getShortcutVirtualKey()
+{
+    return _virtualKey;
+}
+
+/********************************************
+ *                 Setters:                 *
+ ********************************************/
 
 void SoundWrapper::OutputDeviceChanged(int index)
 {
@@ -112,16 +132,12 @@ void SoundWrapper::VACDeviceChanged(int index)
     _player->SetVACDevice(index);
 }
 
-void SoundWrapper::PTTKeyChanged(QKeySequence seq)
+void SoundWrapper::PTTKeyChanged(int scanCode)
 {
-    _player->SetPTTKey(seq);
+    _player->SetPTTKey(scanCode);
 }
 
 
-
-/********************************************
- *                 Setters:                 *
- ********************************************/
 
 
 // AddSound: Instanciate a new QFile via new and append the pointer
@@ -154,9 +170,9 @@ int SoundWrapper::setPlayMode(int playmode)
 }
 
 // SETTERS for the players, need when constructing new objects forsenT
-void SoundWrapper::setPlayerPTTKeySequence(QKeySequence sequence)
+void SoundWrapper::setPlayerPTTKeySequence(int pttScanCode)
 {
-    this->_player->SetPTTKey(sequence);
+    this->_player->SetPTTKey(pttScanCode);
 }
 
 void SoundWrapper::setPlayerMainOutput(int index)

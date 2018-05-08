@@ -12,7 +12,7 @@ SOURCES += \
     CustomTableView.cpp \
     CustomShortcutEdit.cpp \
     CustomPlayer.cpp \
-    Utility.cpp
+
 
 HEADERS += \
     wrapperproperties.h \
@@ -21,7 +21,7 @@ HEADERS += \
     CustomTableView.h \
     CustomShortcutEdit.h \
     CustomPlayer.h \
-    Utility.h
+
 
 RESOURCES += \
     resources.qrc

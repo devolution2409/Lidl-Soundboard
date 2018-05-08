@@ -161,7 +161,7 @@ void SoundboardMainUI::addSoundDialog()
                 this->_deviceListOutput->currentIndex(),
                 this->_deviceListVAC->currentIndex(),
                 this->_deviceListInjector->currentIndex(),
-                this->_shortcutEdit->keySequence(),this);
+                this->_shortcutEdit->getScanCode(),this);
     _propertiesWindow->show();
 
 }
@@ -201,7 +201,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     //connecting the wrappper to the combo box
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
-    connect(this->_shortcutEdit, SIGNAL(keySequenceChanged(QKeySequence)),modifiedSound,SLOT(PTTKeyChanged(QKeySequence)));
+   // connect(this->_shortcutEdit, SIGNAL(keySequenceChanged(QKeySequence)),modifiedSound,SLOT(PTTKeyChanged(QKeySequence)));
+    connect(this->_shortcutEdit,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTKeyChanged(int)));
     // creating temp list to hold the sound
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -219,6 +220,7 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
         // addind the key sequence to the shortcut list
         _winShorcutHandle.append(_winShorcutHandle.size());
         _keySequence.append(modifiedSound->getKeySequence());
+        _keyVirtualKey.append(modifiedSound->getShortcutVirtualKey());
     }
     // else it was modified, need to swap  the previous item by the new, and than delete the item
     else
@@ -234,6 +236,10 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
         // updating the shortcuts table
         _keySequence.removeAt(lastSelectedRow);
         _keySequence.insert(lastSelectedRow,modifiedSound->getKeySequence());
+        // updating keyscancode table
+        _keyVirtualKey.removeAt(lastSelectedRow);
+        _keyVirtualKey.insert(lastSelectedRow,modifiedSound->getShortcutVirtualKey());
+
     }
 
     this->GenerateGlobalShortcuts();
@@ -265,12 +271,13 @@ void SoundboardMainUI::editSoundDialog()
     //if lastSelectedRow is valid (ie we didn't delete this entry)
     if (this->lastSelectedRow <= this->_sounds.size())
     {
-        //int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,
+        //Send infos about all the devices and the push to talk key to hold
+        // and the sound wrapper
        _propertiesWindow= new WrapperProperties(
                    this->_deviceListOutput->currentIndex(),
                    this->_deviceListVAC->currentIndex(),
                    this->_deviceListInjector->currentIndex(),
-                   this->_shortcutEdit->keySequence(),
+                   this->_shortcutEdit->getScanCode(),
                    this->_sounds.at(this->lastSelectedRow)  ,this);
        _propertiesWindow->show();
     }
@@ -338,7 +345,10 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
   //          qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
             // Registering it
             // RegisterHotkey(? whichWindow,unsigned it handle, flags,unsigned int whichVirtualKey)
-            RegisterHotKey(NULL, count,tempFlags, Utility::GetKeyAsVirtualKey(i.toString().split("+").last()));
+            //RegisterHotKey(NULL, count,tempFlags, Utility::GetKeyAsVirtualKey(i.toString().split("+").last()));
+            // Testing the new stuff
+        //   qDebug() << MapVirtualKey(_keyScanCode.at(count),MAPVK_VSC_TO_VK);
+           RegisterHotKey(NULL, count,tempFlags, _keyVirtualKey.at(count) );
 
         }
         count++;

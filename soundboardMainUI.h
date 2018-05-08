@@ -57,7 +57,7 @@
 #include <QAudio>
 
 
-#include "Utility.h"
+//#include "Utility.h"
 
 #define MOD_NOREPEAT    0x4000
 #define MOD_ALT         0x0001
@@ -77,8 +77,9 @@ private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
     // sound list
     QVector<SoundWrapper*> _sounds;
-    // shorcut list
+    // shorcut list, we need to store both shortcut and scancodes forsenT. TODO: revamp this whole shit with a class i guess
     QVector<QKeySequence> _keySequence;
+    QVector<int>          _keyVirtualKey;
     // Windows Shorcut HANDLE
     QVector<int> _winShorcutHandle;
 

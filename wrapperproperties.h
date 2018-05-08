@@ -41,8 +41,8 @@ class WrapperProperties : public QWidget
     Q_OBJECT
 public:
     explicit WrapperProperties(QWidget *parent = nullptr);
-    WrapperProperties(int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,SoundWrapper * sound,QWidget *parent = nullptr);
-    WrapperProperties(int mainOutput,int VACOutput,int microphone,QKeySequence pttSequence,QWidget *parent = nullptr);
+    WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,SoundWrapper * sound,QWidget *parent = nullptr);
+    WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,QWidget *parent = nullptr);
 private:
     // Pointer to the main window
     QWidget     * _mainWidget;
@@ -79,6 +79,8 @@ private:
     QLabel         *_shortcutHint;
     QLabel         *_shortcutWarning;
 
+    int            _shortcutVirtualKey;
+
     // Abort and done button
     QPushButton *_btnDone;
     QPushButton *_btnAbort;
@@ -90,7 +92,7 @@ private:
     int _mainOutput;
     int _VACOutput;
     int _microphone;
-    QKeySequence _pttSequence;
+    int _pttScanCode;
 
 
 // TODO ajouter volume
