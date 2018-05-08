@@ -2,8 +2,10 @@
 #include <QPushButton>
 #include "soundboardMainUI.h"
 #include <QFile>
+#include <QString>
 
-//#include <QDebug>
+#define VER 0.41
+#define VER_STRING "0.41"
 
 
 int main(int argc, char *argv[])
@@ -15,9 +17,8 @@ int main(int argc, char *argv[])
   //  container.setFixedSize(400,600);
     container.setFixedWidth(400);
     container.setMinimumHeight(600);
-    container.setWindowTitle("Lidl soundboard v0.4");
+    container.setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     container.show();
-
     container.setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
 
     QFile css_dark(":/css/resources/darkorange.css");

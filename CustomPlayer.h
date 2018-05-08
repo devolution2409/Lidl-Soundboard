@@ -58,6 +58,7 @@ public slots:
     void PlayNext();
     void OnTimerTick();
     void unHoldPTT();
+    void Stop();
 private:
     // we only need one audio pointer
    // QAudioOutput    * _audio;
@@ -65,10 +66,12 @@ private:
     QVector<QFile*> _soundList;
     int _playMode;
     int _index;
- //   int _count;
-    // 1rst Output device info
-    //BASS_DEVICEINFO _mainOutputDevice;
-    //BASS_DEVICEINFO _VACOutputDevice;
+
+    // Channels
+    int _mainChannel;
+    int _vacChannel;
+
+
     int _mainOutputDevice;
     int _VACOutputDevice;
 

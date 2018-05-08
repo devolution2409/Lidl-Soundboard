@@ -43,6 +43,11 @@ void SoundWrapper::Play()
     _player->PlayNext();
 }
 
+void SoundWrapper::Stop()
+{
+    _player->Stop();
+}
+
 
 /********************************************
  *                Getters:                  *

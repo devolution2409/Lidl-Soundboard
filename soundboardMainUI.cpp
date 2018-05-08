@@ -200,13 +200,17 @@ void SoundboardMainUI::deleteSound()
 // Add a sound if whereToInsert isn't
 void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert)
 {
-    //connecting the wrappper to the combo box
+    //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
-   // connect(this->_shortcutEdit, SIGNAL(keySequenceChanged(QKeySequence)),modifiedSound,SLOT(PTTKeyChanged(QKeySequence)));
+
+    // connecting the pushtotalk key thing
     connect(this->_shortcutEdit,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
     connect(this->_shortcutEdit,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
-    // creating temp list to hold the sound
+
+    // connecting the stop btn
+    connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
+
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
 

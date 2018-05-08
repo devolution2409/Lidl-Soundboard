@@ -46,7 +46,12 @@ void CustomPlayer::PlayNext()
 }
 
 
-
+// used to stop sound that is playing
+void CustomPlayer::Stop()
+{
+    BASS_ChannelStop(_mainChannel);
+    BASS_ChannelStop(_vacChannel);
+}
 
 
 void CustomPlayer::OnTimerTick()
@@ -67,25 +72,25 @@ double CustomPlayer::PlayAt(int index)
         //qDebug() << "Attempting to play file index number:" << index << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
 
         // handle for main output
-        int mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
+        _mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
         //Playing the sound on main device
         //qDebug() << "Setting output on device number: " << _mainOutputDevice;
-        BASS_ChannelSetDevice(mainChannel,_mainOutputDevice);
-        BASS_ChannelPlay(mainChannel,true);
+        BASS_ChannelSetDevice(_mainChannel,_mainOutputDevice);
+        BASS_ChannelPlay(_mainChannel,true);
 
-        duration = BASS_ChannelBytes2Seconds(mainChannel,
-                                                    BASS_ChannelGetLength(mainChannel,BASS_POS_BYTE));
+        duration = BASS_ChannelBytes2Seconds(_mainChannel,
+                                                    BASS_ChannelGetLength(_mainChannel,BASS_POS_BYTE));
 
     }
     // same for VAC output, and we check the two outputs aren't the same
     if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
     {
         BASS_Init(_VACOutputDevice, 44100, 0, 0, nullptr);
-        int vacChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
-        BASS_ChannelSetDevice(vacChannel,_VACOutputDevice);
-        BASS_ChannelPlay(vacChannel,true);
-        duration = BASS_ChannelBytes2Seconds(vacChannel,
-                                                    BASS_ChannelGetLength(vacChannel,BASS_POS_BYTE));
+        int _vacChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
+        BASS_ChannelSetDevice(_vacChannel,_VACOutputDevice);
+        BASS_ChannelPlay(_vacChannel,true);
+        duration = BASS_ChannelBytes2Seconds(_vacChannel,
+                                                    BASS_ChannelGetLength(_vacChannel,BASS_POS_BYTE));
     }
 
     // We check if any of the outputs are valid, if they are, we hold the PTT key

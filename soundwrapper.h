@@ -91,6 +91,7 @@ signals:
 
 public slots:
     void Play();
+    void Stop();
     void OutputDeviceChanged(int);
     void VACDeviceChanged(int);
     void PTTVirtualKeyChanged(int);
