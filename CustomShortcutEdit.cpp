@@ -2,6 +2,7 @@
 //Calling the parent constructor
 CustomShortcutEdit::CustomShortcutEdit(QWidget *parent) : QKeySequenceEdit(parent)
 {
+    this->setFocusPolicy(Qt::ClickFocus);
     _virtualKey = -1;
     _scanCode = -1;
     connect(this,SIGNAL(editingFinished()),this,SLOT(sendSignal()));
@@ -47,8 +48,11 @@ int CustomShortcutEdit::getScanCode()
     return _scanCode;
 }
 
+// This slot is called whenever the editing is done
 void CustomShortcutEdit::sendSignal()
 {
+   this->clearFocus();
    emit virtualKeyChanged(_virtualKey);
    emit scanCodeChanged(_scanCode);
 }
+

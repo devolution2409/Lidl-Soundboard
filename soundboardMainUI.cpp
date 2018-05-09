@@ -117,6 +117,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
       connect(this->_btnClear,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
 
+      // connection to lose focus after setting ptt key
+   //   connect(this->_shortcutEdit,SIGNAL(keySequenceChanged(QKeySequence)),this,SLOT(resetFocusOnEditionDone(QKeySequence)));
       // Connection for the combo box and PTT changes are made when adding the wrapper, see
       // soundAdded()
 }
@@ -180,9 +182,14 @@ void SoundboardMainUI::deleteSound()
         this->_model->removeRow(lastSelectedRow);
         // Unregistering the hotkey
         UnregisterHotKey(NULL,_winShorcutHandle.at(lastSelectedRow));
-        // Deleting the associated handle and keysquence
+        /* Deleting the associated handle and keysquence
+         *  (we don't really need keysequence since
+         * we use virtual keys now but oh well) */
         this->_winShorcutHandle.removeAt(lastSelectedRow);
         this->_keySequence.removeAt(lastSelectedRow);
+        this->_keyVirtualKey.removeAt(lastSelectedRow);
+       // qDebug() << "sounds size:" << _sounds.size() << "shortcut size" << _winShorcutHandle.size();
+
 
         // Regenerate shortcuts so that it doesn't go OOB when trying to play a non-existing handle
         GenerateGlobalShortcuts();
@@ -351,14 +358,13 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
                 else if (j=="Shift")
                     tempFlags = tempFlags | MOD_SHIFT;
             }
-  //          qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
-            // Registering it
-            // RegisterHotkey(? whichWindow,unsigned it handle, flags,unsigned int whichVirtualKey)
-            //RegisterHotKey(NULL, count,tempFlags, Utility::GetKeyAsVirtualKey(i.toString().split("+").last()));
-            // Testing the new stuff
-        //   qDebug() << MapVirtualKey(_keyScanCode.at(count),MAPVK_VSC_TO_VK);
-           RegisterHotKey(NULL, count,tempFlags, _keyVirtualKey.at(count) );
+       //   qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
 
+            // Testing the new stuff
+
+           RegisterHotKey(NULL, count,tempFlags, _keyVirtualKey.at(count) );
+       //     qDebug() << "Registering hotkey handle number:" << count;
+       //     qDebug() << _sounds.at(0)->getSoundListAsQString();
         }
         count++;
     }
@@ -426,4 +432,15 @@ void SoundboardMainUI::resetPushToTalkEdit()
 {
     _shortcutEdit->clear();
 }
+
+
+//void SoundboardMainUI::resetFocusOnEditionDone(QKeySequence lul)
+//{
+//    Q_UNUSED(lul)
+
+
+
+//}
+
+
 

@@ -150,7 +150,9 @@ public slots:
       void disableButtons();
       void winHotKeyPressed(int);
       void GenerateGlobalShortcuts();
+
       void resetPushToTalkEdit();
+    //  void resetFocusOnEditionDone(QKeySequence);
 
 
 };

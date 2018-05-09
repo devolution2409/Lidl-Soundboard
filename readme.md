@@ -44,7 +44,7 @@ So that the soundboard hold the game PTT key for you, if you set it accordingly 
 
 ## Known issues
 
-### 0.4
+### 0.42
   * Can't use the mic injector (not coded yet forsenE).
 
 ## License
