@@ -121,6 +121,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
       connect(this->_btnClearStop,SIGNAL(clicked()),this,SLOT(resetStopAllEdit()));
       connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
+      // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
+
 
       /***************************************************
                TODO: PUT IN RELEVANT SECTION forsenT
@@ -455,7 +457,16 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 void SoundboardMainUI::resetPushToTalkEdit()
 {
+    // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
     _shortcutEditPTT->clear();
+
+    for (auto &i: _sounds)
+    {
+        i->PTTVirtualKeyChanged(-1);
+        i->PTTScanCodeChanged(-1);
+    }
+
+
 }
 
 void SoundboardMainUI::resetStopAllEdit()

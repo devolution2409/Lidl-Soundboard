@@ -4,9 +4,11 @@ QToolTip
      background-color: #ffa02f;
      padding: 1px;
      border-radius: 3px;
-     opacity: 100;
+/*     opacity: 100%;*/
 }
 
+
+/*QToolTip { color: #fff; background-color: #000; border: none; }*/
 QWidget
 {
     color: #b1b1b1;
@@ -77,6 +79,7 @@ QWidget:disabled
     color: #404040;
     background-color: #323232;
 }
+
 
 QAbstractItemView
 {

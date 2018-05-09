@@ -59,6 +59,7 @@ public slots:
     void OnTimerTick();
     void unHoldPTT();
     void Stop();
+    void resetShouldPlay();
 private:
     // we only need one audio pointer
    // QAudioOutput    * _audio;
@@ -77,12 +78,13 @@ private:
 
     int _PTTScanCode;
     int _PTTVirtualKey;
+
     // handle
     QVector<int>    _streamHandle;
     void holdPTT(int duration);
 
 
-
+    bool _shouldPlay;
 };
 
 #endif // CUSTOMPLAYER_H

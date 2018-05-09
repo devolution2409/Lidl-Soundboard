@@ -46,6 +46,10 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      _radioSequential = new QRadioButton("Sequential",this);
      _radioAuto       = new QRadioButton("Sequential (auto)",this);
      _radioSingleton  = new QRadioButton("Singleton",this);
+     // Tooltip hint
+     _radioToolTip    = new QLabel("       ❔");
+     _radioToolTip->setToolTip("Singleton: A Single Sound\nSequential: A Sound Collection. Next item will play after pressing play or the shortcut.\nSequential(Auto): Same as sequential, but automated.");
+
      // setting 1 has default value for playblack
      _playBackMode    = 1;
 
@@ -54,6 +58,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _radioSingleton->setChecked(true);
     _radioLayout->addWidget(_radioSequential);
     _radioLayout->addWidget(_radioAuto);
+    _radioLayout->addWidget(_radioToolTip);
     // Adding them to the group
     _radioGroup->addButton(_radioSingleton,1);
     _radioGroup->addButton(_radioSequential,2);
@@ -162,7 +167,8 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone
 
     }
     // Set the mode to the according one
-    switch(sound->getPlayMode())
+    _playBackMode = sound->getPlayMode();
+    switch(_playBackMode)
     {
         case 1: this->_radioSingleton->setChecked(true); ; break;
         case 2: _radioSequential->setChecked(true); break;

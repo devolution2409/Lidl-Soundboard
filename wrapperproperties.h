@@ -69,6 +69,7 @@ private:
     QRadioButton *_radioAuto;
     QRadioButton *_radioSingleton;
     int           _playBackMode;
+    QLabel       *_radioToolTip;
     // Hotkey
     QGroupBox   *_shortcutGroup;
     QGridLayout *_shortcutLayout;
