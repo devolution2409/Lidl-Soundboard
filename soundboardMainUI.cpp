@@ -221,7 +221,10 @@ void SoundboardMainUI::deleteSound()
         this->_btnDelete->setEnabled(false);
         this->_btnEdit->setEnabled(false);
     }
+    // in any case we clear the focus
 
+    resultView->clearFocus();
+    resultView->clearSelection();
 }
 
 
