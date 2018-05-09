@@ -76,6 +76,8 @@ double CustomPlayer::PlayAt(int index)
         //Playing the sound on main device
         //qDebug() << "Setting output on device number: " << _mainOutputDevice;
         BASS_ChannelSetDevice(_mainChannel,_mainOutputDevice);
+//      BOOL BASS_ChannelPlay(DWORD handle,BOOL restart);
+//      http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
         BASS_ChannelPlay(_mainChannel,true);
 
         duration = BASS_ChannelBytes2Seconds(_mainChannel,

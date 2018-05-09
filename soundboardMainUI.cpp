@@ -96,16 +96,35 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
       this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
 
-      // Adding the thingy for ptt
+      /***************************************************
+                            PTT BIND
+      ****************************************************/
       _label4 = new QLabel("Push to talk key to auto-hold:");
-      _shortcutEdit = new CustomShortcutEdit();
-      _btnClear = new QPushButton("Clear");
+      _shortcutEditPTT = new CustomShortcutEdit();
+      _btnClearPTT = new QPushButton("Clear");
 
       _gLayout->addWidget(_label4,7,0,1,3);
-      _gLayout->addWidget(_shortcutEdit,7,4,1,1);
-      _gLayout->addWidget(_btnClear,7,5,1,1);
+      _gLayout->addWidget(_shortcutEditPTT,7,4,1,1);
+      _gLayout->addWidget(_btnClearPTT,7,5,1,1);
 
-      // connecting signals
+      connect(this->_btnClearPTT,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
+      /***************************************************
+                         STOP SOUND BIND
+      ****************************************************/
+      _label5 = new QLabel("Stop ALL sound shortcut:");
+      _shortcutEditStop= new CustomShortcutEdit();
+      _btnClearStop = new QPushButton("Clear");
+
+      _gLayout->addWidget(_label5,8,0,1,3);
+      _gLayout->addWidget(_shortcutEditStop,8,4,1,1);
+      _gLayout->addWidget(_btnClearStop,8,5,1,1);
+
+      connect(this->_btnClearStop,SIGNAL(clicked()),this,SLOT(resetStopAllEdit()));
+      connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
+
+      /***************************************************
+               TODO: PUT IN RELEVANT SECTION forsenT
+      ****************************************************/
       connect(this->_btnAdd, SIGNAL(clicked()), this, SLOT(addSoundDialog()));
       connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
 
@@ -115,10 +134,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
       connect(this->resultView,SIGNAL(enableButtons()),this,SLOT(enableButtons()));
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
-      connect(this->_btnClear,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
+
 
       // connection to lose focus after setting ptt key
-   //   connect(this->_shortcutEdit,SIGNAL(keySequenceChanged(QKeySequence)),this,SLOT(resetFocusOnEditionDone(QKeySequence)));
+   //   connect(this->_shortcutEditPTT,SIGNAL(keySequenceChanged(QKeySequence)),this,SLOT(resetFocusOnEditionDone(QKeySequence)));
       // Connection for the combo box and PTT changes are made when adding the wrapper, see
       // soundAdded()
 }
@@ -163,8 +182,8 @@ void SoundboardMainUI::addSoundDialog()
                 this->_deviceListOutput->currentIndex(),
                 this->_deviceListVAC->currentIndex(),
                 this->_deviceListInjector->currentIndex(),
-                this->_shortcutEdit->getScanCode(),
-                this->_shortcutEdit->getVirtualKey(),
+                this->_shortcutEditPTT->getScanCode(),
+                this->_shortcutEditPTT->getVirtualKey(),
                 this);
     _propertiesWindow->show();
 
@@ -212,8 +231,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
 
     // connecting the pushtotalk key thing
-    connect(this->_shortcutEdit,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
-    connect(this->_shortcutEdit,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
+    connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
+    connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
 
     // connecting the stop btn
     connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
@@ -291,8 +310,8 @@ void SoundboardMainUI::editSoundDialog()
                    this->_deviceListOutput->currentIndex(),
                    this->_deviceListVAC->currentIndex(),
                    this->_deviceListInjector->currentIndex(),
-                   this->_shortcutEdit->getScanCode(),
-                   this->_shortcutEdit->getVirtualKey(),
+                   this->_shortcutEditPTT->getScanCode(),
+                   this->_shortcutEditPTT->getVirtualKey(),
                    this->_sounds.at(this->lastSelectedRow)  ,
                    this);
        _propertiesWindow->show();
@@ -378,9 +397,15 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 // Method to run the sound via hotkeys
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
+      qDebug() << "Pressed hotkey handle: " << handle;
 
-  //  qDebug() << "Pressed hotkey handle: " << handle;
-   _sounds.at(handle)->Play();
+    // If this is the STOP hotkey then we stop all sounds
+    if (handle == 2147483647)
+        for (auto &i: _sounds)
+            i->Stop();
+
+    else
+        _sounds.at(handle)->Play();
 }
 
 
@@ -430,17 +455,19 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 void SoundboardMainUI::resetPushToTalkEdit()
 {
-    _shortcutEdit->clear();
+    _shortcutEditPTT->clear();
 }
 
+void SoundboardMainUI::resetStopAllEdit()
+{
+    UnregisterHotKey(NULL,2147483647);
+    _shortcutEditStop->clear();
+}
 
-//void SoundboardMainUI::resetFocusOnEditionDone(QKeySequence lul)
-//{
-//    Q_UNUSED(lul)
+void SoundboardMainUI::setStopShortcut(int virtualKey)
+{
+    UnregisterHotKey(NULL,2147483647);
+    RegisterHotKey(NULL,2147483647,0, virtualKey);
 
-
-
-//}
-
-
+}
 

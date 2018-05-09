@@ -117,9 +117,12 @@ private:
     QComboBox   * _deviceListInjector;
     // Auto-hold ptt
     QLabel      * _label4;
-    CustomShortcutEdit *_shortcutEdit;
-    QPushButton *_btnClear;
-
+    CustomShortcutEdit *_shortcutEditPTT;
+    QPushButton *_btnClearPTT;
+    // Stop button
+    QLabel      * _label5;
+    CustomShortcutEdit *_shortcutEditStop;
+    QPushButton *_btnClearStop;
     // The property window
     WrapperProperties *_propertiesWindow;
 
@@ -152,6 +155,8 @@ public slots:
       void GenerateGlobalShortcuts();
 
       void resetPushToTalkEdit();
+      void setStopShortcut(int);
+      void resetStopAllEdit();
     //  void resetFocusOnEditionDone(QKeySequence);
 
 
