@@ -38,9 +38,11 @@ If you wanna be able to talk in game.
 So that the soundboard hold the game PTT key for you, if you set it accordingly in the settings.
 
 ## Versioning
-
-0.4: Shortcuts are now stored as virtual key. So every key should be usable, regardless of keyboard localization.
-0.3: Release. Sound can be played and most of the key are usable as binds.
+ * 0.43 Fixed sequential auto not working as intended. Added tooltip to explain what are the modes. Added a bindable pause button.
+ * 0.42 Fixed a bug that would shift shortcuts. Key sequence edition should lose focus after setting a shortcut.
+ * 0.41 Auto-hold PTT should now be working in every game.
+ * 0.4: Shortcuts are now stored as virtual key. So every key should be usable, regardless of keyboard localization.
+ * 0.3: Pre-Release. Sound can be played and most of the key are usable as binds.
 
 ## Known issues
 

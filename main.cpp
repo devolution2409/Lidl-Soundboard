@@ -4,8 +4,8 @@
 #include <QFile>
 #include <QString>
 
-#define VER 0.42
-#define VER_STRING "0.42"
+#define VER 0.43
+#define VER_STRING "0.43"
 
 
 int main(int argc, char *argv[])
