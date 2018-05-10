@@ -66,6 +66,10 @@
 #include <QCloseEvent>
 #include "CustomShortcutEdit.h"
 
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QTextStream>
 
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
@@ -80,9 +84,10 @@ private:
     // sound list
     QVector<SoundWrapper*> _sounds;
     // shorcut list, we need to store both shortcut and scancodes forsenT. TODO: revamp this whole shit with a class i guess
+    // no sure the _keySequence is needed forsenT
     QVector<QKeySequence> _keySequence;
     QVector<int>          _keyVirtualKey;
-    // Windows Shorcut HANDLE
+    // Windows Shorcut HANDLE for the sound shortcuts
     QVector<int> _winShorcutHandle;
 
     // vertical layout
@@ -120,7 +125,6 @@ private:
 
     // Open windows settings button
     QLabel      * _label3;
-    //QComboBox   * _deviceListInjector;
     QPushButton *_btnMicInjection;
 
     // Auto-hold ptt
@@ -170,9 +174,10 @@ public slots:
 
 
       void openAudioSettings();
-    //  void resetFocusOnEditionDone(QKeySequence);
 
-
+      QJsonObject * GenerateSaveFile();
+      // Save as slot
+      void SaveAs();
 };
 
 

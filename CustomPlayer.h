@@ -87,4 +87,5 @@ private:
     bool _shouldPlay;
 };
 
+
 #endif // CUSTOMPLAYER_H

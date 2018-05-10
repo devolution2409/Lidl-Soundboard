@@ -1,7 +1,6 @@
 #include "soundboardMainUI.h"
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
-
 {
 
     // Setting up the layouts
@@ -426,14 +425,14 @@ void SoundboardMainUI::setUpMenu()
     _menuBar->setFixedHeight(20);
     vLayout->addWidget(_menuBar);
     QMenu * fileMenu = _menuBar->addMenu(tr("File"));
-    _actions.append(   new QAction("New",this));
-    _actions.append(   new QAction("Open",this));
-    _actions.append(   new QAction("Open EXP soundboard file",this));
+    _actions.append(   new QAction("New",this)); //0
+    _actions.append(   new QAction("Open",this)); //1
+    _actions.append(   new QAction("Open EXP soundboard file",this)); //2
 
-    _actions.append(   new QAction("Save",this));
-    _actions.append(   new QAction("Save as..",this));
+    _actions.append(   new QAction("Save",this)); //3
+    _actions.append(   new QAction("Save as..",this)); //4
     fileMenu->addSeparator();
-    _actions.append(   new QAction("Exit",this));
+    _actions.append(   new QAction("Exit",this)); // 5
 
     fileMenu->addAction(_actions.at(0));
     fileMenu->addAction(_actions.at(1));
@@ -456,8 +455,9 @@ void SoundboardMainUI::setUpMenu()
     helpMenu->addAction(_actions.at(7));
     helpMenu->addAction(_actions.at(8));
     /***************************************************
-                            HELP
+                           CONNECTIONS
     ****************************************************/
+    connect(this->_actions.at(4),SIGNAL(triggered()),this,SLOT(SaveAs()));
 
 
 }
@@ -512,3 +512,71 @@ void SoundboardMainUI::openAudioSettings()
 }
 
 
+QJsonObject * SoundboardMainUI::GenerateSaveFile()
+{
+     // creating the new JSon object
+     QJsonObject * save = new QJsonObject();
+
+     // Storing settings
+     QJsonObject  settings;
+     settings.insert("Main Output Device", this->_deviceListOutput->currentText());
+     settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
+
+     QJsonObject pttKey;
+     pttKey.insert("Key Name:",this->_shortcutEditPTT->keySequence().toString());
+     pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
+     pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
+     settings.insert("Push to talk key",pttKey);
+
+     QJsonObject stopSoundKey;
+     stopSoundKey.insert("Key Name:",this->_shortcutEditStop->keySequence().toString());
+     stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
+     settings.insert("Stop stound key",stopSoundKey);
+
+     save->insert("Settings",settings);
+
+     QJsonArray sounds;
+     for (auto &i: _sounds)
+     {
+         // creating temp sound collection
+         QJsonObject tempSound;
+         tempSound.insert("Playback mode",i->getPlayMode());
+         qDebug() << i->getPlayMode();
+         QJsonObject key;
+         key.insert("Key",i->getKeySequence().toString());
+         key.insert("VirtualKey", i->getShortcutVirtualKey());
+         tempSound.insert("Shorcut",key);
+         // The sound collection
+         QJsonArray soundCollection;
+         QVector<QFile*> soundList = i->getSoundList();
+         for (auto &j: soundList)
+             soundCollection.append(j->fileName());
+
+        tempSound.insert("Sound collection",soundCollection);
+        sounds.append(tempSound);
+     }
+     save->insert("Sound collections",sounds);
+     return save;
+}
+
+void SoundboardMainUI::SaveAs()
+{
+    QString fileName  = QFileDialog::getSaveFileName(this,"Save Soundboard As..","",".txt");
+    fileName.append(".txt");
+    QJsonObject *save = GenerateSaveFile();
+    QJsonDocument *doc = new QJsonDocument(*save);
+    QString jsonString = doc->toJson(QJsonDocument::Indented);
+    qDebug() << jsonString;
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return;
+    }
+    else
+    {
+        QTextStream out(&file);
+        out << jsonString;
+        file.close();
+    }
+}

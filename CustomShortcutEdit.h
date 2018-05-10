@@ -25,6 +25,7 @@ public:
      explicit CustomShortcutEdit(QWidget *parent = nullptr);
      int getVirtualKey();
      int getScanCode();
+     QString getText();
 private:
      int _virtualKey;
      int _scanCode;

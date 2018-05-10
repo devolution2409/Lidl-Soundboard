@@ -75,6 +75,8 @@ public:
     void setPlayerVACOutput(int);
     int getShortcutVirtualKey();
 
+
+
 private:
     // Vector to store the soundlist
      QVector<QFile*> _soundList;
@@ -96,6 +98,8 @@ public slots:
     void VACDeviceChanged(int);
     void PTTVirtualKeyChanged(int);
     void PTTScanCodeChanged(int);
+
+
 
 };
 
