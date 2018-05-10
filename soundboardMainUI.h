@@ -65,6 +65,8 @@
 
 #include <QCloseEvent>
 #include "CustomShortcutEdit.h"
+
+
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
 
@@ -92,6 +94,9 @@ private:
     // DATA of the model:
     QVector<QList< QStandardItem* >> _data;
 
+    /***************************************************
+                            MENU
+    ****************************************************/
     QMenuBar *_menuBar;
     QVector<QAction*> _actions;
 
@@ -113,8 +118,11 @@ private:
     QLabel       * _label2;
     QComboBox  * _deviceListVAC;
 
+    // Open windows settings button
     QLabel      * _label3;
-    QComboBox   * _deviceListInjector;
+    //QComboBox   * _deviceListInjector;
+    QPushButton *_btnMicInjection;
+
     // Auto-hold ptt
     QLabel      * _label4;
     CustomShortcutEdit *_shortcutEditPTT;
@@ -133,6 +141,8 @@ private:
     void closeEvent (QCloseEvent *event);
     // keep track of selection
     int lastSelectedRow;
+
+    // mic injector
 
 
 
@@ -157,9 +167,15 @@ public slots:
       void resetPushToTalkEdit();
       void setStopShortcut(int);
       void resetStopAllEdit();
+
+
+      void openAudioSettings();
     //  void resetFocusOnEditionDone(QKeySequence);
 
 
 };
+
+
+
 
 #endif // SOUNDBOARDMAINUI_H

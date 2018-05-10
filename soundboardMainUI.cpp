@@ -3,14 +3,15 @@
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 
 {
+
     // Setting up the layouts
     vLayout = new QVBoxLayout(this);
     // not need since adding a parent in the constructor set layout by itself
     // this->setLayout(vLayout);
-
-
     //Adding Menu bar
- //   this->setUpMenu();
+    this->setUpMenu();
+
+
     // we use MVC architecture. This is the declaration of the _model
     // each case of the view is a model forsenT
     _model = new QStandardItemModel(0,3,this);
@@ -84,17 +85,23 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       _deviceListVAC = new QComboBox(this);
       _gLayout->addWidget(_deviceListVAC,4,0,1,6);
 
-      // Label
-
-      _label3 = new QLabel("Microphone to be injected (optional)",this);
+      /***************************************************
+                        MIC INJECTION SECTION
+      ****************************************************/
+      _label3 = new QLabel("Setup microphone injection (optional)",this);
       _gLayout->addWidget(_label3,5,0,1,6);
-      _deviceListInjector = new QComboBox(this);
-      _gLayout->addWidget(_deviceListInjector,6,0,1,6);
+      //_deviceListInjector = new QComboBox(this);
+      _btnMicInjection = new QPushButton("Open sound configuration.",this);
+      _gLayout->addWidget(_btnMicInjection,6,0,1,6);
+
+       connect(this->_btnMicInjection,SIGNAL(clicked()),this,SLOT(openAudioSettings()));
+
+         // _gLayout->addWidget(_deviceListInjector,6,0,1,6);
 
       // Fetching the devices
       this->fetchDeviceList(_deviceListOutput,QAudio::AudioOutput);
       this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
-      this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
+  //    this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
 
       /***************************************************
                             PTT BIND
@@ -138,13 +145,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
 
 
-      // connection to lose focus after setting ptt key
-   //   connect(this->_shortcutEditPTT,SIGNAL(keySequenceChanged(QKeySequence)),this,SLOT(resetFocusOnEditionDone(QKeySequence)));
-      // Connection for the combo box and PTT changes are made when adding the wrapper, see
-      // soundAdded()
-}
 
-//SoundboardMainUI::addSound
+}
 
 
 
@@ -183,7 +185,7 @@ void SoundboardMainUI::addSoundDialog()
     _propertiesWindow = new WrapperProperties(
                 this->_deviceListOutput->currentIndex(),
                 this->_deviceListVAC->currentIndex(),
-                this->_deviceListInjector->currentIndex(),
+                -1,
                 this->_shortcutEditPTT->getScanCode(),
                 this->_shortcutEditPTT->getVirtualKey(),
                 this);
@@ -314,7 +316,7 @@ void SoundboardMainUI::editSoundDialog()
        _propertiesWindow= new WrapperProperties(
                    this->_deviceListOutput->currentIndex(),
                    this->_deviceListVAC->currentIndex(),
-                   this->_deviceListInjector->currentIndex(),
+                   -1,
                    this->_shortcutEditPTT->getScanCode(),
                    this->_shortcutEditPTT->getVirtualKey(),
                    this->_sounds.at(this->lastSelectedRow)  ,
@@ -417,7 +419,11 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
 void SoundboardMainUI::setUpMenu()
 {
 
+    /***************************************************
+                            FILE
+    ****************************************************/
     _menuBar = new QMenuBar(this);
+    _menuBar->setFixedHeight(20);
     vLayout->addWidget(_menuBar);
     QMenu * fileMenu = _menuBar->addMenu(tr("File"));
     _actions.append(   new QAction("New",this));
@@ -439,8 +445,21 @@ void SoundboardMainUI::setUpMenu()
     fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(5));
 
-    _actions.append(   new QAction("Save soundboard as JSON",this));
-    _actions.append(   new QAction("Open",this));
+    /***************************************************
+                            Help
+    ****************************************************/
+    QMenu * helpMenu = _menuBar->addMenu(tr("Help"));
+    _actions.append(   new QAction("Guide",this));
+    _actions.append(   new QAction("Report a bug..",this));
+    _actions.append(   new QAction("About LIDL Soundboard",this));
+    helpMenu->addAction(_actions.at(6));
+    helpMenu->addAction(_actions.at(7));
+    helpMenu->addAction(_actions.at(8));
+    /***************************************************
+                            HELP
+    ****************************************************/
+
+
 }
 
 //Reimplementing to kill all shortcuts
@@ -484,4 +503,12 @@ void SoundboardMainUI::setStopShortcut(int virtualKey)
     RegisterHotKey(NULL,2147483647,0, virtualKey);
 
 }
+
+void SoundboardMainUI::openAudioSettings()
+{
+
+    //system("control mmsys.cpl sounds");
+    WinExec("control mmsys.cpl sounds",8);
+}
+
 

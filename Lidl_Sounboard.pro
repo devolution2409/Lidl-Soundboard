@@ -11,7 +11,7 @@ SOURCES += \
     soundboardMainUI.cpp \
     CustomTableView.cpp \
     CustomShortcutEdit.cpp \
-    CustomPlayer.cpp \
+    CustomPlayer.cpp
 
 
 HEADERS += \
@@ -20,7 +20,7 @@ HEADERS += \
     soundboardMainUI.h \
     CustomTableView.h \
     CustomShortcutEdit.h \
-    CustomPlayer.h \
+    CustomPlayer.h
 
 
 RESOURCES += \
@@ -28,8 +28,8 @@ RESOURCES += \
 
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:unix: LIBS += -L$$PWD/lib/ -lbass
 
 INCLUDEPATH += $$PWD/.
