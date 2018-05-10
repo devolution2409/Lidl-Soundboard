@@ -29,15 +29,17 @@ Only if you wanna hear your own cancer.
 To be able to send audio to game. Don't forget to set VAC as the microphone to use in game. (or as the default device in the system).
 
 
-#### Select Mic to inject (coming soonTM)
+#### Microphone injection: System driven
 
-If you wanna be able to talk in game.
+If you wanna be able to talk in game while also being able to send sounds, check out the manual.
+
 
 #### Set push to talk key. 
 
 So that the soundboard hold the game PTT key for you, if you set it accordingly in the settings.
 
 ## Versioning
+ * 0.50 Everything works. Mic injection will be done by the system as explained in the guide
  * 0.43 Fixed sequential auto not working as intended. Added tooltip to explain what are the modes. Added a bindable pause button.
  * 0.42 Fixed a bug that would shift shortcuts. Key sequence edition should lose focus after setting a shortcut.
  * 0.41 Auto-hold PTT should now be working in every game.
@@ -46,8 +48,8 @@ So that the soundboard hold the game PTT key for you, if you set it accordingly 
 
 ## Known issues
 
-### 0.42
-  * Can't use the mic injector (not coded yet forsenE).
+### 0.45
+Menus aren't working forsenE
 
 ## License
 

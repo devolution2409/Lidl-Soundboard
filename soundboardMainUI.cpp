@@ -91,7 +91,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       _label3 = new QLabel("Setup microphone injection (optional)",this);
       _gLayout->addWidget(_label3,5,0,1,6);
       //_deviceListInjector = new QComboBox(this);
-      _btnMicInjection = new QPushButton("Open sound configuration.",this);
+      _btnMicInjection = new QPushButton("Open sound configuration",this);
       _gLayout->addWidget(_btnMicInjection,6,0,1,6);
 
        connect(this->_btnMicInjection,SIGNAL(clicked()),this,SLOT(openAudioSettings()));
