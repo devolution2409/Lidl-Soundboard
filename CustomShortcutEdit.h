@@ -26,6 +26,8 @@ public:
      int getVirtualKey();
      int getScanCode();
      QString getText();
+
+
 private:
      int _virtualKey;
      int _scanCode;

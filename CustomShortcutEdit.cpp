@@ -36,7 +36,6 @@ void CustomShortcutEdit::keyPressEvent(QKeyEvent *e)
         _scanCode    = e->nativeScanCode();
     }
 
-
 }
 
 int CustomShortcutEdit::getVirtualKey()
@@ -54,4 +53,9 @@ void CustomShortcutEdit::sendSignal()
    this->clearFocus();
    emit virtualKeyChanged(_virtualKey);
    emit scanCodeChanged(_scanCode);
+}
+
+QString CustomShortcutEdit::getText()
+{
+    return this->keySequence().toString();
 }

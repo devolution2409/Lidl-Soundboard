@@ -551,13 +551,13 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
      settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
 
      QJsonObject pttKey;
-     pttKey.insert("Key Name",this->_shortcutEditPTT->keySequence().toString());
+     pttKey.insert("Key Name",this->_shortcutEditPTT->getText());
      pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
      pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
      settings.insert("Push To Talk Key",pttKey);
 
      QJsonObject stopSoundKey;
-     stopSoundKey.insert("Key Name",this->_shortcutEditStop->keySequence().toString());
+     stopSoundKey.insert("Key Name",this->_shortcutEditStop->getText());
      stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
      settings.insert("Stop Sound Key",stopSoundKey);
 
