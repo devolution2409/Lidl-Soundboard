@@ -34,7 +34,7 @@
 #include <QKeySequenceEdit>
 #include "CustomShortcutEdit.h"
 #include <QMessageBox>
-
+#include "CustomListWidget.h"
 
 class WrapperProperties : public QWidget
 {
@@ -47,8 +47,12 @@ private:
     // Pointer to the main window
     QWidget     * _mainWidget;
     // Display for sounds
-    QListWidget *_soundListDisplay;
+    // QListWidget *_soundListDisplay;
+    //  QGroupBox        * _soundListGroup;
+    CustomListWidget * _soundListDisplay;
+    // QVBoxLayout      * _soundLayout;
 
+    QLabel * _soundListHint;
 
     // Buttons to add and delete
     QPushButton *_btnAdd;
@@ -105,6 +109,7 @@ signals:
 public slots:
     // Qlist Widget slots
     void AddSound();
+    void AddSoundFromDrop(QString);
     void ItemWasClicked(QListWidgetItem * item);
     void DeleteSelectedSound(); //will call DeleteSound()
 

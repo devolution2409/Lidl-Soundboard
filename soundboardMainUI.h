@@ -75,8 +75,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.0
-#define VER_STRING "1.0"
+#define VER 1.1.0
+#define VER_STRING "1.1.0"
 
 class SoundboardMainUI : public QWidget
 {
@@ -164,7 +164,9 @@ public slots:
       void addSoundDialog();
       void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1);
       void soundModified(SoundWrapper * modifiedSound);
+      // Slots for where user click or double click a cell
       void onCellClicked(QModelIndex index);
+      void onCellDoubleClicked(QModelIndex index);
       void deleteSound();
       void editSoundDialog();
 

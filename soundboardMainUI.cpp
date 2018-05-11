@@ -137,6 +137,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       ****************************************************/
       connect(this->_btnAdd, SIGNAL(clicked()), this, SLOT(addSoundDialog()));
       connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
+      connect(this->resultView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(onCellDoubleClicked(QModelIndex)));
 
       connect(this->_btnEdit, SIGNAL(clicked()), this, SLOT(editSoundDialog()));
       connect(this->_btnDelete, SIGNAL(clicked()), this, SLOT(deleteSound()));
@@ -246,6 +247,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     // connecting the stop btn
     connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
 
+
+
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
 
@@ -305,7 +308,23 @@ void SoundboardMainUI::onCellClicked(QModelIndex index)
     // connect it to the selected cell
 
     connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+
 }
+// Double click will open the properties windows.
+// simple click event is also called, so lastSelectedRow SHOULD BE correct
+void SoundboardMainUI::onCellDoubleClicked( QModelIndex index)
+{
+   // but we update it regardless
+    disconnect(_btnPlay,0,0,0);
+    lastSelectedRow = index.row();
+    this->_btnEdit->setEnabled(true);
+    this->_btnDelete->setEnabled(true);
+    this->_btnPlay->setEnabled(true);
+    connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+    // And we call the edit sound dialog
+    this->editSoundDialog();
+}
+
 
 // open the dialog to edit sound
 void SoundboardMainUI::editSoundDialog()

@@ -17,14 +17,22 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
     _vLayout = new QVBoxLayout(this);
     // Adding viewer to view sound list
-    _soundListDisplay = new QListWidget(this);
+    //_soundListDisplay = new QListWidget(this);
 
-   // _itemAdd = new QListWidgetItem("Double click to add a sound");
-    // _soundListDisplay->addItem(_itemAdd);
+//    _soundListGroup = new QGroupBox("Sound collection");
+
+
+    _soundListDisplay = new CustomListWidget(this);
+
     //Enabling drag&drop reordering
     _soundListDisplay->setDragDropMode(QAbstractItemView::InternalMove);
 
+//      _soundLayout = new QVBoxLayout(_soundListGroup);
+//      _soundLayout->addWidget(_soundListDisplay);
     _vLayout->addWidget(_soundListDisplay);
+
+  //  _vLayout->addWidget(_soundListGroup);
+
 
     _gLayout = new QGridLayout;
     // Add and delete
@@ -32,8 +40,11 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _btnAdd = new QPushButton("Add");
     _btnDelete= new QPushButton("Delete");
     _btnDelete->setEnabled(false);
-    _gLayout->addWidget(_btnAdd,0,0,1,2);
-    _gLayout->addWidget(_btnDelete,0,2,1,2);
+
+    _soundListHint = new QLabel("💡 You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.");
+    _gLayout->addWidget(_soundListHint,0,0,1,4);
+    _gLayout->addWidget(_btnAdd,1,0,1,2);
+    _gLayout->addWidget(_btnDelete,1,2,1,2);
 
 
 
@@ -131,6 +142,9 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
     connect(this,SIGNAL(signalAddDone(SoundWrapper*)),_mainWidget,SLOT(soundAdded(SoundWrapper*)));
     connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
+    /*******************DRAG AND DROP EVENT******************/
+    connect(_soundListDisplay,SIGNAL(fileDragged(QString)),this,SLOT(AddSoundFromDrop(QString)));
+
 }
 
 // overload to ADD sound
@@ -204,13 +218,14 @@ void WrapperProperties::AddSound()
     // if the playback is singleton and we already have one we don't do nuffin
     if ( !(_soundListDisplay->count()>=1 && _radioGroup->checkedId() == 1 ))
     {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav *.mp3 *.ogg)"));
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav *.mp3)"));
         // if the fileName isn't empty, the user selected a file, so we add it.
         if (!fileName.isEmpty())
         {
             //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
             //qDebug() << _soundListDisplay->row(item);
             _soundListDisplay->insertItem(_soundListDisplay->count() ,fileName);
+
             // Disabling the double click event if singleton
             //qDebug() << _radioGroup->checkedId();
             // If singleton we disable the add sound option
@@ -220,7 +235,23 @@ void WrapperProperties::AddSound()
     }
 
 }
+void WrapperProperties::AddSoundFromDrop(QString file)
+{
+    //if we already have more than one sound we set the mode to sequential (default
+    if (_soundListDisplay->count()>=1)
+    {
+        _radioSequential->setChecked(true);
+        _radioSingleton->setEnabled(false);
+    }
+    // if the playback is singleton and we already have one we don't do nuffin
+    QString fileName = file;
+        // if the fileName isn't empty, the user selected a file, so we add it.
+        if (!fileName.isEmpty())
+            _soundListDisplay->insertItem(_soundListDisplay->count() ,fileName);
 
+
+
+}
 
 
 // Event dealing with the colors if mode is changed
@@ -336,9 +367,15 @@ void WrapperProperties::DeleteSelectedSound()
 {
     delete this->_selectedItem;
     this->_btnDelete->setEnabled(false);
+
     // need to renable add button if we are in singleton song and this was the last sound
     if (_soundListDisplay->count() == 0)
+    {
+        this->_radioSingleton->setEnabled(true);
         this->_btnAdd->setEnabled(true);
+    }
+    // we clear selection
+    _soundListDisplay->clearSelection();
 }
 
 
