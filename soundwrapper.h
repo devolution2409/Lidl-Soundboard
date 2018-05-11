@@ -57,7 +57,7 @@ public:
     SoundWrapper(QVector<QString> fileList,
                  int playbackMode,
                  QKeySequence  shortcut,
-                 int shortcutVirtualKey,
+                 int shortcutVirtualKey =-1,
                  int mainOutput = -1,
                  int vacOutput = -1,
                  int pttVK =-1,

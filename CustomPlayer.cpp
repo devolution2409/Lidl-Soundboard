@@ -23,7 +23,7 @@ void CustomPlayer::PlayNext()
     // soundlist size returns actual size
     // ie 2 when we have [0] and [1] element.
     // so we need to substract 1.
-    qDebug() <<"shouldplay when called" << _shouldPlay;
+    // qDebug() <<"shouldplay when called" << _shouldPlay;
     if (_index > _soundList.size() -1 )
         _index = 0;
 

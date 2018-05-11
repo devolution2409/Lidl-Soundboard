@@ -2,6 +2,8 @@
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
 {
+    this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
+    this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
 
     // Setting up the layouts
     vLayout = new QVBoxLayout(this);
@@ -144,7 +146,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
 
 
-
+      this->_saveName = "";
 }
 
 
@@ -450,7 +452,7 @@ void SoundboardMainUI::setUpMenu()
     ****************************************************/
     QMenu * helpMenu = _menuBar->addMenu(tr("Help"));
     _actions.append(   new QAction("Guide",this));
-    _actions.append(   new QAction("Report a bug..",this));
+    _actions.append(   new QAction("Report a bug or request a feature",this));
     _actions.append(   new QAction("About LIDL Soundboard",this));
     helpMenu->addAction(_actions.at(6));
     helpMenu->addAction(_actions.at(7));
@@ -461,7 +463,12 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(4),SIGNAL(triggered()),this,SLOT(SaveAs()));
     connect(this->_actions.at(1),SIGNAL(triggered()),this,SLOT(Open()));
     connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
-
+    connect(this->_actions.at(5),SIGNAL(triggered()),this,SLOT(close()));
+    connect(this->_actions.at(2),SIGNAL(triggered()),this,SLOT(OpenEXPSounboard()));
+    connect(this->_actions.at(3),SIGNAL(triggered()),this,SLOT(Save()));
+    connect(this->_actions.at(6),SIGNAL(triggered()),this,SLOT(HelpGuide()));
+    connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
+    connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpAbout()));
 }
 
 //Reimplementing to kill all shortcuts
@@ -571,13 +578,16 @@ void SoundboardMainUI::SaveAs()
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly))
     {
+
         QMessageBox::information(this, tr("Unable to open file"), file.errorString());
         return;
     }
     else
     {
+        this->_saveName = fileName;
         QTextStream out(&file);
-        out << jsonString;
+        out.setCodec("UTF-8");
+        out << jsonString.toUtf8();
         file.close();
     }
 }
@@ -590,6 +600,7 @@ void SoundboardMainUI::Open()
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
     {   // We clear the soundboard
         this->ClearAll();
+        this->_saveName = fileName;
         // Declare the temp variables we are going to use to construct our objects
         QString mainOutputDevice, vacOutputDevice;
         QString pttName;
@@ -638,6 +649,15 @@ void SoundboardMainUI::Open()
         // we have to set the devices before
         this->_deviceListOutput->setCurrentIndex(this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole));
         this->_deviceListVAC->setCurrentIndex(this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole));
+
+
+
+        /***************************************************
+                 SETTING LOCALL DEVICES INDEX TO -1
+                 just kidding we don't need to
+        ****************************************************/
+        int indexMainOutputDevice = this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);// == 0) ? -1 : (this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole)) ;
+        int indexVACOutputDevice  = this->_deviceListOutput->findData(vacOutputDevice, Qt::DisplayRole);//  == 0)? -1 : (this->_deviceListOutput->findData(vacOutputDevice, Qt::DisplayRole));
         /***************************************************
                           SETTING KEY SEQUENCES
         ****************************************************/
@@ -691,24 +711,20 @@ void SoundboardMainUI::Open()
 //                        qDebug() << j;
 
 
-
                     /***************************************************
                                    CREATING THE WRAPPERS
                     ****************************************************/
+                    qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
+                    qDebug() << indexMainOutputDevice;
                     this->soundAdded(new SoundWrapper(fileArray,playbackmode,QKeySequence(shortcutString),shortcutVirtualKey,
-                                                    this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole),
-                                                    this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole),
+                                                    indexMainOutputDevice,
+                                                    indexVACOutputDevice,
                                                     pttVirtualKey,pttScanCode,nullptr));
 
 
                 } // end for auto wrapper
         } // end if json contains wrapper
          //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
-
-
-
-
-
 
     }//endif file was opened
 }
@@ -719,7 +735,10 @@ void SoundboardMainUI::ClearAll()
                         SOUNDS
     ****************************************************/
     for (auto &i: this->_sounds)
+    {
+        i->Stop();
         delete i;
+    }
     //    clearing just in case
     _sounds.clear();
 
@@ -761,4 +780,147 @@ void SoundboardMainUI::ClearAll()
     this->_deviceListOutput->setCurrentIndex(0);
     this->_deviceListVAC->setCurrentIndex(0);
 
+}
+
+void SoundboardMainUI::OpenEXPSounboard()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),tr("EXP Sounboard JSON  (.json)"));
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
+    {   // We clear the soundboard
+        this->ClearAll();
+        QString jsonAsString = file.readAll();
+        file.close();
+        QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
+        QJsonObject json = cdOMEGALUL.object();
+
+
+        if (json.contains("soundboardEntries"))
+        {
+
+            QJsonArray soundArray = json.value("soundboardEntries").toArray();
+            for (auto i: soundArray)
+            {
+                QString fileName="";
+                //int modifiers=0;
+                //QString sequenceString;
+                //int sequenceVK;
+
+                QJsonObject singleSound = i.toObject();
+                if (singleSound.contains("file"))
+                    fileName = singleSound.value("file").toString();
+                fileName.replace(QString("\\"), QString("/"));
+                qDebug() << fileName;
+
+                QKeySequence emptySequence;
+                QVector<QString> fileList;
+                fileList.append(fileName);
+                this->soundAdded(new SoundWrapper(fileList,
+                             1, // always singleton
+                             emptySequence,
+                             -1, // empty
+                             this->_deviceListOutput->currentIndex(),
+                             this->_deviceListVAC->currentIndex(),
+                             -1,
+                             -1,
+                             nullptr ));
+
+
+            } //end for sound array
+        }
+    }
+}
+
+
+void SoundboardMainUI::Save()
+{
+    // if file doesn't exist we throw the save as prompt
+    if (this->_saveName.isEmpty())
+    {
+        this->SaveAs();
+        return;
+    }
+    // else we save on it
+    else
+    {
+        QJsonObject *save = GenerateSaveFile();
+        QJsonDocument *cdOMEGALUL = new QJsonDocument(*save);
+        QString jsonString = cdOMEGALUL->toJson(QJsonDocument::Indented);
+        QFile file(_saveName);
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+            return;
+        }
+        else
+        {
+            QTextStream out(&file);
+            out.setCodec("UTF-8");
+            out << jsonString.toUtf8();
+            file.close();
+        }
+    }
+}
+
+void SoundboardMainUI::HelpGuide()
+{
+    QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/blob/master/Lidl_manual.pdf")));
+}
+
+void SoundboardMainUI::HelpReportBug()
+{
+    QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
+}
+
+void SoundboardMainUI::HelpAbout()
+{
+    QDialog * zulul = new QDialog(this);
+    zulul->setFixedSize(476,254);
+    zulul->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
+    zulul->setWindowTitle("About LIDL Soundboard");
+    QGridLayout *layout = new QGridLayout(zulul);
+    QLabel *text = new QLabel("LIDL Soundboard " + QString(VER_STRING));
+    QFont f( "Arial", 24, QFont::Bold);
+    text->setFont(f);
+    QPixmap image(":/icon/resources/forsenAim.png");
+
+    QLabel *imageLabel = new QLabel();
+    imageLabel->setPixmap(image);
+
+    QLabel *text2 = new QLabel("Based on Qt 5.10.1 (https://www.qt.io/) compiled with MinGW 5.3.0 32bit");
+    QLabel *text3= new QLabel("With BASS 2.4.13.8 (http://www.un4seen.com/)" );
+    QLabel *text4 = new QLabel("Built on: " + QString(__DATE__) + "at: " + QString(__TIME__));
+    QLabel *gachiBASS = new QLabel();
+    gachiBASS->setMaximumSize(32,32);
+    gachiBASS->setScaledContents(true);
+    QMovie* movie = new QMovie(":/icon/resources/gachiBASS.gif");
+    gachiBASS->setMovie(movie);
+    movie->start();
+    movie->setSpeed(200);
+
+    layout->addWidget(imageLabel,0,0,1,3);
+    layout->addWidget(text,0,3,1,14);
+    layout->addWidget(text2,1,0,1,17);
+    layout->addWidget(text3,2,0,1,17);
+    layout->addWidget(gachiBASS,2,8,1,2);
+    layout->addWidget(text4,3,0,1,17);
+
+    QLabel *text5 = new QLabel("Made with love, and for all the BAJS by Devolution");
+    layout->addWidget(text5,4,0,1,12);
+
+    QLabel *text6 = new QLabel("Remember to always stay transparent.");
+    layout->addWidget(text6,5,0,1,5);
+
+    QVector<QLabel *> forsenDVD;
+    for (long i=0; i<12; i++)
+    {
+        forsenDVD.append(new QLabel());
+        forsenDVD.last()->setPixmap(QPixmap(":/icon/resources/forsenCD.jpg"));
+        forsenDVD.last()->setMaximumSize(16,16);
+        forsenDVD.last()->setScaledContents(true);
+        layout->addWidget(forsenDVD.last(),5,i+5,1,1);
+    }
+
+
+    zulul->show();
 }

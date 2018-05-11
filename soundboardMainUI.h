@@ -70,10 +70,13 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QTextStream>
-
+#include <QDesktopServices>
+//#include <QUrl>
+#include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-
+#define VER 1.0
+#define VER_STRING "1.0"
 
 class SoundboardMainUI : public QWidget
 {
@@ -146,9 +149,11 @@ private:
     // keep track of selection
     int lastSelectedRow;
 
-    // mic injector
 
-
+    /***************************************************
+                            SAVE
+    ****************************************************/
+    QString _saveName;
 
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
@@ -176,12 +181,22 @@ public slots:
       void openAudioSettings();
 
       QJsonObject * GenerateSaveFile();
+      // save slot
+      void Save();
       // Save as slot
       void SaveAs();
       // open slot
       void Open();
       // Clear the soundboard
       void ClearAll();
+      // EXP soundboard compatibility
+      void OpenEXPSounboard();
+      // help guide slot
+      void HelpGuide();
+      // help report bug
+      void HelpReportBug();
+      // About
+      void HelpAbout();
 };
 
 

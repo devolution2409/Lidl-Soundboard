@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/icon">
         <file>resources/forsenAim.png</file>
+        <file>resources/forsenCD.jpg</file>
+        <file>resources/gachiBASS.gif</file>
     </qresource>
     <qresource prefix="/css">
         <file>resources/darkorange.css</file>
