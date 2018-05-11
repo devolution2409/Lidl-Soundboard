@@ -39,18 +39,19 @@ If you wanna be able to talk in game while also being able to send sounds, check
 So that the soundboard hold the game PTT key for you, if you set it accordingly in the settings.
 
 ## Versioning
- * 0.50 Everything works. Mic injection will be done by the system as explained in the guide
- * 0.43 Fixed sequential auto not working as intended. Added tooltip to explain what are the modes. Added a bindable pause button.
- * 0.42 Fixed a bug that would shift shortcuts. Key sequence edition should lose focus after setting a shortcut.
- * 0.41 Auto-hold PTT should now be working in every game.
+ * 0.60: Can now save the soundboard as a json text and open it. 
+ 	     It will save every thing.
+ * 0.50: Everything works. Mic injection will be done by the system as explained in the guide
+ * 0.43: Fixed sequential auto not working as intended. Added tooltip to explain what are the modes. Added a bindable pause button.
+ * 0.42: Fixed a bug that would shift shortcuts. Key sequence edition should lose focus after setting a shortcut.
+ * 0.41: Auto-hold PTT should now be working in every game.
  * 0.4: Shortcuts are now stored as virtual key. So every key should be usable, regardless of keyboard localization.
  * 0.3: Pre-Release. Sound can be played and most of the key are usable as binds.
 
 ## Known issues
 
-### 0.45
-Menus aren't working forsenE
-
+### 0.6
+	Some menus action are not implemented yet.
 ## License
 
 Blabla, some licence shit that says this is open source and free to fork. But please acknowledge me so i can ride into valhalla shinny and chrome.

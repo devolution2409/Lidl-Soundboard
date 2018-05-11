@@ -232,6 +232,7 @@ void SoundboardMainUI::deleteSound()
 // Add a sound if whereToInsert isn't
 void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert)
 {
+
     //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
@@ -458,7 +459,8 @@ void SoundboardMainUI::setUpMenu()
                            CONNECTIONS
     ****************************************************/
     connect(this->_actions.at(4),SIGNAL(triggered()),this,SLOT(SaveAs()));
-
+    connect(this->_actions.at(1),SIGNAL(triggered()),this,SLOT(Open()));
+    connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
 
 }
 
@@ -523,15 +525,15 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
      settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
 
      QJsonObject pttKey;
-     pttKey.insert("Key Name:",this->_shortcutEditPTT->keySequence().toString());
+     pttKey.insert("Key Name",this->_shortcutEditPTT->keySequence().toString());
      pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
      pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
-     settings.insert("Push to talk key",pttKey);
+     settings.insert("Push To Talk Key",pttKey);
 
      QJsonObject stopSoundKey;
-     stopSoundKey.insert("Key Name:",this->_shortcutEditStop->keySequence().toString());
+     stopSoundKey.insert("Key Name",this->_shortcutEditStop->keySequence().toString());
      stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
-     settings.insert("Stop stound key",stopSoundKey);
+     settings.insert("Stop Sound Key",stopSoundKey);
 
      save->insert("Settings",settings);
 
@@ -540,22 +542,22 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
      {
          // creating temp sound collection
          QJsonObject tempSound;
-         tempSound.insert("Playback mode",i->getPlayMode());
+         tempSound.insert("Playback Mode",i->getPlayMode());
          qDebug() << i->getPlayMode();
          QJsonObject key;
          key.insert("Key",i->getKeySequence().toString());
          key.insert("VirtualKey", i->getShortcutVirtualKey());
-         tempSound.insert("Shorcut",key);
+         tempSound.insert("Shortcut",key);
          // The sound collection
          QJsonArray soundCollection;
          QVector<QFile*> soundList = i->getSoundList();
          for (auto &j: soundList)
              soundCollection.append(j->fileName());
 
-        tempSound.insert("Sound collection",soundCollection);
+        tempSound.insert("Sound Collection",soundCollection);
         sounds.append(tempSound);
      }
-     save->insert("Sound collections",sounds);
+     save->insert("SoundWrappers",sounds);
      return save;
 }
 
@@ -566,7 +568,6 @@ void SoundboardMainUI::SaveAs()
     QJsonObject *save = GenerateSaveFile();
     QJsonDocument *doc = new QJsonDocument(*save);
     QString jsonString = doc->toJson(QJsonDocument::Indented);
-    qDebug() << jsonString;
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly))
     {
@@ -579,4 +580,185 @@ void SoundboardMainUI::SaveAs()
         out << jsonString;
         file.close();
     }
+}
+
+
+void SoundboardMainUI::Open()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),tr("JSON text file (.txt)"));
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
+    {   // We clear the soundboard
+        this->ClearAll();
+        // Declare the temp variables we are going to use to construct our objects
+        QString mainOutputDevice, vacOutputDevice;
+        QString pttName;
+        int pttScanCode=-1, pttVirtualKey =-1;
+        QString stopName; int stopVirtualKey =-1;
+
+        QString jsonAsString = file.readAll();
+        file.close();
+        //QJsonParseError error;
+        QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
+        QJsonObject json = cdOMEGALUL.object();
+
+      //  QVector<SoundWrapper*> sounds;
+        // if it has a setting block we read it
+        if (json.contains("Settings"))
+        {
+            QJsonObject settings = json.value("Settings").toObject();
+            if (settings.contains("Main Output Device"))
+                mainOutputDevice = settings.value("Main Output Device").toString();
+            if (settings.contains("VAC Output Device"))
+                 vacOutputDevice = settings.value("VAC Output Device").toString();
+            if (settings.contains("Push To Talk Key"))
+            {
+                QJsonObject settingsPTT = settings.value("Push To Talk Key").toObject();
+                if (settingsPTT.contains("Key Name"))
+                    pttName = settingsPTT.value("Key Name").toString();
+                if (settingsPTT.contains("ScanCode"))
+                    pttScanCode = settingsPTT.value("ScanCode").toInt();
+                if (settingsPTT.contains("VirtualKey"))
+                    pttVirtualKey = settingsPTT.value("VirtualKey").toInt();
+            }
+            if (settings.contains("Stop Sound Key"))
+            {
+                QJsonObject settingsStop = settings.value("Stop Sound Key").toObject();
+                if (settingsStop.contains("Key Name"))
+                    stopName = settingsStop.value("Key Name").toString();
+                if (settingsStop.contains("VirtualKey"))
+                    stopVirtualKey = settingsStop.value("VirtualKey").toInt();
+            }
+        }// end if it contains settings
+
+        /***************************************************
+                          SETTING COMBO BOX
+        ****************************************************/
+
+        // we have to set the devices before
+        this->_deviceListOutput->setCurrentIndex(this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole));
+        this->_deviceListVAC->setCurrentIndex(this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole));
+        /***************************************************
+                          SETTING KEY SEQUENCES
+        ****************************************************/
+        this->_shortcutEditPTT->setKeySequence(QKeySequence(pttName));
+        this->_shortcutEditStop->setKeySequence(QKeySequence(stopName));
+        this->setStopShortcut(stopVirtualKey);
+
+
+        // The wrapper stuff
+        if (json.contains("SoundWrappers"))
+        {
+            QJsonArray wrappersArray = json.value("SoundWrappers").toArray();
+            // we iterate over wrappers
+            for (auto i:wrappersArray)
+            {
+                QJsonObject item = i.toObject();
+                int playbackmode;
+                QString shortcutString;
+                int shortcutVirtualKey;
+                QVector<QString> fileArray;
+
+
+                // Playback
+                if (item.contains("Playback Mode"))
+                    playbackmode = item.value("Playback Mode").toInt();
+                // Shortcut info
+                if (item.contains("Shortcut"))
+                {
+                    QJsonObject shortcut = item.value("Shortcut").toObject();
+                    if (shortcut.contains("Key"))
+                        shortcutString = shortcut.value("Key").toString();
+                    if (shortcut.contains("VirtualKey"))
+                        shortcutVirtualKey = shortcut.value("VirtualKey").toInt();
+                }
+
+                // Sound collection
+                if (item.contains("Sound Collection"))
+                {
+                    QJsonArray soundArray = item.value("Sound Collection").toArray();
+                    // We iterate over the sound files and add them to the array
+                    for (auto j: soundArray)
+                    {
+                        fileArray.append( j.toString()  );
+                    }
+                }
+//                    qDebug() << "Wrapper: \n\tPlayback Mode:" << playbackmode
+//                             << "\n\tShortcut String:" << shortcutString
+//                             << "\n\tVirtualKey:"      << shortcutVirtualKey
+//                             << "\n\tSoundlist:";
+//                    for (auto j: fileArray)
+//                        qDebug() << j;
+
+
+
+                    /***************************************************
+                                   CREATING THE WRAPPERS
+                    ****************************************************/
+                    this->soundAdded(new SoundWrapper(fileArray,playbackmode,QKeySequence(shortcutString),shortcutVirtualKey,
+                                                    this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole),
+                                                    this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole),
+                                                    pttVirtualKey,pttScanCode,nullptr));
+
+
+                } // end for auto wrapper
+        } // end if json contains wrapper
+         //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
+
+
+
+
+
+
+    }//endif file was opened
+}
+
+void SoundboardMainUI::ClearAll()
+{
+    /***************************************************
+                        SOUNDS
+    ****************************************************/
+    for (auto &i: this->_sounds)
+        delete i;
+    //    clearing just in case
+    _sounds.clear();
+
+    /***************************************************
+                        SHORTCUTS
+    ****************************************************/
+    this->_keySequence.clear();
+    this->_keyVirtualKey.clear();
+
+    // Unregistering shortcuts
+    for (auto i: _winShorcutHandle)
+        UnregisterHotKey(NULL,i);
+    // clearing the table
+    _winShorcutHandle.clear();
+
+    this->_shortcutEditPTT->clear();
+    this->_shortcutEditStop->clear();
+
+
+    /***************************************************
+                          MODEL
+    ****************************************************/
+    _model->clear();
+    _model->setHorizontalHeaderLabels(
+        (QStringList() << "Sound"
+                       << "Shortcut")
+                       << "Mode");
+
+    /***************************************************
+                          DATA
+    ****************************************************/
+    // clearing data table as well
+    // the objects SHOULD have been deleted when clearing the model
+    //TODO: check khow to delete later those items, just in case forsenT
+    this->_data.clear();
+    /***************************************************
+                       COMBO BOXES
+    ****************************************************/
+    this->_deviceListOutput->setCurrentIndex(0);
+    this->_deviceListVAC->setCurrentIndex(0);
+
 }

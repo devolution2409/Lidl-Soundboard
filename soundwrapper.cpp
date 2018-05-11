@@ -7,7 +7,8 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 
 
 // Constructor to be used in the add sound window
-SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent) : QObject(parent)
+SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
+    :SoundWrapper::SoundWrapper(parent)
 {
     for(int row = 0; row < soundList->count(); row++)
     {
@@ -21,8 +22,8 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
     this->setKeySequence(*shortcut);
      //qDebug() << this->_playMode;
      //qDebug() << this->_keySequence.toString();
-    this->_player = new CustomPlayer(this->getSoundList(),this->getPlayMode());
 
+    this->_player = new CustomPlayer(this->getSoundList(),this->getPlayMode());
 }
 
 
@@ -33,6 +34,27 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
    _virtualKey  = virtualKey;
 
 }
+
+SoundWrapper::SoundWrapper(QVector<QString> fileList, int playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
+                           int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
+            : SoundWrapper::SoundWrapper(parent)
+{
+
+    for (auto i: fileList)
+        this->addSound(i);
+
+    this->setPlayMode(playbackMode);
+
+    this->_player = new CustomPlayer(this->getSoundList(),this->getPlayMode());
+    this->setKeySequence(shortcut);
+    this->_virtualKey = shortcutVirtualKey;
+    this->setPlayerPTTScanCode(pttSC);
+    this->setPlayerPTTVirtualKey(pttVK);
+    this->setPlayerMainOutput(mainOutput);
+    this->setPlayerVACOutput(vacOutput);
+
+}
+
 
 /********************************************
  *                SLOT                      *
@@ -46,6 +68,7 @@ void SoundWrapper::Play()
 void SoundWrapper::Stop()
 {
     _player->Stop();
+    _player->unHoldPTT();
 }
 
 

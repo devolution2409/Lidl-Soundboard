@@ -178,6 +178,10 @@ public slots:
       QJsonObject * GenerateSaveFile();
       // Save as slot
       void SaveAs();
+      // open slot
+      void Open();
+      // Clear the soundboard
+      void ClearAll();
 };
 
 

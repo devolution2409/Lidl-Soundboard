@@ -47,11 +47,21 @@ public:
                  QKeySequence * shortcut,
                  QObject *parent = nullptr   );
 
-
+// Constructor when we add a file from the sound property dialog
     SoundWrapper(QListWidget *soundList,
                  int playbackMode,
                  QKeySequence * shortcut,
                  int virtualKey,
+                 QObject *parent = nullptr   );
+// Constructor for when we OPEN a soundboard json file
+    SoundWrapper(QVector<QString> fileList,
+                 int playbackMode,
+                 QKeySequence  shortcut,
+                 int shortcutVirtualKey,
+                 int mainOutput = -1,
+                 int vacOutput = -1,
+                 int pttVK =-1,
+                 int pttSC = -1,
                  QObject *parent = nullptr   );
 
     //Accesseurs
