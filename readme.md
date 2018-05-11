@@ -18,8 +18,6 @@ JUST UNZIP AND LAUNCH THE EXE LOOOOOOOOOOOOOL 4HEad
 
 ### Configuration for proper cancer
 
-
-
 #### Select main audio output device
 
 Only if you wanna hear your own cancer.
@@ -39,6 +37,8 @@ If you wanna be able to talk in game while also being able to send sounds, check
 So that the soundboard hold the game PTT key for you, if you set it accordingly in the settings.
 
 ## Versioning
+ * 1.0.1: Added drag and drop functionnality to the sound edit window.
+ * 1.0.0: Everything works forsenE.
  * 0.60: Can now save the soundboard as a json text and open it. 
  	     It will save every thing.
  * 0.50: Everything works. Mic injection will be done by the system as explained in the guide
@@ -48,10 +48,6 @@ So that the soundboard hold the game PTT key for you, if you set it accordingly 
  * 0.4: Shortcuts are now stored as virtual key. So every key should be usable, regardless of keyboard localization.
  * 0.3: Pre-Release. Sound can be played and most of the key are usable as binds.
 
-## Known issues
-
-### 0.6
-	Some menus action are not implemented yet.
 ## License
 
 Blabla, some licence shit that says this is open source and free to fork. But please acknowledge me so i can ride into valhalla shinny and chrome.
