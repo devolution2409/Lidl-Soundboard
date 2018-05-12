@@ -493,8 +493,6 @@ void SoundboardMainUI::setUpMenu()
 //Reimplementing to kill all shortcuts
 void SoundboardMainUI::closeEvent (QCloseEvent *event)
 {
-
-
     for (auto i: _winShorcutHandle)
     {
         UnregisterHotKey(NULL,i);
@@ -540,88 +538,84 @@ void SoundboardMainUI::openAudioSettings()
 }
 
 
-QJsonObject * SoundboardMainUI::GenerateSaveFile()
+//This thing will create a txt file for the soundboard to store *.lidljson locations
+// so that they can be added in the c OMEGALUL mbo box
+//void GenerateLidlLocations()
+//{
+
+
+
+//}
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************
+                    FILE MENU SLOTS
+****************************************************/
+
+
+// CLEAR ALL aka New
+void SoundboardMainUI::ClearAll()
 {
-     // creating the new JSon object
-     QJsonObject * save = new QJsonObject();
+    /***************************************************
+                        SOUNDS
+    ****************************************************/
+    for (auto &i: this->_sounds)
+    {
+        i->Stop();
+        delete i;
+    }
+    //    clearing just in case
+    _sounds.clear();
 
-     // Storing settings
-     QJsonObject  settings;
-     settings.insert("Main Output Device", this->_deviceListOutput->currentText());
-     settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
+    /***************************************************
+                        SHORTCUTS
+    ****************************************************/
+    this->_keySequence.clear();
+    this->_keyVirtualKey.clear();
 
-     QJsonObject pttKey;
-     pttKey.insert("Key Name",this->_shortcutEditPTT->getText());
-     pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
-     pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
-     settings.insert("Push To Talk Key",pttKey);
+    // Unregistering shortcuts
+    for (auto i: _winShorcutHandle)
+        UnregisterHotKey(NULL,i);
+    // clearing the table
+    _winShorcutHandle.clear();
 
-     QJsonObject stopSoundKey;
-     stopSoundKey.insert("Key Name",this->_shortcutEditStop->getText());
-     stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
-     settings.insert("Stop Sound Key",stopSoundKey);
+    this->_shortcutEditPTT->clear();
+    this->_shortcutEditStop->clear();
 
-     save->insert("Settings",settings);
 
-     QJsonArray sounds;
-     for (auto &i: _sounds)
-     {
-         // creating temp sound collection
-         QJsonObject tempSound;
-         tempSound.insert("Playback Mode",i->getPlayMode());
-         qDebug() << i->getPlayMode();
-         QJsonObject key;
-         key.insert("Key",i->getKeySequence().toString());
-         key.insert("VirtualKey", i->getShortcutVirtualKey());
-         tempSound.insert("Shortcut",key);
-         // The sound collection
-         QJsonArray soundCollection;
-         QVector<QFile*> soundList = i->getSoundList();
-         for (auto &j: soundList)
-             soundCollection.append(j->fileName());
+    /***************************************************
+                          MODEL
+    ****************************************************/
+    _model->clear();
+    _model->setHorizontalHeaderLabels(
+        (QStringList() << "Sound"
+                       << "Shortcut")
+                       << "Mode");
 
-        tempSound.insert("Sound Collection",soundCollection);
-        sounds.append(tempSound);
-     }
-     save->insert("SoundWrappers",sounds);
-     return save;
+    /***************************************************
+                          DATA
+    ****************************************************/
+    // clearing data table as well
+    // the objects SHOULD have been deleted when clearing the model
+    //TODO: check khow to delete later those items, just in case forsenT
+    this->_data.clear();
+    /***************************************************
+                       COMBO BOXES
+    ****************************************************/
+    this->_deviceListOutput->setCurrentIndex(0);
+    this->_deviceListVAC->setCurrentIndex(0);
 }
 
-void SoundboardMainUI::SaveAs()
-{
-/*QFileDialog::getSaveFileName(QWidget *parent = Q_NULLPTR,
-                                const QString &caption = QString(),
-                                const QString &dir = QString(),
-                                const QString &filter = QString(),
-                                QString *selectedFilter = Q_NULLPTR,
-                                 Options options = Options())
-*/
-QString fileName  = QFileDialog::getSaveFileName(this,
-                                                 tr("Save Soundboard As.."),
-                                                 "" ,
-                                                 tr("LIDL JSON file(*.lidljson)"));
-    fileName.append(".json");
-    QJsonObject *save = GenerateSaveFile();
-    QJsonDocument *doc = new QJsonDocument(*save);
-    QString jsonString = doc->toJson(QJsonDocument::Indented);
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly))
-    {
-
-        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
-        return;
-    }
-    else
-    {
-        this->_saveName = fileName;
-        QTextStream out(&file);
-        out.setCodec("UTF-8");
-        out << jsonString.toUtf8();
-        file.close();
-    }
-}
-
-
+// Open
 void SoundboardMainUI::Open()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("LIDL JSON file(*.lidljson)"));
@@ -758,59 +752,7 @@ void SoundboardMainUI::Open()
     }//endif file was opened
 }
 
-void SoundboardMainUI::ClearAll()
-{
-    /***************************************************
-                        SOUNDS
-    ****************************************************/
-    for (auto &i: this->_sounds)
-    {
-        i->Stop();
-        delete i;
-    }
-    //    clearing just in case
-    _sounds.clear();
-
-    /***************************************************
-                        SHORTCUTS
-    ****************************************************/
-    this->_keySequence.clear();
-    this->_keyVirtualKey.clear();
-
-    // Unregistering shortcuts
-    for (auto i: _winShorcutHandle)
-        UnregisterHotKey(NULL,i);
-    // clearing the table
-    _winShorcutHandle.clear();
-
-    this->_shortcutEditPTT->clear();
-    this->_shortcutEditStop->clear();
-
-
-    /***************************************************
-                          MODEL
-    ****************************************************/
-    _model->clear();
-    _model->setHorizontalHeaderLabels(
-        (QStringList() << "Sound"
-                       << "Shortcut")
-                       << "Mode");
-
-    /***************************************************
-                          DATA
-    ****************************************************/
-    // clearing data table as well
-    // the objects SHOULD have been deleted when clearing the model
-    //TODO: check khow to delete later those items, just in case forsenT
-    this->_data.clear();
-    /***************************************************
-                       COMBO BOXES
-    ****************************************************/
-    this->_deviceListOutput->setCurrentIndex(0);
-    this->_deviceListVAC->setCurrentIndex(0);
-
-}
-
+// Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("EXP Sounboard JSON  (.json)"));
@@ -861,7 +803,55 @@ void SoundboardMainUI::OpenEXPSounboard()
     }
 }
 
+// This function will generate the save file used by the save and SaveAs slots
+QJsonObject * SoundboardMainUI::GenerateSaveFile()
+{
+     // creating the new JSon object
+     QJsonObject * save = new QJsonObject();
 
+     // Storing settings
+     QJsonObject  settings;
+     settings.insert("Main Output Device", this->_deviceListOutput->currentText());
+     settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
+
+     QJsonObject pttKey;
+     pttKey.insert("Key Name",this->_shortcutEditPTT->getText());
+     pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
+     pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
+     settings.insert("Push To Talk Key",pttKey);
+
+     QJsonObject stopSoundKey;
+     stopSoundKey.insert("Key Name",this->_shortcutEditStop->getText());
+     stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
+     settings.insert("Stop Sound Key",stopSoundKey);
+
+     save->insert("Settings",settings);
+
+     QJsonArray sounds;
+     for (auto &i: _sounds)
+     {
+         // creating temp sound collection
+         QJsonObject tempSound;
+         tempSound.insert("Playback Mode",i->getPlayMode());
+         qDebug() << i->getPlayMode();
+         QJsonObject key;
+         key.insert("Key",i->getKeySequence().toString());
+         key.insert("VirtualKey", i->getShortcutVirtualKey());
+         tempSound.insert("Shortcut",key);
+         // The sound collection
+         QJsonArray soundCollection;
+         QVector<QFile*> soundList = i->getSoundList();
+         for (auto &j: soundList)
+             soundCollection.append(j->fileName());
+
+        tempSound.insert("Sound Collection",soundCollection);
+        sounds.append(tempSound);
+     }
+     save->insert("SoundWrappers",sounds);
+     return save;
+}
+
+// Save
 void SoundboardMainUI::Save()
 {
     // if file doesn't exist we throw the save as prompt
@@ -891,6 +881,49 @@ void SoundboardMainUI::Save()
         }
     }
 }
+
+// Save as
+void SoundboardMainUI::SaveAs()
+{
+/*QFileDialog::getSaveFileName(QWidget *parent = Q_NULLPTR,
+                                const QString &caption = QString(),
+                                const QString &dir = QString(),
+                                const QString &filter = QString(),
+                                QString *selectedFilter = Q_NULLPTR,
+                                 Options options = Options())
+*/
+QString fileName  = QFileDialog::getSaveFileName(this,
+                                                 tr("Save Soundboard As.."),
+                                                 "" ,
+                                                 tr("LIDL JSON file(*.lidljson)"));
+    fileName.append(".json");
+    QJsonObject *save = GenerateSaveFile();
+    QJsonDocument *doc = new QJsonDocument(*save);
+    QString jsonString = doc->toJson(QJsonDocument::Indented);
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return;
+    }
+    else
+    {
+        this->_saveName = fileName;
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        out << jsonString.toUtf8();
+        file.close();
+    }
+}
+
+
+
+
+
+/***************************************************
+                    HELP MENU SLOTS
+****************************************************/
 
 void SoundboardMainUI::HelpGuide()
 {
@@ -954,3 +987,21 @@ void SoundboardMainUI::HelpAbout()
 
     zulul->show();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

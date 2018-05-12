@@ -72,15 +72,18 @@ private:
     int _mainChannel;
     int _vacChannel;
 
-
+    // Devices numbers
     int _mainOutputDevice;
     int _VACOutputDevice;
 
+    // PTT ScanCode and VirtualKey
     int _PTTScanCode;
     int _PTTVirtualKey;
 
+
+
     // handle
-    QVector<int>    _streamHandle;
+    //QVector<int>    _streamHandle;
     void holdPTT(int duration);
 
 

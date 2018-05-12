@@ -42,9 +42,6 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _btnDelete->setEnabled(false);
 
     _soundListHint = new QLabel("💡 You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.");
-    _gLayout->addWidget(_soundListHint,0,0,1,4);
-    _gLayout->addWidget(_btnAdd,1,0,1,2);
-    _gLayout->addWidget(_btnDelete,1,2,1,2);
 
 
 
@@ -75,13 +72,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _radioGroup->addButton(_radioSequential,2);
     _radioGroup->addButton(_radioAuto,3);
 
-     // Displaying widget
-    _gLayout->addWidget(_radioGroupBox,1,0,1,4);
 
-
-
-    //_gLayout->addWidget(_btnAdd,2,0,1,4);
-    //_gLayout->addWidget(_btnDelete,2,1,1,4);
 
 
     /*******************************************************
@@ -103,15 +94,31 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _shortcutWarning = new QLabel("⚠️ Don't use the same shortcut twice, it will not work.");
     _shortcutLayout->addWidget(_shortcutWarning,2,0,1,3);
 
-    _gLayout->addWidget(_shortcutGroup,2,0,1,4);
 
 
     //Done button
     _btnDone = new QPushButton("Done!");
-    _gLayout->addWidget(_btnDone,3,0,1,3);
+
     //Abort button
     _btnAbort = new QPushButton("Abort mission");
-    _gLayout->addWidget(_btnAbort,3,3,1,1);
+
+
+    /*******************************************************
+     *                                                     *
+     *                 Displaying widget                   *
+     *                                                     *
+     *******************************************************/
+    _gLayout->addWidget(_btnAdd,0,0,1,2);
+    _gLayout->addWidget(_btnDelete,0,2,1,2);
+    _gLayout->addWidget(_soundListHint,1,0,2,4);
+    _gLayout->addWidget(_radioGroupBox,3,0,1,4);
+    _gLayout->addWidget(_shortcutGroup,4,0,1,4);
+    _gLayout->addWidget(_btnDone,5,0,1,3);
+    _gLayout->addWidget(_btnAbort,5,3,1,1);
+
+
+
+
 
     /*******************************************************
      *                                                     *

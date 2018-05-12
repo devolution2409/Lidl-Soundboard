@@ -162,8 +162,8 @@ void CustomPlayer::SetVACDevice(int deviceIndex)
 CustomPlayer::~CustomPlayer()
 {
     // not sure if this is needed?
-    for (auto i:_streamHandle)
-        BASS_StreamFree(i);
+    //  for (auto i:_streamHandle)
+    //    BASS_StreamFree(i);
 }
 
 void CustomPlayer::SetPTTScanCode(int scanCode)

@@ -84,10 +84,13 @@ class SoundboardMainUI : public QWidget
 
 private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
+
     // sound list
     QVector<SoundWrapper*> _sounds;
     // shorcut list, we need to store both shortcut and scancodes forsenT. TODO: revamp this whole shit with a class i guess
+
     // no sure the _keySequence is needed forsenT
+    // Key sequence is needed for display purposes.
     QVector<QKeySequence> _keySequence;
     QVector<int>          _keyVirtualKey;
     // Windows Shorcut HANDLE for the sound shortcuts
@@ -182,7 +185,11 @@ public slots:
 
       void openAudioSettings();
 
+      //Soundboard as JSON
       QJsonObject * GenerateSaveFile();
+      //Json for saving the json path forsenT
+      //void GenerateLidlLocations();
+
       // save slot
       void Save();
       // Save as slot
@@ -199,6 +206,10 @@ public slots:
       void HelpReportBug();
       // About
       void HelpAbout();
+      // Json config
+
+
+
 };
 
 
