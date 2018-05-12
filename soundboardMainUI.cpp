@@ -494,11 +494,11 @@ void SoundboardMainUI::setUpMenu()
 void SoundboardMainUI::closeEvent (QCloseEvent *event)
 {
 
+
     for (auto i: _winShorcutHandle)
     {
         UnregisterHotKey(NULL,i);
     }
-
     // send message to stop the listening loop L OMEGALUL OMEGALUL P
     PostQuitMessage(0);
     QWidget::closeEvent(event);
@@ -589,8 +589,18 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
 
 void SoundboardMainUI::SaveAs()
 {
-    QString fileName  = QFileDialog::getSaveFileName(this,"Save Soundboard As..","",".txt");
-    fileName.append(".txt");
+/*QFileDialog::getSaveFileName(QWidget *parent = Q_NULLPTR,
+                                const QString &caption = QString(),
+                                const QString &dir = QString(),
+                                const QString &filter = QString(),
+                                QString *selectedFilter = Q_NULLPTR,
+                                 Options options = Options())
+*/
+QString fileName  = QFileDialog::getSaveFileName(this,
+                                                 tr("Save Soundboard As.."),
+                                                 "" ,
+                                                 tr("LIDL JSON file(*.lidljson)"));
+    fileName.append(".json");
     QJsonObject *save = GenerateSaveFile();
     QJsonDocument *doc = new QJsonDocument(*save);
     QString jsonString = doc->toJson(QJsonDocument::Indented);
@@ -614,7 +624,7 @@ void SoundboardMainUI::SaveAs()
 
 void SoundboardMainUI::Open()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),tr("JSON text file (.txt)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("LIDL JSON file(*.lidljson)"));
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
     {   // We clear the soundboard
@@ -803,7 +813,8 @@ void SoundboardMainUI::ClearAll()
 
 void SoundboardMainUI::OpenEXPSounboard()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),tr("EXP Sounboard JSON  (.json)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("EXP Sounboard JSON  (.json)"));
+
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
     {   // We clear the soundboard
