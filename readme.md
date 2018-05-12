@@ -36,6 +36,11 @@ If you wanna be able to talk in game while also being able to send sounds, check
 
 So that the soundboard hold the game PTT key for you, if you set it accordingly in the settings.
 
+## Planned features
+ * Being able to set volume for each sound added in a sound collection.
+ * Being able to open recent soundboards, or swap them with a combo box. (will require a settings.json file or smth).
+ * Auto-updater (maybe LUL).
+
 ## Versioning
  * 1.1.1: Fixed soundboard opening not displaying properly the auto-hold ptt bind and the stop all bind (Would still work, just not being displayed).
  * 1.1.0: Added drag and drop functionnality to the sound edit window.
