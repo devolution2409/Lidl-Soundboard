@@ -4,6 +4,13 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 {
     _mainOutputDevice = 0;
     _VACOutputDevice = 0;
+    _timerSequential = new QTimer();
+    _timerPTT = new QTimer();
+//    _timerSequential->setSingleShot(true);
+//    _timerPTT->setSingleShot(true);
+
+    connect(_timerSequential,SIGNAL(timeout()),this,SLOT(PlayNext()));
+    connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
 
 }
 
@@ -19,6 +26,9 @@ CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *paren
 // index is already initialized at 0 in constructor
 void CustomPlayer::PlayNext()
 {
+    // stop the sequential auto timer in case it is running.
+    _timerSequential->stop();
+
     // if index is OOB from previous playing, we reset it
     // soundlist size returns actual size
     // ie 2 when we have [0] and [1] element.
@@ -64,10 +74,7 @@ void CustomPlayer::PlayNext()
                 // else we continue
                  qDebug() << _index << "soundlist size:" << _soundList.size();
                 if (_index < _soundList.size()  )
-                {
-                    qDebug() << "DansGame" << _index;
-                    QTimer::singleShot(duration+100,this,SLOT(PlayNext()));
-                }
+                    _timerSequential->start(duration+100);
         }
 
 
@@ -81,7 +88,10 @@ void CustomPlayer::Stop()
 {
     BASS_ChannelStop(_mainChannel);
     BASS_ChannelStop(_vacChannel);
+    this->unHoldPTT();
     _shouldPlay = true;
+    _timerPTT->stop();
+    _timerSequential->stop();
 }
 
 
@@ -129,7 +139,9 @@ double CustomPlayer::PlayAt(int index)
     // if it's not empty (clearing it in the main ui will set both
     // VirtualKey and ScanCode to to -1
     if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
-        this->holdPTT(static_cast<int>(duration*1000) );
+        _timerPTT->start(static_cast<int>(duration*1000) );
+
+        //this->holdPTT(static_cast<int>(duration*1000) );
 
 
 
@@ -161,9 +173,6 @@ void CustomPlayer::SetVACDevice(int deviceIndex)
 
 CustomPlayer::~CustomPlayer()
 {
-    // not sure if this is needed?
-    //  for (auto i:_streamHandle)
-    //    BASS_StreamFree(i);
 }
 
 void CustomPlayer::SetPTTScanCode(int scanCode)
@@ -194,6 +203,8 @@ void CustomPlayer::unHoldPTT()
 {
     // Unpressing the key physically
     keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    // stopping the timer else PTT will be unhold on each tick forsenT
+    _timerPTT->stop();
 }
 
 

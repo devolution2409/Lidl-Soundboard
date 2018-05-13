@@ -80,10 +80,11 @@ private:
     int _PTTScanCode;
     int _PTTVirtualKey;
 
+    // Timers that needs to be canceled if the sound is stopped
+    QTimer * _timerSequential;
+    QTimer * _timerPTT;
 
 
-    // handle
-    //QVector<int>    _streamHandle;
     void holdPTT(int duration);
 
 
