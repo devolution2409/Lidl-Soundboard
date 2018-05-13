@@ -75,8 +75,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.1.1
-#define VER_STRING "1.1.1"
+#define VER 1.1.2
+#define VER_STRING "1.1.2"
 
 class SoundboardMainUI : public QWidget
 {
