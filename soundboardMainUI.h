@@ -79,8 +79,9 @@
 #define VER_STRING "1.1.3"
 
 #include "QSimpleUpdater.h"
-
-class SoundboardMainUI : public QWidget
+#include <QMainWindow>
+#include <QStatusBar>
+class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
 
@@ -110,7 +111,8 @@ private:
     /***************************************************
                             MENU
     ****************************************************/
-    QMenuBar *_menuBar;
+    //QMenuBar *_menuBar;
+    // We already have this->MenuBar() since we QMainWindow now
     QVector<QAction*> _actions;
 
     // view
@@ -152,6 +154,8 @@ private:
     void setUpMenu();
     void closeEvent (QCloseEvent *event);
 
+    bool checkFileExistence(QString fileName);
+
     // Will return true if update is available
     bool IsUpdateAvailable();
 
@@ -164,57 +168,58 @@ private:
     ****************************************************/
     QString _saveName;
 
+
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 signals:
 
 public slots:
-     //This slot will allow us to add a sound, opens a file explorer dialogue
-      void addSoundDialog();
-      void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1);
-      void soundModified(SoundWrapper * modifiedSound);
-      // Slots for where user click or double click a cell
-      void onCellClicked(QModelIndex index);
-      void onCellDoubleClicked(QModelIndex index);
-      void deleteSound();
-      void editSoundDialog();
+    //This slot will allow us to add a sound, opens a file explorer dialogue
+    void addSoundDialog();
+    void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1);
+    void soundModified(SoundWrapper * modifiedSound);
+    // Slots for where user click or double click a cell
+    void onCellClicked(QModelIndex index);
+    void onCellDoubleClicked(QModelIndex index);
+    void deleteSound();
+    void editSoundDialog();
 
-      void enableButtons();
-      void disableButtons();
-      void winHotKeyPressed(int);
-      void GenerateGlobalShortcuts();
+    void enableButtons();
+    void disableButtons();
+    void winHotKeyPressed(int);
+    void GenerateGlobalShortcuts();
 
-      void resetPushToTalkEdit();
-      void setStopShortcut(int);
-      void resetStopAllEdit();
-
-
-      void openAudioSettings();
-
-      //Soundboard as JSON
-      QJsonObject * GenerateSaveFile();
-      //Json for saving the json path forsenT
-      //void GenerateLidlLocations();
-
-      // save slot
-      void Save();
-      // Save as slot
-      void SaveAs();
-      // open slot
-      void Open();
-      // Clear the soundboard
-      void ClearAll();
-      // EXP soundboard compatibility
-      void OpenEXPSounboard();
-      // help guide slot
-      void HelpGuide();
-      // help report bug
-      void HelpReportBug();
-      // About
-      void HelpAbout();
-      // Json config
+    void resetPushToTalkEdit();
+    void setStopShortcut(int);
+    void resetStopAllEdit();
 
 
+    void openAudioSettings();
+
+    //Soundboard as JSON
+    QJsonObject * GenerateSaveFile();
+    //Json for saving the json path forsenT
+    //void SaveSettings();
+
+    // save slot
+    void Save();
+    // Save as slot
+    void SaveAs();
+    // open slot
+    void Open();
+    // Clear the soundboard
+    void ClearAll();
+    // EXP soundboard compatibility
+    void OpenEXPSounboard();
+    // help guide slot
+    void HelpGuide();
+    // help report bug
+    void HelpReportBug();
+    // About
+    void HelpAbout();
+
+    void ErrorUnexistant();
+    void HelpCheckForUpdate();
 
 };
 

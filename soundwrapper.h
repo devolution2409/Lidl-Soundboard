@@ -99,8 +99,10 @@ private:
     int _virtualKey;
     // the player to play the sounds
     CustomPlayer * _player;
-signals:
 
+    bool checkFileExistence(QString fileName);
+signals:
+    void UnexistantFile();
 public slots:
     void Play();
     void Stop();

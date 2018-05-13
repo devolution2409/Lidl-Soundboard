@@ -1,14 +1,18 @@
 #include "soundboardMainUI.h"
 
-SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
+SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
 
+
     // Setting up the layouts
-    vLayout = new QVBoxLayout(this);
+    vLayout = new QVBoxLayout();
     // not need since adding a parent in the constructor set layout by itself
-    // this->setLayout(vLayout);
+
+    // since we QMainWindow now we need to set central widget forsenT
+    this->setCentralWidget(new QWidget(this));
+    this->centralWidget()->setLayout(vLayout);
     //Adding Menu bar
     this->setUpMenu();
 
@@ -131,6 +135,13 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
       // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
+      /***************************************************
+                         STATUS BAR
+      ****************************************************/
+      this->statusBar()->show();
+      this->statusBar()->setStyleSheet( "background: #727272; border: 1px solid black" );
+      this->statusBar()->setSizeGripEnabled(false);
+
 
       /***************************************************
                TODO: PUT IN RELEVANT SECTION forsenT
@@ -240,7 +251,6 @@ void SoundboardMainUI::deleteSound()
 // Add a sound if whereToInsert isn't
 void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert)
 {
-
     //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
@@ -251,8 +261,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
 
     // connecting the stop btn
     connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
-
-
+    // connecting the status bar signal
+    connect(modifiedSound,SIGNAL(UnexistantFile()),this,SLOT(ErrorUnexistant()));
 
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -448,10 +458,12 @@ void SoundboardMainUI::setUpMenu()
     /***************************************************
                             FILE
     ****************************************************/
-    _menuBar = new QMenuBar(this);
-    _menuBar->setFixedHeight(20);
-    vLayout->addWidget(_menuBar);
-    QMenu * fileMenu = _menuBar->addMenu(tr("File"));
+
+    //menuBar = new QMenuBar(this);
+    QMenuBar * menuBar= this->menuBar();
+    menuBar->setFixedHeight(20);
+    //vLayout->addWidget(menuBar);
+    QMenu * fileMenu = menuBar->addMenu(tr("File"));
     _actions.append(   new QAction("New",this)); //0
     _actions.append(   new QAction("Open",this)); //1
     _actions.append(   new QAction("Open EXP soundboard file",this)); //2
@@ -474,13 +486,18 @@ void SoundboardMainUI::setUpMenu()
     /***************************************************
                             Help
     ****************************************************/
-    QMenu * helpMenu = _menuBar->addMenu(tr("Help"));
-    _actions.append(   new QAction("Guide",this));
-    _actions.append(   new QAction("Report a bug or request a feature",this));
-    _actions.append(   new QAction("About LIDL Soundboard",this));
+    QMenu * helpMenu = menuBar->addMenu(tr("Help"));
+    _actions.append(   new QAction("Guide",this));  //6
+    _actions.append(   new QAction("Check for update..",this)); //7
+    _actions.append(   new QAction("Report a bug or request a feature",this)); //8
+    _actions.append(   new QAction("About LIDL Soundboard",this)); //9
+
     helpMenu->addAction(_actions.at(6));
+    helpMenu->addSeparator();
     helpMenu->addAction(_actions.at(7));
     helpMenu->addAction(_actions.at(8));
+    helpMenu->addSeparator();
+    helpMenu->addAction(_actions.at(9));
     /***************************************************
                            CONNECTIONS
     ****************************************************/
@@ -491,8 +508,9 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(2),SIGNAL(triggered()),this,SLOT(OpenEXPSounboard()));
     connect(this->_actions.at(3),SIGNAL(triggered()),this,SLOT(Save()));
     connect(this->_actions.at(6),SIGNAL(triggered()),this,SLOT(HelpGuide()));
-    connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
-    connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpAbout()));
+    connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
+    connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
+    connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
 }
 
 //Reimplementing to kill all shortcuts
@@ -700,6 +718,9 @@ void SoundboardMainUI::Open()
         // need to update the VirtualKey aswell in case we save afterwards, else it will be -1
         this->_shortcutEditStop->setVirtualKey(stopVirtualKey);
         // The wrapper stuff
+
+
+
         if (json.contains("SoundWrappers"))
         {
             QJsonArray wrappersArray = json.value("SoundWrappers").toArray();
@@ -711,8 +732,6 @@ void SoundboardMainUI::Open()
                 QString shortcutString;
                 int shortcutVirtualKey;
                 QVector<QString> fileArray;
-
-
                 // Playback
                 if (item.contains("Playback Mode"))
                     playbackmode = item.value("Playback Mode").toInt();
@@ -842,7 +861,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
          // creating temp sound collection
          QJsonObject tempSound;
          tempSound.insert("Playback Mode",i->getPlayMode());
-         qDebug() << i->getPlayMode();
+         // qDebug() << i->getPlayMode();
          QJsonObject key;
          key.insert("Key",i->getKeySequence().toString());
          key.insert("VirtualKey", i->getShortcutVirtualKey());
@@ -947,7 +966,7 @@ void SoundboardMainUI::HelpReportBug()
 void SoundboardMainUI::HelpAbout()
 {
     QDialog * zulul = new QDialog(this);
-    zulul->setFixedSize(476,254);
+    zulul->setFixedSize(485,254);
     zulul->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
     zulul->setWindowTitle("About LIDL Soundboard");
     QGridLayout *layout = new QGridLayout(zulul);
@@ -1000,24 +1019,23 @@ void SoundboardMainUI::HelpAbout()
 
 
 
-bool SoundboardMainUI::IsUpdateAvailable()
+void SoundboardMainUI::HelpCheckForUpdate()
 {
+    this->statusBar()->showMessage("Checking for updates...");
     QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
     //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
-    //QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
+    QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
     QSimpleUpdater::getInstance()->checkForUpdates (url);
-
+    this->statusBar()->clearMessage();
 }
 
 
 
 
-
-
-
-
-
-
+void SoundboardMainUI::ErrorUnexistant()
+{
+    this->statusBar()->showMessage("The files marked with ⚠️ aren't present on disk.");
+}
 
 
 

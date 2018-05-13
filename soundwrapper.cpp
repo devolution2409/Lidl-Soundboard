@@ -32,9 +32,9 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
     : SoundWrapper(soundList, playbackMode,shortcut,parent)
 {
    _virtualKey  = virtualKey;
-
 }
 
+// Constructor used when opening a file
 SoundWrapper::SoundWrapper(QVector<QString> fileList, int playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
                            int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
             : SoundWrapper::SoundWrapper(parent)
@@ -101,6 +101,12 @@ QString SoundWrapper::getSoundListAsQString()
     for (auto &i: _soundList)
     {
         fileInfo.setFile(*i);
+        // if the file doesn't exist we put a warning sign
+        if (!fileInfo.exists())
+        {
+            tmpString.append("⚠️");
+            emit UnexistantFile();
+        }
         tmpString.append(fileInfo.fileName());
         tmpString.append("\n");
 
@@ -220,3 +226,11 @@ void SoundWrapper::setPlayerVACOutput(int index)
 {
     this->_player->SetVACDevice(index);
 }
+
+bool SoundWrapper::checkFileExistence(QString fileName)
+{
+    QFile temp(fileName);
+    return temp.exists();
+}
+
+
