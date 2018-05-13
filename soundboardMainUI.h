@@ -75,8 +75,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.1.3
-#define VER_STRING "1.1.3"
+#define VER 1.1.4
+#define VER_STRING "1.1.4"
 
 #include "QSimpleUpdater.h"
 #include <QMainWindow>
