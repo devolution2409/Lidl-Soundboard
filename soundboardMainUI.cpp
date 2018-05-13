@@ -765,8 +765,7 @@ void SoundboardMainUI::Open()
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("EXP Sounboard JSON  (.json)"));
-
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("EXP Sounboard JSON  (*.json)"));
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
     {   // We clear the soundboard
