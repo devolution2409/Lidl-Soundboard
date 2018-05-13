@@ -46,6 +46,18 @@ int CustomShortcutEdit::getScanCode()
 {
     return _scanCode;
 }
+// to set pause button when we open and PTT aswell
+void CustomShortcutEdit::setVirtualKey(int vk)
+{
+    this->_virtualKey = vk;
+}
+
+// to set pause button when we open
+void CustomShortcutEdit::setScanCode(int sc)
+{
+    this->_scanCode = sc;
+}
+
 
 // This slot is called whenever the editing is done
 void CustomShortcutEdit::sendSignal()

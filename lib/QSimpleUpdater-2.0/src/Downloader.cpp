@@ -248,7 +248,9 @@ void Downloader::calculateSizes (qint64 received, qint64 total) {
 // Downloader::updateProgress
 //==============================================================================
 
-void Downloader::updateProgress (qint64 received, qint64 total) {
+void Downloader::updateProgress (qint64 received, qint64 total)
+{
+   // qDebug() << "Total byte to be recieved:" << total;
     if (total > 0) {
         m_ui->progressBar->setMinimum (0);
         m_ui->progressBar->setMaximum (100);

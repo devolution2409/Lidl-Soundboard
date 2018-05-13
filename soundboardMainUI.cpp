@@ -146,8 +146,13 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QWidget(parent)
       connect(this->resultView,SIGNAL(enableButtons()),this,SLOT(enableButtons()));
       connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
 
-
+      // Declaring savename empty string so save doesn't work forsenE
       this->_saveName = "";
+
+      // Check for update
+     // this->IsUpdateAvailable();
+
+
 }
 
 
@@ -525,6 +530,7 @@ void SoundboardMainUI::resetStopAllEdit()
 
 void SoundboardMainUI::setStopShortcut(int virtualKey)
 {
+    qDebug() << "virtual key" << virtualKey;
     UnregisterHotKey(NULL,2147483647);
     RegisterHotKey(NULL,2147483647,0, virtualKey);
 
@@ -685,10 +691,14 @@ void SoundboardMainUI::Open()
                           SETTING KEY SEQUENCES
         ****************************************************/
         this->_shortcutEditPTT->setKeySequence(QKeySequence(pttName));
+        // need to update VK and SC else it will be -1 if we save right away
+        this->_shortcutEditPTT->setScanCode(pttScanCode);
+        this->_shortcutEditPTT->setVirtualKey(pttVirtualKey);
+
         this->_shortcutEditStop->setKeySequence(QKeySequence(stopName));
         this->setStopShortcut(stopVirtualKey);
-
-
+        // need to update the VirtualKey aswell in case we save afterwards, else it will be -1
+        this->_shortcutEditStop->setVirtualKey(stopVirtualKey);
         // The wrapper stuff
         if (json.contains("SoundWrappers"))
         {
@@ -991,7 +1001,14 @@ void SoundboardMainUI::HelpAbout()
 
 
 
+bool SoundboardMainUI::IsUpdateAvailable()
+{
+    QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
+    //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
+    //QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
+    QSimpleUpdater::getInstance()->checkForUpdates (url);
 
+}
 
 
 

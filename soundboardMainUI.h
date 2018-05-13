@@ -78,6 +78,8 @@
 #define VER 1.1.2
 #define VER_STRING "1.1.2"
 
+#include "QSimpleUpdater.h"
+
 class SoundboardMainUI : public QWidget
 {
     Q_OBJECT
@@ -149,6 +151,10 @@ private:
     void fetchDeviceList(QComboBox*,QAudio::Mode);
     void setUpMenu();
     void closeEvent (QCloseEvent *event);
+
+    // Will return true if update is available
+    bool IsUpdateAvailable();
+
     // keep track of selection
     int lastSelectedRow;
 

@@ -139,11 +139,9 @@ double CustomPlayer::PlayAt(int index)
     // if it's not empty (clearing it in the main ui will set both
     // VirtualKey and ScanCode to to -1
     if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
-        _timerPTT->start(static_cast<int>(duration*1000) );
-
-        //this->holdPTT(static_cast<int>(duration*1000) );
-
-
+    {    this->holdPTT(static_cast<int>(duration*1000) );
+         _timerPTT->start(static_cast<int>(duration*1000) );
+    }
 
 
     return duration;
@@ -193,7 +191,6 @@ void CustomPlayer::SetPTTVirtualKey(int virtualKey)
 // Duration is in milli sec
 void CustomPlayer::holdPTT(int duration)
 {
-
     // Pressing key as a SCAN CODE so that it is "physically" pressed
     keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
     QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
