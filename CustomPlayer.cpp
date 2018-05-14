@@ -37,47 +37,56 @@ void CustomPlayer::PlayNext()
     if (_index > _soundList.size() -1 )
         _index = 0;
 
- //   qDebug() << _index << "soundlist size:" << _soundList.size();
-    // if we have no  sounds or no audio devices to play on we return
-    if ( (_soundList.size() >= 1) && ((_mainOutputDevice != 0) || (_VACOutputDevice != 0)  )    )
+    // check if next file exists
+    if (! _soundList.at(_index)->exists())
     {
-        int duration;
-        /***********************************
-         *           SINGLETON             *
-         ***********************************/
-        if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
+        emit ErrorPlaying(_soundList.at(_index)->fileName() );
+        return;
+    }
+    else // if it does exist
+    {
+        emit NowPlaying(_soundList.at(_index)->fileName());
+     //   qDebug() << _index << "soundlist size:" << _soundList.size();
+        // if we have no  sounds or no audio devices to play on we return
+        if ( (_soundList.size() >= 1) && ((_mainOutputDevice != 0) || (_VACOutputDevice != 0)  )    )
         {
-            _shouldPlay = false;
-            duration =  static_cast<int>(this->PlayAt(_index)*1000);
-              QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
-        }
-        /***********************************
-         *           SEQUENTIAL            *
-         ***********************************/
-        else if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
-        {
-            _shouldPlay = false;
-            duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-              QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+            int duration;
+            /***********************************
+             *           SINGLETON             *
+             ***********************************/
+            if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
+            {
+                _shouldPlay = false;
+                duration =  static_cast<int>(this->PlayAt(_index)*1000);
+                  QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+            }
+            /***********************************
+             *           SEQUENTIAL            *
+             ***********************************/
+            else if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
+            {
+                _shouldPlay = false;
+                duration =  static_cast<int>(this->PlayAt(_index++)*1000);
+                  QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+
+            }
+            /***********************************
+             *       SEQUENTIAL AUTO           *
+             ***********************************/
+            else if  ((_playMode == LIDL::Playback::Auto && _shouldPlay))
+            {
+
+                _shouldPlay = false;
+                duration =  static_cast<int>(this->PlayAt(_index++)*1000);
+                    QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+                    // If the new index is OOB, it means we need to stop playing
+                    // else we continue
+                     qDebug() << _index << "soundlist size:" << _soundList.size();
+                    if (_index < _soundList.size()  )
+                        _timerSequential->start(duration+100);
+            }
 
         }
-        /***********************************
-         *       SEQUENTIAL AUTO           *
-         ***********************************/
-        else if  ((_playMode == LIDL::Playback::Auto && _shouldPlay))
-        {
-
-            _shouldPlay = false;
-            duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-                QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
-                // If the new index is OOB, it means we need to stop playing
-                // else we continue
-                 qDebug() << _index << "soundlist size:" << _soundList.size();
-                if (_index < _soundList.size()  )
-                    _timerSequential->start(duration+100);
-        }
-
-
     }
 }
 
@@ -204,4 +213,11 @@ void CustomPlayer::unHoldPTT()
     _timerPTT->stop();
 }
 
-
+void CustomPlayer::SetPlaylist(QVector<QFile *> soundList)
+{
+    _soundList = soundList;
+}
+void CustomPlayer::SetPlaybackMode(LIDL::Playback playMode)
+{
+    _playMode = playMode;
+}

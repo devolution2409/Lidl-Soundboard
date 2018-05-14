@@ -55,6 +55,7 @@ public:
                  QKeySequence * shortcut,
                  int virtualKey,
                  QObject *parent = nullptr   );
+
 // Constructor for when we OPEN a soundboard json file
     SoundWrapper(QVector<QString> fileList,
                  LIDL::Playback playbackMode,
@@ -66,15 +67,21 @@ public:
                  int pttSC = -1,
                  QObject *parent = nullptr   );
 
-    //Accesseurs
-    // getSoundList renvoie un tableau de pointeurs
+// Constructor when opening a EXP Json file
+    SoundWrapper(QVector<QString> fileList,
+                 int mainOutput = -1,
+                 int vacOutput = -1,
+                 QObject *parent = nullptr   );
+
+SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent=nullptr);
+    //Getters
     QVector<QFile*> getSoundList();
     QKeySequence getKeySequence();
     LIDL::Playback getPlayMode();
     QString getSoundListAsQString();
     QList<QStandardItem*> getSoundAsItem();
 
-    //Mutateurs
+    //Setters
     int addSound(QString filename);
     int removeSoundAt(int);
     int setKeySequence(QKeySequence);
@@ -105,6 +112,9 @@ private:
     bool checkFileExistence(QString fileName);
 signals:
     void UnexistantFile();
+    // Signal to redirect signal from the player forsenT
+    void ErrorPlaying(QString);
+    void NowPlaying(QString);
 public slots:
     void Play();
     void Stop();
@@ -113,7 +123,8 @@ public slots:
     void PTTVirtualKeyChanged(int);
     void PTTScanCodeChanged(int);
 
-
+    void playerNowPlaying(QString);
+    void playerErrorPlaying(QString);
 
 };
 

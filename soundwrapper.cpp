@@ -1,12 +1,28 @@
 #include "soundwrapper.h"
 
+//I
 SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 {
-
+    this->_player = new CustomPlayer();
+    connect(_player,SIGNAL(ErrorPlaying(QString)),this,SLOT(playerErrorPlaying(QString)));
+    connect(_player,SIGNAL(NowPlaying(QString)),this,SLOT(playerNowPlaying(QString)));
 }
 
+SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent)
+    : SoundWrapper::SoundWrapper(parent)
+{
+    // Adding sound to the QVector<QFile*>
+    for (auto i: fileList)
+        this->addSound(i);
+    this->setPlayMode(playbackMode);
+    this->_player->SetPlaylist(this->getSoundList());
+    this->_player->SetPlaybackMode( this->getPlayMode());
 
-// Constructor to be used in the add sound window
+    this->setPlayerMainOutput(mainOutput);
+    this->setPlayerVACOutput(vacOutput);
+}
+
+//II: Constructor to be used in the add sound window
 SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,QKeySequence * shortcut, QObject * parent)
     :SoundWrapper::SoundWrapper(parent)
 {
@@ -23,37 +39,46 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,Q
      //qDebug() << this->_playMode;
      //qDebug() << this->_keySequence.toString();
 
-    this->_player = new CustomPlayer(this->getSoundList(),this->getPlayMode());
+   this->_player->SetPlaylist(this->getSoundList());
+   this->_player->SetPlaybackMode(this->getPlayMode());
 }
 
 
-
+//III: Do we really need II again?
 SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,QKeySequence * shortcut,int virtualKey, QObject * parent)
     : SoundWrapper(soundList, playbackMode,shortcut,parent)
 {
    _virtualKey  = virtualKey;
 }
 
-// Constructor used when opening a file
+//IV: Constructor used when opening a file
 SoundWrapper::SoundWrapper(QVector<QString> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
                            int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
-            : SoundWrapper::SoundWrapper(parent)
+            : SoundWrapper::SoundWrapper(fileList, mainOutput,vacOutput)
 {
 
-    for (auto i: fileList)
-        this->addSound(i);
 
-    this->setPlayMode(playbackMode);
-
-    this->_player = new CustomPlayer(this->getSoundList(),this->getPlayMode());
     this->setKeySequence(shortcut);
     this->_virtualKey = shortcutVirtualKey;
     this->setPlayerPTTScanCode(pttSC);
     this->setPlayerPTTVirtualKey(pttVK);
-    this->setPlayerMainOutput(mainOutput);
-    this->setPlayerVACOutput(vacOutput);
+
 
 }
+
+
+//V: Constructor when opening a EXP Json file
+SoundWrapper::SoundWrapper(QVector<QString> fileList,int mainOutput, int vacOutput, QObject *parent)
+    : SoundWrapper::SoundWrapper(fileList,LIDL::Playback::Singleton ,mainOutput, vacOutput,parent)
+{
+
+}
+
+
+
+
+
+
 
 
 /********************************************
@@ -231,6 +256,17 @@ bool SoundWrapper::checkFileExistence(QString fileName)
 {
     QFile temp(fileName);
     return temp.exists();
+}
+
+
+void SoundWrapper::playerNowPlaying(QString songName)
+{
+    emit NowPlaying(songName);
+}
+
+void SoundWrapper::playerErrorPlaying(QString songName)
+{
+    emit ErrorPlaying(songName);
 }
 
 

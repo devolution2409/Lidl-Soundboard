@@ -218,8 +218,13 @@ public slots:
     // About
     void HelpAbout();
 
-    void ErrorUnexistant();
+    void StatusErrorUnexistant();
+    void StatusPlaying(QString);
+    void StatusErrorPlaying(QString);
+
     void HelpCheckForUpdate();
+
+    //void ErrorOnPlaying(QString);
 
 };
 

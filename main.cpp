@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
 //    Le conteneur
     SoundboardMainUI container;
   //  container.setFixedSize(400,600);
-    container.setFixedWidth(400);
-    container.setMinimumHeight(600);
+    container.setMinimumSize(400,600);
+    container.setMaximumSize(1280,900);
 
     container.show();
 

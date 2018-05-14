@@ -2,6 +2,7 @@
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
+    this->resize(400,600);
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
 
@@ -261,8 +262,12 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
 
     // connecting the stop btn
     connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
-    // connecting the status bar signal
-    connect(modifiedSound,SIGNAL(UnexistantFile()),this,SLOT(ErrorUnexistant()));
+    // connecting the status bar signal for unexistant files (reading json)
+    connect(modifiedSound,SIGNAL(UnexistantFile()),this,SLOT(StatusErrorUnexistant()));
+    // connecting the wrapper proxy signal for player NowPlaying
+    connect(modifiedSound,SIGNAL(NowPlaying(QString)),this,SLOT(StatusPlaying(QString)));
+    // connecting the wrapper proxy signal for player ErrorPlaying
+    connect(modifiedSound,SIGNAL(ErrorPlaying(QString)),this,SLOT(StatusErrorPlaying(QString)));
 
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -768,10 +773,15 @@ void SoundboardMainUI::Open()
                     ****************************************************/
                     qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
                     qDebug() << indexMainOutputDevice;
-                    this->soundAdded(new SoundWrapper(fileArray,playbackmode,QKeySequence(shortcutString),shortcutVirtualKey,
-                                                    indexMainOutputDevice,
-                                                    indexVACOutputDevice,
-                                                    pttVirtualKey,pttScanCode,nullptr));
+                    this->soundAdded(new SoundWrapper(fileArray,
+                                                      playbackmode,
+                                                      QKeySequence(shortcutString),
+                                                      shortcutVirtualKey,
+                                                      indexMainOutputDevice,
+                                                      indexVACOutputDevice,
+                                                      pttVirtualKey,
+                                                      pttScanCode,
+                                                      nullptr));
 
 
                 } // end for auto wrapper
@@ -812,18 +822,13 @@ void SoundboardMainUI::OpenEXPSounboard()
                 fileName.replace(QString("\\"), QString("/"));
                 qDebug() << fileName;
 
-                QKeySequence emptySequence;
+
                 QVector<QString> fileList;
                 fileList.append(fileName);
+                // Calling the constructor designed for exp jsons (V)
                 this->soundAdded(new SoundWrapper(fileList,
-                             LIDL::Playback::Singleton, // always singleton
-                             emptySequence,
-                             -1, // empty
                              this->_deviceListOutput->currentIndex(),
-                             this->_deviceListVAC->currentIndex(),
-                             -1,
-                             -1,
-                             nullptr ));
+                             this->_deviceListVAC->currentIndex()));
 
 
             } //end for sound array
@@ -1034,10 +1039,18 @@ void SoundboardMainUI::HelpCheckForUpdate()
 
 
 
-void SoundboardMainUI::ErrorUnexistant()
+void SoundboardMainUI::StatusErrorUnexistant()
 {
     this->statusBar()->showMessage("The files marked with ⚠️ aren't present on disk.");
 }
 
+void SoundboardMainUI::StatusErrorPlaying(QString name)
+{
+    this->statusBar()->showMessage("Error playing file:" + name);
+}
 
+void SoundboardMainUI::StatusPlaying(QString name)
+{
+    this->statusBar()->showMessage("Now playing:" + name);
+}
 

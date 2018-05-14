@@ -47,7 +47,9 @@ public:
     void SetPTTVirtualKey(int virtualKey);
 
     void SetPPTKeys(int scanCode, int virtualKey);
+    void SetPlaylist(QVector<QFile *> soundList);
 
+    void SetPlaybackMode(LIDL::Playback playMode);
     ~CustomPlayer();
 
 signals:
@@ -60,6 +62,9 @@ public slots:
     void unHoldPTT();
     void Stop();
     void resetShouldPlay();
+signals:
+    void ErrorPlaying(QString);
+    void NowPlaying(QString);
 private:
     // we only need one audio pointer
    // QAudioOutput    * _audio;
