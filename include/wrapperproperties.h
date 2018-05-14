@@ -35,6 +35,7 @@
 #include "CustomShortcutEdit.h"
 #include <QMessageBox>
 #include "CustomListWidget.h"
+#include "EnumsAndStructs.h"
 
 class WrapperProperties : public QWidget
 {
@@ -72,7 +73,7 @@ private:
     QRadioButton *_radioSequential;
     QRadioButton *_radioAuto;
     QRadioButton *_radioSingleton;
-    int           _playBackMode;
+
     QLabel       *_radioToolTip;
     // Hotkey
     QGroupBox   *_shortcutGroup;
@@ -92,7 +93,7 @@ private:
 
     //reimplementation de l'event close
     void  closeEvent(QCloseEvent *event);
-
+    LIDL::Playback  _playBackMode;
     // variables to store which output device and PTT are already set (if any)
     int _mainOutput;
     int _VACOutput;

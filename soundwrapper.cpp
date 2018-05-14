@@ -7,7 +7,7 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 
 
 // Constructor to be used in the add sound window
-SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
+SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,QKeySequence * shortcut, QObject * parent)
     :SoundWrapper::SoundWrapper(parent)
 {
     for(int row = 0; row < soundList->count(); row++)
@@ -28,14 +28,14 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence
 
 
 
-SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut,int virtualKey, QObject * parent)
+SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,QKeySequence * shortcut,int virtualKey, QObject * parent)
     : SoundWrapper(soundList, playbackMode,shortcut,parent)
 {
    _virtualKey  = virtualKey;
 }
 
 // Constructor used when opening a file
-SoundWrapper::SoundWrapper(QVector<QString> fileList, int playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
+SoundWrapper::SoundWrapper(QVector<QString> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
                            int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
             : SoundWrapper::SoundWrapper(parent)
 {
@@ -88,7 +88,7 @@ QKeySequence SoundWrapper::getKeySequence()
 }
 
 // playmode
-int SoundWrapper::getPlayMode()
+LIDL::Playback SoundWrapper::getPlayMode()
 {
     return this->_playMode;
 }
@@ -133,9 +133,9 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     QString tmpMode;
     switch(this->getPlayMode())
     {
-        case 1: tmpMode.append("Singleton"); break;
-        case 2: tmpMode.append("Sequential"); break;
-        case 3: tmpMode.append("Sequential (Auto)"); break;
+       case LIDL::Playback::Singleton: tmpMode.append("Singleton"); break;
+       case LIDL::Playback::Sequential: tmpMode.append("Sequential"); break;
+       case LIDL::Playback::Auto: tmpMode.append("Sequential (Auto)"); break;
     }
     tempItem.append(new QStandardItem(tmpMode));
 
@@ -199,7 +199,7 @@ int SoundWrapper::setKeySequence(QKeySequence sequence)
     return 0;
 }
 
-int SoundWrapper::setPlayMode(int playmode)
+int SoundWrapper::setPlayMode(LIDL::Playback playmode)
 {
     this->_playMode = playmode;
     return 0;

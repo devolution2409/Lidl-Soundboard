@@ -14,7 +14,7 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 
 }
 
-CustomPlayer::CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent) : CustomPlayer(parent)
+CustomPlayer::CustomPlayer(QVector<QFile*> soundList,LIDL::Playback playMode,QObject *parent) : CustomPlayer(parent)
 {
     _soundList = soundList;
     _playMode  = playMode;
@@ -45,7 +45,7 @@ void CustomPlayer::PlayNext()
         /***********************************
          *           SINGLETON             *
          ***********************************/
-        if (_playMode == 1 && _shouldPlay)
+        if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
         {
             _shouldPlay = false;
             duration =  static_cast<int>(this->PlayAt(_index)*1000);
@@ -54,7 +54,7 @@ void CustomPlayer::PlayNext()
         /***********************************
          *           SEQUENTIAL            *
          ***********************************/
-        else if  ((_playMode == 2 && _shouldPlay))
+        else if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
         {
             _shouldPlay = false;
             duration =  static_cast<int>(this->PlayAt(_index++)*1000);
@@ -64,7 +64,7 @@ void CustomPlayer::PlayNext()
         /***********************************
          *       SEQUENTIAL AUTO           *
          ***********************************/
-        else if  ((_playMode == 3 && _shouldPlay))
+        else if  ((_playMode == LIDL::Playback::Auto && _shouldPlay))
         {
 
             _shouldPlay = false;

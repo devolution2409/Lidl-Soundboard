@@ -20,8 +20,8 @@
 #ifndef MAKELONG
    #define MAKELONG(a,b) Cast(DWORD, ((a) And &hFFFF) Or ((b) Shl 16))
 #endif
-
-
+// so it knows the enum
+#include "EnumsAndStructs.h"
 /*
 typedef DWORD HMUSIC;		// MOD music handle
 typedef DWORD HSAMPLE;		// sample handle
@@ -40,7 +40,7 @@ class CustomPlayer : public QObject
     Q_OBJECT
 public:
     explicit CustomPlayer(QObject *parent = nullptr);
-    CustomPlayer(QVector<QFile*> soundList,int playMode,QObject *parent = nullptr);
+    CustomPlayer(QVector<QFile*> soundList, LIDL::Playback playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
     void SetVACDevice(int);
     void SetPTTScanCode(int scanCode);
@@ -65,7 +65,7 @@ private:
    // QAudioOutput    * _audio;
     // but we need the files as an array
     QVector<QFile*> _soundList;
-    int _playMode;
+    LIDL::Playback _playMode;
     int _index;
 
     // Channels

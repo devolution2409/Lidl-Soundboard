@@ -16,13 +16,14 @@ SOURCES += \
 
 
 HEADERS += \
-    wrapperproperties.h \
-    soundwrapper.h \
-    soundboardMainUI.h \
-    CustomTableView.h \
-    CustomShortcutEdit.h \
-    CustomPlayer.h \
-    CustomListWidget.h
+    include/wrapperproperties.h \
+    include/soundwrapper.h \
+    include/soundboardMainUI.h \
+    include/CustomTableView.h \
+    include/CustomShortcutEdit.h \
+    include/CustomPlayer.h \
+    include/CustomListWidget.h \
+    include/EnumsAndStructs.h
 
 
 RESOURCES += \
@@ -34,7 +35,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:unix: LIBS += -L$$PWD/lib/ -lbass
 
-INCLUDEPATH += $$PWD/.
+
+INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/.
 
 #Including the auto-updater lib

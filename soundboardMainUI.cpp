@@ -728,13 +728,13 @@ void SoundboardMainUI::Open()
             for (auto i:wrappersArray)
             {
                 QJsonObject item = i.toObject();
-                int playbackmode;
+                LIDL::Playback playbackmode;
                 QString shortcutString;
                 int shortcutVirtualKey;
                 QVector<QString> fileArray;
                 // Playback
                 if (item.contains("Playback Mode"))
-                    playbackmode = item.value("Playback Mode").toInt();
+                    playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
                 // Shortcut info
                 if (item.contains("Shortcut"))
                 {
@@ -816,7 +816,7 @@ void SoundboardMainUI::OpenEXPSounboard()
                 QVector<QString> fileList;
                 fileList.append(fileName);
                 this->soundAdded(new SoundWrapper(fileList,
-                             1, // always singleton
+                             LIDL::Playback::Singleton, // always singleton
                              emptySequence,
                              -1, // empty
                              this->_deviceListOutput->currentIndex(),
@@ -860,7 +860,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
      {
          // creating temp sound collection
          QJsonObject tempSound;
-         tempSound.insert("Playback Mode",i->getPlayMode());
+         tempSound.insert("Playback Mode",static_cast<int>(i->getPlayMode()));
          // qDebug() << i->getPlayMode();
          QJsonObject key;
          key.insert("Key",i->getKeySequence().toString());
@@ -1026,6 +1026,8 @@ void SoundboardMainUI::HelpCheckForUpdate()
     //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
     QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
     QSimpleUpdater::getInstance()->checkForUpdates (url);
+    //QSimpleUpdater::getInstance()->getChangelog()
+    qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
     this->statusBar()->clearMessage();
 }
 

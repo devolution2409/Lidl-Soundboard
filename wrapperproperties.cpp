@@ -59,7 +59,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      _radioToolTip->setToolTip("Singleton: A Single Sound\nSequential: A Sound Collection. Next item will play after pressing play or the shortcut.\nSequential(Auto): Same as sequential, but automated.");
 
      // setting 1 has default value for playblack
-     _playBackMode    = 1;
+     _playBackMode    = LIDL::Playback::Singleton;
 
     // Adding them to layout, and setting singleton checked by default
     _radioLayout->addWidget(_radioSingleton);
@@ -191,9 +191,9 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone
     _playBackMode = sound->getPlayMode();
     switch(_playBackMode)
     {
-        case 1: this->_radioSingleton->setChecked(true); ; break;
-        case 2: _radioSequential->setChecked(true); break;
-        case 3: _radioAuto->setChecked(true); break;
+        case LIDL::Playback::Singleton : this->_radioSingleton->setChecked(true); ; break;
+        case LIDL::Playback::Sequential :_radioSequential->setChecked(true); break;
+        case LIDL::Playback::Auto: _radioAuto->setChecked(true); break;
     }
     // set the shortcut
     this->_shortcutEdit->setKeySequence(sound->getKeySequence());
@@ -264,7 +264,7 @@ void WrapperProperties::AddSoundFromDrop(QString file)
 // Event dealing with the colors if mode is changed
 void WrapperProperties::RadioPressed(int id)
 {
-    this->_playBackMode = id;
+    this->_playBackMode = static_cast<LIDL::Playback>(id);
     // If we have 0 item we don't really care
     if (_soundListDisplay->count()<1)
         return;
@@ -303,7 +303,7 @@ void WrapperProperties::CreateWrapper()
 {
     // we check for the sound being singleton or not, if it is, we don't accept if we have more than 1 sound
 
-    if( (this->_playBackMode == 1) && (this->_soundListDisplay->count()  >1))
+    if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
     {
         QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
         return;
@@ -328,7 +328,7 @@ void WrapperProperties::CreateWrapper()
 
 void WrapperProperties::SendEditedWrapper()
 {
-    if( (this->_playBackMode == 1) && (this->_soundListDisplay->count()  >1))
+    if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
     {
         QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
         return;

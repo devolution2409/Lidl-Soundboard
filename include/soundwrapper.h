@@ -36,6 +36,8 @@
 #include <QList>
 #include <QStandardItem>
 #include <CustomPlayer.h>
+#include "EnumsAndStructs.h"
+
 class SoundWrapper : public QObject
 {
     Q_OBJECT
@@ -43,19 +45,19 @@ public:
     explicit SoundWrapper(QObject *parent = nullptr);
     // Constructor to be used from the add sound dialog
     SoundWrapper(QListWidget *soundList,
-                 int playbackMode,
+                 LIDL::Playback playbackMode,
                  QKeySequence * shortcut,
                  QObject *parent = nullptr   );
 
 // Constructor when we add a file from the sound property dialog
     SoundWrapper(QListWidget *soundList,
-                 int playbackMode,
+                 LIDL::Playback playbackMode,
                  QKeySequence * shortcut,
                  int virtualKey,
                  QObject *parent = nullptr   );
 // Constructor for when we OPEN a soundboard json file
     SoundWrapper(QVector<QString> fileList,
-                 int playbackMode,
+                 LIDL::Playback playbackMode,
                  QKeySequence  shortcut,
                  int shortcutVirtualKey =-1,
                  int mainOutput = -1,
@@ -68,7 +70,7 @@ public:
     // getSoundList renvoie un tableau de pointeurs
     QVector<QFile*> getSoundList();
     QKeySequence getKeySequence();
-    int getPlayMode();
+    LIDL::Playback getPlayMode();
     QString getSoundListAsQString();
     QList<QStandardItem*> getSoundAsItem();
 
@@ -76,7 +78,7 @@ public:
     int addSound(QString filename);
     int removeSoundAt(int);
     int setKeySequence(QKeySequence);
-    int setPlayMode(int);
+    int setPlayMode(LIDL::Playback);
 
     void setPlayerPTTScanCode(int);
     void setPlayerPTTVirtualKey(int);
@@ -92,7 +94,7 @@ private:
      QVector<QFile*> _soundList;
     //  playblack mode
     // TODO: remplacer par une enum
-    int _playMode;
+    LIDL::Playback _playMode;
 
     // shortcut
     QKeySequence _keySequence;
