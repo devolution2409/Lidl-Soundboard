@@ -8,8 +8,8 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
 
     this->setFocusPolicy(Qt::StrongFocus);
+    this->setMinimumSize(382,504);
 
-    this->setFixedWidth(380);
 
     this->_mainWidget = parent;
     // Ajout d'un layout vertical pour afficher les sons
@@ -42,8 +42,28 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _btnDelete->setEnabled(false);
 
     _soundListHint = new QLabel("💡 You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.");
+    /*******************************************************
+     *                                                     *
+     *                     VOLUME SLIDERS                  *
+     *                                                     *
+     *******************************************************/
+    _sliderGroup = new QGroupBox("Volume",this);
+    _sliderLayout = new QVBoxLayout(_sliderGroup);
+    _sliderMain  = new QSlider(Qt::Orientation::Horizontal,this);
+    _sliderVAC   = new QSlider(Qt::Orientation::Horizontal,this);
+    _sliderLabelMain = new QLabel("Main Output Bolume");
+    _sliderLabelVAC = new QLabel("VAC Output Volume");
 
+    _sliderLayout->addWidget(_sliderLabelMain);
+    _sliderLayout->addWidget(_sliderMain);
+    _sliderLayout->addWidget(_sliderLabelVAC);
+    _sliderLayout->addWidget(_sliderVAC);
 
+    /*******************************************************
+     *                                                     *
+     *                      PLAYBACK MODES                 *
+     *                                                     *
+     *******************************************************/
 
     //Radiobox
     _radioGroupBox      = new QGroupBox("Playback mode",this);
@@ -111,10 +131,11 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _gLayout->addWidget(_btnAdd,0,0,1,2);
     _gLayout->addWidget(_btnDelete,0,2,1,2);
     _gLayout->addWidget(_soundListHint,1,0,2,4);
-    _gLayout->addWidget(_radioGroupBox,3,0,1,4);
-    _gLayout->addWidget(_shortcutGroup,4,0,1,4);
-    _gLayout->addWidget(_btnDone,5,0,1,3);
-    _gLayout->addWidget(_btnAbort,5,3,1,1);
+    _gLayout->addWidget(_sliderGroup,3,0,1,4);
+    _gLayout->addWidget(_radioGroupBox,4,0,1,4);
+    _gLayout->addWidget(_shortcutGroup,5,0,1,4);
+    _gLayout->addWidget(_btnDone,6,0,1,3);
+    _gLayout->addWidget(_btnAbort,6,3,1,1);
 
 
 

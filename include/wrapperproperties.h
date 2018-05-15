@@ -36,6 +36,7 @@
 #include <QMessageBox>
 #include "CustomListWidget.h"
 #include "EnumsAndStructs.h"
+#include <QSlider>
 
 class WrapperProperties : public QWidget
 {
@@ -102,6 +103,14 @@ private:
     int _microphone;
     int _pttScanCode;
     int _pttVirtualKey;
+
+    // Sliders for volume
+    QGroupBox* _sliderGroup;
+    QVBoxLayout * _sliderLayout;
+    QLabel  * _sliderLabelMain;
+    QLabel  * _sliderLabelVAC;
+    QSlider *_sliderMain;
+    QSlider *_sliderVAC;
 
 
 // TODO ajouter volume
