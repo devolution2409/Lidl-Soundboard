@@ -42,8 +42,10 @@ class WrapperProperties : public QWidget
     Q_OBJECT
 public:
     explicit WrapperProperties(QWidget *parent = nullptr);
-    WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,int pttVirtualKey,SoundWrapper * sound,QWidget *parent = nullptr);
-    WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,int pttVirtualKey,QWidget *parent = nullptr);
+    // One constructor will deal
+    // for both Add sound dialog and Edit sound dialog
+    WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,SoundWrapper * sound = nullptr,QWidget *parent = nullptr);
+    // WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,QWidget *parent = nullptr);
 private:
     // Pointer to the main window
     QWidget     * _mainWidget;

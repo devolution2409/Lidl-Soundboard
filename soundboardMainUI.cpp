@@ -23,7 +23,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _model = new QStandardItemModel(0,3,this);
     //Adding the headers
     _model->setHorizontalHeaderLabels(
-        (QStringList() << "Sound"
+        (QStringList() << "Sound Collections"
                        << "Shortcut")
                        << "Mode");
    // Also works
@@ -204,10 +204,12 @@ void SoundboardMainUI::addSoundDialog()
     _propertiesWindow = new WrapperProperties(
                 this->_deviceListOutput->currentIndex(),
                 this->_deviceListVAC->currentIndex(),
-                -1,
                 this->_shortcutEditPTT->getScanCode(),
                 this->_shortcutEditPTT->getVirtualKey(),
+                nullptr,
                 this);
+    // Connection of the done button to mainUI slots is dealt in the contructor
+    // to account for edit or add mode
     _propertiesWindow->show();
 
 }
@@ -357,13 +359,14 @@ void SoundboardMainUI::editSoundDialog()
        _propertiesWindow= new WrapperProperties(
                    this->_deviceListOutput->currentIndex(),
                    this->_deviceListVAC->currentIndex(),
-                   -1,
                    this->_shortcutEditPTT->getScanCode(),
                    this->_shortcutEditPTT->getVirtualKey(),
                    this->_sounds.at(this->lastSelectedRow)  ,
                    this);
        _propertiesWindow->show();
     }
+    // Connection of the done button to mainUI slots is dealt in the contructor
+    // to account for edit or add mode
 }
 // deal with modified sound
 void SoundboardMainUI::soundModified(SoundWrapper *modifiedSound)
@@ -391,7 +394,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
     // _keySequence and _winShortcutHandle should always be same size
     if (_keySequence.size() != _winShorcutHandle.size())
     {
-        //qDebug() <<"DansGame";
+        this->statusBar()->showMessage("Error attempting to generate the shortcuts.");
         return;
     }
     //need to UNREGISTER ALL hotkeys and rebind them
@@ -436,7 +439,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
         count++;
     }
 
-
+    this->statusBar()->showMessage("Shortcuts generated successfully.");
 
 
 }
@@ -479,6 +482,7 @@ void SoundboardMainUI::setUpMenu()
     _actions.append(   new QAction("Exit",this)); // 5
 
     fileMenu->addAction(_actions.at(0));
+    fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(1));
     fileMenu->addAction(_actions.at(2));
 
@@ -488,6 +492,7 @@ void SoundboardMainUI::setUpMenu()
     fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(5));
 
+    QMenu* toolMenu = menuBar->addMenu(tr("Tools"));
     /***************************************************
                             Help
     ****************************************************/
@@ -503,6 +508,13 @@ void SoundboardMainUI::setUpMenu()
     helpMenu->addAction(_actions.at(8));
     helpMenu->addSeparator();
     helpMenu->addAction(_actions.at(9));
+
+    /***************************************************
+                            Tools
+    ****************************************************/
+    _actions.append(new QAction("Regenerate shortcuts",this));  //10);
+    _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
+    toolMenu->addAction(_actions.at(10));
     /***************************************************
                            CONNECTIONS
     ****************************************************/
@@ -516,6 +528,7 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
     connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
     connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
+    connect(this->_actions.at(10),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
 }
 
 //Reimplementing to kill all shortcuts
@@ -626,7 +639,7 @@ void SoundboardMainUI::ClearAll()
     ****************************************************/
     _model->clear();
     _model->setHorizontalHeaderLabels(
-        (QStringList() << "Sound"
+        (QStringList() << "Sound Collections"
                        << "Shortcut")
                        << "Mode");
 
@@ -1027,10 +1040,10 @@ void SoundboardMainUI::HelpAbout()
 void SoundboardMainUI::HelpCheckForUpdate()
 {
     this->statusBar()->showMessage("Checking for updates...");
-    QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
+    QString url = "http://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
     //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
-    QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
-    QSimpleUpdater::getInstance()->checkForUpdates (url);
+  //  QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
+   // QSimpleUpdater::getInstance()->checkForUpdates (url);
     //QSimpleUpdater::getInstance()->getChangelog()
     qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
     this->statusBar()->clearMessage();

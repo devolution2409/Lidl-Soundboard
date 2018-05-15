@@ -29,7 +29,7 @@ HEADERS += \
 RESOURCES += \
     resources.qrc
 
-VERSION = 1.1.4
+VERSION = 1.1.3
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix

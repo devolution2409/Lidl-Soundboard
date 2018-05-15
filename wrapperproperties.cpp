@@ -155,14 +155,10 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 }
 
 // overload to ADD sound
-WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,int pttVirtualKey,QWidget *parent) : WrapperProperties(parent)
-{
-    this->_mainOutput = mainOutput;
-    this->_VACOutput = VACOutput;
-    this->_microphone = microphone;
-    this->_pttScanCode = pttScanCode;
-    this->_pttVirtualKey = pttVirtualKey;
-}
+//WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,QWidget *parent) : WrapperProperties(parent)
+//{
+
+//}
 
 // Overloaded contructor to show properties of already built SoundWrapper object
 // we call the other constructor so we don't have to to this twice forsenE
@@ -171,36 +167,43 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone
 //Basically, first 4 things are
 // the main audio output
 // the VAC output
-// the microphone to inject
 // and the PTT key to autohold (as both Scan Code and Virtual Key)
 // last item is the soundwrapper
-WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int microphone,int pttScanCode,int pttVirtualKey,SoundWrapper *sound, QWidget *parent)
-    : WrapperProperties(mainOutput,VACOutput, microphone,pttScanCode,pttVirtualKey,parent) //: QWidget(parent)
+WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,SoundWrapper *sound, QWidget *parent)
+    : WrapperProperties(parent) //: QWidget(parent)
 {
-    // Disconnect the done button because else it will create another wrapper
-    disconnect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
-    // Add the files contained in the wrapper to the list
-
-
-    for (auto &i: sound->getSoundList())
+    this->_mainOutput = mainOutput;
+    this->_VACOutput = VACOutput;
+    this->_pttScanCode = pttScanCode;
+    this->_pttVirtualKey = pttVirtualKey;
+    // if we are opening a sound
+    if (sound!= nullptr)
     {
-        _soundListDisplay->insertItem(_soundListDisplay->count(),i->fileName());
+        // Disconnect the done button because else it will create another wrapper
+        disconnect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
+        // Add the files contained in the wrapper to the list
 
+
+        for (auto &i: sound->getSoundList())
+        {
+            _soundListDisplay->insertItem(_soundListDisplay->count(),i->fileName());
+
+        }
+        // Set the mode to the according one
+        _playBackMode = sound->getPlayMode();
+        switch(_playBackMode)
+        {
+            case LIDL::Playback::Singleton : this->_radioSingleton->setChecked(true); ; break;
+            case LIDL::Playback::Sequential :_radioSequential->setChecked(true); break;
+            case LIDL::Playback::Auto: _radioAuto->setChecked(true); break;
+        }
+        // set the shortcut
+        this->_shortcutEdit->setKeySequence(sound->getKeySequence());
+
+
+        connect(_btnDone, SIGNAL(clicked()), this, SLOT(SendEditedWrapper()));
+        connect(this,SIGNAL(signalEditDone(SoundWrapper*)),_mainWidget,SLOT(soundModified(SoundWrapper *)));
     }
-    // Set the mode to the according one
-    _playBackMode = sound->getPlayMode();
-    switch(_playBackMode)
-    {
-        case LIDL::Playback::Singleton : this->_radioSingleton->setChecked(true); ; break;
-        case LIDL::Playback::Sequential :_radioSequential->setChecked(true); break;
-        case LIDL::Playback::Auto: _radioAuto->setChecked(true); break;
-    }
-    // set the shortcut
-    this->_shortcutEdit->setKeySequence(sound->getKeySequence());
-
-
-    connect(_btnDone, SIGNAL(clicked()), this, SLOT(SendEditedWrapper()));
-    connect(this,SIGNAL(signalEditDone(SoundWrapper*)),_mainWidget,SLOT(soundModified(SoundWrapper *)));
 }
 
 
