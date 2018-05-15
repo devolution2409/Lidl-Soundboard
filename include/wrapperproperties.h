@@ -37,6 +37,8 @@
 #include "CustomListWidget.h"
 #include "EnumsAndStructs.h"
 #include <QSlider>
+#include "FancySlider.h"
+#include <CustomListWidgetItem.h>
 
 class WrapperProperties : public QWidget
 {
@@ -109,9 +111,8 @@ private:
     QVBoxLayout * _sliderLayout;
     QLabel  * _sliderLabelMain;
     QLabel  * _sliderLabelVAC;
-    QSlider *_sliderMain;
-    QSlider *_sliderVAC;
-
+    FancySlider *_sliderMain;
+    FancySlider *_sliderVAC;
 
 // TODO ajouter volume
 signals:

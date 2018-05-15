@@ -49,15 +49,21 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      *******************************************************/
     _sliderGroup = new QGroupBox("Volume",this);
     _sliderLayout = new QVBoxLayout(_sliderGroup);
-    _sliderMain  = new QSlider(Qt::Orientation::Horizontal,this);
-    _sliderVAC   = new QSlider(Qt::Orientation::Horizontal,this);
-    _sliderLabelMain = new QLabel("Main Output Bolume");
+    _sliderMain  = new FancySlider(Qt::Orientation::Horizontal,this);
+    _sliderVAC   = new FancySlider(Qt::Orientation::Horizontal,this);
+
+    _sliderMain->setRange(0,100);
+    _sliderVAC->setRange(0,100);
+    _sliderLabelMain = new QLabel("Main Output Volume");
     _sliderLabelVAC = new QLabel("VAC Output Volume");
+
 
     _sliderLayout->addWidget(_sliderLabelMain);
     _sliderLayout->addWidget(_sliderMain);
     _sliderLayout->addWidget(_sliderLabelVAC);
     _sliderLayout->addWidget(_sliderVAC);
+
+    _sliderGroup->setEnabled(false);
 
     /*******************************************************
      *                                                     *
@@ -207,7 +213,7 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
 
         for (auto &i: sound->getSoundList())
         {
-            _soundListDisplay->insertItem(_soundListDisplay->count(),i->fileName());
+            _soundListDisplay->insertItem(_soundListDisplay->count(),new CustomListWidgetItem(i->fileName()));
 
         }
         // Set the mode to the according one
@@ -220,6 +226,8 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
         }
         // set the shortcut
         this->_shortcutEdit->setKeySequence(sound->getKeySequence());
+        // need to set the virtual key now
+        this->_shortcutEdit->setVirtualKey(sound->getShortcutVirtualKey());
 
 
         connect(_btnDone, SIGNAL(clicked()), this, SLOT(SendEditedWrapper()));
@@ -254,8 +262,8 @@ void WrapperProperties::AddSound()
         if (!fileName.isEmpty())
         {
             //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
-            //qDebug() << _soundListDisplay->row(item);
-            _soundListDisplay->insertItem(_soundListDisplay->count() ,fileName);
+            //qDebug() << _soundListDisplay->row(item);          
+            _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName)) ;
 
             // Disabling the double click event if singleton
             //qDebug() << _radioGroup->checkedId();
@@ -278,7 +286,7 @@ void WrapperProperties::AddSoundFromDrop(QString file)
     QString fileName = file;
         // if the fileName isn't empty, the user selected a file, so we add it.
         if (!fileName.isEmpty())
-            _soundListDisplay->insertItem(_soundListDisplay->count() ,fileName);
+            _soundListDisplay->insertItem(_soundListDisplay->count() ,new CustomListWidgetItem(fileName));
 
 
 
@@ -392,12 +400,15 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem * item)
 {
     _btnDelete->setEnabled(true);
     _selectedItem = item;
+    _sliderGroup->setEnabled(true);
+
 }
 
 void WrapperProperties::DeleteSelectedSound()
 {
     delete this->_selectedItem;
     this->_btnDelete->setEnabled(false);
+    this->_sliderGroup->setEnabled(false);
 
     // need to renable add button if we are in singleton song and this was the last sound
     if (_soundListDisplay->count() == 0)

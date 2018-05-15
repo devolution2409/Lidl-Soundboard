@@ -12,7 +12,9 @@ SOURCES += \
     CustomTableView.cpp \
     CustomShortcutEdit.cpp \
     CustomPlayer.cpp \
-    CustomListWidget.cpp
+    CustomListWidget.cpp \
+    CustomListWidgetItem.cpp \
+    FancySlider.cpp
 
 
 HEADERS += \
@@ -23,7 +25,11 @@ HEADERS += \
     include/CustomShortcutEdit.h \
     include/CustomPlayer.h \
     include/CustomListWidget.h \
-    include/EnumsAndStructs.h
+    include/EnumsAndStructs.h \
+    include/FancySlider.h
+
+# do not need to add this to header as this does not contains Q_OBJECT macro
+#include/CustomListWidgetItem.h
 
 
 RESOURCES += \
