@@ -2,8 +2,8 @@
   "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "1.1.4",
-      "download-url": "http://github.com/devolution2409/Lidl-Soundboard/releases/download/1.1.4/LIDL_Soundboard.zip",
+      "latest-version": "1.2.0",
+      "download-url": "http://github.com/devolution2409/Lidl-Soundboard/releases/download/1.2.0/LIDL_Soundboard.zip",
       "changelog": "Added a status bar, some warning if files aren't present on disk anymore and a check for update action in help."
     }
   }

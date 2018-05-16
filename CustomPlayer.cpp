@@ -12,14 +12,14 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
     connect(_timerSequential,SIGNAL(timeout()),this,SLOT(PlayNext()));
     connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
 
+    _shouldPlay = true;
 }
 
-CustomPlayer::CustomPlayer(QVector<QFile*> soundList,LIDL::Playback playMode,QObject *parent) : CustomPlayer(parent)
+CustomPlayer::CustomPlayer(QVector<LIDL::SoundFile *> soundList, LIDL::Playback playMode, QObject *parent) : CustomPlayer(parent)
 {
     _soundList = soundList;
     _playMode  = playMode;
     _index = 0;
-    _shouldPlay = true;
 }
 
 
@@ -48,6 +48,8 @@ void CustomPlayer::PlayNext()
         emit NowPlaying(_soundList.at(_index)->fileName());
      //   qDebug() << _index << "soundlist size:" << _soundList.size();
         // if we have no  sounds or no audio devices to play on we return
+
+
         if ( (_soundList.size() >= 1) && ((_mainOutputDevice != 0) || (_VACOutputDevice != 0)  )    )
         {
             int duration;
@@ -57,8 +59,10 @@ void CustomPlayer::PlayNext()
             if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
             {
                 _shouldPlay = false;
+               // qDebug() << "ZULULUL" << _mainOutputDevice << _VACOutputDevice;
                 duration =  static_cast<int>(this->PlayAt(_index)*1000);
                   QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+                 // qDebug() << "duration is: " << duration;
             }
             /***********************************
              *           SEQUENTIAL            *
@@ -129,7 +133,10 @@ double CustomPlayer::PlayAt(int index)
 //      BOOL BASS_ChannelPlay(DWORD handle,BOOL restart);
 //      http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
         BASS_ChannelPlay(_mainChannel,true);
+        //Setting volume
 
+        BASS_ChannelSetAttribute(_mainChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
+        //qDebug() << "Main Volume should be: " << _soundList.at(index)->getMainVolume();
         duration = BASS_ChannelBytes2Seconds(_mainChannel,
                                                     BASS_ChannelGetLength(_mainChannel,BASS_POS_BYTE));
     }
@@ -140,8 +147,11 @@ double CustomPlayer::PlayAt(int index)
         int _vacChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
         BASS_ChannelSetDevice(_vacChannel,_VACOutputDevice);
         BASS_ChannelPlay(_vacChannel,true);
+        BASS_ChannelSetAttribute(_mainChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
+
+       //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
         duration = BASS_ChannelBytes2Seconds(_vacChannel,
-                                                    BASS_ChannelGetLength(_vacChannel,BASS_POS_BYTE));
+                                                   BASS_ChannelGetLength(_vacChannel,BASS_POS_BYTE));
     }
 
     // We check if any of the outputs are valid, if they are, we hold the PTT key
@@ -213,7 +223,7 @@ void CustomPlayer::unHoldPTT()
     _timerPTT->stop();
 }
 
-void CustomPlayer::SetPlaylist(QVector<QFile *> soundList)
+void CustomPlayer::SetPlaylist(QVector<LIDL::SoundFile *> soundList)
 {
     _soundList = soundList;
 }

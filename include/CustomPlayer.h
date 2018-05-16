@@ -33,21 +33,21 @@ typedef DWORD HDSP;			// DSP handle
 typedef DWORD HFX;			// DX8 effect handle
 typedef DWORD HPLUGIN;		// Plugin handle
 */
-
+#include "CustomSoundFile.h"
 
 class CustomPlayer : public QObject
 {
     Q_OBJECT
 public:
     explicit CustomPlayer(QObject *parent = nullptr);
-    CustomPlayer(QVector<QFile*> soundList, LIDL::Playback playMode,QObject *parent = nullptr);
+    CustomPlayer(QVector<LIDL::SoundFile*>, LIDL::Playback playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
     void SetVACDevice(int);
     void SetPTTScanCode(int scanCode);
     void SetPTTVirtualKey(int virtualKey);
 
     void SetPPTKeys(int scanCode, int virtualKey);
-    void SetPlaylist(QVector<QFile *> soundList);
+    void SetPlaylist(QVector<LIDL::SoundFile*> soundList);
 
     void SetPlaybackMode(LIDL::Playback playMode);
     ~CustomPlayer();
@@ -69,7 +69,7 @@ private:
     // we only need one audio pointer
    // QAudioOutput    * _audio;
     // but we need the files as an array
-    QVector<QFile*> _soundList;
+    QVector<LIDL::SoundFile*> _soundList;
     LIDL::Playback _playMode;
     int _index;
 

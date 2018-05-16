@@ -18,11 +18,12 @@ void CustomListWidgetItem::setVacVolume(float newVacVolume)
 }
 
 
-CustomListWidgetItem::CustomListWidgetItem(const QString & text, QListWidget * parent, int type)
- : QListWidgetItem(text,parent, type)
+CustomListWidgetItem::CustomListWidgetItem(const QString & text,float mainVolume,
+                                           float vacVolume,QListWidget * parent, int type)
+    : QListWidgetItem(text,parent,type)
 {
-    _mainVolume = 1;
-    _vacVolume  = 1;
+    _mainVolume = mainVolume;
+    _vacVolume  = vacVolume;
 }
 
 float CustomListWidgetItem::getMainVolume()

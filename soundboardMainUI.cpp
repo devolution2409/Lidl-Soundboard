@@ -749,11 +749,14 @@ void SoundboardMainUI::Open()
                 LIDL::Playback playbackmode;
                 QString shortcutString;
                 int shortcutVirtualKey;
-                QVector<QString> fileArray;
+                QVector<LIDL::SoundFile*> fileArray;
                 // Playback
                 if (item.contains("Playback Mode"))
+                {
                     playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
-                // Shortcut info
+                    qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
+                }
+                    // Shortcut info
                 if (item.contains("Shortcut"))
                 {
                     QJsonObject shortcut = item.value("Shortcut").toObject();
@@ -766,12 +769,43 @@ void SoundboardMainUI::Open()
                 // Sound collection
                 if (item.contains("Sound Collection"))
                 {
-                    QJsonArray soundArray = item.value("Sound Collection").toArray();
-                    // We iterate over the sound files and add them to the array
-                    for (auto j: soundArray)
+                    if (item.value("Sound Collection").isObject())
                     {
-                        fileArray.append( j.toString()  );
+                        //qDebug() << "this is an object forsenE, so new file format forsenE";
+                        QJsonObject soundCollection = item.value("Sound Collection").toObject();
+                        // Have to use traditional iterators because auto doesn't allow to use key DansGame
+
+                        for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); it++)
+                        {
+                                QString fileName = it.key();
+                                float mainVolume = 1.0;
+                                float vacVolume = 1.0;
+                                QJsonObject volumes = it.value().toObject();
+                                if (volumes.contains("Main Volume"))
+                                        mainVolume = static_cast<float>(volumes.value("Main Volume").toInt()/100.0);
+                                if (volumes.contains("VAC Volume"))
+                                        vacVolume  = static_cast<float>(volumes.value("VAC Volume").toInt()/100.0);
+                                qDebug() << "Volumes: " << mainVolume << "  " << vacVolume;
+                                fileArray.append(new LIDL::SoundFile(fileName,
+                                                                     mainVolume,
+                                                                     vacVolume));
+                        }
                     }
+
+                    //Else If this is an array than we are on the old save system without the volumes:
+                    else if (item.value("Sound Collection").isArray() )
+                    {
+                        //qDebug() << "Old file detected forsenBee";
+                        QJsonArray soundArray = item.value("Sound Collection").toArray();
+                        // We iterate over the sound files and add them to the array
+                        // (default volume is 100%).
+                        for (auto j: soundArray)
+                        {
+                            fileArray.append( new LIDL::SoundFile(j.toString())  );
+                        }
+                    }
+
+
                 }
 //                    qDebug() << "Wrapper: \n\tPlayback Mode:" << playbackmode
 //                             << "\n\tShortcut String:" << shortcutString
@@ -785,7 +819,7 @@ void SoundboardMainUI::Open()
                                    CREATING THE WRAPPERS
                     ****************************************************/
                     qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
-                    qDebug() << indexMainOutputDevice;
+
                     this->soundAdded(new SoundWrapper(fileArray,
                                                       playbackmode,
                                                       QKeySequence(shortcutString),
@@ -885,10 +919,18 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
          key.insert("VirtualKey", i->getShortcutVirtualKey());
          tempSound.insert("Shortcut",key);
          // The sound collection
-         QJsonArray soundCollection;
-         QVector<QFile*> soundList = i->getSoundList();
+         QJsonObject soundCollection;
+         // Declaring temps sound collection object
+         QVector<LIDL::SoundFile*> soundList = i->getSoundList();
          for (auto &j: soundList)
-             soundCollection.append(j->fileName());
+         {
+             QJsonObject volumes;
+             volumes.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
+             volumes.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
+             soundCollection.insert(  j->fileName(), volumes);
+
+
+         }
 
         tempSound.insert("Sound Collection",soundCollection);
         sounds.append(tempSound);
@@ -942,7 +984,7 @@ QString fileName  = QFileDialog::getSaveFileName(this,
                                                  tr("Save Soundboard As.."),
                                                  "" ,
                                                  tr("LIDL JSON file(*.lidljson)"));
-    fileName.append(".json");
+  //  fileName.append(".lidljson");
     QJsonObject *save = GenerateSaveFile();
     QJsonDocument *doc = new QJsonDocument(*save);
     QString jsonString = doc->toJson(QJsonDocument::Indented);
@@ -1040,7 +1082,7 @@ void SoundboardMainUI::HelpAbout()
 void SoundboardMainUI::HelpCheckForUpdate()
 {
     this->statusBar()->showMessage("Checking for updates...");
-    QString url = "http://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
+    QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
     //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
   //  QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
    // QSimpleUpdater::getInstance()->checkForUpdates (url);

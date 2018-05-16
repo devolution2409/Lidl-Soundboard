@@ -49,8 +49,8 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      *******************************************************/
     _sliderGroup = new QGroupBox("Volume",this);
     _sliderLayout = new QGridLayout(_sliderGroup);
-    _sliderMain  = new FancySlider(Qt::Orientation::Horizontal,this);
-    _sliderVAC   = new FancySlider(Qt::Orientation::Horizontal,this);
+    _sliderMain  = new QSlider(Qt::Orientation::Horizontal,this);
+    _sliderVAC   = new QSlider(Qt::Orientation::Horizontal,this);
 
     _sliderMain->setRange(0,100);
     _sliderVAC->setRange(0,100);
@@ -64,12 +64,14 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sliderMainSpin->setSuffix("%");
     _sliderVACSpin->setSuffix("%");
 
+    _sliderHint = new QLabel("💡 You can set the volumes of each sound individually.");
     _sliderLayout->addWidget(_sliderLabelMain,0,0,1,4);
     _sliderLayout->addWidget(_sliderMain,1,0,1,3);
     _sliderLayout->addWidget(_sliderMainSpin,1,3,1,1);
     _sliderLayout->addWidget(_sliderLabelVAC,2,0,1,4);
     _sliderLayout->addWidget(_sliderVAC,3,0,1,3);
     _sliderLayout->addWidget(_sliderVACSpin,3,3,1,1);
+    _sliderLayout->addWidget(_sliderHint,4,0,1,4);
 
     _sliderGroup->setEnabled(false);
 
@@ -230,7 +232,11 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
 
         for (auto &i: sound->getSoundList())
         {
-            _soundListDisplay->insertItem(_soundListDisplay->count(),new CustomListWidgetItem(i->fileName()));
+            qDebug() << "Sound volume:"  << i->getMainVolume() <<       i->getVacVolume() ;
+            _soundListDisplay->insertItem(_soundListDisplay->count(),new CustomListWidgetItem(i->fileName(),
+                                                                                              i->getMainVolume(),
+                                                                                              i->getVacVolume()
+                                                                                              ));
 
         }
         // Set the mode to the according one
@@ -472,14 +478,5 @@ void WrapperProperties::SetItemVACVolume(int newValue)
 
 
 
-//void WrapperProperties::ContextDelete(const QPoint &pos)
-//{
-//    qDebug() << this->childAt(pos);
-//}
-//void WrapperProperties::Test(SoundWrapper * lul)
-//{
-//    qDebug() << "Signal emitted";
-
-//}
 
 

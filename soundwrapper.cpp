@@ -23,21 +23,20 @@ SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode
 }
 
 //II: Constructor to be used in the add sound window
-SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,QKeySequence * shortcut, QObject * parent)
+SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, QObject * parent)
     :SoundWrapper::SoundWrapper(parent)
 {
     for(int row = 0; row < soundList->count(); row++)
     {
              // get a pointer on the list item and fetches its text
-             QListWidgetItem *item = soundList->item(row);
-          //   qDebug() << item->text();
-             this->addSound(item->text());
+             CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(soundList->item(row));
+
+             if (item != nullptr)
+                this->addSound(item->text(), item->getMainVolume(),item->getVacVolume());
     }
-    //qDebug() << shortcut->toString();
+
     this->setPlayMode(playbackMode);
     this->setKeySequence(*shortcut);
-     //qDebug() << this->_playMode;
-     //qDebug() << this->_keySequence.toString();
 
    this->_player->SetPlaylist(this->getSoundList());
    this->_player->SetPlaybackMode(this->getPlayMode());
@@ -45,25 +44,28 @@ SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,Q
 
 
 //III: Do we really need II again?
-SoundWrapper::SoundWrapper(QListWidget* soundList, LIDL::Playback playbackMode,QKeySequence * shortcut,int virtualKey, QObject * parent)
+SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, int virtualKey, QObject * parent)
     : SoundWrapper(soundList, playbackMode,shortcut,parent)
 {
    _virtualKey  = virtualKey;
 }
 
 //IV: Constructor used when opening a file
-SoundWrapper::SoundWrapper(QVector<QString> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
+SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
                            int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
-            : SoundWrapper::SoundWrapper(fileList, mainOutput,vacOutput)
+            : SoundWrapper(parent)
 {
 
-
+    this->_soundList = fileList;
+    this->_playMode = playbackMode;
     this->setKeySequence(shortcut);
     this->_virtualKey = shortcutVirtualKey;
     this->setPlayerPTTScanCode(pttSC);
     this->setPlayerPTTVirtualKey(pttVK);
-
-
+    this->setPlayerMainOutput(mainOutput);
+    this->setPlayerVACOutput(vacOutput);
+    this->_player->SetPlaylist(this->getSoundList());
+    this->_player->SetPlaybackMode(this->getPlayMode());
 }
 
 
@@ -102,7 +104,7 @@ void SoundWrapper::Stop()
  ********************************************/
 
 // Soundlist
-QVector<QFile*> SoundWrapper::getSoundList()
+QVector<LIDL::SoundFile*> SoundWrapper::getSoundList()
 {
    return this->_soundList;
 }
@@ -182,6 +184,7 @@ void SoundWrapper::OutputDeviceChanged(int index)
 {
     //qDebug() << "SLOT: SoundWrapper OutputDeviceChanged output device changed, new is: " << index;
     _player->SetOutputDevice(index);
+    qDebug() << "ouput device changed";
 }
 
 void SoundWrapper::VACDeviceChanged(int index)
@@ -203,10 +206,12 @@ void SoundWrapper::PTTVirtualKeyChanged(int key)
 
 // AddSound: Instanciate a new QFile via new and append the pointer
 // removeSound need to free the memory, and the destructor aswell
-int SoundWrapper::addSound(QString filename)
+int SoundWrapper::addSound(QString filename,float mainVolume, float vacVolume)
 {
-    this->_soundList.append(new QFile(filename));
+
+    this->_soundList.append(new LIDL::SoundFile(filename,mainVolume,vacVolume));
     return 0;
+
 }
 
 // removeSoundAt: delete the pointer (free memory) and then delete the

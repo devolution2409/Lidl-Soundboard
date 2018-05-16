@@ -14,7 +14,8 @@ SOURCES += \
     CustomPlayer.cpp \
     CustomListWidget.cpp \
     CustomListWidgetItem.cpp \
-    FancySlider.cpp
+    FancySlider.cpp \
+    CustomSoundFile.cpp
 
 
 HEADERS += \
@@ -27,7 +28,8 @@ HEADERS += \
     include/CustomListWidget.h \
     include/EnumsAndStructs.h \
     include/FancySlider.h     \
-    include/CustomListWidgetItem.h
+    include/CustomListWidgetItem.h \
+    include/CustomSoundFile.h
 
 # do not need to add this to header as this does not contains Q_OBJECT macro
 # actually we do or it doesn't add it into project tree forsenT
@@ -37,7 +39,7 @@ HEADERS += \
 RESOURCES += \
     resources.qrc
 
-VERSION = 1.1.3
+VERSION = 1.2.0
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix

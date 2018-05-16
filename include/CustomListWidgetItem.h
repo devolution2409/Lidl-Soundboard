@@ -10,7 +10,8 @@ class CustomListWidgetItem : public QListWidgetItem
 
 public:
     explicit CustomListWidgetItem(QListWidget *parent = nullptr);
-    CustomListWidgetItem(const QString & text, QListWidget * parent = 0, int type = Type);
+
+    CustomListWidgetItem(const QString & text,float mainVolume = 1.0, float vacVolume =1.0 ,QListWidget * parent = 0, int type = Type);
     void setMainVolume(float);
     void setVacVolume(float);
     float getMainVolume();

@@ -37,7 +37,7 @@
 #include "CustomListWidget.h"
 #include "EnumsAndStructs.h"
 #include <QSlider>
-#include "FancySlider.h"
+// #include "QFancySlider"
 #include <CustomListWidgetItem.h>
 #include <QSpinBox>
 
@@ -118,9 +118,10 @@ private:
     QSpinBox    * _sliderVACSpin;
     QLabel  * _sliderLabelMain;
     QLabel  * _sliderLabelVAC;
+    QLabel  * _sliderHint;
+    QSlider *_sliderMain;
+    QSlider *_sliderVAC;
 
-    FancySlider *_sliderMain;
-    FancySlider *_sliderVAC;
 
 // TODO ajouter volume
 signals:

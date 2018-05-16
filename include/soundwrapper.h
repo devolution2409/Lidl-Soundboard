@@ -37,6 +37,9 @@
 #include <QStandardItem>
 #include <CustomPlayer.h>
 #include "EnumsAndStructs.h"
+#include "CustomListWidget.h"
+#include "CustomListWidgetItem.h"
+#include "CustomSoundFile.h"
 
 class SoundWrapper : public QObject
 {
@@ -44,20 +47,20 @@ class SoundWrapper : public QObject
 public:
     explicit SoundWrapper(QObject *parent = nullptr);
     // Constructor to be used from the add sound dialog
-    SoundWrapper(QListWidget *soundList,
+    SoundWrapper(CustomListWidget *soundList,
                  LIDL::Playback playbackMode,
                  QKeySequence * shortcut,
                  QObject *parent = nullptr   );
 
 // Constructor when we add a file from the sound property dialog
-    SoundWrapper(QListWidget *soundList,
+    SoundWrapper(CustomListWidget *soundList,
                  LIDL::Playback playbackMode,
                  QKeySequence * shortcut,
                  int virtualKey,
                  QObject *parent = nullptr   );
 
 // Constructor for when we OPEN a soundboard json file
-    SoundWrapper(QVector<QString> fileList,
+    SoundWrapper( QVector<LIDL::SoundFile*> fileList,
                  LIDL::Playback playbackMode,
                  QKeySequence  shortcut,
                  int shortcutVirtualKey =-1,
@@ -75,14 +78,14 @@ public:
 
 SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent=nullptr);
     //Getters
-    QVector<QFile*> getSoundList();
+    QVector<LIDL::SoundFile*> getSoundList();
     QKeySequence getKeySequence();
     LIDL::Playback getPlayMode();
     QString getSoundListAsQString();
     QList<QStandardItem*> getSoundAsItem();
 
     //Setters
-    int addSound(QString filename);
+    int addSound(QString filename, float mainVolume = 1.0, float vacVolume = 1.0);
     int removeSoundAt(int);
     int setKeySequence(QKeySequence);
     int setPlayMode(LIDL::Playback);
@@ -98,7 +101,11 @@ SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutpu
 
 private:
     // Vector to store the soundlist
-     QVector<QFile*> _soundList;
+     QVector<LIDL::SoundFile*> _soundList;
+
+  //  std::vector< std::map<QFile*, std::pair<float,float>>> _soundList;
+
+
     //  playblack mode
     // TODO: remplacer par une enum
     LIDL::Playback _playMode;
