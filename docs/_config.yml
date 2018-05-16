@@ -10,3 +10,4 @@ github_username:
 
 # Build settings
 markdown: kramdown
+remote-theme: volny/creative-theme-jekyll
