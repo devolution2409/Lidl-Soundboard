@@ -26,9 +26,11 @@ HEADERS += \
     include/CustomPlayer.h \
     include/CustomListWidget.h \
     include/EnumsAndStructs.h \
-    include/FancySlider.h
+    include/FancySlider.h     \
+    include/CustomListWidgetItem.h
 
 # do not need to add this to header as this does not contains Q_OBJECT macro
+# actually we do or it doesn't add it into project tree forsenT
 #include/CustomListWidgetItem.h
 
 

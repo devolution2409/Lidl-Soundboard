@@ -48,7 +48,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      *                                                     *
      *******************************************************/
     _sliderGroup = new QGroupBox("Volume",this);
-    _sliderLayout = new QVBoxLayout(_sliderGroup);
+    _sliderLayout = new QGridLayout(_sliderGroup);
     _sliderMain  = new FancySlider(Qt::Orientation::Horizontal,this);
     _sliderVAC   = new FancySlider(Qt::Orientation::Horizontal,this);
 
@@ -56,12 +56,20 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sliderVAC->setRange(0,100);
     _sliderLabelMain = new QLabel("Main Output Volume");
     _sliderLabelVAC = new QLabel("VAC Output Volume");
+    _sliderMainSpin = new QSpinBox(this);
+    _sliderVACSpin  =   new QSpinBox(this);
 
+    _sliderMainSpin->setRange(0,100);
+    _sliderVACSpin->setRange(0,100);
+    _sliderMainSpin->setSuffix("%");
+    _sliderVACSpin->setSuffix("%");
 
-    _sliderLayout->addWidget(_sliderLabelMain);
-    _sliderLayout->addWidget(_sliderMain);
-    _sliderLayout->addWidget(_sliderLabelVAC);
-    _sliderLayout->addWidget(_sliderVAC);
+    _sliderLayout->addWidget(_sliderLabelMain,0,0,1,4);
+    _sliderLayout->addWidget(_sliderMain,1,0,1,3);
+    _sliderLayout->addWidget(_sliderMainSpin,1,3,1,1);
+    _sliderLayout->addWidget(_sliderLabelVAC,2,0,1,4);
+    _sliderLayout->addWidget(_sliderVAC,3,0,1,3);
+    _sliderLayout->addWidget(_sliderVACSpin,3,3,1,1);
 
     _sliderGroup->setEnabled(false);
 
@@ -178,6 +186,15 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
     /*******************DRAG AND DROP EVENT******************/
     connect(_soundListDisplay,SIGNAL(fileDragged(QString)),this,SLOT(AddSoundFromDrop(QString)));
+    /****************************SLIDERS*********************/
+
+    // changing spin box will change slider
+    connect(_sliderMainSpin,SIGNAL(valueChanged(int)),_sliderMain,SLOT(setValue(int)));
+    connect(_sliderVACSpin,SIGNAL(valueChanged(int)),_sliderVAC,SLOT(setValue(int)));
+    // changing slider will change spinbox
+    connect(_sliderMain,SIGNAL(valueChanged(int)),_sliderMainSpin,SLOT(setValue(int)));
+    connect(_sliderVAC,SIGNAL(valueChanged(int)),_sliderVACSpin,SLOT(setValue(int)));
+
 
 }
 
@@ -254,42 +271,42 @@ void WrapperProperties::closeEvent(QCloseEvent *event)
 
 void WrapperProperties::AddSound()
 {
-    // if the playback is singleton and we already have one we don't do nuffin
-    if ( !(_soundListDisplay->count()>=1 && _radioGroup->checkedId() == 1 ))
+    //if we already have more than one sound we set the mode to sequential (default)
+
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav *.mp3)"));
+    // if the fileName isn't empty, the user selected a file, so we add it.
+    if (!fileName.isEmpty())
     {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav *.mp3)"));
-        // if the fileName isn't empty, the user selected a file, so we add it.
-        if (!fileName.isEmpty())
+        //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
+        //qDebug() << _soundListDisplay->row(item);
+        _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName)) ;
+        if (_soundListDisplay->count()>1)
         {
-            //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
-            //qDebug() << _soundListDisplay->row(item);          
-            _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName)) ;
 
-            // Disabling the double click event if singleton
-            //qDebug() << _radioGroup->checkedId();
-            // If singleton we disable the add sound option
+            _radioSingleton->setEnabled(false);
             if (_radioGroup->checkedId() == 1)
-                this->_btnAdd->setEnabled(false);
+                 _radioSequential->setChecked(true);
         }
-    }
 
+    }
 }
 void WrapperProperties::AddSoundFromDrop(QString file)
 {
-    //if we already have more than one sound we set the mode to sequential (default
-    if (_soundListDisplay->count()>=1)
+    //if we already have more than one sound and playback mode was singleton
+    // we set the mode to sequential (default)
+    if (_soundListDisplay->count()>1)
     {
-        _radioSequential->setChecked(true);
+
         _radioSingleton->setEnabled(false);
+        if (_radioGroup->checkedId() == 1)
+             _radioSequential->setChecked(true);
     }
     // if the playback is singleton and we already have one we don't do nuffin
     QString fileName = file;
         // if the fileName isn't empty, the user selected a file, so we add it.
         if (!fileName.isEmpty())
             _soundListDisplay->insertItem(_soundListDisplay->count() ,new CustomListWidgetItem(fileName));
-
-
-
 }
 
 
@@ -396,17 +413,36 @@ void WrapperProperties::editingStarted()
 }
 
 
-void WrapperProperties::ItemWasClicked(QListWidgetItem * item)
+void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 {
-    _btnDelete->setEnabled(true);
-    _selectedItem = item;
-    _sliderGroup->setEnabled(true);
 
+    disconnect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
+    disconnect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
+    // need to cast item to child class else it doesn't work
+    if (item != nullptr)
+        _selectedItem = dynamic_cast<CustomListWidgetItem*> (item);
+    // if cast was successfull
+    if (_selectedItem != nullptr)
+    {
+        _btnDelete->setEnabled(true);
+        _sliderGroup->setEnabled(true);
+        // setting sliders value
+        _sliderMain->setValue( static_cast<int>(_selectedItem->getMainVolume()*100));
+        _sliderVAC->setValue( static_cast<int>(_selectedItem->getVacVolume()*100));
+        qDebug() << "Slider main old value:" << static_cast<int>(_selectedItem->getMainVolume()*100);
+        // connecting sliders
+        connect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
+        connect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
+    }
 }
+
+
+
 
 void WrapperProperties::DeleteSelectedSound()
 {
     delete this->_selectedItem;
+    this->_selectedItem = nullptr;
     this->_btnDelete->setEnabled(false);
     this->_sliderGroup->setEnabled(false);
 
@@ -418,6 +454,19 @@ void WrapperProperties::DeleteSelectedSound()
     }
     // we clear selection
     _soundListDisplay->clearSelection();
+}
+
+
+// SLOTS for the sliders
+void WrapperProperties::SetItemMainVolume(int newValue)
+{
+    if (_selectedItem != nullptr )
+        this->_selectedItem->setMainVolume(static_cast<float>(newValue/100.0));
+}
+void WrapperProperties::SetItemVACVolume(int newValue)
+{
+    if (_selectedItem != nullptr )
+        this->_selectedItem->setVacVolume(static_cast<float>(newValue/100.0));
 }
 
 

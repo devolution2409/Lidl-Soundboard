@@ -39,6 +39,7 @@
 #include <QSlider>
 #include "FancySlider.h"
 #include <CustomListWidgetItem.h>
+#include <QSpinBox>
 
 class WrapperProperties : public QWidget
 {
@@ -63,7 +64,7 @@ private:
     // Buttons to add and delete
     QPushButton *_btnAdd;
     QPushButton *_btnDelete;
-    QListWidgetItem *_selectedItem;
+    CustomListWidgetItem *_selectedItem;
 
     // Our layouts
     QVBoxLayout *_vLayout;
@@ -106,11 +107,18 @@ private:
     int _pttScanCode;
     int _pttVirtualKey;
 
-    // Sliders for volume
+    /*******************************************************
+     *                                                     *
+     *                     VOLUME SLIDERS                  *
+     *                                                     *
+     *******************************************************/
     QGroupBox* _sliderGroup;
-    QVBoxLayout * _sliderLayout;
+    QGridLayout * _sliderLayout;
+    QSpinBox    * _sliderMainSpin;
+    QSpinBox    * _sliderVACSpin;
     QLabel  * _sliderLabelMain;
     QLabel  * _sliderLabelVAC;
+
     FancySlider *_sliderMain;
     FancySlider *_sliderVAC;
 
@@ -123,7 +131,7 @@ public slots:
     // Qlist Widget slots
     void AddSound();
     void AddSoundFromDrop(QString);
-    void ItemWasClicked(QListWidgetItem * item);
+    void ItemWasClicked(QListWidgetItem* item);
     void DeleteSelectedSound(); //will call DeleteSound()
 
 
@@ -139,6 +147,12 @@ public slots:
     // Communicating with main ui slots: CreateWrapper and Edited wrapper
     void CreateWrapper();
     void SendEditedWrapper();
+
+    // Slots for the item as the items aren't Q_OBJECT they can't have slots of their own forsenT
+    void SetItemMainVolume(int);
+    void SetItemVACVolume(int);
+
+
 
   //  void Test(SoundWrapper*);
 };

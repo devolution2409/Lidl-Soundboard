@@ -28,3 +28,4 @@ void FancySlider::sliderChange(QAbstractSlider::SliderChange change)
         QToolTip::showText(mapToGlobal( QPoint( bottomRightCorner.x() , bottomRightCorner.y() -40 ) ), QString::number(value()), this);
     }
 }
+

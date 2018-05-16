@@ -13,6 +13,8 @@ public:
     CustomListWidgetItem(const QString & text, QListWidget * parent = 0, int type = Type);
     void setMainVolume(float);
     void setVacVolume(float);
+    float getMainVolume();
+    float getVacVolume();
 private:
     float _mainVolume;
     float _vacVolume;
