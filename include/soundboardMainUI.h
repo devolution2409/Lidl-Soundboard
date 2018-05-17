@@ -176,7 +176,7 @@ signals:
 public slots:
     //This slot will allow us to add a sound, opens a file explorer dialogue
     void addSoundDialog();
-    void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1);
+    void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
     void soundModified(SoundWrapper * modifiedSound);
     // Slots for where user click or double click a cell
     void onCellClicked(QModelIndex index);
@@ -223,6 +223,8 @@ public slots:
     void StatusErrorPlaying(QString);
 
     void HelpCheckForUpdate();
+
+    void ToolClearShortcut();
 
     //void ErrorOnPlaying(QString);
 

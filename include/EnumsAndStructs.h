@@ -12,6 +12,10 @@ namespace LIDL{
         Sequential = 2,
         Auto =  3
     };
+    enum class Shortcut{
+        GENERATE,
+        DONT_GENERATE
+    };
 }
 
 

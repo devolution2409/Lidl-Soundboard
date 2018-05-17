@@ -41,6 +41,7 @@
 #include "CustomListWidgetItem.h"
 #include "CustomSoundFile.h"
 
+
 class SoundWrapper : public QObject
 {
     Q_OBJECT
@@ -75,6 +76,8 @@ public:
                  int mainOutput = -1,
                  int vacOutput = -1,
                  QObject *parent = nullptr   );
+///ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE
+    //SoundWrapper(const SoundWrapper &other);
 
 SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent=nullptr);
     //Getters
@@ -92,9 +95,16 @@ SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutpu
 
     void setPlayerPTTScanCode(int);
     void setPlayerPTTVirtualKey(int);
+    int  getPlayerPTTScanCode();
+    int  getPlayerPTTVirtualKey();
 
     void setPlayerMainOutput(int);
     void setPlayerVACOutput(int);
+    int getVacDevice();
+
+    int getMainDevice();
+
+
     int getShortcutVirtualKey();
 
 
@@ -129,9 +139,10 @@ public slots:
     void VACDeviceChanged(int);
     void PTTVirtualKeyChanged(int);
     void PTTScanCodeChanged(int);
-
     void playerNowPlaying(QString);
     void playerErrorPlaying(QString);
+    void clearShorcut();
+
 
 };
 

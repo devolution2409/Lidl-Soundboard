@@ -41,7 +41,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _btnDelete= new QPushButton("Delete");
     _btnDelete->setEnabled(false);
 
-    _soundListHint = new QLabel("💡 You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.");
+    _soundListHint = new QLabel("💡 You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.\n     You can set the volume of a sound in the volume panel.");
     /*******************************************************
      *                                                     *
      *                     VOLUME SLIDERS                  *

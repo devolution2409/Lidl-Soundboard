@@ -216,9 +216,13 @@ void SoundboardMainUI::addSoundDialog()
 
 void SoundboardMainUI::deleteSound()
 {
+
     // check if selected sound is inside the array
     if (this->lastSelectedRow <= this->_sounds.size())
     {
+        // disconnect anything connected to the sound
+        disconnect(_sounds.at(lastSelectedRow));
+
         //Schedule deletion just in case
         this->_sounds.at(lastSelectedRow)->deleteLater();
         this->_sounds.removeAt(lastSelectedRow);
@@ -252,7 +256,7 @@ void SoundboardMainUI::deleteSound()
 
 
 // Add a sound if whereToInsert isn't
-void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert)
+void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert, LIDL::Shortcut generationMode)
 {
     //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
@@ -270,6 +274,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     connect(modifiedSound,SIGNAL(NowPlaying(QString)),this,SLOT(StatusPlaying(QString)));
     // connecting the wrapper proxy signal for player ErrorPlaying
     connect(modifiedSound,SIGNAL(ErrorPlaying(QString)),this,SLOT(StatusErrorPlaying(QString)));
+    // connect the clear button to the clear shortcut slot
+    connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -308,8 +314,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
         _keyVirtualKey.insert(lastSelectedRow,modifiedSound->getShortcutVirtualKey());
 
     }
-
-    this->GenerateGlobalShortcuts();
+    if (generationMode == LIDL::Shortcut::GENERATE)
+        this->GenerateGlobalShortcuts();
 
     // we resize
     this->resultView->resizeRowsToContents();
@@ -401,9 +407,8 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
     //https://msdn.microsoft.com/fr-fr/library/windows/desktop/ms646327(v=vs.85).aspx
    // qDebug() << "Unregistering all hotkeys";
     for (auto i: _winShorcutHandle)
-    {
         UnregisterHotKey(NULL,i);
-    }
+
 
     // now we register the hotkeys
     // https://msdn.microsoft.com/en-us/library/windows/desktop/ms646309(v=vs.85).aspx
@@ -513,8 +518,10 @@ void SoundboardMainUI::setUpMenu()
                             Tools
     ****************************************************/
     _actions.append(new QAction("Regenerate shortcuts",this));  //10);
-    _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
     toolMenu->addAction(_actions.at(10));
+    _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
+    _actions.append(new QAction("Clear sound shortcuts",this));  //11);
+    toolMenu->addAction(_actions.at(11));
     /***************************************************
                            CONNECTIONS
     ****************************************************/
@@ -529,6 +536,7 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
     connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
     connect(this->_actions.at(10),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
+    connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
 }
 
 //Reimplementing to kill all shortcuts
@@ -1101,11 +1109,41 @@ void SoundboardMainUI::StatusErrorUnexistant()
 
 void SoundboardMainUI::StatusErrorPlaying(QString name)
 {
-    this->statusBar()->showMessage("Error playing file:" + name);
+    this->statusBar()->showMessage("Error playing file: " + name);
 }
 
 void SoundboardMainUI::StatusPlaying(QString name)
 {
-    this->statusBar()->showMessage("Now playing:" + name);
+    this->statusBar()->showMessage("Now playing: " + name);
 }
+
+void SoundboardMainUI::ToolClearShortcut()
+{
+    // Clearing KeySequence, else GenerateGlobalShortcut() will be able to pull info from there
+    _keySequence.clear();
+    for (auto i: _winShorcutHandle)
+        UnregisterHotKey(NULL,i);
+    // Clearing it too, else size  of keysequence and winshortcut handle wont match forsenE
+    _winShorcutHandle.clear();
+    QKeySequence emptySeq;
+
+    QVector<SoundWrapper*> temp;
+    for (auto &i: _sounds)
+    {
+        temp.append(new SoundWrapper(i->getSoundList(),i->getPlayMode(),emptySeq, -1,i->getMainDevice(),i->getVacDevice(),i->getPlayerPTTVirtualKey(),i->getPlayerPTTScanCode(),nullptr));
+        delete i;
+    }
+    _sounds.clear();
+    _model->clear();
+    _model->setHorizontalHeaderLabels(
+        (QStringList() << "Sound Collections"
+                       << "Shortcut")
+                       << "Mode");
+
+
+    for (auto &i: temp)
+        this->soundAdded(i,-1,LIDL::Shortcut::DONT_GENERATE);
+
+}
+
 

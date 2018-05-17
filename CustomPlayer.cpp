@@ -231,3 +231,24 @@ void CustomPlayer::SetPlaybackMode(LIDL::Playback playMode)
 {
     _playMode = playMode;
 }
+
+int  CustomPlayer::GetPTTScanCode()
+{
+    return this->_PTTScanCode;
+
+}
+
+int  CustomPlayer::GetPTTVirtualKey()
+{
+    return this->_PTTVirtualKey;
+}
+
+int CustomPlayer::GetOutputDevice()
+{
+    return this->_mainOutputDevice;
+}
+int CustomPlayer::GetVACDevice()
+{
+    return this->_VACOutputDevice;
+}
+

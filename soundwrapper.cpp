@@ -154,7 +154,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     tempItem.append(new QStandardItem(this->getSoundListAsQString()));
     // If shortcut is empty we write no shortcut
     if (this->getKeySequence().isEmpty())
-        tempItem.append(new QStandardItem("No shortcut!"));
+        tempItem.append(new QStandardItem("No Shortcut!"));
     else
         tempItem.append(new QStandardItem(this->getKeySequence().toString()));
     QString tmpMode;
@@ -275,3 +275,55 @@ void SoundWrapper::playerErrorPlaying(QString songName)
 }
 
 
+void SoundWrapper::clearShorcut()
+{
+    QKeySequence empty;
+    this->_keySequence.swap(empty);
+    this->setPlayerPTTScanCode(-1);
+    this->setPlayerPTTVirtualKey(-1);
+}
+
+// ILLEGAL IN QT
+// ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL
+//SoundWrapper::SoundWrapper(SoundWrapper other) : QObject(other)
+//{
+//    // Egalizing all non-pointers member variable
+//    _soundList   = other.getSoundList();
+//    _playMode    = other.getPlayMode();
+//    _keySequence = other.getKeySequence();
+//    _virtualKey  = other.getShortcutVirtualKey();
+//    // Declaring a new player
+//    this->_player = new CustomPlayer();
+//    connect(_player,SIGNAL(ErrorPlaying(QString)),this,SLOT(playerErrorPlaying(QString)));
+//    connect(_player,SIGNAL(NowPlaying(QString)),this,SLOT(playerNowPlaying(QString)));
+
+//    this->setPlayerPTTScanCode(other.getPlayerPTTScanCode());
+//    this->setPlayerPTTVirtualKey(other.getPlayerPTTVirtualKKey());
+//    this->setPlayerMainOutput(other.getMainDevice());
+//    this->setPlayerVACOutput(other.getVacDevice());
+//    this->_player->SetPlaylist(this->getSoundList());
+//    this->_player->SetPlaybackMode(this->getPlayMode());
+
+
+//}
+
+int SoundWrapper::getMainDevice()
+{
+    return this->_player->GetOutputDevice();
+}
+
+int SoundWrapper::getVacDevice()
+{
+    return this->_player->GetVACDevice();
+}
+
+
+int  SoundWrapper::getPlayerPTTScanCode()
+{
+    return this->_player->GetPTTScanCode();
+}
+
+int  SoundWrapper::getPlayerPTTVirtualKey()
+{
+      return this->_player->GetPTTVirtualKey();
+}

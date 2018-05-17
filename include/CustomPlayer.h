@@ -43,8 +43,14 @@ public:
     CustomPlayer(QVector<LIDL::SoundFile*>, LIDL::Playback playMode,QObject *parent = nullptr);
     void SetOutputDevice(int);
     void SetVACDevice(int);
+    int GetOutputDevice();
+    int GetVACDevice();
+
     void SetPTTScanCode(int scanCode);
     void SetPTTVirtualKey(int virtualKey);
+    int  GetPTTScanCode();
+    int  GetPTTVirtualKey();
+
 
     void SetPPTKeys(int scanCode, int virtualKey);
     void SetPlaylist(QVector<LIDL::SoundFile*> soundList);
