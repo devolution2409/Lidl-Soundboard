@@ -20,7 +20,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     // we use MVC architecture. This is the declaration of the _model
     // each case of the view is a model forsenT
-    _model = new QStandardItemModel(0,3,this);
+    //_model = new QStandardItemModel(0,3,this);
+    _model = new CustomTableModel(0,3,this);
     //Adding the headers
     _model->setHorizontalHeaderLabels(
         (QStringList() << "Sound Collections"
@@ -37,11 +38,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     //Applying the 1 line 2 column _model
     resultView->setModel(_model);
-    // hiding the vertical headers on the left side
-    resultView->verticalHeader()->hide();
-    // Setting so the user can only select row forsenE
-    resultView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    resultView->setSelectionMode(QAbstractItemView::SingleSelection);
+
     //QStandardItem item;
     // Adding the viewer to the layout
      vLayout->addWidget(resultView);
@@ -289,6 +286,8 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     {
         _sounds.append(modifiedSound);
         _data.append(tempList);
+        // Adding actual row the view is done by addind the data
+        // to the model forsenT
         _model->appendRow(_data.last());
         // addind the key sequence to the shortcut list
         _winShorcutHandle.append(_winShorcutHandle.size());
@@ -342,6 +341,7 @@ void SoundboardMainUI::onCellClicked(QModelIndex index)
 // simple click event is also called, so lastSelectedRow SHOULD BE correct
 void SoundboardMainUI::onCellDoubleClicked( QModelIndex index)
 {
+
    // but we update it regardless
     disconnect(_btnPlay,0,0,0);
     lastSelectedRow = index.row();
@@ -357,6 +357,7 @@ void SoundboardMainUI::onCellDoubleClicked( QModelIndex index)
 // open the dialog to edit sound
 void SoundboardMainUI::editSoundDialog()
 {
+    this->setEnabled(false);
     //if lastSelectedRow is valid (ie we didn't delete this entry)
     if (this->lastSelectedRow <= this->_sounds.size())
     {

@@ -131,6 +131,7 @@ QMenu::item:selected
     color: #000000;
 }
 
+
 QWidget:disabled
 {
     color: #404040;
@@ -145,7 +146,8 @@ QAbstractItemView
 
 QWidget:focus
 {
-    /*border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);*/
+/*commenting this so the QTableView in CustomTableView doesn't get orange when clicked on forsenT*/
+/*    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);*/
 }
 
 QLineEdit

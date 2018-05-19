@@ -81,6 +81,7 @@
 #include "QSimpleUpdater.h"
 #include <QMainWindow>
 #include <QStatusBar>
+#include "CustomTableModel.h"
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -104,7 +105,8 @@ private:
     // grid layout for btns
     QGridLayout *_gLayout;
     // Model displayed by the viewer
-    QStandardItemModel *_model;
+    //QStandardItemModel *_model;
+    CustomTableModel *_model;
     // DATA of the model:
     QVector<QList< QStandardItem* >> _data;
 

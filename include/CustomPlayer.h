@@ -58,7 +58,6 @@ public:
     void SetPlaybackMode(LIDL::Playback playMode);
     ~CustomPlayer();
 
-signals:
 
 public slots:
    // void PlayFirst();

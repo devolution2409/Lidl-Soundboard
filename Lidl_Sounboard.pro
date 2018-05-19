@@ -15,7 +15,9 @@ SOURCES += \
     CustomListWidget.cpp \
     CustomListWidgetItem.cpp \
     FancySlider.cpp \
-    CustomSoundFile.cpp
+    CustomSoundFile.cpp \
+    CustomTableModel.cpp \
+    StyledDelegate.cpp
 
 
 HEADERS += \
@@ -29,7 +31,9 @@ HEADERS += \
     include/EnumsAndStructs.h \
     include/FancySlider.h     \
     include/CustomListWidgetItem.h \
-    include/CustomSoundFile.h
+    include/CustomSoundFile.h \
+    include/CustomTableModel.h \
+    include/StyledDelegate.h
 
 # do not need to add this to header as this does not contains Q_OBJECT macro
 # actually we do or it doesn't add it into project tree forsenT
