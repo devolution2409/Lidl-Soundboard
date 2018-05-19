@@ -82,6 +82,8 @@
 #include <QMainWindow>
 #include <QStatusBar>
 #include "CustomTableModel.h"
+//iter_swap
+#include <algorithm>
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -228,6 +230,8 @@ public slots:
 
     void ToolClearShortcut();
 
+    void DealDragAndDrop(int);
+    void SwapWrappers(int firstRow, int secondRow);
     //void ErrorOnPlaying(QString);
 
 };

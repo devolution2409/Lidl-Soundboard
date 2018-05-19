@@ -52,7 +52,7 @@ bool CustomTableModel::dropMimeData(const QMimeData *data,
     Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     // qDebug() << "Can drop:" << canDropMimeData(data, action, row, column, parent);
-    qDebug() << "Attempting to drop row: " << row << " on row: " << parent.row();
+    //qDebug() << "Attempting to drop row: " << row << " on row: " << parent.row();
 
     emit draggedOnRow(parent.row());
 

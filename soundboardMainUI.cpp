@@ -39,6 +39,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     //Applying the 1 line 2 column _model
     resultView->setModel(_model);
 
+    connect(_model,SIGNAL(draggedOnRow(int)),this,SLOT(DealDragAndDrop(int)));
+
     //QStandardItem item;
     // Adding the viewer to the layout
      vLayout->addWidget(resultView);
@@ -297,20 +299,21 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     // else it was modified, need to swap  the previous item by the new, and than delete the item
     else
     {
-        _sounds.removeAt(lastSelectedRow);
-        _sounds.insert(lastSelectedRow,modifiedSound);
+        // forsenT
+        _sounds.removeAt(whereToInsert);
+        _sounds.insert(whereToInsert,modifiedSound);
         // change data too
-        _data.removeAt(lastSelectedRow);
-        _data.insert(lastSelectedRow,tempList);
+        _data.removeAt(whereToInsert);
+        _data.insert(whereToInsert,tempList);
         //we need to update model accordingly
-        _model->removeRow(lastSelectedRow);
-        _model->insertRow(lastSelectedRow,_data.at(lastSelectedRow));
+        _model->removeRow(whereToInsert);
+        _model->insertRow(whereToInsert,_data.at(whereToInsert));
         // updating the shortcuts table
-        _keySequence.removeAt(lastSelectedRow);
-        _keySequence.insert(lastSelectedRow,modifiedSound->getKeySequence());
+        _keySequence.removeAt(whereToInsert);
+        _keySequence.insert(whereToInsert,modifiedSound->getKeySequence());
         // updating keyscancode table
-        _keyVirtualKey.removeAt(lastSelectedRow);
-        _keyVirtualKey.insert(lastSelectedRow,modifiedSound->getShortcutVirtualKey());
+        _keyVirtualKey.removeAt(whereToInsert);
+        _keyVirtualKey.insert(whereToInsert,modifiedSound->getShortcutVirtualKey());
 
     }
     if (generationMode == LIDL::Shortcut::GENERATE)
@@ -1144,7 +1147,44 @@ void SoundboardMainUI::ToolClearShortcut()
 
     for (auto &i: temp)
         this->soundAdded(i,-1,LIDL::Shortcut::DONT_GENERATE);
-
 }
 
+void SoundboardMainUI::DealDragAndDrop(int newPlace)
+{
+    if (newPlace != -1)
+        this->SwapWrappers(this->resultView->currentIndex().row(), newPlace );
+}
 
+void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
+{
+    SoundWrapper * temp = _sounds.at(firstRow);
+
+    SoundWrapper * firstPtr = new SoundWrapper(temp->getSoundList(),
+                                           temp->getPlayMode(),
+                                           temp->getKeySequence(),
+                                           temp->getShortcutVirtualKey(),
+                                           temp->getMainDevice(),
+                                           temp->getVacDevice(),
+                                           temp->getPlayerPTTVirtualKey(),
+                                           temp->getPlayerPTTScanCode(),
+                                           nullptr);
+
+
+    temp = _sounds.at(secondRow);
+
+    SoundWrapper * secondPtr = new SoundWrapper(temp->getSoundList(),
+                                                temp->getPlayMode(),
+                                                temp->getKeySequence(),
+                                                temp->getShortcutVirtualKey(),
+                                                temp->getMainDevice(),
+                                                temp->getVacDevice(),
+                                                temp->getPlayerPTTVirtualKey(),
+                                                temp->getPlayerPTTScanCode(),
+                                                nullptr);
+
+    // Once we created those new items we can insert them (since it deletes the items we can't reuse them)
+    this->soundAdded(firstPtr, secondRow);
+    this->soundAdded(secondPtr, firstRow);
+
+
+}

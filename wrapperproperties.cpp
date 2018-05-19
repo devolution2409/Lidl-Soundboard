@@ -292,9 +292,11 @@ void WrapperProperties::AddSound()
 
             _radioSingleton->setEnabled(false);
             if (_radioGroup->checkedId() == 1)
-                 _radioSequential->setChecked(true);
+            {
+                _radioSequential->setChecked(true);
+                _playBackMode = LIDL::Playback::Sequential;
+            }
         }
-
     }
 }
 void WrapperProperties::AddSoundFromDrop(QString file)
@@ -306,7 +308,10 @@ void WrapperProperties::AddSoundFromDrop(QString file)
 
         _radioSingleton->setEnabled(false);
         if (_radioGroup->checkedId() == 1)
-             _radioSequential->setChecked(true);
+        {
+            _radioSequential->setChecked(true);
+            _playBackMode = LIDL::Playback::Sequential;
+        }
     }
     // if the playback is singleton and we already have one we don't do nuffin
     QString fileName = file;
