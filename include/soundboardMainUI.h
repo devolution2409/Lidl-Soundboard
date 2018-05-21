@@ -86,6 +86,7 @@
 #include <QTextEdit>
 #include <QTimer>
 #include "SettingsController.h"
+#include <QFileInfo>
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -174,6 +175,8 @@ private:
     ****************************************************/
     QString _saveName;
 
+    void Open(QString fileName);
+
     /* LIDL::SettingsController is a singleton and calling
      * GetInstance() will either create it or give a pointer
      * towards the already existing instance
@@ -185,11 +188,13 @@ private:
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 signals:
+    void lidlJsonDetected(QFileInfo); // forsenBee
+    void OnConstructionDone();
 
 public slots:
     //This slot will allow us to add a sound, opens a file explorer dialogue
     void addSoundDialog();
-    void soundAdded(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
+    void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
     void soundModified(SoundWrapper * modifiedSound);
     // Slots for where user click or double click a cell
     void onCellClicked(QModelIndex index);
@@ -218,8 +223,9 @@ public slots:
     void Save();
     // Save as slot
     void SaveAs();
+
     // open slot
-    void Open();
+    void OpenSlot();
     // Clear the soundboard
     void ClearAll();
     // EXP soundboard compatibility
@@ -244,7 +250,7 @@ public slots:
 
     void SetStatusTextEditText(QString);
 
-
+    void PostConstruction();
     //void ErrorOnPlaying(QString);
 
 

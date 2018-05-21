@@ -11,13 +11,14 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-//    Le conteneur
+//    Main UI LeBaited
     SoundboardMainUI container;
-  //  container.setFixedSize(400,600);
+
+
     container.setMinimumSize(400,600);
     container.setMaximumSize(1280,900);
-
     container.show();
+
 
     QFile css_dark(":/css/resources/darkorange.css");
     css_dark.open(QFile::ReadOnly);

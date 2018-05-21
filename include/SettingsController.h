@@ -13,6 +13,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QFile>
+#include <QFileInfo>
+//#include <QDateTime>
 // Class handling the settings
 // we make it a singleton so we are gucci
 namespace LIDL{
@@ -29,14 +31,17 @@ public:
     int GetDefaultMainVolume();
     int GetDefaultVacVolume();
     // Public methods
-    void OpenSettings();
+    bool OpenSettings();
     // Can still use constructor to set default valuues
     // Because it should be called before any other methods
     //void SetDefaultValues();
     void SaveSettings();
 
+    QString GetLastOpenedSoundboard();
+
 
 private:
+    QString fileName;
     // Singleton class
     SettingsController();
     // the pointer will exist even if class isn't instancied yet
@@ -57,6 +62,10 @@ private:
     int defaultMainVolume;
     int defaultVacVolume;
 
+    // QVector of recents opened file (either from the file or from after opening/saving a file)
+    QVector<QFileInfo> recentFiles;
+
+    // The pointer to the ui
     Ui::Settings * ui;
 
 public slots:
@@ -68,6 +77,7 @@ public slots:
     // slots for button in the ui
     void buttonBrowseLidl();
     void buttonBrowseSound();
+    void addFile(QFileInfo fileInfo);
 
 };
 }

@@ -9,13 +9,14 @@ SettingsController::SettingsController()
 {
     // Settings default value in case
         // Volume
-        defaultMainVolume       = 1;
-        defaultVacVolume        = 1;
+        defaultMainVolume       = 100;
+        defaultVacVolume        = 100;
         // Folder for song = get app location
         defaultSoundboardFolder =  qApp->applicationDirPath();
         defaultSoundsFolder     =  qApp->applicationDirPath();
         // Default file count
         recentFileCount         = 5;
+        this->fileName = "lidlsettings.json";
 }
 
 
@@ -87,8 +88,8 @@ void SettingsController::ShowSettingsWindow()
     // Settings all the value to which we already have stored
     ui->folderLidlEdit ->setText(defaultSoundboardFolder);
     ui->folderSoundEdit ->setText(defaultSoundsFolder);
-    ui->sliderMain->setValue(defaultMainVolume * 100);
-    ui->sliderVAC->setValue(defaultVacVolume * 100);
+    ui->sliderMain->setValue(defaultMainVolume);
+    ui->sliderVAC->setValue(defaultVacVolume);
     ui->fileCount->setValue(recentFileCount);
 
     widget->show();
@@ -130,19 +131,78 @@ void SettingsController::buttonBrowseSound()
 
 
 
-void SettingsController::OpenSettings()
+bool SettingsController::OpenSettings()
 {
-    QFile file("./lidlsettings.lidljson");
+    QFile file(this->fileName);
     // If settings file exist we parse it.
     if (file.exists())
     {
-        qDebug() << "yeeeeha";
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
+        {
+            QString jsonAsString = file.readAll();
+            //QJsonParseError error;
+            QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
+            if (cdOMEGALUL.isNull())
+            {
+                file.close();
+                // Return false to prevent main ui from fetching recent data
+                return false;
+                // todo: deal with error message
+            }
+            // else we parse it
+            else
+            {
+              QJsonObject json = cdOMEGALUL.object();
+              if (json.contains("Default Locations"))
+              {
+                  QJsonObject locations = json.value("Default Locations").toObject();
+                  if (locations.contains("Default Sounds Path"))
+                      this->defaultSoundsFolder = locations.value("Default Sounds Path").toString();
+                  if (locations.contains("Defaut Soundboards (.lidljson) Path"))
+                      this->defaultSoundboardFolder = locations.value("Defaut Soundboards (.lidljson) Path").toString();
+              }
+              if (json.contains("Default Volumes"))
+              {
+                  QJsonObject volumes = json.value("Default Volumes").toObject();
+                  if (volumes.contains("Main Volume"))
+                      defaultMainVolume = volumes.value("Main Volume").toInt();
+                  if (volumes.contains("VAC Volume"))
+                      defaultVacVolume  = volumes.value("VAC Volume").toInt();
+              }
+              if (json.contains("Recent Files Info"))
+              {
+                  QJsonObject fileObject =  json.value("Recent Files Info").toObject();
+                  if (fileObject.contains("Display Count"))
+                      recentFileCount = fileObject.value("Display Count").toInt();
+                  if (fileObject.contains("Files"))
+                  {
+                      qDebug() << "!????";
+                      QJsonObject files = fileObject.value("Files").toObject();
+                      // have to use standard iterator and not auto cause it doesn't work pajaL
+                      // if we iterate from beginning to end, the first element
+                      // of the index
+                      // is the last opened soundboard
+                      // else it is the other way around
+                      for (QJsonObject::iterator it = files.begin(); it!= files.end(); it++)
+                      {
+                          recentFiles.append(QFileInfo(it.key()));
+                          //  qDebug() <<  "file name:" << it.key() << "index:" <<it.value().toInt();
+                      }
+
+                  }
+              }
+            }
+        }
+        return true;
     }
 
     // else we create it
     // with default values
     else
+    {
         this->SaveSettings();
+        return false;
+    }
 }
 
 void SettingsController::SaveSettings()
@@ -162,8 +222,17 @@ void SettingsController::SaveSettings()
     QJsonObject files;
     files.insert("Display Count", recentFileCount);
 
-    QJsonArray fileArray;
+    QJsonObject fileArray;
+    int count = 0;
+    for ( auto i: this->recentFiles )
+    {
+        // oldest file will have the littlest index (forsenE)
+        fileArray.insert(i.absoluteFilePath(), count++);
+    }
+
+
     files.insert("Files",fileArray);
+
 
     saveFile.insert("Default Volumes",volume);
     saveFile.insert("Default Locations",location);
@@ -171,8 +240,7 @@ void SettingsController::SaveSettings()
 
     QJsonDocument cdOMEGALUL(saveFile);
     QString boyishGiggles(cdOMEGALUL.toJson(QJsonDocument::Indented));
-    QFile file("./lidlsettings.lidljson");
-
+    QFile file(this->fileName);
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream out(&file);
@@ -180,8 +248,6 @@ void SettingsController::SaveSettings()
         out << boyishGiggles.toUtf8();
         file.close();
     }
-
-
 
 }
 
@@ -201,5 +267,25 @@ void SettingsController::SetRecentFileCount(int count)
 {
     recentFileCount = count;
 }
+
+void SettingsController::addFile(QFileInfo fileInfo)
+{
+    // Check if file isn't contained in the vector already and than we append it if not
+    if (!(recentFiles.contains(fileInfo)))
+            recentFiles.append(fileInfo);
+}
+
+
+QString SettingsController::GetLastOpenedSoundboard()
+{
+    if (recentFiles.size() > 0)
+        if (recentFiles.at(0).exists())
+            if (recentFiles.at(0).isReadable())
+                return (this->recentFiles.at(0).filePath());
+    return QString("");
+}
+
+
+
 
 } // end namespace

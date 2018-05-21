@@ -184,7 +184,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
     /*******************BUTTON DONE AND ABORT*****************/
     connect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
-    connect(this,SIGNAL(signalAddDone(SoundWrapper*)),_mainWidget,SLOT(soundAdded(SoundWrapper*)));
+    connect(this,SIGNAL(signalAddDone(SoundWrapper*)),_mainWidget,SLOT(addSound(SoundWrapper*)));
     connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
     /*******************DRAG AND DROP EVENT******************/
     connect(_soundListDisplay,SIGNAL(fileDragged(QString)),this,SLOT(AddSoundFromDrop(QString)));

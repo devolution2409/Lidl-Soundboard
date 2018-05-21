@@ -177,14 +177,36 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       // Declaring savename empty string so save doesn't work forsenE
       this->_saveName = "";
 
-      // Calling OpenSetting will created the instance of the SettingsController we can
-      // after wards access everywhere
-      LIDL::SettingsController::GetInstance()->OpenSettings();
+      /* Calling OpenSetting will created the instance of the SettingsController we can after wards access it everywhere.
+       * If the settings file was found, this function will return true
+       * => we can automatically open last opened file */
 
+      // Ensure LIDL::SettingsController exist so we can connect it
+      if (LIDL::SettingsController::GetInstance() != nullptr)
+          connect(this,&SoundboardMainUI::lidlJsonDetected,
+                  LIDL::SettingsController::GetInstance(),&LIDL::SettingsController::addFile);
+
+      // We are required to do this trick else
+      // the window isn't existing when the AddSound method attempts to resize columns
+
+      this->setMinimumSize(400,600);
+      this->setMaximumSize(1280,900);
+      this->show();
+
+      connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
+      emit OnConstructionDone();
       // Check for update
      // this->IsUpdateAvailable();
 }
 
+void SoundboardMainUI::PostConstruction()
+{
+    // Open the soundboard post-construction
+    if (LIDL::SettingsController::GetInstance()->OpenSettings())
+        if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
+            this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());
+
+}
 
 
 void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
@@ -274,7 +296,7 @@ void SoundboardMainUI::deleteSound()
 
 
 // Add a sound if whereToInsert isn't
-void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInsert, LIDL::Shortcut generationMode)
+void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, LIDL::Shortcut generationMode)
 {
     //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
@@ -341,6 +363,7 @@ void SoundboardMainUI::soundAdded(SoundWrapper * modifiedSound, int whereToInser
     // we resize
     this->resultView->resizeRowsToContents();
 
+
 }
 
 
@@ -400,7 +423,7 @@ void SoundboardMainUI::editSoundDialog()
 // deal with modified sound
 void SoundboardMainUI::soundModified(SoundWrapper *modifiedSound)
 {
-    this->soundAdded(modifiedSound,lastSelectedRow);
+    this->addSound(modifiedSound,lastSelectedRow);
 }
 
 void SoundboardMainUI::enableButtons()
@@ -552,7 +575,7 @@ void SoundboardMainUI::setUpMenu()
                            CONNECTIONS
     ****************************************************/
     connect(this->_actions.at(4),SIGNAL(triggered()),this,SLOT(SaveAs()));
-    connect(this->_actions.at(1),SIGNAL(triggered()),this,SLOT(Open()));
+    connect(this->_actions.at(1),SIGNAL(triggered()),this,SLOT(OpenSlot()));
     connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
     connect(this->_actions.at(5),SIGNAL(triggered()),this,SLOT(close()));
     connect(this->_actions.at(2),SIGNAL(triggered()),this,SLOT(OpenEXPSounboard()));
@@ -569,6 +592,9 @@ void SoundboardMainUI::setUpMenu()
 //Reimplementing to kill all shortcuts
 void SoundboardMainUI::closeEvent (QCloseEvent *event)
 {
+    // save the settings forsenE
+    LIDL::SettingsController::GetInstance()->SaveSettings();
+
     for (auto i: _winShorcutHandle)
     {
         UnregisterHotKey(NULL,i);
@@ -692,15 +718,20 @@ void SoundboardMainUI::ClearAll()
     this->_deviceListVAC->setCurrentIndex(0);
 }
 
-// Open
-void SoundboardMainUI::Open()
+// Open slot
+void SoundboardMainUI::OpenSlot()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("LIDL JSON file(*.lidljson)"));
+    this->Open(fileName);
+    // forsenT
+}
+
+void SoundboardMainUI::Open(QString fileName)
+{
+    qDebug() << "FileName is:" << fileName;
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
-    {   // We clear the soundboard
-        this->ClearAll();
-        this->_saveName = fileName;
+    {
         // Declare the temp variables we are going to use to construct our objects
         QString mainOutputDevice, vacOutputDevice;
         QString pttName;
@@ -708,9 +739,22 @@ void SoundboardMainUI::Open()
         QString stopName; int stopVirtualKey =-1;
 
         QString jsonAsString = file.readAll();
-        file.close();
+
         //QJsonParseError error;
         QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
+        if (cdOMEGALUL.isNull())
+        {
+            file.close();
+            QString errorMsg( "\""  +  fileName +  "\" isn't a valid .lidljson file.");
+            this->statusBar()->showMessage(errorMsg);
+            return;
+        }
+        // Else, if is valid Json we prooeced:
+        // We clear the soundboard
+        this->ClearAll();
+        this->_saveName = fileName;
+        emit lidlJsonDetected(QFileInfo(file)); // forsenBee
+        file.close();
         QJsonObject json = cdOMEGALUL.object();
 
       //  QVector<SoundWrapper*> sounds;
@@ -820,7 +864,7 @@ void SoundboardMainUI::Open()
                                         mainVolume = static_cast<float>(volumes.value("Main Volume").toInt()/100.0);
                                 if (volumes.contains("VAC Volume"))
                                         vacVolume  = static_cast<float>(volumes.value("VAC Volume").toInt()/100.0);
-                                qDebug() << "Volumes: " << mainVolume << "  " << vacVolume;
+                                //qDebug() << "Volumes: " << mainVolume << "  " << vacVolume;
                                 fileArray.append(new LIDL::SoundFile(fileName,
                                                                      mainVolume,
                                                                      vacVolume));
@@ -855,7 +899,7 @@ void SoundboardMainUI::Open()
                     ****************************************************/
                     qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
 
-                    this->soundAdded(new SoundWrapper(fileArray,
+                    this->addSound(new SoundWrapper(fileArray,
                                                       playbackmode,
                                                       QKeySequence(shortcutString),
                                                       shortcutVirtualKey,
@@ -908,7 +952,7 @@ void SoundboardMainUI::OpenEXPSounboard()
                 QVector<QString> fileList;
                 fileList.append(fileName);
                 // Calling the constructor designed for exp jsons (V)
-                this->soundAdded(new SoundWrapper(fileList,
+                this->addSound(new SoundWrapper(fileList,
                              this->_deviceListOutput->currentIndex(),
                              this->_deviceListVAC->currentIndex()));
 
@@ -1036,6 +1080,7 @@ QString fileName  = QFileDialog::getSaveFileName(this,
         QTextStream out(&file);
         out.setCodec("UTF-8");
         out << jsonString.toUtf8();
+        emit lidlJsonDetected(QFileInfo(file));
         file.close();
     }
 }
@@ -1169,7 +1214,7 @@ void SoundboardMainUI::ToolClearShortcut()
 
 
     for (auto &i: temp)
-        this->soundAdded(i,-1,LIDL::Shortcut::DONT_GENERATE);
+        this->addSound(i,-1,LIDL::Shortcut::DONT_GENERATE);
 }
 
 void SoundboardMainUI::DealDragAndDrop(int newPlace)
@@ -1206,8 +1251,8 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
                                                 nullptr);
 
     // Once we created those new items we can insert them (since it deletes the items we can't reuse them)
-    this->soundAdded(firstPtr, secondRow);
-    this->soundAdded(secondPtr, firstRow);
+    this->addSound(firstPtr, secondRow);
+    this->addSound(secondPtr, firstRow);
 }
 
 
