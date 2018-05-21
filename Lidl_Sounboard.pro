@@ -2,7 +2,7 @@ QT += widgets \
       multimedia \
       core \
       gui \
-      multimedia
+      multimedia \
 
 SOURCES += \
     main.cpp \
@@ -17,7 +17,8 @@ SOURCES += \
     FancySlider.cpp \
     CustomSoundFile.cpp \
     CustomTableModel.cpp \
-    StyledDelegate.cpp
+    StyledDelegate.cpp \
+    SettingsController.cpp
 
 
 HEADERS += \
@@ -33,12 +34,16 @@ HEADERS += \
     include/CustomListWidgetItem.h \
     include/CustomSoundFile.h \
     include/CustomTableModel.h \
-    include/StyledDelegate.h
+    include/StyledDelegate.h \
+    include/SettingsController.h
 
 # do not need to add this to header as this does not contains Q_OBJECT macro
 # actually we do or it doesn't add it into project tree forsenT
 #include/CustomListWidgetItem.h
+TEMPLATE += app
 
+FORMS += \
+    Settings.ui
 
 RESOURCES += \
     resources.qrc

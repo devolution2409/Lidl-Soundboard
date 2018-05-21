@@ -14,7 +14,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // since we QMainWindow now we need to set central widget forsenT
     this->setCentralWidget(new QWidget(this));
     this->centralWidget()->setLayout(vLayout);
-    //Adding Menu bar
+
+
+    /***************************************************
+                     SETTING UP MENU BAR
+    ****************************************************/
     this->setUpMenu();
 
 
@@ -138,11 +142,24 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       /***************************************************
                          STATUS BAR
       ****************************************************/
+
+      _statusEdit = new QTextEdit();
+      _statusEdit->setMaximumHeight(20);
+      _statusEdit->setAcceptDrops(false);
+      _statusEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+      _statusEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+      _statusEdit->setLineWrapMode(QTextEdit::NoWrap);
+      _statusEdit->setReadOnly(true);
+      _statusEdit->setCursorWidth(0);
+      _statusEdit->setEnabled(false);
+      _statusEdit->setStyleSheet("border: none; color: #b1b1b1;");
+
       this->statusBar()->show();
+      this->statusBar()->setMaximumHeight(20);
       this->statusBar()->setStyleSheet( "background: #727272; border: 1px solid black" );
       this->statusBar()->setSizeGripEnabled(false);
-
-
+      this->statusBar()->addPermanentWidget(_statusEdit,1);
+      connect(this->statusBar(),SIGNAL(messageChanged(QString)),this,SLOT(SetStatusTextEditText(QString)));
       /***************************************************
                TODO: PUT IN RELEVANT SECTION forsenT
       ****************************************************/
@@ -160,10 +177,12 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       // Declaring savename empty string so save doesn't work forsenE
       this->_saveName = "";
 
+      // Calling OpenSetting will created the instance of the SettingsController we can
+      // after wards access everywhere
+      LIDL::SettingsController::GetInstance()->OpenSettings();
+
       // Check for update
      // this->IsUpdateAvailable();
-
-
 }
 
 
@@ -526,6 +545,9 @@ void SoundboardMainUI::setUpMenu()
     _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
     _actions.append(new QAction("Clear sound shortcuts",this));  //11);
     toolMenu->addAction(_actions.at(11));
+    toolMenu->addSeparator();
+    _actions.append(new QAction("Settings",this)); //12
+    toolMenu->addAction(_actions.at(12));
     /***************************************************
                            CONNECTIONS
     ****************************************************/
@@ -541,6 +563,7 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
     connect(this->_actions.at(10),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
     connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
+    connect(this->_actions.at(12),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
 }
 
 //Reimplementing to kill all shortcuts
@@ -1185,6 +1208,38 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
     // Once we created those new items we can insert them (since it deletes the items we can't reuse them)
     this->soundAdded(firstPtr, secondRow);
     this->soundAdded(secondPtr, firstRow);
-
-
 }
+
+
+
+void SoundboardMainUI::SetStatusTextEditText(QString text)
+{
+    // Get size of text as pixels (width)
+    QFontMetrics fm(this->statusBar()->font());
+    int size = fm.width(text);
+    int max  = this->statusBar()->width();
+    if (size < max)
+    {
+        _statusEdit->setText(text);
+        return;
+    }
+    else
+    {
+        _statusEdit->setText(text);
+       // this->ScrollStatusText( max - size  );
+        return;
+
+    }
+}
+
+
+
+
+//void SoundboardMainUI::ScrollStatusText(int howMuch)
+//{
+
+
+
+
+//}
+

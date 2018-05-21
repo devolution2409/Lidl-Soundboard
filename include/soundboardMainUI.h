@@ -82,8 +82,10 @@
 #include <QMainWindow>
 #include <QStatusBar>
 #include "CustomTableModel.h"
-//iter_swap
-#include <algorithm>
+#include <QFontMetrics>
+#include <QTextEdit>
+#include <QTimer>
+#include "SettingsController.h"
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -166,13 +168,20 @@ private:
     // keep track of selection
     int lastSelectedRow;
 
-
+    QTextEdit * _statusEdit;
     /***************************************************
                             SAVE
     ****************************************************/
     QString _saveName;
 
+    /* LIDL::SettingsController is a singleton and calling
+     * GetInstance() will either create it or give a pointer
+     * towards the already existing instance
+     */
 
+    //LIDL::SettingsController* settingsObj;
+
+    //void ScrollStatusText(int howMuch);
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 signals:
@@ -232,7 +241,12 @@ public slots:
 
     void DealDragAndDrop(int);
     void SwapWrappers(int firstRow, int secondRow);
+
+    void SetStatusTextEditText(QString);
+
+
     //void ErrorOnPlaying(QString);
+
 
 };
 
