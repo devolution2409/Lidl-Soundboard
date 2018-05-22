@@ -232,7 +232,7 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
 
         for (auto &i: sound->getSoundList())
         {
-            qDebug() << "Sound volume:"  << i->getMainVolume() <<       i->getVacVolume() ;
+            //qDebug() << "Sound volume:"  << i->getMainVolume() <<       i->getVacVolume() ;
             _soundListDisplay->insertItem(_soundListDisplay->count(),new CustomListWidgetItem(i->fileName(),
                                                                                               i->getMainVolume(),
                                                                                               i->getVacVolume()

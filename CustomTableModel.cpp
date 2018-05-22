@@ -36,7 +36,7 @@ bool CustomTableModel::canDropMimeData(const QMimeData *data, Qt::DropAction act
     Q_UNUSED(data)
     Q_UNUSED(column)
 
-    qDebug() << parent.row();
+    //qDebug() << parent.row();
 //    if (!data->hasFormat("application/vnd.text.list"))
 //        return false;
 //    // We only want data to be able to be dropped on the first column

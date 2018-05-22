@@ -59,4 +59,4 @@ INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/.
 
 #Including the auto-updater lib
-include($$PWD/lib/QSimpleUpdater-2.0/QSimpleUpdater.pri)
+#include($$PWD/lib/QSimpleUpdater-2.0/QSimpleUpdater.pri)

@@ -6,6 +6,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
 
+    /***************************************************
+                      SETTING UP MENU BAR
+    ****************************************************/
+    this->setUpMenu();
 
     // Setting up the layouts
     vLayout = new QVBoxLayout();
@@ -14,12 +18,6 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // since we QMainWindow now we need to set central widget forsenT
     this->setCentralWidget(new QWidget(this));
     this->centralWidget()->setLayout(vLayout);
-
-
-    /***************************************************
-                     SETTING UP MENU BAR
-    ****************************************************/
-    this->setUpMenu();
 
 
     // we use MVC architecture. This is the declaration of the _model
@@ -192,8 +190,20 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       this->setMinimumSize(400,600);
       this->setMaximumSize(1280,900);
       this->show();
-
+      /***************************************************
+                   CONNECTING TO OPEN SOUNDBOARD
+      ****************************************************/
+      // QueudConnection so that it doesn't fucks up the view
       connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
+
+
+      connect(LIDL::SettingsController::GetInstance(),
+              LIDL::SettingsController::RecentFilesChanged,
+              this,
+              SoundboardMainUI::SetUpRecentMenu,
+                Qt::QueuedConnection
+                  );
+
       emit OnConstructionDone();
       // Check for update
      // this->IsUpdateAvailable();
@@ -499,7 +509,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 // Method to run the sound via hotkeys
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
-      qDebug() << "Pressed hotkey handle: " << handle;
+      //qDebug() << "Pressed hotkey handle: " << handle;
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
@@ -525,6 +535,8 @@ void SoundboardMainUI::setUpMenu()
     QMenu * fileMenu = menuBar->addMenu(tr("File"));
     _actions.append(   new QAction("New",this)); //0
     _actions.append(   new QAction("Open",this)); //1
+
+
     _actions.append(   new QAction("Open EXP soundboard file",this)); //2
 
     _actions.append(   new QAction("Save",this)); //3
@@ -532,13 +544,17 @@ void SoundboardMainUI::setUpMenu()
     fileMenu->addSeparator();
     _actions.append(   new QAction("Exit",this)); // 5
 
-    fileMenu->addAction(_actions.at(0));
+    fileMenu->addAction(_actions.at(0)); // new
     fileMenu->addSeparator();
-    fileMenu->addAction(_actions.at(1));
-    fileMenu->addAction(_actions.at(2));
+    fileMenu->addAction(_actions.at(1)); // open
+    _openRecentMenu = fileMenu->addMenu("Open Recent"); // open recent (duh)
+    fileMenu->addSeparator();
+    fileMenu->addAction(_actions.at(2)); // open exp
 
     fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(3));
+
+    fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(4));
     fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(5));
@@ -627,7 +643,7 @@ void SoundboardMainUI::resetStopAllEdit()
 
 void SoundboardMainUI::setStopShortcut(int virtualKey)
 {
-    qDebug() << "virtual key" << virtualKey;
+    //qDebug() << "virtual key" << virtualKey;
     UnregisterHotKey(NULL,2147483647);
     RegisterHotKey(NULL,2147483647,0, virtualKey);
 
@@ -728,7 +744,7 @@ void SoundboardMainUI::OpenSlot()
 
 void SoundboardMainUI::Open(QString fileName)
 {
-    qDebug() << "FileName is:" << fileName;
+    //qDebug() << "FileName is:" << fileName;
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
     {
@@ -833,7 +849,7 @@ void SoundboardMainUI::Open(QString fileName)
                 if (item.contains("Playback Mode"))
                 {
                     playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
-                    qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
+                    //qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
                 }
                     // Shortcut info
                 if (item.contains("Shortcut"))
@@ -1167,7 +1183,7 @@ void SoundboardMainUI::HelpCheckForUpdate()
   //  QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
    // QSimpleUpdater::getInstance()->checkForUpdates (url);
     //QSimpleUpdater::getInstance()->getChangelog()
-    qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
+    //qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
     this->statusBar()->clearMessage();
 }
 
@@ -1278,6 +1294,26 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
 }
 
 
+void SoundboardMainUI::SetUpRecentMenu()
+{
+    // Clearing actions
+    _openRecentMenu->clear();
+    QVector<QAction *> actions;
+    // Creating actions (ie the names)
+    for (auto i: LIDL::SettingsController::GetInstance()->GetRecentFiles() )
+    {
+        //qDebug() << "size of the array:" << LIDL::SettingsController::GetInstance()->GetRecentFiles().size();
+        qDebug() << "LUL:" << i.fileName();
+        actions.append(new QAction( i.fileName()));
+        // using lambdas forsenE
+        connect( actions.last(),
+                 QAction::triggered,
+                 [=] {
+                        this->Open( i.filePath() );
+                        });
+        _openRecentMenu->addAction(actions.last());
+    }
+}
 
 
 //void SoundboardMainUI::ScrollStatusText(int howMuch)

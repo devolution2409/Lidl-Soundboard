@@ -78,7 +78,7 @@
 #define VER 1.2.0
 #define VER_STRING "1.2.0"
 
-#include "QSimpleUpdater.h"
+//#include "QSimpleUpdater.h"
 #include <QMainWindow>
 #include <QStatusBar>
 #include "CustomTableModel.h"
@@ -87,6 +87,7 @@
 #include <QTimer>
 #include "SettingsController.h"
 #include <QFileInfo>
+#include <deque>
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -185,6 +186,8 @@ private:
     //LIDL::SettingsController* settingsObj;
 
     //void ScrollStatusText(int howMuch);
+    QMenu * _openRecentMenu;
+
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 signals:
@@ -252,8 +255,7 @@ public slots:
 
     void PostConstruction();
     //void ErrorOnPlaying(QString);
-
-
+    void SetUpRecentMenu();
 };
 
 

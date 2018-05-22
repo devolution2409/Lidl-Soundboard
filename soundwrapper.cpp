@@ -184,7 +184,7 @@ void SoundWrapper::OutputDeviceChanged(int index)
 {
     //qDebug() << "SLOT: SoundWrapper OutputDeviceChanged output device changed, new is: " << index;
     _player->SetOutputDevice(index);
-    qDebug() << "ouput device changed";
+    //qDebug() << "ouput device changed";
 }
 
 void SoundWrapper::VACDeviceChanged(int index)

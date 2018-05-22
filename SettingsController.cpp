@@ -123,10 +123,9 @@ void SettingsController::buttonBrowseSound()
     {
         if (ui != nullptr)
             ui->folderSoundEdit->setText(folderName);
-
     }
     else
-        qDebug() << "No folder selected";
+       qDebug() << "No folder selected";
 }
 
 
@@ -176,7 +175,7 @@ bool SettingsController::OpenSettings()
                       recentFileCount = fileObject.value("Display Count").toInt();
                   if (fileObject.contains("Files"))
                   {
-                      qDebug() << "!????";
+                      //qDebug() << "!????";
                       QJsonObject files = fileObject.value("Files").toObject();
                       // have to use standard iterator and not auto cause it doesn't work pajaL
                       // if we iterate from beginning to end, the first element
@@ -185,14 +184,17 @@ bool SettingsController::OpenSettings()
                       // else it is the other way around
                       for (QJsonObject::iterator it = files.begin(); it!= files.end(); it++)
                       {
-                          recentFiles.append(QFileInfo(it.key()));
-                          //  qDebug() <<  "file name:" << it.key() << "index:" <<it.value().toInt();
+                          // if the file exists we push it into the array
+                          if (QFileInfo(it.key()).exists())
+                            recentFiles.push_back(QFileInfo(it.key()));
+                          //qDebug() <<  "file name:" << it.key() << "index:" <<it.value().toInt();
                       }
 
                   }
               }
             }
         }
+        //qDebug() <<"size here:" << recentFiles.size();
         return true;
     }
 
@@ -203,6 +205,7 @@ bool SettingsController::OpenSettings()
         this->SaveSettings();
         return false;
     }
+    emit RecentFilesChanged();
 }
 
 void SettingsController::SaveSettings()
@@ -251,17 +254,7 @@ void SettingsController::SaveSettings()
 
 }
 
-//void SettingsController::SetDefaultValues()
-//{
-//    // Volume
-//    defaultMainVolume       = 1;
-//    defaultVacVolume        = 1;
-//    // Folder for song = get app location
-//    defaultSoundboardFolder =  qApp->applicationDirPath();
-//    defaultSoundsFolder     =  qApp->applicationDirPath();
-//    // Default file count
-//    recentFileCount         = 5;
-//}
+
 
 void SettingsController::SetRecentFileCount(int count)
 {
@@ -271,21 +264,33 @@ void SettingsController::SetRecentFileCount(int count)
 void SettingsController::addFile(QFileInfo fileInfo)
 {
     // Check if file isn't contained in the vector already and than we append it if not
-    if (!(recentFiles.contains(fileInfo)))
-            recentFiles.append(fileInfo);
+    auto result =  std::find(recentFiles.begin(),recentFiles.end(),fileInfo);
+    if (result == recentFiles.end())
+    {
+        // if size becomes (somehow) larger than 10
+        // (in case some lidl genius hack it inside the json
+        // we delete the elements anyway
+        while (recentFiles.size() > 10)
+            recentFiles.pop_front();
+        // append newest file
+        recentFiles.push_back(fileInfo);
+    }
+    emit RecentFilesChanged();
 }
-
 
 QString SettingsController::GetLastOpenedSoundboard()
 {
+    // need to access the element BEFORE end one.
+    // using reverse iterator to have VALID iterator
+    // on last element. (could also use --(recentFiles.end());
     if (recentFiles.size() > 0)
-        if (recentFiles.at(0).exists())
-            if (recentFiles.at(0).isReadable())
-                return (this->recentFiles.at(0).filePath());
+        return recentFiles.rbegin()->filePath();
     return QString("");
 }
 
-
-
+std::deque<QFileInfo> SettingsController::GetRecentFiles()
+{
+    return this->recentFiles;
+}
 
 } // end namespace
