@@ -66,10 +66,10 @@ public:
                  QObject *parent = nullptr   );
 
 // Constructor when opening a EXP Json file
-    SoundWrapper(QVector<QString> fileList,
-                 int mainOutput = -1,
-                 int vacOutput = -1,
-                 QObject *parent = nullptr   );
+//    SoundWrapper(QVector<QString> fileList,
+//                 int mainOutput = -1,
+//                 int vacOutput = -1,
+//                 QObject *parent = nullptr   );
 ///ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE
     //SoundWrapper(const SoundWrapper &other);
 

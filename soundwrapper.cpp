@@ -8,6 +8,7 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
     connect(_player,SIGNAL(NowPlaying(QString)),this,SLOT(playerNowPlaying(QString)));
 }
 
+//V: Constructor when opening a EXP Json file
 SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent)
     : SoundWrapper::SoundWrapper(parent)
 {
@@ -66,12 +67,12 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
 }
 
 
-//V: Constructor when opening a EXP Json file
-SoundWrapper::SoundWrapper(QVector<QString> fileList,int mainOutput, int vacOutput, QObject *parent)
-    : SoundWrapper::SoundWrapper(fileList,LIDL::Playback::Singleton ,mainOutput, vacOutput,parent)
-{
 
-}
+//SoundWrapper::SoundWrapper(QVector<QString> fileList,int mainOutput, int vacOutput, QObject *parent)
+//    : SoundWrapper::SoundWrapper(fileList,LIDL::Playback::Singleton ,mainOutput, vacOutput,parent)
+//{
+
+//}
 
 
 

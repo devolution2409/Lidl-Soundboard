@@ -1024,8 +1024,9 @@ void SoundboardMainUI::OpenEXPSounboard()
                 fileList.append(fileName);
                 // Calling the constructor designed for exp jsons (V)
                 this->addSound(new SoundWrapper(fileList,
-                             this->_deviceListOutput->currentIndex(),
-                             this->_deviceListVAC->currentIndex()));
+                                                LIDL::Playback::Singleton,
+                                                this->_deviceListOutput->currentIndex(),
+                                                this->_deviceListVAC->currentIndex()));
 
 
             } //end for sound array
