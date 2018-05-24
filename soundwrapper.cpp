@@ -328,7 +328,6 @@ int  SoundWrapper::getPlayerPTTVirtualKey()
       return this->_player->GetPTTVirtualKey();
 }
 
-
 bool operator==(const SoundWrapper &a, const SoundWrapper &b)
 {
     // First of all we compare the size of the vector containing sounds
@@ -342,9 +341,16 @@ bool operator==(const SoundWrapper &a, const SoundWrapper &b)
     if  (a._virtualKey != b._virtualKey)
         return false;
 
-    // If all those test passed we have to iterate through each LIDL::SoundFile
+    // If all those test passed we have to iterate through the QVector<LIDL::SoundFile>
+    // we return false if the sounds aren't the same
+    for (int i =0; i < a._soundList.size();++i)
+        if ( ! ( (a._soundList.at(i))->IsEqualTo( *(b._soundList.at(i)))))
+            return false;
 
+        return true;
+}
 
-
-    return true;
+bool operator!=(const SoundWrapper &a, const SoundWrapper &b)
+{
+    return !(a==b);
 }

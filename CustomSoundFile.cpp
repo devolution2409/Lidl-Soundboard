@@ -16,14 +16,56 @@ SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume) : 	
 }
 
 
-float SoundFile::getMainVolume()
+float SoundFile::getMainVolume() const
 {
     return _mainVolume;
 }
 
-float SoundFile::getVacVolume()
+float SoundFile::getVacVolume() const
 {
     return _vacVolume;
 }
 
+
+bool SoundFile::IsEqualTo(const LIDL::SoundFile &other) const
+{
+    // comparing file name
+    if (this->fileName() != other.fileName())
+        return false;
+    // Checking main volume
+    if ( this->getMainVolume() != other.getMainVolume() )
+        return false;
+    // Checking vac volume
+    if (this->getVacVolume() != other.getVacVolume())
+        return false;
+
+    return true;
 }
+
+} // end namespace LIDL
+
+// CANT OVERLOAD OPERATOR== WHY GOD WHY
+//
+//bool operator==( LIDL::SoundFile &a, LIDL::SoundFile &b )
+//{
+//    // comparing file name
+//    if (a.fileName() != b.fileName())
+//        return false;
+//    // Checking main volume
+//    if (a.getMainVolume() != b.getMainVolume() )
+//        return false;
+//    // Checking vac volume
+//    if (a.getVacVolume() != b.getVacVolume())
+//        return false;
+
+//    return true;
+//}
+
+
+
+/*bool operator!=( LIDL::SoundFile &a, LIDL::SoundFile &b )
+{
+    // return the opposite of operator==
+    return ! (a==b);
+}*/
+

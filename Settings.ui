@@ -213,6 +213,9 @@
       </item>
       <item>
        <widget class="QSpinBox" name="fileCount">
+        <property name="minimum">
+         <number>1</number>
+        </property>
         <property name="maximum">
          <number>10</number>
         </property>

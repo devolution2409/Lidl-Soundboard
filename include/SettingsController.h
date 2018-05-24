@@ -21,6 +21,10 @@
 //#include <QDateTime>
 // Class handling the settings
 // we make it a singleton so we are gucci
+
+#include "soundwrapper.h"
+#include "CustomShortcutEdit.h"
+
 namespace LIDL{
 
 
@@ -32,8 +36,8 @@ public:
     static SettingsController * GetInstance();
 
     // getters
-    int GetDefaultMainVolume();
-    int GetDefaultVacVolume();
+    int GetDefaultMainVolume() const;
+    int GetDefaultVacVolume() const;
     // Public methods
     bool OpenSettings();
     // Can still use constructor to set default valuues
@@ -43,6 +47,13 @@ public:
 
     QString GetLastOpenedSoundboard();
     std::deque<QFileInfo> GetRecentFiles();
+
+    int GetRecentFilesCount() const;
+
+    // Literally a snapshot whenever we open or save
+    //             Sounds to be compared (including shorcuts) pointer to pttKeySequenceEdit and stop KeySequenceEdit
+    void SaveState( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit );
+    bool SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit       );
 
 private:
     QString fileName;
@@ -74,8 +85,18 @@ private:
     Ui::Settings * ui;
     // The recent menu pointer
     QMenu * _recentMenu;
+
+    /******************************************
+     *           DETECT MODIFICATIONS         *
+     ******************************************/
+
+        QVector<SoundWrapper *> savedSounds;
+        CustomShortcutEdit savedPTT;
+        CustomShortcutEdit savedStop;
+
 signals:
     void RecentFilesChanged();
+    void SettingsChanged();
 
 public slots:
     void SetDefaultMainVolume(int);

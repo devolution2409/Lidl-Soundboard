@@ -199,7 +199,9 @@ private:
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 signals:
-    void lidlJsonDetected(QFileInfo); // forsenBee
+    void lidlJsonDetected(QFileInfo); // forsenBee (to deal with recent saved or opened files)*
+    void SaveSoundboardSate();
+
     void OnConstructionDone();
 
 public slots:

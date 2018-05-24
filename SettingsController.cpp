@@ -31,16 +31,21 @@ SettingsController* SettingsController::GetInstance()
 
 
 
-int SettingsController::GetDefaultMainVolume()
+int SettingsController::GetDefaultMainVolume() const
 {
     return defaultMainVolume;
 }
 
-int SettingsController::GetDefaultVacVolume()
+int SettingsController::GetDefaultVacVolume() const
 {
     return defaultVacVolume;
 }
 
+
+int SettingsController::GetRecentFilesCount() const
+{
+    return recentFileCount;
+}
 
 void SettingsController::SetDefaultMainVolume(int newVolume)
 {
@@ -70,8 +75,8 @@ void SettingsController::ShowSettingsWindow()
     connect(ui->sliderVAC,SIGNAL(valueChanged(int)),ui->spinVAC,SLOT(setValue(int)));
     connect(ui->spinVAC,SIGNAL(valueChanged(int)),ui->sliderVAC,SLOT(setValue(int)));
     // connecting either slider or spin box to set the value here
-    connect(ui->sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetDefaultMainVolume(int)));
-    connect(ui->sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetDefaultVacVolume(int)));
+    connect(ui->sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetDefaultVacVolume(int)));
+    connect(ui->sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetDefaultMainVolume(int)));
 
     // connecting the folder signals
     connect(ui->folderLidlBrowse,SIGNAL(clicked()),this,SLOT(buttonBrowseLidl()));
@@ -92,8 +97,24 @@ void SettingsController::ShowSettingsWindow()
     ui->sliderVAC->setValue(defaultVacVolume);
     ui->fileCount->setValue(recentFileCount);
 
+    connect(ui->buttonBox,QDialogButtonBox::accepted,
+            [=]{
+                    defaultSoundboardFolder = ui->folderLidlEdit->text();
+                    defaultSoundsFolder     = ui->folderSoundEdit->text();
+                    recentFileCount         = ui->fileCount->value();
+                    defaultMainVolume       = ui->sliderMain->value();
+                    defaultVacVolume        = ui->sliderVAC->value();
+                    widget->close();
+                    this->SaveSettings();
+                    emit SettingsChanged();
+                    });
+
+    connect(ui->buttonBox,QDialogButtonBox::rejected,widget,QDialog::close);
+
     widget->show();
 }
+
+
 
 void SettingsController::buttonBrowseLidl()
 {
@@ -304,4 +325,52 @@ std::deque<QFileInfo> SettingsController::GetRecentFiles()
     return this->recentFiles;
 }
 
+// We save the state here and than we can use it to be compared when
+// we need to know if soundboard was modified
+void SettingsController::SaveState(QVector<SoundWrapper *> sounds, CustomShortcutEdit * pttEdit, CustomShortcutEdit * stopEdit)
+{
+    savedSounds = sounds;
+    // QKeySequence are copy disabled so we need to do it by hand forsenT
+    savedPTT.setKeySequence(    pttEdit->keySequence()        );
+    savedPTT.setScanCode( pttEdit->getScanCode()       );
+    savedPTT.setVirtualKey(pttEdit->getVirtualKey() );
+
+    savedStop.setKeySequence(stopEdit->keySequence());
+    savedStop.setScanCode(stopEdit->getScanCode()  );
+    savedStop.setVirtualKey(stopEdit->getVirtualKey());
+    qDebug() <<" saved soundboard state";
+}
+
+bool SettingsController::SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit  )
+{
+//    comparing ptt
+    if (    (pttEdit->keySequence()   != this->savedPTT.keySequence()) ||
+            (pttEdit->getScanCode()   != this->savedPTT.getScanCode()) ||
+            (pttEdit->getVirtualKey() != this->savedPTT.getVirtualKey()))
+        return true;
+    // comparing stop
+    if (    (stopEdit->keySequence()   != this->savedStop.keySequence()) ||
+            (stopEdit->getScanCode()   != this->savedStop.getScanCode()) ||
+            (stopEdit->getVirtualKey() != this->savedStop.getVirtualKey()))
+        return true;
+    // comparing size of Qvectors
+    if (sounds.size() != this->savedSounds.size())
+        return true;
+
+    else  // comparing wrappers using overloaded operator==
+    {
+        for (int i = 0; i < savedSounds.size(); ++i)
+            // need to call the operator== while dereferencing the pointers forsenE
+            if ( *(savedSounds.at(i)) != *(sounds.at(i)))
+                return true;
+
+    }
+
+   return false;
+
+}
+
+
+
 } // end namespace
+

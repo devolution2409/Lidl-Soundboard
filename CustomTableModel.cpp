@@ -54,6 +54,10 @@ bool CustomTableModel::dropMimeData(const QMimeData *data,
     // qDebug() << "Can drop:" << canDropMimeData(data, action, row, column, parent);
     //qDebug() << "Attempting to drop row: " << row << " on row: " << parent.row();
 
+    Q_UNUSED(action);
+    Q_UNUSED(*data);
+    Q_UNUSED(column);
+    Q_UNUSED(row);
     emit draggedOnRow(parent.row());
 
 }
