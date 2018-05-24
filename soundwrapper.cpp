@@ -11,6 +11,7 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent)
     : SoundWrapper::SoundWrapper(parent)
 {
+    qDebug() << "forsen1";
     // Adding sound to the QVector<QFile*>
     for (auto i: fileList)
         this->addSound(i);
@@ -23,9 +24,11 @@ SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode
 }
 
 //II: Constructor to be used in the add sound window
-SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, QObject * parent)
+SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, int virtualKey, QObject * parent)
     :SoundWrapper::SoundWrapper(parent)
 {
+    _virtualKey  = virtualKey;
+    qDebug() << "ZULULWARRIOR";
     for(int row = 0; row < soundList->count(); row++)
     {
              // get a pointer on the list item and fetches its text
@@ -43,12 +46,6 @@ SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackM
 }
 
 
-//III: Do we really need II again?
-SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, int virtualKey, QObject * parent)
-    : SoundWrapper(soundList, playbackMode,shortcut,parent)
-{
-   _virtualKey  = virtualKey;
-}
 
 //IV: Constructor used when opening a file
 SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,

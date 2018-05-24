@@ -40,6 +40,7 @@
 // #include "QFancySlider"
 #include <CustomListWidgetItem.h>
 #include <QSpinBox>
+#include "SettingsController.h"
 
 class WrapperProperties : public QWidget
 {

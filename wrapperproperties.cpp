@@ -280,13 +280,15 @@ void WrapperProperties::AddSound()
     //if we already have more than one sound we set the mode to sequential (default)
 
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),"", tr("Sounds (*.wav *.mp3)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3)"));
     // if the fileName isn't empty, the user selected a file, so we add it.
     if (!fileName.isEmpty())
     {
         //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
         //qDebug() << _soundListDisplay->row(item);
-        _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName)) ;
+        _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName,
+                                                                                             LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                                                             LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()) ) ;
         if (_soundListDisplay->count()>1)
         {
 

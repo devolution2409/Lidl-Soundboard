@@ -29,7 +29,15 @@ SettingsController* SettingsController::GetInstance()
 
 }
 
+QString SettingsController::GetDefaultSoundboardFolder() const
+{
+    return defaultSoundboardFolder;
+}
 
+QString SettingsController::GetDefaultSoundFolder() const
+{
+    return defaultSoundsFolder;
+}
 
 int SettingsController::GetDefaultMainVolume() const
 {

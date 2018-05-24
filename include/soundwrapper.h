@@ -51,13 +51,7 @@ public:
     SoundWrapper(CustomListWidget *soundList,
                  LIDL::Playback playbackMode,
                  QKeySequence * shortcut,
-                 QObject *parent = nullptr   );
-
-// Constructor when we add a file from the sound property dialog
-    SoundWrapper(CustomListWidget *soundList,
-                 LIDL::Playback playbackMode,
-                 QKeySequence * shortcut,
-                 int virtualKey,
+                 int virtualKey = -1,
                  QObject *parent = nullptr   );
 
 // Constructor for when we OPEN a soundboard json file

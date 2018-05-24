@@ -38,6 +38,8 @@ public:
     // getters
     int GetDefaultMainVolume() const;
     int GetDefaultVacVolume() const;
+    QString GetDefaultSoundboardFolder() const;
+    QString GetDefaultSoundFolder() const;
     // Public methods
     bool OpenSettings();
     // Can still use constructor to set default valuues

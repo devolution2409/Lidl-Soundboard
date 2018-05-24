@@ -791,7 +791,7 @@ void SoundboardMainUI::ClearAll()
 // Open slot
 void SoundboardMainUI::OpenSlot()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("LIDL JSON file(*.lidljson)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"), LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,tr("LIDL JSON file(*.lidljson)"));
     this->Open(fileName);
     // forsenT
 }
