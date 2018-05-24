@@ -127,6 +127,11 @@ private:
     CustomPlayer * _player;
 
     bool checkFileExistence(QString fileName);
+
+    // need this to check for soundboard modification forsenT
+    // will implement SettingsController:WasModified() or something
+    friend bool operator==(const SoundWrapper &a, const SoundWrapper &b);
+
 signals:
     void UnexistantFile();
     // Signal to redirect signal from the player forsenT

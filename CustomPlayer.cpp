@@ -132,9 +132,11 @@ double CustomPlayer::PlayAt(int index)
         BASS_ChannelSetDevice(_mainChannel,_mainOutputDevice);
 //      BOOL BASS_ChannelPlay(DWORD handle,BOOL restart);
 //      http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
-        BASS_ChannelPlay(_mainChannel,true);
-        //Setting volume
 
+        //Setting volume
+        // Volume is stored in the LIDL::SoundFile class (CustomSoundFile.h)
+        // And it's created thanks to the CustomListWidgetItem who also has two volumes attributes
+        BASS_ChannelPlay(_mainChannel,true);
         BASS_ChannelSetAttribute(_mainChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
         //qDebug() << "Main Volume should be: " << _soundList.at(index)->getMainVolume();
         duration = BASS_ChannelBytes2Seconds(_mainChannel,
@@ -147,7 +149,7 @@ double CustomPlayer::PlayAt(int index)
         int _vacChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
         BASS_ChannelSetDevice(_vacChannel,_VACOutputDevice);
         BASS_ChannelPlay(_vacChannel,true);
-        BASS_ChannelSetAttribute(_mainChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
+        BASS_ChannelSetAttribute(_vacChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
 
        //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
         duration = BASS_ChannelBytes2Seconds(_vacChannel,

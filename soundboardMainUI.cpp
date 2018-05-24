@@ -14,6 +14,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // Setting up the layouts
     vLayout = new QVBoxLayout();
     // not need since adding a parent in the constructor set layout by itself
+    //  _nameEdit = new QLineEdit(this);
+
+
+
+
 
     // since we QMainWindow now we need to set central widget forsenT
     this->setCentralWidget(new QWidget(this));
@@ -205,6 +210,13 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                   );
 
       emit OnConstructionDone();
+
+//      connect(this,
+//              &SoundboardMainUI::lidlJsonDetected,
+//              [=](QFileInfo info){
+//                                    this->_nameEdit ->setText(info.fileName());
+
+//                    });
       // Check for update
      // this->IsUpdateAvailable();
 }
@@ -1282,15 +1294,21 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
     if (size < max)
     {
         _statusEdit->setText(text);
-        return;
+
     }
     else
     {
         _statusEdit->setText(text);
        // this->ScrollStatusText( max - size  );
-        return;
 
     }
+
+    // If the save name is empty and we have wrappers
+    if (_saveName.isEmpty() && _sounds.size() > 0 )
+        QTimer::singleShot(3000, [=] { _statusEdit->setText("Soundboard is not saved.");}   );
+    // If the save name isn't empty and we have wrappers
+    else if (!( _saveName.isEmpty() && _sounds.size() > 0) )
+        QTimer::singleShot(3000, [=]  { _statusEdit->setText("Soundboard file: " + this->_saveName            );}    );
 }
 
 

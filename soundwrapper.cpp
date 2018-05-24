@@ -327,3 +327,24 @@ int  SoundWrapper::getPlayerPTTVirtualKey()
 {
       return this->_player->GetPTTVirtualKey();
 }
+
+
+bool operator==(const SoundWrapper &a, const SoundWrapper &b)
+{
+    // First of all we compare the size of the vector containing sounds
+    // if it's not the same we return
+    if ( a._soundList.size() != b._soundList.size() )
+        return false;
+    // if its the same we compare shorcuts
+    if (a._keySequence != b._keySequence)
+        return false;
+    // than we compare shortcut VK
+    if  (a._virtualKey != b._virtualKey)
+        return false;
+
+    // If all those test passed we have to iterate through each LIDL::SoundFile
+
+
+
+    return true;
+}

@@ -71,7 +71,9 @@
 #include <QJsonArray>
 #include <QTextStream>
 #include <QDesktopServices>
+
 //#include <QUrl>
+// need for gachiBASS animation
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
@@ -122,6 +124,11 @@ private:
     //QMenuBar *_menuBar;
     // We already have this->MenuBar() since we QMainWindow now
     QVector<QAction*> _actions;
+    /***************************************************
+                       NAME DISPLAYING
+    ****************************************************/
+    QGroupBox *_nameGroupBox;
+    QLineEdit *_nameEdit;
 
     // view
   //  QTableView *resultView;
@@ -169,6 +176,7 @@ private:
 
     // keep track of selection
     int lastSelectedRow;
+
 
     QTextEdit * _statusEdit;
     /***************************************************

@@ -265,6 +265,7 @@ void SettingsController::addFile(QFileInfo fileInfo)
 {
     // Check if file isn't contained in the vector already and than we append it if not
     auto result =  std::find(recentFiles.begin(),recentFiles.end(),fileInfo);
+    // if file wasn't already there we need to append it
     if (result == recentFiles.end())
     {
         // if size becomes (somehow) larger than 10
@@ -274,6 +275,16 @@ void SettingsController::addFile(QFileInfo fileInfo)
             recentFiles.pop_front();
         // append newest file
         recentFiles.push_back(fileInfo);
+    }
+    // else we need to put it first forsenL
+    else
+    {
+        // we iter from the result to the first element
+        for ( std::deque<QFileInfo>::reverse_iterator i(result); i != recentFiles.rend(); ++i )
+            if ( std::prev(i,1) != recentFiles.rend() )
+                std::iter_swap(i,std::prev(i,1) );
+
+
     }
     emit RecentFilesChanged();
 }
