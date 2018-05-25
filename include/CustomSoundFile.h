@@ -21,13 +21,13 @@ public:
 private:
     float _mainVolume;
     float _vacVolume;
-
+    friend bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
     // doesn't work? forsenY
 
 };
 // doesnt work pajaL
-//bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
-}
+
+}//end namespace lidl
 
 
 

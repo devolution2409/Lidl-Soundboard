@@ -208,13 +208,6 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
               SoundboardMainUI::SetUpRecentMenu,
                 Qt::QueuedConnection
                   );
-
-      connect(LIDL::SettingsController::GetInstance(),
-              LIDL::SettingsController::SettingsChanged,
-              this, SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
-
-      // connected modified soundboard with a lambda to call the savestate function
-      // that way we can know if soundboard was modified or not Pog
       connect(this,
               SoundboardMainUI::SaveSoundboardSate,
               [=]
@@ -223,6 +216,12 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                                                                        this->_shortcutEditPTT,
                                                                        this->_shortcutEditStop);
                 });
+      connect(LIDL::SettingsController::GetInstance(),
+              LIDL::SettingsController::SettingsChanged,
+              this, SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
+
+      // connected modified soundboard with a lambda to call the savestate function
+      // that way we can know if soundboard was modified or not Pog
 
       emit OnConstructionDone();
 
@@ -242,6 +241,8 @@ void SoundboardMainUI::PostConstruction()
     if (LIDL::SettingsController::GetInstance()->OpenSettings())
         if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
             this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());
+
+
 
 }
 
@@ -881,9 +882,10 @@ void SoundboardMainUI::Open(QString fileName)
         this->_shortcutEditPTT->setVirtualKey(pttVirtualKey);
 
         this->_shortcutEditStop->setKeySequence(QKeySequence(stopName));
+        this->_shortcutEditStop->setVirtualKey(stopVirtualKey);
         this->setStopShortcut(stopVirtualKey);
         // need to update the VirtualKey aswell in case we save afterwards, else it will be -1
-        this->_shortcutEditStop->setVirtualKey(stopVirtualKey);
+
         // The wrapper stuff
 
 
@@ -984,6 +986,7 @@ void SoundboardMainUI::Open(QString fileName)
         } // end if json contains wrapper
          //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
         // Saving Soundboard state in the SettingsController object
+
         emit SaveSoundboardSate();
     }//endif file was opened
 }
@@ -1025,6 +1028,8 @@ void SoundboardMainUI::OpenEXPSounboard()
                 // Calling the constructor designed for exp jsons (V)
                 this->addSound(new SoundWrapper(fileList,
                                                 LIDL::Playback::Singleton,
+                                                LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                LIDL::SettingsController::GetInstance()->GetDefaultVacVolume(),
                                                 this->_deviceListOutput->currentIndex(),
                                                 this->_deviceListVAC->currentIndex()));
 
@@ -1346,22 +1351,24 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
         {
             _statusEdit->setText(text);
 
+
         }
         else
         {
             _statusEdit->setText(text);
            // this->ScrollStatusText( max - size  );
         }
+        // if the soundboard has been modified:
+        if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( this->_sounds,this->_shortcutEditPTT,this->_shortcutEditStop))
+        {    if (_saveName.isEmpty())
+                QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file not saved");}    );
+             else
+                QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file: " + this->_saveName   + " (not saved)"  );}    );
+        }
+        else // if this is the same soundboard as before (ie it is saved)
+            QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file: " + this->_saveName);}    );
     }
 
-    // Get soundboard state, if it has been modified
-
-    // If the save name is empty and we have wrappers
-    if (_saveName.isEmpty())
-        QTimer::singleShot(1000, [=] { _statusEdit->setText("Soundboard is not saved.");}   );
-    // If the save name isn't empty and we have wrappers
-    else if (!( _saveName.isEmpty() && _sounds.size() > 0) )
-        QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file: " + this->_saveName            );}    );
 
 }
 

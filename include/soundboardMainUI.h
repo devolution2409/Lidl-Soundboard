@@ -200,6 +200,9 @@ public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 signals:
     void lidlJsonDetected(QFileInfo); // forsenBee (to deal with recent saved or opened files)*
+
+    // We save soundboard state once we open a file or when we save it,
+    // Than we can compare it when closing it to tell the user it hasn't been saved
     void SaveSoundboardSate();
 
     void OnConstructionDone();

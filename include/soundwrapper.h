@@ -41,7 +41,6 @@
 #include "CustomListWidgetItem.h"
 #include "CustomSoundFile.h"
 
-
 class SoundWrapper : public QObject
 {
     Q_OBJECT
@@ -54,7 +53,7 @@ public:
                  int virtualKey = -1,
                  QObject *parent = nullptr   );
 
-// Constructor for when we OPEN a soundboard json file
+// Constructor for when we OPEN a LIDLJSON soundboard json file
     SoundWrapper( QVector<LIDL::SoundFile*> fileList,
                  LIDL::Playback playbackMode,
                  QKeySequence  shortcut,
@@ -65,15 +64,11 @@ public:
                  int pttSC = -1,
                  QObject *parent = nullptr   );
 
-// Constructor when opening a EXP Json file
-//    SoundWrapper(QVector<QString> fileList,
-//                 int mainOutput = -1,
-//                 int vacOutput = -1,
-//                 QObject *parent = nullptr   );
-///ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE
-    //SoundWrapper(const SoundWrapper &other);
 
-SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent=nullptr);
+///ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE
+
+// CONSTRUCTOR FOR EXP JSON
+SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainVolume, int vacVolume, int mainOutput, int vacOutput,QObject * parent=nullptr);
     //Getters
     QVector<LIDL::SoundFile*> getSoundList();
     QKeySequence getKeySequence();

@@ -9,13 +9,13 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 }
 
 //V: Constructor when opening a EXP Json file
-SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainOutput, int vacOutput,QObject * parent)
+SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainVolume, int vacVolume,int mainOutput, int vacOutput,QObject * parent)
     : SoundWrapper::SoundWrapper(parent)
 {
-    qDebug() << "forsen1";
+    qDebug() << "forsen1" << mainVolume << vacVolume;
     // Adding sound to the QVector<QFile*>
     for (auto i: fileList)
-        this->addSound(i);
+        this->addSound(i,static_cast<float>(mainVolume/100.0),static_cast<float>(vacVolume/100.0));
     this->setPlayMode(playbackMode);
     this->_player->SetPlaylist(this->getSoundList());
     this->_player->SetPlaybackMode( this->getPlayMode());
@@ -48,7 +48,7 @@ SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackM
 
 
 
-//IV: Constructor used when opening a file
+//IV: Constructor used when opening a LIDLJSON file
 SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
                            int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
             : SoundWrapper(parent)
@@ -68,11 +68,6 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
 
 
 
-//SoundWrapper::SoundWrapper(QVector<QString> fileList,int mainOutput, int vacOutput, QObject *parent)
-//    : SoundWrapper::SoundWrapper(fileList,LIDL::Playback::Singleton ,mainOutput, vacOutput,parent)
-//{
-
-//}
 
 
 
@@ -342,7 +337,7 @@ bool operator==(const SoundWrapper &a, const SoundWrapper &b)
     // If all those test passed we have to iterate through the QVector<LIDL::SoundFile>
     // we return false if the sounds aren't the same
     for (int i =0; i < a._soundList.size();++i)
-        if ( ! ( (a._soundList.at(i))->IsEqualTo( *(b._soundList.at(i)))))
+        if ( a._soundList.at(i) == b._soundList.at(i) )
             return false;
 
         return true;

@@ -27,22 +27,38 @@ float SoundFile::getVacVolume() const
 }
 
 
-bool SoundFile::IsEqualTo(const LIDL::SoundFile &other) const
-{
-    // comparing file name
-    if (this->fileName() != other.fileName())
-        return false;
-    // Checking main volume
-    if ( this->getMainVolume() != other.getMainVolume() )
-        return false;
-    // Checking vac volume
-    if (this->getVacVolume() != other.getVacVolume())
-        return false;
+//bool SoundFile::IsEqualTo(const LIDL::SoundFile &other) const
+//{
+//    // comparing file name
+//    if (this->fileName() != other.fileName())
+//        return false;
+//    // Checking main volume
+//    if ( this->getMainVolume() != other.getMainVolume() )
+//        return false;
+//    // Checking vac volume
+//    if (this->getVacVolume() != other.getVacVolume())
+//        return false;
 
-    return true;
-}
+//    return true;
+//}
 
 } // end namespace LIDL
+
+// Ok so, we declare operator== as a friend to this class
+// IN the namespace
+// but we implement it OUTSIDE the namespace else ADL doesn't work forsenT
+bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b)
+{
+    if (a.fileName() != b.fileName())
+        return false;
+    // Checking main volume
+    if ( a.getMainVolume() != b.getMainVolume() )
+        return false;
+    // Checking vac volume
+    if (a.getVacVolume() != b.getVacVolume())
+        return false;
+    return true;
+}
 
 // CANT OVERLOAD OPERATOR== WHY GOD WHY
 //

@@ -287,8 +287,8 @@ void WrapperProperties::AddSound()
         //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
         //qDebug() << _soundListDisplay->row(item);
         _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName,
-                                                                                             LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                                                             LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()) ) ;
+                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
         if (_soundListDisplay->count()>1)
         {
 

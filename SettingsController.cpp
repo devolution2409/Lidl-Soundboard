@@ -351,26 +351,32 @@ void SettingsController::SaveState(QVector<SoundWrapper *> sounds, CustomShortcu
 
 bool SettingsController::SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit  )
 {
+    qDebug() << pttEdit->keySequence().toString()
+             << this->savedPTT.keySequence().toString()
+             << pttEdit->getScanCode()
+             <<  this->savedPTT.getScanCode()
+              << pttEdit->getVirtualKey()
+                  << this->savedPTT.getVirtualKey();
 //    comparing ptt
     if (    (pttEdit->keySequence()   != this->savedPTT.keySequence()) ||
             (pttEdit->getScanCode()   != this->savedPTT.getScanCode()) ||
             (pttEdit->getVirtualKey() != this->savedPTT.getVirtualKey()))
-        return true;
+    {qDebug() << "ZULUL";    return true;}
     // comparing stop
     if (    (stopEdit->keySequence()   != this->savedStop.keySequence()) ||
             (stopEdit->getScanCode()   != this->savedStop.getScanCode()) ||
             (stopEdit->getVirtualKey() != this->savedStop.getVirtualKey()))
-        return true;
+      {qDebug() << "ZULUL2";    return true;}
     // comparing size of Qvectors
     if (sounds.size() != this->savedSounds.size())
-        return true;
+     {qDebug() << "ZULUL3";    return true;}
 
     else  // comparing wrappers using overloaded operator==
     {
         for (int i = 0; i < savedSounds.size(); ++i)
             // need to call the operator== while dereferencing the pointers forsenE
             if ( *(savedSounds.at(i)) != *(sounds.at(i)))
-                return true;
+                 {qDebug() << "ZULUL4";    return true;}
 
     }
 
