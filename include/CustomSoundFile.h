@@ -1,8 +1,9 @@
 #ifndef SOUNDFILE_H
 #define SOUNDFILE_H
+#include <utility>
 
 #include <QFile>
-
+#include <QDebug>
 namespace LIDL {
 
 
@@ -22,10 +23,10 @@ private:
     float _mainVolume;
     float _vacVolume;
     friend bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
-    // doesn't work? forsenY
+    friend bool operator!=(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
 
 };
-// doesnt work pajaL
+
 
 }//end namespace lidl
 

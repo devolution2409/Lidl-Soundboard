@@ -337,7 +337,7 @@ bool operator==(const SoundWrapper &a, const SoundWrapper &b)
     // If all those test passed we have to iterate through the QVector<LIDL::SoundFile>
     // we return false if the sounds aren't the same
     for (int i =0; i < a._soundList.size();++i)
-        if ( a._soundList.at(i) == b._soundList.at(i) )
+        if ( a._soundList.at(i) != b._soundList.at(i) )
             return false;
 
         return true;

@@ -47,7 +47,7 @@ float SoundFile::getVacVolume() const
 // Ok so, we declare operator== as a friend to this class
 // IN the namespace
 // but we implement it OUTSIDE the namespace else ADL doesn't work forsenT
-bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b)
+bool operator==(const LIDL::SoundFile &a,const  LIDL::SoundFile &b)
 {
     if (a.fileName() != b.fileName())
         return false;
@@ -59,6 +59,26 @@ bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b)
         return false;
     return true;
 }
+bool operator!=(const LIDL::SoundFile& a,const LIDL::SoundFile& b)
+{
+    // need to cast a and b to const references object even tho they are already const and references forsenT
+    // Somehow we cant do this:
+    // return ! (a==b);
+    // because: error: call of overloaded 'operator==(const LIDL::SoundFile&, const LIDL::SoundFile&)' is ambiguous
+    //candidate: bool operator==(const LIDL::SoundFile&, const LIDL::SoundFile&)
+    //forsenT
+
+    if (a.fileName() != b.fileName())
+        return true;
+    // Checking main volume
+    if ( a.getMainVolume() != b.getMainVolume() )
+        return true;
+    // Checking vac volume
+    if (a.getVacVolume() != b.getVacVolume())
+        return true;
+    return false;
+}
+
 
 // CANT OVERLOAD OPERATOR== WHY GOD WHY
 //

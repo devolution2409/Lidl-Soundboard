@@ -224,14 +224,15 @@ bool SettingsController::OpenSettings()
             }
         }
         //qDebug() <<"size here:" << recentFiles.size();
+        fileAlreadyExisted = true;
         return true;
     }
-
     // else we create it
     // with default values
     else
     {
         this->SaveSettings();
+        fileAlreadyExisted = false;
         return false;
     }
     emit RecentFilesChanged();
@@ -346,42 +347,36 @@ void SettingsController::SaveState(QVector<SoundWrapper *> sounds, CustomShortcu
     savedStop.setKeySequence(stopEdit->keySequence());
     savedStop.setScanCode(stopEdit->getScanCode()  );
     savedStop.setVirtualKey(stopEdit->getVirtualKey());
-    qDebug() <<" saved soundboard state";
+}
+
+bool SettingsController::IsThisFirstTimeUser()
+{
+    return !(this->fileAlreadyExisted);
 }
 
 bool SettingsController::SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit  )
 {
-    qDebug() << pttEdit->keySequence().toString()
-             << this->savedPTT.keySequence().toString()
-             << pttEdit->getScanCode()
-             <<  this->savedPTT.getScanCode()
-              << pttEdit->getVirtualKey()
-                  << this->savedPTT.getVirtualKey();
-//    comparing ptt
+    //    comparing ptt
     if (    (pttEdit->keySequence()   != this->savedPTT.keySequence()) ||
             (pttEdit->getScanCode()   != this->savedPTT.getScanCode()) ||
             (pttEdit->getVirtualKey() != this->savedPTT.getVirtualKey()))
-    {qDebug() << "ZULUL";    return true;}
+        return true;
     // comparing stop
     if (    (stopEdit->keySequence()   != this->savedStop.keySequence()) ||
             (stopEdit->getScanCode()   != this->savedStop.getScanCode()) ||
             (stopEdit->getVirtualKey() != this->savedStop.getVirtualKey()))
-      {qDebug() << "ZULUL2";    return true;}
+        return true;
     // comparing size of Qvectors
     if (sounds.size() != this->savedSounds.size())
-     {qDebug() << "ZULUL3";    return true;}
+        return true;
 
     else  // comparing wrappers using overloaded operator==
-    {
         for (int i = 0; i < savedSounds.size(); ++i)
             // need to call the operator== while dereferencing the pointers forsenE
             if ( *(savedSounds.at(i)) != *(sounds.at(i)))
-                 {qDebug() << "ZULUL4";    return true;}
-
-    }
+                return true;
 
    return false;
-
 }
 
 

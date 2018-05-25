@@ -212,6 +212,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
               SoundboardMainUI::SaveSoundboardSate,
               [=]
                 {
+
                     LIDL::SettingsController::GetInstance()->SaveState(this->_sounds,
                                                                        this->_shortcutEditPTT,
                                                                        this->_shortcutEditStop);
@@ -241,7 +242,66 @@ void SoundboardMainUI::PostConstruction()
     if (LIDL::SettingsController::GetInstance()->OpenSettings())
         if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
             this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());
+        else // show firt use dialog
+            this->ClearAll();
+    // If this is the first time the user uses soundboard
+    if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
+    {
+        QDialog * zulul = new QDialog(this);
+        zulul->setFixedSize(485,254);
+        zulul->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
+        zulul->setModal(true);
+        zulul->setWindowTitle("Welcome to LIDL Soundboard" + QString(VER_STRING) + " !");
+        QGridLayout *layout = new QGridLayout(zulul);
+        QLabel *text = new QLabel(tr("New User? Here are some things to know before using lidl soundboard:\n"));
+        QLabel *text2 = new QLabel(tr("• A shortcut will be captured by the soundboard and will not get transmitted to any other program.\n"
+                                     "• A shortcut can use one, or any combination of those modifiers: CTRL, ALT, SHIFT.\n"
+                                     "• A sound collection can contain one or several sound files, using one the following playback modes:\n"
+                                      "\t ‣Singleton: a single sound file\n"
+                                      "\t ‣Sequential: will play the next sound in the collection every time shortcut\n\t   or play button signal is received\n"
+                                      "\t ‣Sequential(auto): Same as sequential except it will play next sound automatically.\n"
+                                      "• You can set default value for many things in Tools->Settings.\n"
+                                     ));
+        text->setWordWrap(true);
+        text2->setWordWrap(true);
+        QFont f( "Arial", 14, QFont::Bold);
+        text->setFont(f);
 
+        QLabel *gachiPls = new QLabel();
+        gachiPls->setMaximumSize(32,32);
+        gachiPls->setScaledContents(true);
+        gachiPls->setMovie( new QMovie(":/icon/resources/GachiPls.gif"));
+        gachiPls->movie()->start();
+
+        QLabel *text3 = new QLabel("KEYLOGGER");
+
+        QVector<QLabel *> polishing;
+        for (long i=0; i<5; i++)
+        {
+            polishing.append(new QLabel());
+            polishing.last()->setMovie(   new QMovie(":/icon/resources/GachiPls.gif") );
+            polishing.last()->setMaximumSize(16,16);
+            polishing.last()->setScaledContents(true);
+
+        }
+
+
+        layout->addWidget(text,0,0,1,12);
+        layout->addWidget(text2,1,0,1,12);
+        QLabel* labelLink = new QLabel(tr("Full patch note available on <a href=\"https://github.com/devolution2409/Lidl-Soundboard/releases\">git.</a>"));
+        labelLink->setOpenExternalLinks(true);
+        layout->addWidget(labelLink,2,0,1,12);
+        int j = 0;
+        for (auto &i: polishing)
+        {
+            i->movie()->start();
+           layout->addWidget(i,3,j,1,1);
+           layout->addWidget(new QLabel("KEYLOGGER"),3,j+1,1,1);
+
+            j+=2;
+        }
+        zulul->show();
+    }
 
 
 }
@@ -298,6 +358,7 @@ void SoundboardMainUI::deleteSound()
     // check if selected sound is inside the array
     if (this->lastSelectedRow <= this->_sounds.size())
     {
+        this->SetStatusTextEditText("Deleted selectedsound");
         // disconnect anything connected to the sound
         disconnect(_sounds.at(lastSelectedRow));
 
@@ -416,8 +477,9 @@ void SoundboardMainUI::onCellClicked(QModelIndex index)
     this->_btnPlay->setEnabled(true);
     // qDebug() << "User clicked a cell on row number: " << index.row();
     // connect it to the selected cell
-
-    connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+    // ONLY if soundlist isn't empty
+    if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
+        connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
 
 }
 // Double click will open the properties windows.
@@ -431,6 +493,7 @@ void SoundboardMainUI::onCellDoubleClicked( QModelIndex index)
     this->_btnEdit->setEnabled(true);
     this->_btnDelete->setEnabled(true);
     this->_btnPlay->setEnabled(true);
+    if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
     connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
     // And we call the edit sound dialog
     this->editSoundDialog();
@@ -543,8 +606,9 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     if (handle == 2147483647)
         for (auto &i: _sounds)
             i->Stop();
-
-    else
+    // else this a sound hotkey handle
+    // We check if the soundwrapper at this location has one file else it will play nullptr and crash
+    else if ( ! _sounds.at(handle)->getSoundList().isEmpty() )
         _sounds.at(handle)->Play();
 }
 
@@ -628,7 +692,7 @@ void SoundboardMainUI::setUpMenu()
             [=]{
                     // Saving Soundboard state in the SettingsController object
                     this->ClearAll();
-                    emit SaveSoundboardSate();
+                    //emit SaveSoundboardSate();
                     this->SetStatusTextEditText(QString("Creating new empty soundboard"));
                 });
 
@@ -656,10 +720,17 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "LIDL Soundboard: Changes Detected",
                                       "Do you wish to save changes before quitting?",
-                                        QMessageBox::Yes|QMessageBox::No);
-          if (reply == QMessageBox::Yes)
-            this->Save();
+                                        QMessageBox::Yes|QMessageBox::No | QMessageBox::Cancel);
+        switch (reply){
+          case QMessageBox::Yes: this->Save(); break;
 
+          case QMessageBox::No : break;
+
+          default:
+            event->ignore();
+            return;
+          break;
+        }
 
     }
 
@@ -951,9 +1022,8 @@ void SoundboardMainUI::Open(QString fileName)
                         // We iterate over the sound files and add them to the array
                         // (default volume is 100%).
                         for (auto j: soundArray)
-                        {
                             fileArray.append( new LIDL::SoundFile(j.toString())  );
-                        }
+
                     }
 
 
@@ -986,7 +1056,7 @@ void SoundboardMainUI::Open(QString fileName)
         } // end if json contains wrapper
          //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
         // Saving Soundboard state in the SettingsController object
-
+        qDebug() << "Keys here: " << _shortcutEditStop->getText() << "vk:" << _shortcutEditStop->getVirtualKey();
         emit SaveSoundboardSate();
     }//endif file was opened
 }
@@ -1124,6 +1194,7 @@ void SoundboardMainUI::Save()
             file.close();
             // Saving Soundboard state in the SettingsController object
             emit SaveSoundboardSate();
+            this->SetStatusTextEditText("Succesfully saved file: " + _saveName);
         }
 
     }
@@ -1141,7 +1212,7 @@ void SoundboardMainUI::SaveAs()
 */
 QString fileName  = QFileDialog::getSaveFileName(this,
                                                  tr("Save Soundboard As.."),
-                                                 "" ,
+                                                 LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
                                                  tr("LIDL JSON file(*.lidljson)"));
   //  fileName.append(".lidljson");
     QJsonObject *save = GenerateSaveFile();
@@ -1160,10 +1231,12 @@ QString fileName  = QFileDialog::getSaveFileName(this,
         QTextStream out(&file);
         out.setCodec("UTF-8");
         out << jsonString.toUtf8();
+        // lidljson detected is used to add the file in the recent file thing
         emit lidlJsonDetected(QFileInfo(file));
         file.close();
         // Saving Soundboard state in the SettingsController object
         emit SaveSoundboardSate();
+        this->SetStatusTextEditText("Succesfully saved file: " + fileName);
     }
 }
 
@@ -1359,17 +1432,20 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
            // this->ScrollStatusText( max - size  );
         }
         // if the soundboard has been modified:
-        if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( this->_sounds,this->_shortcutEditPTT,this->_shortcutEditStop))
-        {    if (_saveName.isEmpty())
-                QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file not saved");}    );
-             else
-                QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file: " + this->_saveName   + " (not saved)"  );}    );
-        }
-        else // if this is the same soundboard as before (ie it is saved)
-            QTimer::singleShot(1000, [=]  { _statusEdit->setText("Soundboard file: " + this->_saveName);}    );
+        QTimer::singleShot(1000, [=]
+        {
+            if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( this->_sounds,this->_shortcutEditPTT,this->_shortcutEditStop))
+            {
+
+                if (_saveName.isEmpty())
+                    _statusEdit->setText("Soundboard file not saved");
+                else
+                    _statusEdit->setText("Soundboard file: " + this->_saveName   + " (not saved)"  );
+            }
+            else // if this is the same soundboard as before (ie it is saved)
+               _statusEdit->setText("Soundboard file: " + this->_saveName);
+        });
     }
-
-
 }
 
 

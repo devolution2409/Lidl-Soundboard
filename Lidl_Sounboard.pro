@@ -48,7 +48,7 @@ FORMS += \
 RESOURCES += \
     resources.qrc
 
-VERSION = 1.2.0
+VERSION = 1.3.0
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix

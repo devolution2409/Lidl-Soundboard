@@ -57,6 +57,7 @@ public:
     void SaveState( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit );
     bool SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit       );
 
+    bool IsThisFirstTimeUser();
 private:
     QString fileName;
     // Singleton class
@@ -95,6 +96,8 @@ private:
         QVector<SoundWrapper *> savedSounds;
         CustomShortcutEdit savedPTT;
         CustomShortcutEdit savedStop;
+
+    bool fileAlreadyExisted;
 
 signals:
     void RecentFilesChanged();
