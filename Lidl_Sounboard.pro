@@ -40,7 +40,7 @@ HEADERS += \
 # do not need to add this to header as this does not contains Q_OBJECT macro
 # actually we do or it doesn't add it into project tree forsenT
 #include/CustomListWidgetItem.h
-TEMPLATE += app
+#TEMPLATE += app
 
 FORMS += \
     Settings.ui
@@ -49,6 +49,7 @@ RESOURCES += \
     resources.qrc
 
 VERSION = 1.3.0
+
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix

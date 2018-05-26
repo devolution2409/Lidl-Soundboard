@@ -68,7 +68,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
      _btnDelete = new QPushButton("Delete",this);
      _btnEdit = new QPushButton("Edit",this);
      _btnPlay = new QPushButton("Play",this);
-     _btnStop = new QPushButton("Stop",this);
+     _btnStop = new QPushButton("Stop All",this);
 
       // Disabling the edit and delete button so that the soundboard doesn't crash
       // if no items are selected
@@ -241,68 +241,14 @@ void SoundboardMainUI::PostConstruction()
     // Open the soundboard post-construction
     if (LIDL::SettingsController::GetInstance()->OpenSettings())
         if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
+        {
             this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());
+        }
         else // show firt use dialog
             this->ClearAll();
     // If this is the first time the user uses soundboard
     if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
-    {
-        QDialog * zulul = new QDialog(this);
-        zulul->setFixedSize(485,254);
-        zulul->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
-        zulul->setModal(true);
-        zulul->setWindowTitle("Welcome to LIDL Soundboard" + QString(VER_STRING) + " !");
-        QGridLayout *layout = new QGridLayout(zulul);
-        QLabel *text = new QLabel(tr("New User? Here are some things to know before using lidl soundboard:\n"));
-        QLabel *text2 = new QLabel(tr("• A shortcut will be captured by the soundboard and will not get transmitted to any other program.\n"
-                                     "• A shortcut can use one, or any combination of those modifiers: CTRL, ALT, SHIFT.\n"
-                                     "• A sound collection can contain one or several sound files, using one the following playback modes:\n"
-                                      "\t ‣Singleton: a single sound file\n"
-                                      "\t ‣Sequential: will play the next sound in the collection every time shortcut\n\t   or play button signal is received\n"
-                                      "\t ‣Sequential(auto): Same as sequential except it will play next sound automatically.\n"
-                                      "• You can set default value for many things in Tools->Settings.\n"
-                                     ));
-        text->setWordWrap(true);
-        text2->setWordWrap(true);
-        QFont f( "Arial", 14, QFont::Bold);
-        text->setFont(f);
-
-        QLabel *gachiPls = new QLabel();
-        gachiPls->setMaximumSize(32,32);
-        gachiPls->setScaledContents(true);
-        gachiPls->setMovie( new QMovie(":/icon/resources/GachiPls.gif"));
-        gachiPls->movie()->start();
-
-        QLabel *text3 = new QLabel("KEYLOGGER");
-
-        QVector<QLabel *> polishing;
-        for (long i=0; i<5; i++)
-        {
-            polishing.append(new QLabel());
-            polishing.last()->setMovie(   new QMovie(":/icon/resources/GachiPls.gif") );
-            polishing.last()->setMaximumSize(16,16);
-            polishing.last()->setScaledContents(true);
-
-        }
-
-
-        layout->addWidget(text,0,0,1,12);
-        layout->addWidget(text2,1,0,1,12);
-        QLabel* labelLink = new QLabel(tr("Full patch note available on <a href=\"https://github.com/devolution2409/Lidl-Soundboard/releases\">git.</a>"));
-        labelLink->setOpenExternalLinks(true);
-        layout->addWidget(labelLink,2,0,1,12);
-        int j = 0;
-        for (auto &i: polishing)
-        {
-            i->movie()->start();
-           layout->addWidget(i,3,j,1,1);
-           layout->addWidget(new QLabel("KEYLOGGER"),3,j+1,1,1);
-
-            j+=2;
-        }
-        zulul->show();
-    }
-
+        this->HelpShowFirstUserDialog();
 
 }
 
@@ -660,25 +606,28 @@ void SoundboardMainUI::setUpMenu()
     _actions.append(   new QAction("Check for update..",this)); //7
     _actions.append(   new QAction("Report a bug or request a feature",this)); //8
     _actions.append(   new QAction("About LIDL Soundboard",this)); //9
+    _actions.append(   new QAction("Welcome message",this)); //10
 
     helpMenu->addAction(_actions.at(6));
+    helpMenu->addAction(_actions.at(10));
     helpMenu->addSeparator();
-    helpMenu->addAction(_actions.at(7));
+   // helpMenu->addAction(_actions.at(7));
     helpMenu->addAction(_actions.at(8));
     helpMenu->addSeparator();
     helpMenu->addAction(_actions.at(9));
 
+
     /***************************************************
                             Tools
     ****************************************************/
-    _actions.append(new QAction("Regenerate shortcuts",this));  //10);
-    toolMenu->addAction(_actions.at(10));
-    _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
-    _actions.append(new QAction("Clear sound shortcuts",this));  //11);
+    _actions.append(new QAction("Regenerate shortcuts",this));  //11);
     toolMenu->addAction(_actions.at(11));
-    toolMenu->addSeparator();
-    _actions.append(new QAction("Settings",this)); //12
+    _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
+    _actions.append(new QAction("Clear sounds shortcuts",this));  //12
     toolMenu->addAction(_actions.at(12));
+    toolMenu->addSeparator();
+    _actions.append(new QAction("Settings",this)); //13
+    toolMenu->addAction(_actions.at(13));
     /***************************************************
                            CONNECTIONS
     ****************************************************/
@@ -701,12 +650,14 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(2),SIGNAL(triggered()),this,SLOT(OpenEXPSounboard()));
     connect(this->_actions.at(3),SIGNAL(triggered()),this,SLOT(Save()));
     connect(this->_actions.at(6),SIGNAL(triggered()),this,SLOT(HelpGuide()));
-    connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
+   // connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
     connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
     connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
-    connect(this->_actions.at(10),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
-    connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
-    connect(this->_actions.at(12),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
+    connect(this->_actions.at(10), QAction::triggered, this, SoundboardMainUI::HelpShowFirstUserDialog);
+
+    connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
+    connect(this->_actions.at(12),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
+    connect(this->_actions.at(13),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
 }
 
 //Reimplementing to kill all shortcuts
@@ -1313,18 +1264,76 @@ void SoundboardMainUI::HelpAbout()
 
 
 
-
-void SoundboardMainUI::HelpCheckForUpdate()
+void SoundboardMainUI::HelpShowFirstUserDialog()
 {
-    this->statusBar()->showMessage("Checking for updates...");
-    QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
-    //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
-  //  QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
-   // QSimpleUpdater::getInstance()->checkForUpdates (url);
-    //QSimpleUpdater::getInstance()->getChangelog()
-    //qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
-    this->statusBar()->clearMessage();
+    QDialog * zulul = new QDialog(this);
+    zulul->setFixedSize(492,312);
+    zulul->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
+    zulul->setModal(true);
+    zulul->setWindowTitle("Welcome to LIDL Soundboard" + QString(VER_STRING) + " !");
+    QGridLayout *layout = new QGridLayout(zulul);
+    QLabel *text = new QLabel(tr("New User? Here are some things to know before using lidl soundboard:\n"));
+    QLabel *text2 = new QLabel(tr("• A shortcut will be captured by the soundboard and will NOT get transmitted to any other program.\n"
+                                 "• A shortcut can use one, or any combination of those modifiers: CTRL, ALT, SHIFT.\n"
+                                 "• A sound collection can contain one or several sound files, using one the following playback modes:\n"
+                                  "\t ‣Singleton: a single sound file.\n"
+                                  "\t ‣Sequential: will play the next sound in the collection every time shortcut\n\t   or play button signal is received.\n"
+                                  "\t ‣Sequential(auto): Same as sequential except it will play next sound automatically.\n"
+                                  "• You can set default value for many things in Tools->Settings.\n"
+                                  "This message can be found again in the Help->Welcome message."
+                                 ));
+    text->setWordWrap(true);
+    text2->setWordWrap(true);
+    QFont f( "Arial", 14, QFont::Bold);
+    text->setFont(f);
+
+    QLabel *gachiPls = new QLabel();
+    gachiPls->setMaximumSize(32,32);
+    gachiPls->setScaledContents(true);
+    gachiPls->setMovie( new QMovie(":/icon/resources/GachiPls.gif"));
+    gachiPls->movie()->start();
+
+
+    QVector<QLabel *> polishing;
+    for (long i=0; i<5; i++)
+    {
+        polishing.append(new QLabel());
+        polishing.last()->setMovie(   new QMovie(":/icon/resources/GachiPls.gif") );
+        polishing.last()->setMaximumSize(16,16);
+        polishing.last()->setScaledContents(true);
+
+    }
+
+
+    layout->addWidget(text,0,0,1,12);
+    layout->addWidget(text2,1,0,1,12);
+    QLabel* labelLink = new QLabel(tr("Full patch note available on <a href=\"https://github.com/devolution2409/Lidl-Soundboard/releases\">git.</a>"));
+    labelLink->setOpenExternalLinks(true);
+    layout->addWidget(labelLink,2,0,1,12);
+    int j = 0;
+    for (auto &i: polishing)
+    {
+        i->movie()->start();
+       layout->addWidget(i,3,j,1,1);
+       layout->addWidget(new QLabel(tr("KEYLOGGER"),this),3,j+1,1,1);
+
+        j+=2;
+    }
+    zulul->show();
 }
+
+
+//void SoundboardMainUI::HelpCheckForUpdate()
+//{
+//    this->statusBar()->showMessage("Checking for updates...");
+//    QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
+//    //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
+//  //  QSimpleUpdater::getInstance()->setDownloaderEnabled(url,false);
+//   // QSimpleUpdater::getInstance()->checkForUpdates (url);
+//    //QSimpleUpdater::getInstance()->getChangelog()
+//    //qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
+//    this->statusBar()->clearMessage();
+//}
 
 
 
@@ -1370,6 +1379,7 @@ void SoundboardMainUI::ToolClearShortcut()
 
     for (auto &i: temp)
         this->addSound(i,-1,LIDL::Shortcut::DONT_GENERATE);
+    this->SetStatusTextEditText("Shortcuts cleared.");
 }
 
 void SoundboardMainUI::DealDragAndDrop(int newPlace)
@@ -1420,10 +1430,12 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
     int max  = this->statusBar()->width();
     if (!(text.isEmpty()))
     {
+        // adding a . just in case
+        if (text.at(text.size() -1) != ".")
+            text += ".";
         if (size < max)
         {
             _statusEdit->setText(text);
-
 
         }
         else
@@ -1432,18 +1444,20 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
            // this->ScrollStatusText( max - size  );
         }
         // if the soundboard has been modified:
-        QTimer::singleShot(1000, [=]
+        QTimer::singleShot(1500, [=]
         {
+            // if snapshot now is different from stored one
             if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( this->_sounds,this->_shortcutEditPTT,this->_shortcutEditStop))
             {
-
-                if (_saveName.isEmpty())
-                    _statusEdit->setText("Soundboard file not saved");
+                if (_saveName.isEmpty() || _saveName.size() == 0)
+                    _statusEdit->setText("Soundboard file not saved.");
                 else
-                    _statusEdit->setText("Soundboard file: " + this->_saveName   + " (not saved)"  );
+                    _statusEdit->setText("Soundboard file: " + this->_saveName   + " not saved."  );
             }
-            else // if this is the same soundboard as before (ie it is saved)
-               _statusEdit->setText("Soundboard file: " + this->_saveName);
+            else if (_saveName.isEmpty())
+                _statusEdit->setText("Soundboard file not saved.");
+            else //it is the same soundboard as before (ie it is saved)
+                _statusEdit->setText("Soundboard file: \"" + this->_saveName  + "\".");
         });
     }
 }

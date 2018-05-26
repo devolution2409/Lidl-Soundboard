@@ -4,13 +4,15 @@
 #include "soundboardMainUI.h"
 #include <QFile>
 #include <QString>
-
+#include <QCoreApplication>
 
 
 int main(int argc, char *argv[])
 {
+
     QApplication app(argc, argv);
 
+     qDebug() << QApplication::libraryPaths();
 //    Main UI LeBaited
     SoundboardMainUI container;
 

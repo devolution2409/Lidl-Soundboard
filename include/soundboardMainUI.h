@@ -195,9 +195,10 @@ private:
 
     //void ScrollStatusText(int howMuch);
     QMenu * _openRecentMenu;
-
+    void HelpShowFirstUserDialog();
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
+
 signals:
     void lidlJsonDetected(QFileInfo); // forsenBee (to deal with recent saved or opened files)*
 
@@ -257,7 +258,8 @@ public slots:
     void StatusPlaying(QString);
     void StatusErrorPlaying(QString);
 
-    void HelpCheckForUpdate();
+    //void HelpCheckForUpdate();
+
 
     void ToolClearShortcut();
 
