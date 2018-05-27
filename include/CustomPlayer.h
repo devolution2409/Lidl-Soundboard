@@ -83,7 +83,7 @@ private:
   //  int _vacChannel;
     QVector<int> _mainChannel;
     QVector<int> _vacChannel;
-
+    QVector<int> _SFXHandle;
 
     // Devices numbers
     int _mainOutputDevice;

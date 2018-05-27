@@ -41,6 +41,8 @@
 #include <CustomListWidgetItem.h>
 #include <QSpinBox>
 #include "SettingsController.h"
+#include "Spoiler.h"
+#include <QCheckBox>
 
 class WrapperProperties : public QWidget
 {
@@ -114,6 +116,8 @@ private:
      *                     VOLUME SLIDERS                  *
      *                                                     *
      *******************************************************/
+    Spoiler * _sliderSpoiler;
+
     QGroupBox* _sliderGroup;
     QGridLayout * _sliderLayout;
     QSpinBox    * _sliderMainSpin;
@@ -123,6 +127,33 @@ private:
     QLabel  * _sliderHint;
     QSlider *_sliderMain;
     QSlider *_sliderVAC;
+    /*******************************************************
+     *                                                     *
+     *                    SOUND EFFECTS                    *
+     *                                                     *
+     *******************************************************/
+    QButtonGroup *_sfxBtnGroup;
+    Spoiler *_sfxSpoiler;
+    QGridLayout *_sfxLayout;
+    QCheckBox *_sfxChorus;
+    QCheckBox *_sfxCompressor;
+    QCheckBox *_sfxDistortion;
+    QCheckBox *_sfxEcho;
+    QCheckBox *_sfxFlanger;
+    QCheckBox *_sfxGargle;
+    QCheckBox *_sfxReverb;
+
+/*
+ *
+BASS_FX_DX8_CHORUS	DX8 Chorus. Use BASS_DX8_CHORUS structure to set/get parameters.
+BASS_FX_DX8_COMPRESSOR	DX8 Compression. Use BASS_DX8_COMPRESSOR structure to set/get parameters.
+BASS_FX_DX8_DISTORTION	DX8 Distortion. Use BASS_DX8_DISTORTION structure to set/get parameters.
+BASS_FX_DX8_ECHO	DX8 Echo. Use BASS_DX8_ECHO structure to set/get parameters.
+BASS_FX_DX8_FLANGER	DX8 Flanger. Use BASS_DX8_FLANGER structure to set/get parameters.
+BASS_FX_DX8_GARGLE	DX8 Gargle. Use BASS_DX8_GARGLE structure to set/get parameters.
+BASS_FX_DX8_I3DL2REVERB	DX8 I3DL2 (Interactive 3D Audio Level 2) reverb. Use BASS_DX8_I3DL2REVERB structure to set/get parameters.
+BASS_FX_DX8_PARAMEQ	DX8 Parametric equalizer. Use BASS_DX8_PARAMEQ structure to set/get parameters.
+BASS_FX_DX8_REVERB */
 
 
 // TODO ajouter volume

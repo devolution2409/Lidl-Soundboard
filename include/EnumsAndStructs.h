@@ -3,6 +3,14 @@
 
 
 
+struct BASS_DISTORTION_PARAM {
+    float fGain;
+    // default gain is -18 i think;
+    float fEdge;
+    float fPostEQCenterFrequency;
+    float fPostEQBandwidth;
+    float fPreLowpassCutoff;
+};
 
 
 

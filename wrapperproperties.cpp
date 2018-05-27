@@ -8,7 +8,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
 
     this->setFocusPolicy(Qt::StrongFocus);
-    this->setMinimumSize(382,504);
+    this->setMinimumSize(413,504);
 
 
     this->_mainWidget = parent;
@@ -47,24 +47,28 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      *                     VOLUME SLIDERS                  *
      *                                                     *
      *******************************************************/
-    _sliderGroup = new QGroupBox("Volume",this);
-    _sliderLayout = new QGridLayout(_sliderGroup);
+   // _sliderGroup = new QGroupBox("Volume");
+
+     _sliderSpoiler = new Spoiler(tr("Volume"));
+
+    _sliderLayout = new QGridLayout();
     _sliderMain  = new QSlider(Qt::Orientation::Horizontal,this);
     _sliderVAC   = new QSlider(Qt::Orientation::Horizontal,this);
-
-    _sliderMain->setRange(0,100);
-    _sliderVAC->setRange(0,100);
+    int maxVolume = 100;
+    _sliderMain->setRange(0,maxVolume);
+    _sliderVAC->setRange(0,maxVolume);
     _sliderLabelMain = new QLabel("Main Output Volume");
     _sliderLabelVAC = new QLabel("VAC Output Volume");
     _sliderMainSpin = new QSpinBox(this);
     _sliderVACSpin  =   new QSpinBox(this);
 
-    _sliderMainSpin->setRange(0,100);
-    _sliderVACSpin->setRange(0,100);
+    _sliderMainSpin->setRange(0,maxVolume);
+    _sliderVACSpin->setRange(0,maxVolume);
     _sliderMainSpin->setSuffix("%");
     _sliderVACSpin->setSuffix("%");
-
     _sliderHint = new QLabel("💡 You can set the volumes of each sound individually.");
+
+
     _sliderLayout->addWidget(_sliderLabelMain,0,0,1,4);
     _sliderLayout->addWidget(_sliderMain,1,0,1,3);
     _sliderLayout->addWidget(_sliderMainSpin,1,3,1,1);
@@ -73,7 +77,58 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sliderLayout->addWidget(_sliderVACSpin,3,3,1,1);
     _sliderLayout->addWidget(_sliderHint,4,0,1,4);
 
-    _sliderGroup->setEnabled(false);
+
+    _sliderSpoiler->setContentLayout( _sliderLayout  );
+    _sliderSpoiler->setEnabled(false);
+
+
+    /*******************************************************
+     *                                                     *
+     *                     SFX PANEL                       *
+     *                                                     *
+     *******************************************************/
+    _sfxSpoiler = new Spoiler("Special Effects");
+
+    _sfxLayout  = new QGridLayout();
+    _sfxChorus  = new QCheckBox("Chorus",this);
+    _sfxCompressor = new QCheckBox("Compressor");
+    _sfxDistortion = new QCheckBox("Distortion");
+    _sfxEcho       = new QCheckBox("Echo");
+    _sfxFlanger    = new QCheckBox("Flanger");
+    _sfxGargle     = new QCheckBox("Gargle");
+    _sfxReverb     = new QCheckBox("Reverb");
+
+    _sfxChorus->setCheckable(true);
+    _sfxCompressor->setCheckable(true);
+    _sfxDistortion->setCheckable(true);
+    _sfxEcho->setCheckable(true);
+    _sfxFlanger->setCheckable(true);
+    _sfxGargle->setCheckable(true);
+    _sfxReverb->setCheckable(true);
+
+    _sfxLayout->addWidget(_sfxChorus,1,1,1,1);
+    _sfxLayout->addWidget(_sfxCompressor,1,0,1,1);
+    _sfxLayout->addWidget(_sfxChorus,2,0,1,1);
+    _sfxLayout->addWidget(_sfxDistortion,3,0,1,1);
+    _sfxLayout->addWidget(_sfxEcho,4,0,1,1);
+    _sfxLayout->addWidget(_sfxFlanger,5,0,1,1);
+    _sfxLayout->addWidget(_sfxGargle,6,0,1,1);
+    _sfxLayout->addWidget(_sfxReverb,7,0,1,1);
+    _sfxBtnGroup = new QButtonGroup();
+    _sfxBtnGroup->addButton(_sfxChorus  );
+    _sfxBtnGroup->addButton(_sfxCompressor);
+    _sfxBtnGroup->addButton(_sfxDistortion);
+    _sfxBtnGroup->addButton(_sfxEcho);
+    _sfxBtnGroup->addButton(_sfxFlanger);
+    _sfxBtnGroup->addButton(_sfxGargle);
+    _sfxBtnGroup->addButton(_sfxReverb);
+    _sfxSpoiler->setContentLayout(_sfxLayout);
+    _sfxBtnGroup->setExclusive(false);
+
+    _sfxSpoiler->setEnabled(false);
+    // connecting the two spoilers together
+    connect(_sfxSpoiler,Spoiler::Opened, _sliderSpoiler,Spoiler::Close);
+    connect(_sliderSpoiler,Spoiler::Opened,_sfxSpoiler,Spoiler::Close);
 
     /*******************************************************
      *                                                     *
@@ -92,7 +147,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      _radioAuto       = new QRadioButton("Sequential (auto)",this);
      _radioCancer     = new QRadioButton("Singleton (Cancer)",this);
      // Tooltip hint
-   //  _radioToolTip    = new QLabel("       ❔");
+     //  _radioToolTip    = new QLabel("       ❔");
      //_radioToolTip->setToolTip("Singleton: A Single Sound\nSequential: A Sound Collection. Next item will play after pressing play or the shortcut.\nSequential(Auto): Same as sequential, but automated.");
 
      // setting 1 has default value for playblack
@@ -148,11 +203,12 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _gLayout->addWidget(_btnAdd,0,0,1,2);
     _gLayout->addWidget(_btnDelete,0,2,1,2);
     _gLayout->addWidget(_soundListHint,1,0,2,4);
-    _gLayout->addWidget(_sliderGroup,3,0,1,4);
-    _gLayout->addWidget(_radioGroupBox,4,0,1,4);
-    _gLayout->addWidget(_shortcutGroup,5,0,1,4);
-    _gLayout->addWidget(_btnDone,6,0,1,3);
-    _gLayout->addWidget(_btnAbort,6,3,1,1);
+     _gLayout->addWidget(_sliderSpoiler,3,0,1,4 );
+     _gLayout->addWidget(_sfxSpoiler,4,0,1,4);
+    _gLayout->addWidget(_radioGroupBox,5,0,1,4);
+    _gLayout->addWidget(_shortcutGroup,6,0,1,4);
+    _gLayout->addWidget(_btnDone,7,0,1,3);
+    _gLayout->addWidget(_btnAbort,8,3,1,1);
 
 
 
@@ -440,7 +496,9 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
     if (_selectedItem != nullptr)
     {
         _btnDelete->setEnabled(true);
-        _sliderGroup->setEnabled(true);
+        //_sliderGroup->setEnabled(true);
+        _sliderSpoiler->setEnabled(true);
+        _sfxSpoiler->setEnabled(true);
         // setting sliders value
         _sliderMain->setValue( static_cast<int>(_selectedItem->getMainVolume()*100));
         _sliderVAC->setValue( static_cast<int>(_selectedItem->getVacVolume()*100));
@@ -459,8 +517,8 @@ void WrapperProperties::DeleteSelectedSound()
     delete this->_selectedItem;
     this->_selectedItem = nullptr;
     this->_btnDelete->setEnabled(false);
-    this->_sliderGroup->setEnabled(false);
-
+    this->_sliderSpoiler ->setEnabled(false);
+    this->_sfxSpoiler->setEnabled(false);
     // need to renable add button if we are in singleton song and this was the last sound
     if (_soundListDisplay->count() == 0)
     {

@@ -18,7 +18,8 @@ SOURCES += \
     CustomSoundFile.cpp \
     CustomTableModel.cpp \
     StyledDelegate.cpp \
-    SettingsController.cpp
+    SettingsController.cpp \
+    Spoiler.cpp
 
 
 HEADERS += \
@@ -35,7 +36,8 @@ HEADERS += \
     include/CustomSoundFile.h \
     include/CustomTableModel.h \
     include/StyledDelegate.h \
-    include/SettingsController.h
+    include/SettingsController.h \
+    include/Spoiler.h
 
 # do not need to add this to header as this does not contains Q_OBJECT macro
 # actually we do or it doesn't add it into project tree forsenT

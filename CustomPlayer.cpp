@@ -162,14 +162,22 @@ double CustomPlayer::PlayAt(int index)
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
 
-//      http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
+    //http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
 
-        //Setting volume
-        // Volume is stored in the LIDL::SoundFile class (CustomSoundFile.h)
-        // And it's created thanks to the CustomListWidgetItem who also has two volumes attributes
-        //BASS_ChannelPlay(_mainChannel,true);
+   // http://www.un4seen.com/doc/#bass/BASS_ChannelSetFX.html
         BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
+        // Trying to implement HYPER
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
+
+//        int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
+//       BASS_DISTORTION_PARAM test;
+//       test.fGain = -5;
+        //test.fGain = -40;
+      // BASS_FXSetParameters(LUL,&test);
+
+        //}
+
+
         //qDebug() << "Main Volume should be: " << _soundList.at(index)->getMainVolume();
         duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
                                                     BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
@@ -182,6 +190,11 @@ double CustomPlayer::PlayAt(int index)
         BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
         BASS_ChannelPlay(_vacChannel.last(),true);
         BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
+//    int LUL =  BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
+//     BASS_DISTORTION_PARAM test;
+//     test.fGain = -5;
+//        BASS_FXSetParameters(LUL,&test);
+
 
        //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
         duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),

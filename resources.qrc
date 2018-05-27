@@ -4,6 +4,7 @@
         <file>resources/gachiBASS.gif</file>
         <file>resources/GachiPls.gif</file>
         <file>resources/forsenAim.png</file>
+        <file>resources/checkbox.png</file>
     </qresource>
     <qresource prefix="/css">
         <file>resources/darkorange.css</file>
