@@ -103,7 +103,6 @@ private:
     // and this one the ptt
     QTimer * _timerPTT;
 
-
     void holdPTT(int duration);
 
 

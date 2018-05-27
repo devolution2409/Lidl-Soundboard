@@ -169,11 +169,11 @@ double CustomPlayer::PlayAt(int index)
         // Trying to implement HYPER
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
 
-//        int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
-//       BASS_DISTORTION_PARAM test;
-//       test.fGain = -5;
-        //test.fGain = -40;
-      // BASS_FXSetParameters(LUL,&test);
+        int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
+       BASS_DISTORTION_PARAM test;
+       test.fGain = -5;
+        test.fGain = -40;
+       BASS_FXSetParameters(LUL,&test);
 
         //}
 
@@ -190,10 +190,10 @@ double CustomPlayer::PlayAt(int index)
         BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
         BASS_ChannelPlay(_vacChannel.last(),true);
         BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
-//    int LUL =  BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
-//     BASS_DISTORTION_PARAM test;
-//     test.fGain = -5;
-//        BASS_FXSetParameters(LUL,&test);
+    int LUL =  BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
+     BASS_DISTORTION_PARAM test;
+     test.fGain = -5;
+        BASS_FXSetParameters(LUL,&test);
 
 
        //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
