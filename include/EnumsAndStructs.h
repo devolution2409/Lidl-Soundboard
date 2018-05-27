@@ -10,7 +10,8 @@ namespace LIDL{
     enum class Playback {
         Singleton = 1,
         Sequential = 2,
-        Auto =  3
+        Auto =  3,
+        Cancer = 4
     };
     enum class Shortcut{
         GENERATE,

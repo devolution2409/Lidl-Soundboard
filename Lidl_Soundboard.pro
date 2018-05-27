@@ -48,13 +48,15 @@ FORMS += \
 RESOURCES += \
     resources.qrc
 
-VERSION = 1.3.0
+VERSION = 1.4.0
 
+TARGET = Lidl_Soundboard
+#trying to staticly link libgcc
+QMAKE_CXXFLAGS += -static-libgcc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass  #-lbassmix
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
 else:unix: LIBS += -L$$PWD/lib/ -lbass
-
 
 INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/.

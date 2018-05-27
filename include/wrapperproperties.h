@@ -77,9 +77,10 @@ private:
     QGroupBox    *_radioGroupBox;
     QButtonGroup *_radioGroup;
     QHBoxLayout  *_radioLayout;
+    QRadioButton *_radioSingleton;
     QRadioButton *_radioSequential;
     QRadioButton *_radioAuto;
-    QRadioButton *_radioSingleton;
+    QRadioButton *_radioCancer;
 
     QLabel       *_radioToolTip;
     // Hotkey

@@ -63,7 +63,7 @@ public slots:
    // void PlayFirst();
     double PlayAt(int index);
     void PlayNext();
-    void OnTimerTick();
+  //  void OnTimerTick();
     void unHoldPTT();
     void Stop();
     void resetShouldPlay();
@@ -79,8 +79,11 @@ private:
     int _index;
 
     // Channels
-    int _mainChannel;
-    int _vacChannel;
+    //int _mainChannel;
+  //  int _vacChannel;
+    QVector<int> _mainChannel;
+    QVector<int> _vacChannel;
+
 
     // Devices numbers
     int _mainOutputDevice;
@@ -91,7 +94,13 @@ private:
     int _PTTVirtualKey;
 
     // Timers that needs to be canceled if the sound is stopped
+    // Those 3 are the reset should play timers
+    QTimer * _timerSingleton;
     QTimer * _timerSequential;
+    QTimer * _timerSequentialAuto;
+    // this one is the autoplay timer
+    QTimer * _timerSequentialAutoPlay;
+    // and this one the ptt
     QTimer * _timerPTT;
 
 

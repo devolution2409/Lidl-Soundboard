@@ -4,13 +4,23 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 {
     _mainOutputDevice = 0;
     _VACOutputDevice = 0;
-    _timerSequential = new QTimer();
+
+    _timerSequentialAutoPlay = new QTimer();
     _timerPTT = new QTimer();
+
+
+    _timerSingleton = new QTimer();
+    _timerSequential = new QTimer();
+    _timerSequentialAuto = new QTimer();
 //    _timerSequential->setSingleShot(true);
 //    _timerPTT->setSingleShot(true);
 
-    connect(_timerSequential,SIGNAL(timeout()),this,SLOT(PlayNext()));
+    connect(_timerSequentialAutoPlay,SIGNAL(timeout()),this,SLOT(PlayNext()));
     connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
+
+    connect(_timerSingleton,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
+    connect(_timerSequential,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
+    connect(_timerSequentialAuto,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
 
     _shouldPlay = true;
 }
@@ -27,7 +37,7 @@ CustomPlayer::CustomPlayer(QVector<LIDL::SoundFile *> soundList, LIDL::Playback 
 void CustomPlayer::PlayNext()
 {
     // stop the sequential auto timer in case it is running.
-    _timerSequential->stop();
+    _timerSequentialAutoPlay->stop();
 
     // if index is OOB from previous playing, we reset it
     // soundlist size returns actual size
@@ -61,7 +71,7 @@ void CustomPlayer::PlayNext()
                 _shouldPlay = false;
                // qDebug() << "ZULULUL" << _mainOutputDevice << _VACOutputDevice;
                 duration =  static_cast<int>(this->PlayAt(_index)*1000);
-                  QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+                  _timerSingleton->start(duration);
                  // qDebug() << "duration is: " << duration;
             }
             /***********************************
@@ -71,7 +81,7 @@ void CustomPlayer::PlayNext()
             {
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-                  QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+                _timerSequential->start(duration);
 
             }
             /***********************************
@@ -82,12 +92,18 @@ void CustomPlayer::PlayNext()
 
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-                    QTimer::singleShot(duration,this,SLOT(resetShouldPlay()));
+                    _timerSequentialAuto->start(duration);
                     // If the new index is OOB, it means we need to stop playing
                     // else we continue
                      qDebug() << _index << "soundlist size:" << _soundList.size();
                     if (_index < _soundList.size()  )
-                        _timerSequential->start(duration+100);
+                        _timerSequentialAutoPlay->start(duration+100);
+            }
+            // We don't even test should play here since we want the ear rape to happen
+            else if ((_playMode == LIDL::Playback::Cancer))
+            {
+                this->PlayAt(_index++);
+
             }
 
         }
@@ -99,20 +115,32 @@ void CustomPlayer::PlayNext()
 // used to stop sound that is playing
 void CustomPlayer::Stop()
 {
-    BASS_ChannelStop(_mainChannel);
-    BASS_ChannelStop(_vacChannel);
-    this->unHoldPTT();
-    _shouldPlay = true;
+
+    // stop every timer.
+    _timerSequentialAutoPlay->stop();
     _timerPTT->stop();
-    _timerSequential->stop();
+    this->resetShouldPlay();
+    // Why the fuck is this called FIVE times?
+    qDebug() << "test:" << _mainChannel.size();
+
+    // Clearing channels array
+    for (auto i: _mainChannel)
+        BASS_ChannelStop(i);
+    for (auto i: _vacChannel)
+        BASS_ChannelStop(i);
+
+    _mainChannel.clear();
+    _vacChannel.clear();
+
+    this->unHoldPTT();
 }
 
 
-void CustomPlayer::OnTimerTick()
-{
-    this->PlayNext();
+//void CustomPlayer::OnTimerTick()
+//{
+//    this->PlayNext();
 
-}
+//}
 
 // Play the sound and return the duration in secs.
 double CustomPlayer::PlayAt(int index)
@@ -126,42 +154,49 @@ double CustomPlayer::PlayAt(int index)
         //qDebug() << "Attempting to play file index number:" << index << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
 
         // handle for main output
-        _mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
+       // _mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
         //Playing the sound on main device
-        //qDebug() << "Setting output on device number: " << _mainOutputDevice;
-        BASS_ChannelSetDevice(_mainChannel,_mainOutputDevice);
-//      BOOL BASS_ChannelPlay(DWORD handle,BOOL restart);
+
+        _mainChannel.append(BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE));
+        //BASS_ChannelSetDevice(_mainChannel,_mainOutputDevice);
+        BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
+
+
 //      http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
 
         //Setting volume
         // Volume is stored in the LIDL::SoundFile class (CustomSoundFile.h)
         // And it's created thanks to the CustomListWidgetItem who also has two volumes attributes
-        BASS_ChannelPlay(_mainChannel,true);
-        BASS_ChannelSetAttribute(_mainChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
+        //BASS_ChannelPlay(_mainChannel,true);
+        BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
+        BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
         //qDebug() << "Main Volume should be: " << _soundList.at(index)->getMainVolume();
-        duration = BASS_ChannelBytes2Seconds(_mainChannel,
-                                                    BASS_ChannelGetLength(_mainChannel,BASS_POS_BYTE));
+        duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
+                                                    BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
     }
     // same for VAC output, and we check the two outputs aren't the same
     if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
     {
         BASS_Init(_VACOutputDevice, 44100, 0, 0, nullptr);
-        int _vacChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
-        BASS_ChannelSetDevice(_vacChannel,_VACOutputDevice);
-        BASS_ChannelPlay(_vacChannel,true);
-        BASS_ChannelSetAttribute(_vacChannel, BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
+        _vacChannel.append(BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE));
+        BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
+        BASS_ChannelPlay(_vacChannel.last(),true);
+        BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
 
        //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
-        duration = BASS_ChannelBytes2Seconds(_vacChannel,
-                                                   BASS_ChannelGetLength(_vacChannel,BASS_POS_BYTE));
+        duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
+                                                   BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
     }
 
     // We check if any of the outputs are valid, if they are, we hold the PTT key
     // if it's not empty (clearing it in the main ui will set both
     // VirtualKey and ScanCode to to -1
     if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
-    {    this->holdPTT(static_cast<int>(duration*1000) );
-         _timerPTT->start(static_cast<int>(duration*1000) );
+    {
+         // this is for cancer mode: we reset the timer, else it doesn't really matter since it's stopped
+        _timerPTT->stop();
+        this->holdPTT(static_cast<int>(duration*1000) );
+        _timerPTT->start(static_cast<int>(duration*1000) );
     }
 
 
@@ -171,6 +206,9 @@ double CustomPlayer::PlayAt(int index)
 
 void CustomPlayer::resetShouldPlay()
 {
+    _timerSingleton->stop();
+    _timerSequential->stop();
+    _timerSequentialAuto->stop();
     _shouldPlay = true;
 }
 
@@ -214,11 +252,12 @@ void CustomPlayer::holdPTT(int duration)
 {
     // Pressing key as a SCAN CODE so that it is "physically" pressed
     keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
-    QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
+    //QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
 }
 
 void CustomPlayer::unHoldPTT()
 {
+    qDebug() << "unholding ptt";
     // Unpressing the key physically
     keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
     // stopping the timer else PTT will be unhold on each tick forsenT
@@ -254,3 +293,8 @@ int CustomPlayer::GetVACDevice()
     return this->_VACOutputDevice;
 }
 
+//CustomPlayer::~CustomPlayer()
+//{
+
+//    QObject::~QObject();
+//}

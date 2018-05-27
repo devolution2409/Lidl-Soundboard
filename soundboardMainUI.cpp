@@ -516,7 +516,8 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
         //    qDebug() << i.toString();
 
             // Looking for the flags and setting no repeat as default. to check for spamming sound forsenT
-            int tempFlags = MOD_NOREPEAT;
+            int tempFlags = 0;//
+            //int tempFlags = MOD_NOREPEAT;
             for (auto j: i.toString().split("+"))
             {
                 if (j=="Ctrl")
@@ -546,7 +547,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 // Method to run the sound via hotkeys
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
-      //qDebug() << "Pressed hotkey handle: " << handle;
+     qDebug() << "Pressed hotkey handle: " << handle;
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
@@ -785,7 +786,8 @@ void SoundboardMainUI::ClearAll()
 
     this->_shortcutEditPTT->clear();
     this->_shortcutEditStop->clear();
-
+    // Unregistering stop hotkey
+    UnregisterHotKey(NULL,2147483647);
 
     /***************************************************
                           MODEL
@@ -1277,6 +1279,7 @@ void SoundboardMainUI::HelpShowFirstUserDialog()
                                  "• A shortcut can use one, or any combination of those modifiers: CTRL, ALT, SHIFT.\n"
                                  "• A sound collection can contain one or several sound files, using one the following playback modes:\n"
                                   "\t ‣Singleton: a single sound file.\n"
+                                  "\t ‣Singleton (Cancer): hold it to spam it.\n"
                                   "\t ‣Sequential: will play the next sound in the collection every time shortcut\n\t   or play button signal is received.\n"
                                   "\t ‣Sequential(auto): Same as sequential except it will play next sound automatically.\n"
                                   "• You can set default value for many things in Tools->Settings.\n"

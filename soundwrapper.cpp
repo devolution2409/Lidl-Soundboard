@@ -87,8 +87,9 @@ void SoundWrapper::Play()
 
 void SoundWrapper::Stop()
 {
+    // destroy the player, test to see if it stop sounds
     _player->Stop();
-    _player->unHoldPTT();
+   // _player->unHoldPTT();
 }
 
 
@@ -156,6 +157,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
        case LIDL::Playback::Singleton: tmpMode.append("Singleton"); break;
        case LIDL::Playback::Sequential: tmpMode.append("Sequential"); break;
        case LIDL::Playback::Auto: tmpMode.append("Sequential (Auto)"); break;
+       case LIDL::Playback::Cancer: tmpMode.append("Singleton (Cancer)");break;
     }
     tempItem.append(new QStandardItem(tmpMode));
 

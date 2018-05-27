@@ -87,28 +87,29 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _radioLayout     = new QHBoxLayout(_radioGroupBox);
 
      // Creating buttons
+     _radioSingleton  = new QRadioButton("Singleton",this);
      _radioSequential = new QRadioButton("Sequential",this);
      _radioAuto       = new QRadioButton("Sequential (auto)",this);
-     _radioSingleton  = new QRadioButton("Singleton",this);
+     _radioCancer     = new QRadioButton("Singleton (Cancer)",this);
      // Tooltip hint
-     _radioToolTip    = new QLabel("       ❔");
-     _radioToolTip->setToolTip("Singleton: A Single Sound\nSequential: A Sound Collection. Next item will play after pressing play or the shortcut.\nSequential(Auto): Same as sequential, but automated.");
+   //  _radioToolTip    = new QLabel("       ❔");
+     //_radioToolTip->setToolTip("Singleton: A Single Sound\nSequential: A Sound Collection. Next item will play after pressing play or the shortcut.\nSequential(Auto): Same as sequential, but automated.");
 
      // setting 1 has default value for playblack
      _playBackMode    = LIDL::Playback::Singleton;
 
     // Adding them to layout, and setting singleton checked by default
     _radioLayout->addWidget(_radioSingleton);
+    _radioLayout->addWidget(_radioCancer);
     _radioSingleton->setChecked(true);
     _radioLayout->addWidget(_radioSequential);
     _radioLayout->addWidget(_radioAuto);
-    _radioLayout->addWidget(_radioToolTip);
+    //_radioLayout->addWidget(_radioToolTip);
     // Adding them to the group
     _radioGroup->addButton(_radioSingleton,1);
     _radioGroup->addButton(_radioSequential,2);
     _radioGroup->addButton(_radioAuto,3);
-
-
+    _radioGroup->addButton(_radioCancer,4);
 
 
     /*******************************************************
@@ -246,6 +247,7 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
             case LIDL::Playback::Singleton : this->_radioSingleton->setChecked(true); ; break;
             case LIDL::Playback::Sequential :_radioSequential->setChecked(true); break;
             case LIDL::Playback::Auto: _radioAuto->setChecked(true); break;
+            case LIDL::Playback::Cancer: _radioCancer->setChecked(true); break;
         }
         // set the shortcut
         this->_shortcutEdit->setKeySequence(sound->getKeySequence());
