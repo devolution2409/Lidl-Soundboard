@@ -20,7 +20,6 @@ public:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *e);
 
-
 signals:
     void fileDragged(QString);
 

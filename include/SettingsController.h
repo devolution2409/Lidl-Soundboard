@@ -24,6 +24,7 @@
 
 #include "soundwrapper.h"
 #include "CustomShortcutEdit.h"
+#include "QTimer"
 
 namespace LIDL{
 
@@ -99,6 +100,8 @@ private:
 
     bool fileAlreadyExisted;
 
+//    QTimer activePttTimer;
+
 signals:
     void RecentFilesChanged();
     void SettingsChanged();
@@ -112,7 +115,7 @@ public slots:
     // slots for button in the ui
     void buttonBrowseLidl();
     void buttonBrowseSound();
-
+  //  void setPTTtimer(int duration);
     void addFile(QFileInfo fileInfo);
 
 };

@@ -14,7 +14,11 @@ SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume) : 	
     _mainVolume = mainVolume;
     _vacVolume  = vacVolume;
 }
-
+SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume, LIDL::SFX SFX) :
+    SoundFile(name,mainVolume,vacVolume)
+{
+    this->sfx = SFX;
+}
 
 float SoundFile::getMainVolume() const
 {
@@ -42,6 +46,11 @@ float SoundFile::getVacVolume() const
 //    return true;
 //}
 
+LIDL::SFX SoundFile::getSFX() const
+{
+    return sfx;
+}
+
 } // end namespace LIDL
 
 // Ok so, we declare operator== as a friend to this class
@@ -57,6 +66,8 @@ bool operator==(const LIDL::SoundFile &a,const  LIDL::SoundFile &b)
     // Checking vac volume
     if (a.getVacVolume() != b.getVacVolume())
         return false;
+//    if (a.getSFX().distortion != b.getSFX().distortion)
+ //       return false;
     return true;
 }
 bool operator!=(const LIDL::SoundFile& a,const LIDL::SoundFile& b)
@@ -78,6 +89,8 @@ bool operator!=(const LIDL::SoundFile& a,const LIDL::SoundFile& b)
         return true;
     return false;
 }
+
+
 
 
 // CANT OVERLOAD OPERATOR== WHY GOD WHY

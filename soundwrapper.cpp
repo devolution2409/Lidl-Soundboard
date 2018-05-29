@@ -29,14 +29,14 @@ SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackM
     :SoundWrapper::SoundWrapper(parent)
 {
     _virtualKey  = virtualKey;
-    qDebug() << "ZULULWARRIOR";
+    //qDebug() << "ZULULWARRIOR";
     for(int row = 0; row < soundList->count(); row++)
     {
              // get a pointer on the list item and fetches its text
              CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(soundList->item(row));
-
-             if (item != nullptr)
-                this->addSound(item->text(), item->getMainVolume(),item->getVacVolume());
+             if (item == nullptr)
+                 return;
+             this->addSound(item->text(), item->getMainVolume(),item->getVacVolume());
     }
 
     this->setPlayMode(playbackMode);

@@ -8,7 +8,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
 
     this->setFocusPolicy(Qt::StrongFocus);
-    this->setMinimumSize(413,504);
+    this->setMinimumSize(413,611);
 
 
     this->_mainWidget = parent;
@@ -90,40 +90,95 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sfxSpoiler = new Spoiler("Special Effects");
 
     _sfxLayout  = new QGridLayout();
-    _sfxChorus  = new QCheckBox("Chorus",this);
-    _sfxCompressor = new QCheckBox("Compressor");
-    _sfxDistortion = new QCheckBox("Distortion");
-    _sfxEcho       = new QCheckBox("Echo");
-    _sfxFlanger    = new QCheckBox("Flanger");
-    _sfxGargle     = new QCheckBox("Gargle");
-    _sfxReverb     = new QCheckBox("Reverb");
+//    _sfxChorusEnabled  = new QCheckBox("Enable Chorus",this);
+//    _sfxCompressorEnabled = new QCheckBox("Compressor");
 
-    _sfxChorus->setCheckable(true);
-    _sfxCompressor->setCheckable(true);
-    _sfxDistortion->setCheckable(true);
-    _sfxEcho->setCheckable(true);
-    _sfxFlanger->setCheckable(true);
-    _sfxGargle->setCheckable(true);
-    _sfxReverb->setCheckable(true);
+//    _sfxEchoEnabled       = new QCheckBox("Echo");
+//    _sfxFlangerEnabled    = new QCheckBox("Flanger");
+//    _sfxGargleEnabled     = new QCheckBox("Gargle");
+//    _sfxReverbEnabled     = new QCheckBox("Reverb");
 
-    _sfxLayout->addWidget(_sfxChorus,1,1,1,1);
-    _sfxLayout->addWidget(_sfxCompressor,1,0,1,1);
-    _sfxLayout->addWidget(_sfxChorus,2,0,1,1);
-    _sfxLayout->addWidget(_sfxDistortion,3,0,1,1);
-    _sfxLayout->addWidget(_sfxEcho,4,0,1,1);
-    _sfxLayout->addWidget(_sfxFlanger,5,0,1,1);
-    _sfxLayout->addWidget(_sfxGargle,6,0,1,1);
-    _sfxLayout->addWidget(_sfxReverb,7,0,1,1);
-    _sfxBtnGroup = new QButtonGroup();
-    _sfxBtnGroup->addButton(_sfxChorus  );
-    _sfxBtnGroup->addButton(_sfxCompressor);
-    _sfxBtnGroup->addButton(_sfxDistortion);
-    _sfxBtnGroup->addButton(_sfxEcho);
-    _sfxBtnGroup->addButton(_sfxFlanger);
-    _sfxBtnGroup->addButton(_sfxGargle);
-    _sfxBtnGroup->addButton(_sfxReverb);
+//    _sfxChorusEnabled->setCheckable(true);
+//    _sfxCompressorEnabled->setCheckable(true);
+//
+//    _sfxEchoEnabled->setCheckable(true);
+//    _sfxFlangerEnabled->setCheckable(true);
+//    _sfxGargleEnabled->setCheckable(true);
+//    _sfxReverbEnabled->setCheckable(true);
+
+
+    // DISTORTION
+
+    _sfxTabWidget = new QTabWidget(this);
+    _sfxLayout->addWidget(_sfxTabWidget);
+    _sfxDistortionCheckBox = new QCheckBox("Enable distortion");
+    _sfxDistortionCheckBox->setCheckable(true);
+    _sfxDistortionWidget = new QWidget();
+    _sfxDistortionLayout = new QGridLayout(_sfxDistortionWidget);
+    _sfxDistortionLayout->addWidget(_sfxDistortionCheckBox,0,0,1,5);
+
+    _sfxDistortionLabels.append(new QLabel("Gain"));
+    _sfxDistortionLabels.append(new QLabel("Edge"));
+    _sfxDistortionLabels.append(new QLabel("Center Frequency"));
+    _sfxDistortionLabels.append(new QLabel("Bandwidth"));
+    _sfxDistortionLabels.append(new QLabel("Lowpass Cutoff"));
+    _sfxTabWidget->addTab(_sfxDistortionWidget,"Distortion");
+
+    for (int i = 0;i<_sfxDistortionLabels.size();++i)
+        _sfxDistortionLayout->addWidget(_sfxDistortionLabels.at(i),i+1,0,1,1);
+    for (int i; i<5;i++)
+    {
+        _sfxDistortionSliders.append(new QSlider(Qt::Orientation::Horizontal));
+        _sfxDistortionSpinboxes.append(new QSpinBox());
+        _sfxDistortionLayout->addWidget( _sfxDistortionSliders.last() ,i+1,1,1,3  );
+        _sfxDistortionLayout->addWidget(_sfxDistortionSpinboxes.last(),i+1,4,1,1);
+        _sfxDistortionSpinboxes.last()->setEnabled(false);
+        _sfxDistortionSliders.last()->setEnabled(false);
+     }
+    _sfxDistortionSliders.at(0)->setMinimum(0);
+    _sfxDistortionSpinboxes.at(0)->setMinimum(0);
+    _sfxDistortionSliders.at(0)->setMaximum(60);
+    _sfxDistortionSpinboxes.at(0)->setMaximum(60);
+    _sfxDistortionSpinboxes.at(0)->setPrefix("-");
+    _sfxDistortionSpinboxes.at(0)->setSuffix("dB");
+
+    _sfxDistortionSliders.at(1)->setMinimum(0);
+    _sfxDistortionSliders.at(1)->setMaximum(100);
+    _sfxDistortionSpinboxes.at(1)->setMinimum(0);
+    _sfxDistortionSpinboxes.at(1)->setMaximum(100);
+    _sfxDistortionSpinboxes.at(1)->setSuffix("%");
+
+    _sfxDistortionSliders.at(2)->setMinimum(100);
+    _sfxDistortionSliders.at(2)->setMaximum(8000);
+    _sfxDistortionSpinboxes.at(2)->setMinimum(100);
+    _sfxDistortionSpinboxes.at(2)->setMaximum(8000);
+
+    _sfxDistortionSliders.at(3)->setMinimum(100);
+    _sfxDistortionSliders.at(3)->setMaximum(8000);
+    _sfxDistortionSpinboxes.at(3)->setMinimum(100);
+    _sfxDistortionSpinboxes.at(3)->setMaximum(8000);
+
+    _sfxDistortionSliders.at(4)->setMinimum(100);
+    _sfxDistortionSliders.at(4)->setMaximum(8000);
+    _sfxDistortionSpinboxes.at(4)->setMinimum(100);
+    _sfxDistortionSpinboxes.at(4)->setMaximum(8000);
+
+    for (int i=2;i<5;i++)
+        _sfxDistortionSpinboxes.at(i)->setSuffix("Hz");
+//    _sfxLayout->addWidget(_sfxEcho,4,0,1,1);
+//    _sfxLayout->addWidget(_sfxFlanger,5,0,1,1);
+//    _sfxLayout->addWidget(_sfxGargle,6,0,1,1);
+//    _sfxLayout->addWidget(_sfxReverb,7,0,1,1);
+//    _sfxBtnGroup = new QButtonGroup();
+//    _sfxBtnGroup->addButton(_sfxChorus  );
+//    _sfxBtnGroup->addButton(_sfxCompressor);
+//    _sfxBtnGroup->addButton(_sfxDistortion);
+//    _sfxBtnGroup->addButton(_sfxEcho);
+//    _sfxBtnGroup->addButton(_sfxFlanger);
+//    _sfxBtnGroup->addButton(_sfxGargle);
+//    _sfxBtnGroup->addButton(_sfxReverb);
     _sfxSpoiler->setContentLayout(_sfxLayout);
-    _sfxBtnGroup->setExclusive(false);
+//    _sfxBtnGroup->setExclusive(false);
 
     _sfxSpoiler->setEnabled(false);
     // connecting the two spoilers together
@@ -208,7 +263,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _gLayout->addWidget(_radioGroupBox,5,0,1,4);
     _gLayout->addWidget(_shortcutGroup,6,0,1,4);
     _gLayout->addWidget(_btnDone,7,0,1,3);
-    _gLayout->addWidget(_btnAbort,8,3,1,1);
+    _gLayout->addWidget(_btnAbort,7,3,1,1);
 
 
 
@@ -429,19 +484,27 @@ void WrapperProperties::CreateWrapper()
         return;
     }
 
-    SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
+    /*SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
                                               this->_playBackMode,
                                               this->_shortcutSequence,
                                               this->_shortcutEdit->getVirtualKey(),
-                                              nullptr);
+                                              nullptr);*/
+    QVector<LIDL:: SoundFile *> tempFiles;
+    for (int row = 0; row < _soundListDisplay->count(); row++)
+    {
+         CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(_soundListDisplay->item(row));
+         if (item == nullptr)
+             return;
+         else
+            tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
+    }
+    // Calling constructor IV
+    SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
+                                              this->_playBackMode,
+                                              *(this->_shortcutSequence),
+                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput, _pttVirtualKey,_pttScanCode );
     // we emit the signal so that the main window knows
     // IT KNOWS forsenKek
-    //tmpSound->setPTTKeySequence( _mainWidget->getPTTKeySequence());
-    tmpSound->setPlayerPTTScanCode(_pttScanCode);
-    tmpSound->setPlayerPTTVirtualKey(_pttVirtualKey);
-    tmpSound->setPlayerMainOutput(_mainOutput);
-    tmpSound->setPlayerVACOutput(_VACOutput);
-
     emit signalAddDone(tmpSound);
     this->close();
 }
@@ -469,7 +532,7 @@ void WrapperProperties::SendEditedWrapper()
 
 
     emit signalEditDone(tmpSound);
-    //qDebug() << "forsenT";
+    qDebug() << "forsenT";
     this->close();
 }
 
@@ -486,15 +549,61 @@ void WrapperProperties::editingStarted()
 
 void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 {
-
-    disconnect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
-    disconnect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
     // need to cast item to child class else it doesn't work
     if (item != nullptr)
         _selectedItem = dynamic_cast<CustomListWidgetItem*> (item);
     // if cast was successfull
     if (_selectedItem != nullptr)
     {
+
+        // disconnecting sounds
+        disconnect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
+        disconnect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
+        //disconnecting checkBox because it's connected to the setter via the lambda
+        disconnect(_sfxDistortionCheckBox);
+
+        _sfxDistortionSliders.at(0)->setValue(static_cast<int>(- _selectedItem->GetDistortionParams().fGain));
+        _sfxDistortionSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fEdge));
+        _sfxDistortionSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPostEQCenterFrequency));
+        _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPostEQBandwidth));
+        _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPreLowpassCutoff));
+
+        // disconnecting the sfx stuff
+        for (int i = 0; i<5;i++)
+        {
+            disconnect(_sfxDistortionSliders.at(i));
+            disconnect(_sfxDistortionSpinboxes.at(i));
+        }
+
+
+        for (int i = 0; i<5;i++)
+        {
+            // connecting the check box to the state of the thing
+            connect(_sfxDistortionCheckBox, QCheckBox::stateChanged,
+                    [=] (bool checked){
+                _sfxDistortionSpinboxes.at(i)->setEnabled(checked);
+                _sfxDistortionSliders.at(i)->setEnabled(checked);
+
+            });
+
+            // connect sliders and spinbox
+            connect(_sfxDistortionSliders.at(i), QSlider::valueChanged, _sfxDistortionSpinboxes.at(i),QSpinBox::setValue);
+            connect(_sfxDistortionSpinboxes.at(i), static_cast<void (QSpinBox::*)(int)>(QSpinBox::valueChanged), _sfxDistortionSliders.at(i),QSlider::setValue);
+        }
+        _sfxDistortionCheckBox->setChecked(_selectedItem->GetDistortionEnabled());
+        connect(_sfxDistortionCheckBox,QCheckBox::stateChanged,[=](bool enabled){ _selectedItem->SetDistortionEnabled(enabled); });
+
+        connect(_sfxDistortionSliders.at(0),QSlider::valueChanged, [=] (int i){ // gain is negative so we have to add -
+            _selectedItem->setSFXDistortion( LIDL::SFX_DIST_PARAM::fGain,-i  );  });
+        connect(_sfxDistortionSliders.at(1),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXDistortion( LIDL::SFX_DIST_PARAM::fEdge,i  );  });
+        connect(_sfxDistortionSliders.at(2),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXDistortion( LIDL::SFX_DIST_PARAM::fPostEQCenterFrequency ,i  );  });
+        connect(_sfxDistortionSliders.at(3),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXDistortion( LIDL::SFX_DIST_PARAM::fPostEQBandwidth,i  );  });
+        connect(_sfxDistortionSliders.at(4),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXDistortion( LIDL::SFX_DIST_PARAM::fPreLowpassCutoff ,i  );  });
+
         _btnDelete->setEnabled(true);
         //_sliderGroup->setEnabled(true);
         _sliderSpoiler->setEnabled(true);
@@ -507,6 +616,9 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         connect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
         connect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
     }
+
+
+
 }
 
 
@@ -517,8 +629,11 @@ void WrapperProperties::DeleteSelectedSound()
     delete this->_selectedItem;
     this->_selectedItem = nullptr;
     this->_btnDelete->setEnabled(false);
+    this->_sfxSpoiler->Close();
+    this->_sliderSpoiler->Close();
     this->_sliderSpoiler ->setEnabled(false);
     this->_sfxSpoiler->setEnabled(false);
+
     // need to renable add button if we are in singleton song and this was the last sound
     if (_soundListDisplay->count() == 0)
     {
@@ -527,7 +642,10 @@ void WrapperProperties::DeleteSelectedSound()
     }
     // we clear selection
     _soundListDisplay->clearSelection();
+
+
 }
+
 
 
 // SLOTS for the sliders

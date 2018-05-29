@@ -43,6 +43,9 @@
 #include "SettingsController.h"
 #include "Spoiler.h"
 #include <QCheckBox>
+#include <QTabWidget>
+#include "CustomSoundFile.h"
+
 
 class WrapperProperties : public QWidget
 {
@@ -135,13 +138,21 @@ private:
     QButtonGroup *_sfxBtnGroup;
     Spoiler *_sfxSpoiler;
     QGridLayout *_sfxLayout;
-    QCheckBox *_sfxChorus;
-    QCheckBox *_sfxCompressor;
-    QCheckBox *_sfxDistortion;
-    QCheckBox *_sfxEcho;
-    QCheckBox *_sfxFlanger;
-    QCheckBox *_sfxGargle;
-    QCheckBox *_sfxReverb;
+    QTabWidget *_sfxTabWidget;
+    // DISTORTION
+    QWidget   * _sfxDistortionWidget;
+    QGridLayout * _sfxDistortionLayout;
+    QCheckBox *_sfxDistortionCheckBox;
+    QVector <QLabel*> _sfxDistortionLabels;
+    QVector <QSlider*> _sfxDistortionSliders;
+    QVector <QSpinBox*> _sfxDistortionSpinboxes;
+
+//    QCheckBox *_sfxChorusEnabled;
+//    QCheckBox *_sfxCompressorEnabled;
+//    QCheckBox *_sfxEchoEnabled;
+//    QCheckBox *_sfxFlangerEnabled;
+//    QCheckBox *_sfxGargleEnabled;
+//    QCheckBox *_sfxReverbEnabled;
 
 /*
  *
@@ -185,7 +196,6 @@ public slots:
     // Slots for the item as the items aren't Q_OBJECT they can't have slots of their own forsenT
     void SetItemMainVolume(int);
     void SetItemVACVolume(int);
-
 
 
   //  void Test(SoundWrapper*);
