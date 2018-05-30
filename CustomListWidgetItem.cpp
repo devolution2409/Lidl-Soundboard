@@ -25,7 +25,18 @@ CustomListWidgetItem::CustomListWidgetItem(const QString & text,float mainVolume
 {
     _mainVolume = mainVolume;
     _vacVolume  = vacVolume;
+    _sfx.distortionEnabled = false;
 }
+
+
+CustomListWidgetItem::CustomListWidgetItem(const QString & text,float mainVolume,
+                                           float vacVolume, LIDL::SFX sfx ,QListWidget * parent, int type)
+    : CustomListWidgetItem(text,mainVolume,vacVolume,parent,type)
+{
+    this->_sfx = sfx;
+}
+
+
 
 float CustomListWidgetItem::getMainVolume()
 {
@@ -37,10 +48,10 @@ float CustomListWidgetItem::getVacVolume()
 }
 void CustomListWidgetItem::setSFXDistortionDefault()
 {
-    _sfx.distortion.fGain = -5 ;
+    _sfx.distortion.fGain = -18 ;
     _sfx.distortion.fEdge = 15;
     _sfx.distortion.fPostEQCenterFrequency = 2400;
-    _sfx.distortion.fPostEQBandwidth = 8000;
+    _sfx.distortion.fPostEQBandwidth = 2400;
     _sfx.distortion.fPreLowpassCutoff = 8000;
 
 }

@@ -955,15 +955,52 @@ void SoundboardMainUI::Open(QString fileName)
                                 QString fileName = it.key();
                                 float mainVolume = 1.0;
                                 float vacVolume = 1.0;
-                                QJsonObject volumes = it.value().toObject();
-                                if (volumes.contains("Main Volume"))
-                                        mainVolume = static_cast<float>(volumes.value("Main Volume").toInt()/100.0);
-                                if (volumes.contains("VAC Volume"))
-                                        vacVolume  = static_cast<float>(volumes.value("VAC Volume").toInt()/100.0);
-                                //qDebug() << "Volumes: " << mainVolume << "  " << vacVolume;
+                                QJsonObject settings = it.value().toObject();
+                                if (settings.contains("Main Volume"))
+                                        mainVolume = static_cast<float>(settings.value("Main Volume").toInt()/100.0);
+                                if (settings.contains("VAC Volume"))
+                                        vacVolume  = static_cast<float>(settings.value("VAC Volume").toInt()/100.0);
+                                // SFX
+                                LIDL::SFX sfx;
+
+                                if (settings.contains("SFX"))
+                                {
+                                    QJsonObject sfx_obj =  settings.value("SFX").toObject();
+                                    if (sfx_obj.contains("Distortion"))
+                                    {
+                                       QJsonObject distObj = sfx_obj.value("Distortion").toObject();
+                                        for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();l++)
+                                        {
+                                            if (l.key() == "Cutoff")
+                                                sfx.distortion.fPreLowpassCutoff = static_cast<float>(l.value().toInt());
+                                            if (l.key() =="EQBandwidth")
+                                                sfx.distortion.fPostEQBandwidth = static_cast<float>(l.value().toInt());
+                                            if (l.key() =="EQCenterFrequency")
+                                                sfx.distortion.fPostEQCenterFrequency = static_cast<float>(l.value().toInt());
+                                            if (l.key() =="Edge")
+                                                sfx.distortion.fEdge = static_cast<float>(l.value().toInt());
+                                            if (l.key() =="Enabled")
+                                                sfx.distortionEnabled = static_cast<bool>(l.value().toBool());
+                                            if (l.key() =="Gain")
+                                                sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // set default values here
+                                    sfx.distortionEnabled = false;
+                                    sfx.distortion.fGain =  -18;
+                                    sfx.distortion.fEdge = 15;
+                                    sfx.distortion.fPostEQCenterFrequency = 2400;
+                                    sfx.distortion.fPostEQBandwidth = 2400;
+                                    sfx.distortion.fPreLowpassCutoff = 8000;
+
+                                }
                                 fileArray.append(new LIDL::SoundFile(fileName,
                                                                      mainVolume,
-                                                                     vacVolume));
+                                                                vacVolume,sfx));
+
                         }
                     }
 
@@ -1103,11 +1140,48 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
          QVector<LIDL::SoundFile*> soundList = i->getSoundList();
          for (auto &j: soundList)
          {
-             QJsonObject volumes;
-             volumes.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
-             volumes.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
-             soundCollection.insert(  j->fileName(), volumes);
+             QJsonObject properties;
+             properties.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
+             properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
 
+             QJsonObject soundEffects;
+             QJsonObject distortion;
+             BASS_DX8_DISTORTION tempDist;
+             // check for trash values
+             if((j->getSFX().distortion.fGain) < -60 || j->getSFX().distortion.fGain > 0)
+                 tempDist.fGain =  -18;
+             else
+                 tempDist.fGain = j->getSFX().distortion.fGain;
+
+             if (j->getSFX().distortion.fEdge < 1e-1|| j->getSFX().distortion.fEdge> 100)
+                 tempDist.fEdge = 15;
+             else
+                 tempDist.fEdge = j->getSFX().distortion.fEdge;
+
+             if (j->getSFX().distortion.fPostEQCenterFrequency < 100 || j->getSFX().distortion.fPostEQCenterFrequency>8000)
+                 tempDist.fPostEQCenterFrequency = 2400;
+             else
+                tempDist.fPostEQCenterFrequency = j->getSFX().distortion.fPostEQCenterFrequency;
+
+             if (j->getSFX().distortion.fPostEQBandwidth < 100 || j->getSFX().distortion.fPostEQBandwidth > 8000)
+                 tempDist.fPostEQBandwidth = 2400;
+             else
+                 tempDist.fPostEQBandwidth = j->getSFX().distortion.fPostEQBandwidth;
+
+             if (j->getSFX().distortion.fPreLowpassCutoff < 100 || j->getSFX().distortion.fPreLowpassCutoff > 8000)
+                 tempDist.fPreLowpassCutoff = 8000;
+             else
+                 tempDist.fPreLowpassCutoff = j->getSFX().distortion.fPreLowpassCutoff;
+
+             distortion.insert("Enabled", j->getSFX().distortionEnabled   );
+             distortion.insert("Gain", tempDist.fGain     );
+             distortion.insert("Edge",tempDist.fEdge);
+             distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
+             distortion.insert("EQBandwidth",tempDist.fPostEQBandwidth);
+             distortion.insert("Cutoff",tempDist.fPreLowpassCutoff);
+             soundEffects.insert("Distortion",distortion);
+             properties.insert("SFX",soundEffects);
+             soundCollection.insert(  j->fileName(), properties);
 
          }
 

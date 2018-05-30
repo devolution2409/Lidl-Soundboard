@@ -140,12 +140,13 @@ private:
     QGridLayout *_sfxLayout;
     QTabWidget *_sfxTabWidget;
     // DISTORTION
-    QWidget   * _sfxDistortionWidget;
-    QGridLayout * _sfxDistortionLayout;
-    QCheckBox *_sfxDistortionCheckBox;
-    QVector <QLabel*> _sfxDistortionLabels;
-    QVector <QSlider*> _sfxDistortionSliders;
-    QVector <QSpinBox*> _sfxDistortionSpinboxes;
+        QWidget   * _sfxDistortionWidget;
+        QGridLayout * _sfxDistortionLayout;
+        QCheckBox *_sfxDistortionCheckBox;
+        QVector <QLabel*> _sfxDistortionLabels;
+        QVector <QSlider*> _sfxDistortionSliders;
+        QVector <QSpinBox*> _sfxDistortionSpinboxes;
+        QPushButton * _sfxDistortionDefault;
 
 //    QCheckBox *_sfxChorusEnabled;
 //    QCheckBox *_sfxCompressorEnabled;

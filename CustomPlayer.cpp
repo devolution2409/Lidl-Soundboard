@@ -165,19 +165,20 @@ double CustomPlayer::PlayAt(int index)
     //http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
 
    // http://www.un4seen.com/doc/#bass/BASS_ChannelSetFX.html
-        BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
+
         // Trying to implement HYPER
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
 
-        int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
-       BASS_DX8_DISTORTION test;
-        test.fGain = -5;
-        test.fGain = -40;
-       BASS_FXSetParameters(LUL,&test);
-
+        // if distortion is enabled:
+        if (_soundList.at(index)->getSFX().distortionEnabled)
+        {
+            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
+            BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
+            BASS_FXSetParameters(LUL, &wut );
+        }
         //}
 
-
+        BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
         //qDebug() << "Main Volume should be: " << _soundList.at(index)->getMainVolume();
         duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
                                                     BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
