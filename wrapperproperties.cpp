@@ -504,7 +504,7 @@ void WrapperProperties::CreateWrapper()
     SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
                                               this->_playBackMode,
                                               *(this->_shortcutSequence),
-                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput, _pttVirtualKey,_pttScanCode );
+                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput);
     // we emit the signal so that the main window knows
     // IT KNOWS forsenKek
     emit signalAddDone(tmpSound);
@@ -544,10 +544,9 @@ void WrapperProperties::SendEditedWrapper()
     SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
                                               this->_playBackMode,
                                               *(this->_shortcutSequence),
-                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput, _pttVirtualKey,_pttScanCode );
+                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput);
 
     emit signalEditDone(tmpSound);
-    qDebug() << "forsenT";
     this->close();
 }
 

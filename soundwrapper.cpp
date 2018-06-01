@@ -6,6 +6,11 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
     this->_player = new CustomPlayer();
     connect(_player,SIGNAL(ErrorPlaying(QString)),this,SLOT(playerErrorPlaying(QString)));
     connect(_player,SIGNAL(NowPlaying(QString)),this,SLOT(playerNowPlaying(QString)));
+
+    connect(_player, CustomPlayer::holdPTT, [=] (int duration){
+            emit holdPTTProxy(duration);
+    });
+
 }
 
 //V: Constructor when opening a EXP Json file
@@ -25,11 +30,12 @@ SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode
 }
 
 //II: Constructor to be used in the add sound window
+// not used anymore
 SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, int virtualKey, QObject * parent)
     :SoundWrapper::SoundWrapper(parent)
 {
     _virtualKey  = virtualKey;
-    //qDebug() << "ZULULWARRIOR";
+    qDebug() << "ZULULWARRIOR";
     for(int row = 0; row < soundList->count(); row++)
     {
              // get a pointer on the list item and fetches its text
@@ -49,17 +55,19 @@ SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackM
 
 
 //IV: Constructor used when opening a LIDLJSON file
+// and we editing/adding a souund
 SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback playbackMode, QKeySequence shortcut, int shortcutVirtualKey,
-                           int mainOutput, int vacOutput, int pttVK, int pttSC, QObject *parent)
+                           int mainOutput, int vacOutput, QObject *parent)
             : SoundWrapper(parent)
 {
+    qDebug() << "WAKANDA FOR EVAH";
 
     this->_soundList = fileList;
     this->_playMode = playbackMode;
     this->setKeySequence(shortcut);
     this->_virtualKey = shortcutVirtualKey;
-    this->setPlayerPTTScanCode(pttSC);
-    this->setPlayerPTTVirtualKey(pttVK);
+//    this->setPlayerPTTScanCode(pttSC);
+//    this->setPlayerPTTVirtualKey(pttVK);
     this->setPlayerMainOutput(mainOutput);
     this->setPlayerVACOutput(vacOutput);
     this->_player->SetPlaylist(this->getSoundList());
@@ -349,3 +357,5 @@ bool operator!=(const SoundWrapper &a, const SoundWrapper &b)
 {
     return !(a==b);
 }
+
+

@@ -1,6 +1,6 @@
 #ifndef CUSTOMPLAYER_H
 #define CUSTOMPLAYER_H
-
+#pragma once
 #include <QObject>
 #include <QVector>
 #include <QFile>
@@ -13,13 +13,13 @@
 #include <QTimer>
 #include <QKeySequence>
 //#include "Utility.h"
-#include "windows.h"
-#ifndef MAKEWORD
-   #define MAKEWORD(a,b) Cast(WORD, ((a) And &hFF) Or ((b) Shl 8))
-#endif
-#ifndef MAKELONG
-   #define MAKELONG(a,b) Cast(DWORD, ((a) And &hFFFF) Or ((b) Shl 16))
-#endif
+//#include "windows.h"
+//#ifndef MAKEWORD
+//   #define MAKEWORD(a,b) Cast(WORD, ((a) And &hFF) Or ((b) Shl 8))
+//#endif
+//#ifndef MAKELONG
+//   #define MAKELONG(a,b) Cast(DWORD, ((a) And &hFFFF) Or ((b) Shl 16))
+//#endif
 // so it knows the enum
 #include "EnumsAndStructs.h"
 /*
@@ -34,6 +34,7 @@ typedef DWORD HFX;			// DX8 effect handle
 typedef DWORD HPLUGIN;		// Plugin handle
 */
 #include "CustomSoundFile.h"
+//#include "SettingsController.h"
 
 class CustomPlayer : public QObject
 {
@@ -50,9 +51,9 @@ public:
     void SetPTTVirtualKey(int virtualKey);
     int  GetPTTScanCode();
     int  GetPTTVirtualKey();
-
-
     void SetPPTKeys(int scanCode, int virtualKey);
+
+
     void SetPlaylist(QVector<LIDL::SoundFile*> soundList);
 
     void SetPlaybackMode(LIDL::Playback playMode);
@@ -64,12 +65,14 @@ public slots:
     double PlayAt(int index);
     void PlayNext();
   //  void OnTimerTick();
-    void unHoldPTT();
+    //void unHoldPTT();
     void Stop();
     void resetShouldPlay();
 signals:
     void ErrorPlaying(QString);
     void NowPlaying(QString);
+    void holdPTT(int );
+    void unHoldPTT();
 private:
     // we only need one audio pointer
    // QAudioOutput    * _audio;
@@ -103,7 +106,7 @@ private:
     // and this one the ptt
     QTimer * _timerPTT;
 
-    void holdPTT(int duration);
+
 
 
     bool _shouldPlay;

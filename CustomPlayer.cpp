@@ -16,7 +16,7 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 //    _timerPTT->setSingleShot(true);
 
     connect(_timerSequentialAutoPlay,SIGNAL(timeout()),this,SLOT(PlayNext()));
-    connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
+    //connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
 
     connect(_timerSingleton,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
     connect(_timerSequential,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
@@ -89,13 +89,12 @@ void CustomPlayer::PlayNext()
              ***********************************/
             else if  ((_playMode == LIDL::Playback::Auto && _shouldPlay))
             {
-
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
                     _timerSequentialAuto->start(duration);
                     // If the new index is OOB, it means we need to stop playing
                     // else we continue
-                     qDebug() << _index << "soundlist size:" << _soundList.size();
+                     //qDebug() << _index << "soundlist size:" << _soundList.size();
                     if (_index < _soundList.size()  )
                         _timerSequentialAutoPlay->start(duration+100);
             }
@@ -121,7 +120,7 @@ void CustomPlayer::Stop()
     _timerPTT->stop();
     this->resetShouldPlay();
     // Why the fuck is this called FIVE times?
-    qDebug() << "test:" << _mainChannel.size();
+    //qDebug() << "test:" << _mainChannel.size();
 
     // Clearing channels array
     for (auto i: _mainChannel)
@@ -132,7 +131,7 @@ void CustomPlayer::Stop()
     _mainChannel.clear();
     _vacChannel.clear();
 
-    this->unHoldPTT();
+ //   emit unHoldPTT();
 }
 
 
@@ -167,6 +166,7 @@ double CustomPlayer::PlayAt(int index)
    // http://www.un4seen.com/doc/#bass/BASS_ChannelSetFX.html
 
         // Trying to implement HYPER
+        //qDebug() << "Volume :" << _soundList.at(index)->getMainVolume();
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
 
         // if distortion is enabled:
@@ -175,6 +175,7 @@ double CustomPlayer::PlayAt(int index)
             int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
             BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
             BASS_FXSetParameters(LUL, &wut );
+
         }
         //}
 
@@ -190,11 +191,17 @@ double CustomPlayer::PlayAt(int index)
         _vacChannel.append(BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE));
         BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
         BASS_ChannelPlay(_vacChannel.last(),true);
+        //qDebug() << "vac volume:" <<  _soundList.at(index)->getVacVolume();
         BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
-//    int LUL =  BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
-// //    BASS_DISTORTION_PARAM test;
-//     test.fGain = -5;
-//        BASS_FXSetParameters(LUL,&test);
+        //qDebug() << "Is distortion enabled here" << _soundList.at(index)->getSFX().distortionEnabled;
+        if (_soundList.at(index)->getSFX().distortionEnabled)
+        {
+           // qDebug() <<"WOLOLO";
+            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
+            BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
+            BASS_FXSetParameters(LUL, &wut );
+
+        }
 
 
        //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
@@ -208,9 +215,9 @@ double CustomPlayer::PlayAt(int index)
     if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
     {
          // this is for cancer mode: we reset the timer, else it doesn't really matter since it's stopped
-        _timerPTT->stop();
-        this->holdPTT(static_cast<int>(duration*1000) );
-        _timerPTT->start(static_cast<int>(duration*1000) );
+        //_timerPTT->stop();
+        emit holdPTT(static_cast<int>(duration*1000) );
+        //_timerPTT->start(static_cast<int>(duration*1000) );
     }
 
 
@@ -261,22 +268,25 @@ void CustomPlayer::SetPTTVirtualKey(int virtualKey)
 {
     _PTTVirtualKey = virtualKey;
 }
-// Duration is in milli sec
-void CustomPlayer::holdPTT(int duration)
-{
-    // Pressing key as a SCAN CODE so that it is "physically" pressed
-    keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
-    //QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
-}
 
-void CustomPlayer::unHoldPTT()
-{
-    qDebug() << "unholding ptt";
-    // Unpressing the key physically
-    keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-    // stopping the timer else PTT will be unhold on each tick forsenT
-    _timerPTT->stop();
-}
+
+// Duration is in milli sec
+//void CustomPlayer::holdPTT(int duration)
+//{
+//    // Pressing key as a SCAN CODE so that it is "physically" pressed
+//    // keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
+//    //QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
+//    emit proxyHoldPTT(duration);
+//}
+
+//void CustomPlayer::unHoldPTT()
+//{
+//    qDebug() << "unholding ptt";
+//    // Unpressing the key physically
+//    keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+//    // stopping the timer else PTT will be unhold on each tick forsenT
+//    _timerPTT->stop();
+//}
 
 void CustomPlayer::SetPlaylist(QVector<LIDL::SoundFile *> soundList)
 {

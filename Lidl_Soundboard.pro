@@ -43,7 +43,6 @@ HEADERS += \
 # actually we do or it doesn't add it into project tree forsenT
 #include/CustomListWidgetItem.h
 #TEMPLATE += app
-
 FORMS += \
     Settings.ui
 
@@ -51,6 +50,10 @@ RESOURCES += \
     resources.qrc
 
 VERSION = 1.4.0
+
+RC_FILE = lidlsoundboard.rc
+
+
 
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc

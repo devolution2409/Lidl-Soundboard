@@ -18,9 +18,9 @@
 
 
 
-#ifndef SOUNDWRAPPER_H
-#define SOUNDWRAPPER_H
-
+//#ifndef SOUNDWRAPPER_H
+//#define SOUNDWRAPPER_H
+#pragma once
 //#include <QDebug>
 
 #include <QObject>
@@ -35,7 +35,8 @@
 #include <QFileInfo>
 #include <QList>
 #include <QStandardItem>
-#include <CustomPlayer.h>
+
+#include "CustomPlayer.h"
 #include "EnumsAndStructs.h"
 #include "CustomListWidget.h"
 #include "CustomListWidgetItem.h"
@@ -60,8 +61,6 @@ public:
                  int shortcutVirtualKey =-1,
                  int mainOutput = -1,
                  int vacOutput = -1,
-                 int pttVK =-1,
-                 int pttSC = -1,
                  QObject *parent = nullptr   );
 
 
@@ -126,6 +125,8 @@ signals:
     // Signal to redirect signal from the player forsenT
     void ErrorPlaying(QString);
     void NowPlaying(QString);
+    void holdPTTProxy(int);
+
 public slots:
     void Play();
     void Stop();
@@ -140,4 +141,4 @@ public slots:
 
 };
 
-#endif // SOUNDWRAPPER_H
+//#endif // SOUNDWRAPPER_H

@@ -226,14 +226,17 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
       emit OnConstructionDone();
 
-//      connect(this,
-//              &SoundboardMainUI::lidlJsonDetected,
-//              [=](QFileInfo info){
-//                                    this->_nameEdit ->setText(info.fileName());
 
-//                    });
-      // Check for update
-     // this->IsUpdateAvailable();
+      /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
+      connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
+              LIDL::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
+
+      connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
+              LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
+      connect(this->_btnStop,QPushButton::clicked, [=]{
+          LIDL::SettingsController::GetInstance()->unHoldPTT();
+      });
+
 }
 
 void SoundboardMainUI::PostConstruction()
@@ -348,11 +351,15 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
 
     // connecting the pushtotalk key thing
-    connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
-    connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
+    //connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
+    //connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
+
+
 
     // connecting the stop btn
     connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
+
+
     // connecting the status bar signal for unexistant files (reading json)
     connect(modifiedSound,SIGNAL(UnexistantFile()),this,SLOT(StatusErrorUnexistant()));
     // connecting the wrapper proxy signal for player NowPlaying
@@ -361,6 +368,10 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     connect(modifiedSound,SIGNAL(ErrorPlaying(QString)),this,SLOT(StatusErrorPlaying(QString)));
     // connect the clear button to the clear shortcut slot
     connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
+
+    connect(modifiedSound, SoundWrapper::holdPTTProxy, [=] (int duration){
+            LIDL::SettingsController::GetInstance()->holdPTT(duration);
+    } );
 
     QList<QStandardItem*> tempList;
     tempList = modifiedSound->getSoundAsItem();
@@ -407,7 +418,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
 
     // we resize
     this->resultView->resizeRowsToContents();
-
+    this->resultView->clearSelection();
 
 }
 
@@ -551,9 +562,12 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
+    {
+        LIDL::SettingsController::GetInstance()->unHoldPTT();
         for (auto &i: _sounds)
             i->Stop();
-    // else this a sound hotkey handle
+    }
+        // else this a sound hotkey handle
     // We check if the soundwrapper at this location has one file else it will play nullptr and crash
     else if ( ! _sounds.at(handle)->getSoundList().isEmpty() )
         _sounds.at(handle)->Play();
@@ -1037,8 +1051,6 @@ void SoundboardMainUI::Open(QString fileName)
                                                       shortcutVirtualKey,
                                                       indexMainOutputDevice,
                                                       indexVACOutputDevice,
-                                                      pttVirtualKey,
-                                                      pttScanCode,
                                                       nullptr));
 
 
@@ -1443,7 +1455,7 @@ void SoundboardMainUI::ToolClearShortcut()
     QVector<SoundWrapper*> temp;
     for (auto &i: _sounds)
     {
-        temp.append(new SoundWrapper(i->getSoundList(),i->getPlayMode(),emptySeq, -1,i->getMainDevice(),i->getVacDevice(),i->getPlayerPTTVirtualKey(),i->getPlayerPTTScanCode(),nullptr));
+        temp.append(new SoundWrapper(i->getSoundList(),i->getPlayMode(),emptySeq, -1,i->getMainDevice(),i->getVacDevice(),nullptr));
         delete i;
     }
     _sounds.clear();
@@ -1475,8 +1487,6 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
                                            temp->getShortcutVirtualKey(),
                                            temp->getMainDevice(),
                                            temp->getVacDevice(),
-                                           temp->getPlayerPTTVirtualKey(),
-                                           temp->getPlayerPTTScanCode(),
                                            nullptr);
 
 
@@ -1488,8 +1498,6 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
                                                 temp->getShortcutVirtualKey(),
                                                 temp->getMainDevice(),
                                                 temp->getVacDevice(),
-                                                temp->getPlayerPTTVirtualKey(),
-                                                temp->getPlayerPTTScanCode(),
                                                 nullptr);
 
     // Once we created those new items we can insert them (since it deletes the items we can't reuse them)

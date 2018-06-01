@@ -1,5 +1,7 @@
-#ifndef INCLUDESETTINGSCONTROLLER_H
-#define INCLUDESETTINGSCONTROLLER_H
+//#ifndef INCLUDESETTINGSCONTROLLER_H
+//#define INCLUDESETTINGSCONTROLLER_H
+#pragma once
+
 #include <QString>
 #include <QVector>
 #include <QObject>
@@ -24,7 +26,8 @@
 
 #include "soundwrapper.h"
 #include "CustomShortcutEdit.h"
-#include "QTimer"
+#include <QTimer>
+#include "windows.h"
 
 namespace LIDL{
 
@@ -59,6 +62,8 @@ public:
     bool SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit       );
 
     bool IsThisFirstTimeUser();
+        void unHoldPTT();
+            void holdPTT(int duration);
 private:
     QString fileName;
     // Singleton class
@@ -100,7 +105,14 @@ private:
 
     bool fileAlreadyExisted;
 
-//    QTimer activePttTimer;
+
+    /******************************************
+     *              PTT TIMER                 *
+     ******************************************/
+    QTimer _activePttTimer;
+    int  _activePttScanCode;
+    int  _activePttVitualKey;
+
 
 signals:
     void RecentFilesChanged();
@@ -112,6 +124,9 @@ public slots:
     void SetRecentFileCount(int);
     void ShowSettingsWindow();
 
+    void SetPTTScanCode(int sc);
+    void SetPTTVirtualKey(int vk);
+
     // slots for button in the ui
     void buttonBrowseLidl();
     void buttonBrowseSound();
@@ -120,4 +135,4 @@ public slots:
 
 };
 }
-#endif // INCLUDESETTINGSCONTROLLER_H
+//#endif // INCLUDESETTINGSCONTROLLER_H

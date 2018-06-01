@@ -26,7 +26,6 @@
 #define SOUNDBOARDMAINUI_H
 
 #include <QWidget>
-#include "soundwrapper.h"
 #include <QVector>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -42,7 +41,7 @@
 
 
 // Property window
-#include "wrapperproperties.h"
+
 #include <QVector>
 #include <QModelIndex>
 // custom table view to reimplement focus out
@@ -88,6 +87,8 @@
 #include <QTextEdit>
 #include <QTimer>
 #include "SettingsController.h"
+#include "soundwrapper.h"
+#include "wrapperproperties.h"
 #include <QFileInfo>
 #include <deque>
 class SoundboardMainUI : public QMainWindow

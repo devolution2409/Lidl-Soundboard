@@ -17,6 +17,8 @@ SettingsController::SettingsController()
         // Default file count
         recentFileCount         = 5;
         this->fileName = "lidlsettings.json";
+        connect(&_activePttTimer,QTimer::timeout, [=]{
+                this->unHoldPTT();});
 }
 
 
@@ -378,6 +380,51 @@ bool SettingsController::SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, Cus
 
    return false;
 }
+
+
+void SettingsController::holdPTT(int duration)
+{
+    if (_activePttVitualKey == -1 || _activePttScanCode ==-1)
+        return;
+//    // If the timer is not running we start it with the new duration
+    // qDebug() << "_activePttTimer.remainingTime() , duration" << _activePttTimer.remainingTime() << duration ;
+
+    // If a timer is already running we compare remaining time
+    // and new duration, if remaining < new, we need to reschedule the stop
+    if ( _activePttTimer.remainingTime() < duration )
+    {
+        // we should already be holding PTT so we don't need to auto hold
+        // but eShrug
+        if (_activePttVitualKey != -1 && _activePttScanCode !=-1)
+        {
+            keybd_event(_activePttVitualKey,_activePttScanCode,KEYEVENTF_EXTENDEDKEY, 0);
+            _activePttTimer.stop();
+            _activePttTimer.start(duration);
+        //       qDebug() << "timer extended";
+        }
+
+    }
+}
+
+void SettingsController::unHoldPTT()
+{
+    //qDebug() << "unholding ptt here";
+    // Unpressing the key physically
+    keybd_event(_activePttVitualKey,_activePttScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    // stopping the timer else PTT will be unhold on each tick forsenT
+    _activePttTimer.stop();
+}
+
+void SettingsController::SetPTTScanCode(int sc)
+{
+    this->_activePttScanCode = sc;
+}
+
+void SettingsController::SetPTTVirtualKey(int vk)
+{
+    this->_activePttVitualKey = vk;
+}
+
 
 
 

@@ -50,12 +50,14 @@ int CustomShortcutEdit::getScanCode()
 void CustomShortcutEdit::setVirtualKey(int vk)
 {
     this->_virtualKey = vk;
+    emit virtualKeyChanged(_virtualKey);
 }
 
 // to set pause button when we open
 void CustomShortcutEdit::setScanCode(int sc)
 {
     this->_scanCode = sc;
+   emit scanCodeChanged(_scanCode);
 }
 
 
