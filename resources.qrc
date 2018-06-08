@@ -5,6 +5,10 @@
         <file>resources/GachiPls.gif</file>
         <file>resources/forsenAim.png</file>
         <file>resources/checkbox.png</file>
+        <file>resources/down_arrow.png</file>
+        <file>resources/up_arrow.png</file>
+        <file>resources/down_arrow_disabled.png</file>
+        <file>resources/up_arrow_disabled.png</file>
     </qresource>
     <qresource prefix="/css">
         <file>resources/darkorange.css</file>

@@ -222,7 +222,8 @@ QComboBox::drop-down
 
 QComboBox::down-arrow
 {
-     image: url(:/down_arrow.png);
+/*     image: url(:/down_arrow.png);*/
+     image:url(:/icon/resources/down_arrow.png);
 }
 
 QGroupBox:focus
@@ -525,4 +526,32 @@ QCheckBox::indicator:checked
 QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
 {
     border: 1px solid #444;
+}
+
+QSpinBox
+{
+    background: #323232;
+}
+
+QSpinBox::up-button
+{
+    background: #323232;
+    image:url(:/icon/resources/up_arrow.png);
+}
+QSpinBox::down-button
+{
+    background: #323232;
+    image:url(:/icon/resources/down_arrow.png);
+}
+
+QSpinBox::up-arrow:disabled, QSpinBox::up-arrow:off /* off state when value is max */
+{
+    background: #323232;
+    image: url(:/icon/resources/up_arrow_disabled.png);
+}
+
+QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off /* off state when value in min */
+{
+    background: #323232;
+    image: url(:/icon/resources/down_arrow_disabled.png);
 }

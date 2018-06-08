@@ -5,7 +5,8 @@
 #include <QFile>
 #include <QString>
 #include <QCoreApplication>
-
+#include "updater.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -29,12 +30,16 @@ int main(int argc, char *argv[])
 
     MSG msg;
     // Proccess the system events
-    QApplication::processEvents();
+    QApplication::processEvents();   
+
+
+
+
+
 
 // Send a signal to the mainUI with the int parm
 // check if the parm is inside a table
-// if it is, play the associated sound forsenT
-
+// if it is, play the associated sound forsenT    
     // JUST BUILD A L OMEGALUL OMEGALUL P
     while(GetMessage(&msg,NULL,0,0))
     {
@@ -44,6 +49,11 @@ int main(int argc, char *argv[])
             container.winHotKeyPressed(static_cast<int>(msg.wParam));
 
     }
+
+
+
+
+
     // Re-send post quit message or the app runs as a daemon for some reason forsenT
     PostQuitMessage(0);
     return app.exec();

@@ -3,7 +3,7 @@ QT += widgets \
       core \
       gui \
       multimedia \
-
+      autoupdatergui
 SOURCES += \
     main.cpp \
     wrapperproperties.cpp \
@@ -37,8 +37,13 @@ HEADERS += \
     include/CustomTableModel.h \
     include/StyledDelegate.h \
     include/SettingsController.h \
-    include/Spoiler.h
-
+    include/Spoiler.h \
+    include/bitmask_operators.h
+#HEADERS+= \
+# include/flags/allow_flags.hpp \
+#          include/flags/flags.hpp \
+#          include/flags/flagsfwd.hpp  \
+#          include/flags/iterator.hpp
 # do not need to add this to header as this does not contains Q_OBJECT macro
 # actually we do or it doesn't add it into project tree forsenT
 #include/CustomListWidgetItem.h
@@ -46,8 +51,7 @@ HEADERS += \
 FORMS += \
     Settings.ui
 
-RESOURCES += \
-    resources.qrc
+RESOURCES += resources.qrc
 
 VERSION = 1.4.0
 

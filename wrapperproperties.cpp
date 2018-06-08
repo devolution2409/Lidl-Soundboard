@@ -8,7 +8,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
 
     this->setFocusPolicy(Qt::StrongFocus);
-    this->setMinimumSize(413,611);
+    this->setMinimumSize(415,687);
 
 
     this->_mainWidget = parent;
@@ -90,39 +90,28 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sfxSpoiler = new Spoiler("Special Effects");
 
     _sfxLayout  = new QGridLayout();
-//    _sfxChorusEnabled  = new QCheckBox("Enable Chorus",this);
-//    _sfxCompressorEnabled = new QCheckBox("Compressor");
 
-//    _sfxEchoEnabled       = new QCheckBox("Echo");
-//    _sfxFlangerEnabled    = new QCheckBox("Flanger");
-//    _sfxGargleEnabled     = new QCheckBox("Gargle");
-//    _sfxReverbEnabled     = new QCheckBox("Reverb");
-
-//    _sfxChorusEnabled->setCheckable(true);
-//    _sfxCompressorEnabled->setCheckable(true);
-//
-//    _sfxEchoEnabled->setCheckable(true);
-//    _sfxFlangerEnabled->setCheckable(true);
-//    _sfxGargleEnabled->setCheckable(true);
-//    _sfxReverbEnabled->setCheckable(true);
 
 
     // DISTORTION
 
     _sfxTabWidget = new QTabWidget(this);
     _sfxLayout->addWidget(_sfxTabWidget);
-    _sfxDistortionCheckBox = new QCheckBox("Enable distortion");
+
+
+
+    _sfxDistortionCheckBox = new QCheckBox("Enable Distortion");
     _sfxDistortionCheckBox->setCheckable(true);
     _sfxDistortionWidget = new QWidget();
     _sfxDistortionLayout = new QGridLayout(_sfxDistortionWidget);
     _sfxDistortionLayout->addWidget(_sfxDistortionCheckBox,0,0,1,5);
 
+    _sfxTabWidget->addTab(_sfxDistortionWidget,"Distortion");
     _sfxDistortionLabels.append(new QLabel("Gain"));
     _sfxDistortionLabels.append(new QLabel("Edge"));
     _sfxDistortionLabels.append(new QLabel("Center Frequency"));
     _sfxDistortionLabels.append(new QLabel("Bandwidth"));
     _sfxDistortionLabels.append(new QLabel("Lowpass Cutoff"));
-    _sfxTabWidget->addTab(_sfxDistortionWidget,"Distortion");
 
     for (int i = 0;i<_sfxDistortionLabels.size();++i)
         _sfxDistortionLayout->addWidget(_sfxDistortionLabels.at(i),i+1,0,1,1);
@@ -177,13 +166,128 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 //    _sfxBtnGroup->addButton(_sfxGargle);
 //    _sfxBtnGroup->addButton(_sfxReverb);
     _sfxSpoiler->setContentLayout(_sfxLayout);
+  //  _sfxLayout->setRowMinimumHeight(0,300);
 //    _sfxBtnGroup->setExclusive(false);
 
     _sfxSpoiler->setEnabled(false);
     // connecting the two spoilers together
-    connect(_sfxSpoiler,Spoiler::Opened, _sliderSpoiler,Spoiler::Close);
-    connect(_sliderSpoiler,Spoiler::Opened,_sfxSpoiler,Spoiler::Close);
+    connect(_sfxSpoiler,Spoiler::Opened, [=]{
+        _sliderSpoiler->Close();
+        //_vLayout->setStretch(1,100);
+        //_gLayout->setRowStretch(4,100);
+                  //->addWidget(_sfxSpoiler,4,0,3,4);
+                });
+    connect(_sliderSpoiler,Spoiler::Opened,[=] {
+        _sfxSpoiler->Close();
+        //_vLayout->setStretch(0,100);
 
+    });
+
+/*
+
+    connect(_sfxTabWidget,QTabWidget::currentChanged, [=](int index)
+    {
+        for(int i=0;i<_sfxTabWidget->count();i++)
+            if(i!=index)
+                _sfxTabWidget->widget(i)->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+        _sfxTabWidget->widget(index)->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        _sfxTabWidget->widget(index)->resize(_sfxTabWidget->widget(index)->minimumSizeHint());
+        _sfxTabWidget->widget(index)->adjustSize();
+        resize(minimumSizeHint());
+        adjustSize();
+
+    });
+*/
+    /****************************************************/
+    //                       CHORUS
+    /*****************************************************/
+    _sfxChorusWidget = new QWidget();
+    _sfxChorusLayout = new QGridLayout(); //_sfxChorusWidget
+
+
+     _sfxChorusScrollArea = new QScrollArea();
+     _sfxTabWidget->addTab(_sfxChorusScrollArea,"Chorus");
+
+  //   _sfxChorusLayout->setRowMinimumHeight(0,50);
+     _sfxChorusWidget->setLayout(_sfxChorusLayout);
+     _sfxChorusLayout->setSizeConstraint(QLayout::SetMinimumSize);
+
+    //_sfxChorusLayout->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    _sfxTabWidget->addTab(_sfxChorusWidget,"Chorus");
+    _sfxChorusCheckBox = new QCheckBox("Enable Chorus");
+    _sfxChorusCheckBox->setCheckable(true);
+
+    _sfxChorusLayout->addWidget(_sfxChorusCheckBox,0,0,1,5);
+
+//http://bass.radio42.com/help/html/846d2089-756b-8780-80ec-fc361bb434b6.htm
+    _sfxChorusLabels.append(new QLabel("Delay"));
+    _sfxChorusLabels.append(new QLabel("Depth"));
+    _sfxChorusLabels.append(new QLabel("Feedback"));
+    _sfxChorusLabels.append(new QLabel("Frequency"));
+    _sfxChorusLabels.append(new QLabel("Wet Dry Mix"));
+    _sfxChorusLabels.append(new QLabel("Phase Differential"));
+    _sfxChorusLabels.append(new QLabel("Wave form"));
+    //adding labels
+    for (int i = 0;i<_sfxChorusLabels.size();++i)
+        _sfxChorusLayout->addWidget(_sfxChorusLabels.at(i),i+1,0,1,1);
+    // adding spinboxes forsenE
+    for (int i=0; i<5;i++)
+    {
+        //connecting sliders and spinboxes is done in the ItemWasClicked Signal
+        _sfxChorusSliders.append(new QSlider(Qt::Orientation::Horizontal));
+        _sfxChorusSpinboxes.append(new QSpinBox());
+        _sfxChorusLayout->addWidget( _sfxChorusSliders.last() ,i+1,1,1,3  );
+        _sfxChorusLayout->addWidget(_sfxChorusSpinboxes.last(),i+1,4,1,1);
+        _sfxChorusSpinboxes.last()->setEnabled(false);
+        _sfxChorusSliders.last()->setEnabled(false);
+     }
+     _sfxChorusSliders.at(0)->setRange(0,20);
+     _sfxChorusSpinboxes.at(0)->setRange(0,20);
+     _sfxChorusSpinboxes.at(0)->setSuffix("ms");
+
+     _sfxChorusSliders.at(1)->setRange(0,100);
+     _sfxChorusSpinboxes.at(1)->setRange(0,100);
+     _sfxChorusSpinboxes.at(1)->setSuffix("%");
+
+     _sfxChorusSliders.at(2)->setRange(-99,99);
+     _sfxChorusSpinboxes.at(2)->setRange(-99,99);
+     _sfxChorusSpinboxes.at(2)->setSuffix("%");
+
+     _sfxChorusSliders.at(3)->setRange(0,10);
+     _sfxChorusSpinboxes.at(3)->setRange(0,10);
+     _sfxChorusSpinboxes.at(3)->setSuffix("Hz");
+
+     _sfxChorusSliders.at(4)->setRange(0,100);
+     _sfxChorusSpinboxes.at(4)->setRange(0,100);
+     _sfxChorusSpinboxes.at(4)->setSuffix("%");
+     for (int i=0; i<2;i++)
+     {
+        _sfxChorusBox.append(new QComboBox());
+        _sfxChorusLayout->addWidget( _sfxChorusBox.last() ,i+6,1,1,4 );
+        _sfxChorusBox.last()->setEnabled(false);
+     }
+
+     _sfxChorusButton.append(new QPushButton("Reset to default"));
+     _sfxChorusButton.append(new QPushButton("Preset A"));
+     _sfxChorusButton.append(new QPushButton("Preset B"));
+     for (auto &i: _sfxChorusButton)
+         i->setEnabled(false);
+
+     _sfxChorusLayout->addWidget( _sfxChorusButton.at(0),8,0,1,2);
+     _sfxChorusLayout->addWidget( _sfxChorusButton.at(1),8,2,1,1);
+     _sfxChorusLayout->addWidget( _sfxChorusButton.at(2),8,3,1,1);
+//http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
+     _sfxChorusBox.at(0)->addItem("-180° (-π rad)", QVariant(0) ); //	BASS_FX_PHASE_NEG_180
+     _sfxChorusBox.at(0)->addItem("-90° (-π/2 rad)", QVariant(1)  ); //	BASS_FX_PHASE_NEG_90
+     _sfxChorusBox.at(0)->addItem("0° (0 rad)", QVariant(2)  ); //	BASS_FX_PHASE_ZERO
+     _sfxChorusBox.at(0)->addItem("90° (π rad)", QVariant(3)  ); //	BASS_FX_PHASE_90
+     _sfxChorusBox.at(0)->addItem("180° (π/2 rad)", QVariant(4)  );  //	BASS_FX_PHASE_180
+
+     _sfxChorusBox.at(1)->addItem("Sinusoidal Wave", QVariant(1));
+     _sfxChorusBox.at(1)->addItem("Triangular Wave", QVariant(0));
+     _sfxChorusScrollArea->setWidget(_sfxChorusWidget);
+     _sfxChorusScrollArea->setWidgetResizable(true);
     /*******************************************************
      *                                                     *
      *                      PLAYBACK MODES                 *
@@ -258,16 +362,15 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _gLayout->addWidget(_btnDelete,0,2,1,2);
     _gLayout->addWidget(_soundListHint,1,0,2,4);
      _gLayout->addWidget(_sliderSpoiler,3,0,1,4 );
-     _gLayout->addWidget(_sfxSpoiler,4,0,1,4);
-    _gLayout->addWidget(_radioGroupBox,5,0,1,4);
-    _gLayout->addWidget(_shortcutGroup,6,0,1,4);
-    _gLayout->addWidget(_btnDone,7,0,1,3);
-    _gLayout->addWidget(_btnAbort,7,3,1,1);
+     _gLayout->addWidget(_sfxSpoiler,4,0,3,4);
+    _gLayout->addWidget(_radioGroupBox,7,0,1,4);
+    _gLayout->addWidget(_shortcutGroup,8,0,1,4);
+    _gLayout->addWidget(_btnDone,9,0,1,3);
+    _gLayout->addWidget(_btnAbort,9,3,1,1);
 
+    //_sfxTabWidget->setMinimumHeight(200);
 
-
-
-
+    _sfxTabWidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     /*******************************************************
      *                                                     *
      *                     CONNECTIONS                     *
@@ -585,22 +688,40 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         //disconnecting checkBox because it's connected to the setter via the lambda
         disconnect(_sfxDistortionCheckBox);
         disconnect(_sfxDistortionDefault);
-        connect(_sfxDistortionDefault,QPushButton::clicked, [=]{ _selectedItem->setSFXDistortionDefault();
-            _sfxDistortionSliders.at(0)->setValue(static_cast<int>(- _selectedItem->GetDistortionParams().fGain));
-            _sfxDistortionSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fEdge));
-            _sfxDistortionSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPostEQCenterFrequency));
-            _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPostEQBandwidth));
-            _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPreLowpassCutoff));
-        });
-
-        // disconnecting the sfx stuff
+        disconnect(_sfxChorusCheckBox);
+        //  disconnecting the sfx distortion stuff
         for (int i = 0; i<5;i++)
         {
-            disconnect(_sfxDistortionSliders.at(i));
-            disconnect(_sfxDistortionSpinboxes.at(i));
+           disconnect(_sfxDistortionSliders.at(i));
+           disconnect(_sfxDistortionSpinboxes.at(i));
         }
+        // Default button value
+        connect(_sfxDistortionDefault,QPushButton::clicked, [=]
+        {
+           // Set default values then update the sliders
+           _selectedItem->setSFXDistortionDefault();
+           _sfxDistortionSliders.at(0)->setValue(static_cast<int>(- _selectedItem->GetSFX().distortion.fGain));
+           _sfxDistortionSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fEdge));
+           _sfxDistortionSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPostEQCenterFrequency));
+           _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPostEQBandwidth));
+           _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPreLowpassCutoff));
+        });
+        // 0 is default, 1 is preset A, 2 is preset B
+        connect(_sfxChorusButton.at(0), QPushButton::clicked, [=]
+        {
+            // delay  depth feeback frequency wetdrymix phaseDifferential waveform
+            _selectedItem->setSFXChorusDefault();
+            _sfxChorusSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDelay));
+            _sfxChorusSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDepth));
+            _sfxChorusSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFeedback));
+            _sfxChorusSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFrequency));
+            _sfxChorusSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fWetDryMix));
+            _sfxChorusBox.at(0)->setCurrentIndex( _sfxChorusBox.at(0)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lPhase) ) );
+            _sfxChorusBox.at(1)->setCurrentIndex( _sfxChorusBox.at(1)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lWaveform) ) );
+        });
 
 
+        // CONNECTING DISTORTION CHECKBOX
         for (int i = 0; i<5;i++)
         {
             // connecting the check box to the state of the thing
@@ -608,21 +729,97 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
                     [=] (bool checked){
                 _sfxDistortionSpinboxes.at(i)->setEnabled(checked);
                 _sfxDistortionSliders.at(i)->setEnabled(checked);
-                _sfxDistortionDefault->setEnabled(checked);
-
             });
 
             // connect sliders and spinbox
             connect(_sfxDistortionSliders.at(i), QSlider::valueChanged, _sfxDistortionSpinboxes.at(i),QSpinBox::setValue);
             connect(_sfxDistortionSpinboxes.at(i), static_cast<void (QSpinBox::*)(int)>(QSpinBox::valueChanged), _sfxDistortionSliders.at(i),QSlider::setValue);
         }
-        _sfxDistortionCheckBox->setChecked(_selectedItem->GetDistortionEnabled());
-        _sfxDistortionSliders.at(0)->setValue(static_cast<int>(- _selectedItem->GetDistortionParams().fGain));
-        _sfxDistortionSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fEdge));
-        _sfxDistortionSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPostEQCenterFrequency));
-        _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPostEQBandwidth));
-        _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetDistortionParams().fPreLowpassCutoff));
-        connect(_sfxDistortionCheckBox,QCheckBox::stateChanged,[=](bool enabled){ _selectedItem->SetDistortionEnabled(enabled); });
+
+        // Still checkbox
+        for (int i =0;i <2;i++)
+        {
+            _sfxChorusBox.at(i)->disconnect();
+            connect(_sfxChorusCheckBox,QCheckBox::stateChanged,
+                     [=](bool checked){ _sfxChorusBox.at(i)->setEnabled(checked); });
+        }
+        // CONNECTING CHORUS CHECKBOX TO ENABLE SLIDERS. AND CONNECTING SLIDERS AND SPINBOXES TOGETHER REEEEE
+        for (int i = 0; i < 5; i ++)
+        {
+            connect(_sfxChorusCheckBox,QCheckBox::stateChanged,
+                    [=](bool checked){
+                    _sfxChorusSpinboxes.at(i)->setEnabled(checked);
+                    _sfxChorusSliders.at(i)->setEnabled(checked);
+            });
+
+            connect(_sfxChorusSliders.at(i), QSlider::valueChanged, _sfxChorusSpinboxes.at(i),QSpinBox::setValue);
+            connect(_sfxChorusSpinboxes.at(i), static_cast<void (QSpinBox::*)(int)>(QSpinBox::valueChanged), _sfxChorusSliders.at(i),QSlider::setValue);
+        }
+        // still check box Zzzz
+        for (int i = 0;i<3;i++)
+            connect(_sfxChorusCheckBox,QCheckBox::stateChanged, [=](bool state){
+                _sfxChorusButton.at(i)->setEnabled(state);
+            });
+        // connecting all sliders
+        connect(_sfxChorusSliders.at(0),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fDelay,i);});
+        connect(_sfxChorusSliders.at(1),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fDepth,i);});
+        connect(_sfxChorusSliders.at(2),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fFeedback,i);});
+        connect(_sfxChorusSliders.at(3),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fFrequency,i);});
+        connect(_sfxChorusSliders.at(4),QSlider::valueChanged, [=] (int i){
+            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fWetDryMix,i);});
+        connect(_sfxChorusBox.at(0),static_cast<void (QComboBox::*) (int)>(QComboBox::currentIndexChanged),[=] (int i){
+            _selectedItem->setSFXChorus(LIDL::SFX_CHORUS_PARAM::lPhase, _sfxChorusBox.at(0)->itemData(i).toInt() );    });
+        connect(_sfxChorusBox.at(1),static_cast<void (QComboBox::*) (int)>(QComboBox::currentIndexChanged),[=] (int i){
+            _selectedItem->setSFXChorus(LIDL::SFX_CHORUS_PARAM::lWaveform, _sfxChorusBox.at(1)->itemData(i).toInt() );    });
+
+
+        // if flags are checked then we select checkboxes
+        if (_selectedItem->GetSFX().flags & LIDL::SFX_TYPE::DISTORTION)
+        {
+            _sfxDistortionCheckBox->setChecked(true);
+            _sfxDistortionDefault->setEnabled(true);
+        }
+        else
+            _sfxDistortionCheckBox->setChecked(false);
+
+        if (_selectedItem->GetSFX().flags & LIDL::SFX_TYPE::CHORUS)
+        {
+            _sfxChorusCheckBox->setChecked(true);
+            for (auto &i: _sfxChorusButton)
+                i->setEnabled(true);
+        }
+        else
+            _sfxChorusCheckBox->setChecked(false);
+
+        _sfxDistortionSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fGain));
+        _sfxDistortionSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fEdge));
+        _sfxDistortionSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPostEQCenterFrequency));
+        _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPostEQBandwidth));
+        _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPreLowpassCutoff));
+
+        _sfxChorusSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDelay));
+        _sfxChorusSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDepth));
+        _sfxChorusSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFeedback));
+        _sfxChorusSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFrequency));
+        _sfxChorusSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fWetDryMix));
+        _sfxChorusBox.at(0)->setCurrentIndex( _sfxChorusBox.at(0)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lPhase) ) );
+        _sfxChorusBox.at(1)->setCurrentIndex( _sfxChorusBox.at(1)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lWaveform) ) );
+        connect(_sfxDistortionCheckBox,QCheckBox::stateChanged,[=](bool enabled){
+            _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::DISTORTION,enabled);
+            _sfxDistortionDefault->setEnabled(enabled);
+        });
+
+        connect(_sfxChorusCheckBox,QCheckBox::stateChanged,[=](bool enabled){
+            _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::CHORUS,enabled);
+         //   _sfxChorusDefault->setEnabled(enabled);
+        });
+
+
+
 
         connect(_sfxDistortionSliders.at(0),QSlider::valueChanged, [=] (int i){ // gain is negative so we have to add -
             _selectedItem->setSFXDistortion( LIDL::SFX_DIST_PARAM::fGain,-i  );  });
@@ -642,8 +839,8 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         // setting sliders value
         _sliderMain->setValue( static_cast<int>(_selectedItem->getMainVolume()*100));
         _sliderVAC->setValue( static_cast<int>(_selectedItem->getVacVolume()*100));
-        qDebug() << "Slider main old value:" << static_cast<int>(_selectedItem->getMainVolume()*100);
-        // connecting sliders
+        //qDebug() << "Slider main old value:" << static_cast<int>(_selectedItem->getMainVolume()*100);
+        // connecting volumes sliders
         connect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
         connect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
     }

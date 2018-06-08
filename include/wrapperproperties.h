@@ -45,7 +45,8 @@
 #include <QCheckBox>
 #include <QTabWidget>
 #include "CustomSoundFile.h"
-
+#include <QComboBox>
+#include <QScrollArea>
 
 class WrapperProperties : public QWidget
 {
@@ -147,6 +148,16 @@ private:
         QVector <QSlider*> _sfxDistortionSliders;
         QVector <QSpinBox*> _sfxDistortionSpinboxes;
         QPushButton * _sfxDistortionDefault;
+    // CHORUS
+        QWidget * _sfxChorusWidget;
+        QGridLayout * _sfxChorusLayout;
+        QCheckBox *_sfxChorusCheckBox;
+        QVector <QLabel*> _sfxChorusLabels;
+        QVector <QSlider*> _sfxChorusSliders;
+        QVector <QSpinBox*> _sfxChorusSpinboxes;
+        QVector <QComboBox*> _sfxChorusBox;
+        QVector <QPushButton*> _sfxChorusButton;
+        QScrollArea *  _sfxChorusScrollArea;
 
 //    QCheckBox *_sfxChorusEnabled;
 //    QCheckBox *_sfxCompressorEnabled;

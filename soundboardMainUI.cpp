@@ -10,7 +10,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                       SETTING UP MENU BAR
     ****************************************************/
     this->setUpMenu();
-
+    _updateScheduled = false;
     // Setting up the layouts
     vLayout = new QVBoxLayout();
     // not need since adding a parent in the constructor set layout by itself
@@ -234,8 +234,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
               LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
       connect(this->_btnStop,QPushButton::clicked, [=]{
-          LIDL::SettingsController::GetInstance()->unHoldPTT();
-      });
+          LIDL::SettingsController::GetInstance()->unHoldPTT();});
+
 
 }
 
@@ -252,7 +252,6 @@ void SoundboardMainUI::PostConstruction()
     // If this is the first time the user uses soundboard
     if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
-
 }
 
 
@@ -396,6 +395,8 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     // else it was modified, need to swap  the previous item by the new, and than delete the item
     else
     {
+        //we stop it if its playing because else we destroy it and can't stop it
+        _sounds.at(whereToInsert)->Stop();
         // forsenT
         _sounds.removeAt(whereToInsert);
         _sounds.insert(whereToInsert,modifiedSound);
@@ -408,7 +409,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
         // updating the shortcuts table
         _keySequence.removeAt(whereToInsert);
         _keySequence.insert(whereToInsert,modifiedSound->getKeySequence());
-        // updating keyscancode table
+        // updating k   eyscancode table
         _keyVirtualKey.removeAt(whereToInsert);
         _keyVirtualKey.insert(whereToInsert,modifiedSound->getShortcutVirtualKey());
 
@@ -419,7 +420,6 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     // we resize
     this->resultView->resizeRowsToContents();
     this->resultView->clearSelection();
-
 }
 
 
@@ -643,6 +643,10 @@ void SoundboardMainUI::setUpMenu()
     toolMenu->addSeparator();
     _actions.append(new QAction("Settings",this)); //13
     toolMenu->addAction(_actions.at(13));
+    toolMenu->addSeparator();
+    _actions.append(new QAction("Check for updates",this));
+    toolMenu->addAction(_actions.at(14));
+
     /***************************************************
                            CONNECTIONS
     ****************************************************/
@@ -673,6 +677,7 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
     connect(this->_actions.at(12),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
     connect(this->_actions.at(13),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
+    connect(this->_actions.at(14),QAction::triggered,this,SoundboardMainUI::CheckForUpdates);
 }
 
 //Reimplementing to kill all shortcuts
@@ -703,12 +708,22 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 
     for (auto i: _winShorcutHandle)
-    {
         UnregisterHotKey(NULL,i);
+
+    if (_updateScheduled)
+    {
+    #ifdef QT_DEBUG
+        QProcess::startDetached("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe",QStringList("--updater"));
+        qDebug() << "path is set to Program Files SDK";
+    #endif
+    #ifndef QT_DEBUG
+         bool success = QProcess::startDetached(qApp->applicationDirPath + "/SDKMaintenanceTool.exe",QStringList("--updater"));
+    #endif
     }
     // send message to stop the listening loop L OMEGALUL OMEGALUL P
     PostQuitMessage(0);
     QWidget::closeEvent(event);
+
 }
 
 
@@ -977,6 +992,9 @@ void SoundboardMainUI::Open(QString fileName)
                                 // SFX
                                 LIDL::SFX sfx;
 
+                                if (settings.contains("SFX Flags"))
+                                    sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
+
                                 if (settings.contains("SFX"))
                                 {
                                     QJsonObject sfx_obj =  settings.value("SFX").toObject();
@@ -993,8 +1011,6 @@ void SoundboardMainUI::Open(QString fileName)
                                                 sfx.distortion.fPostEQCenterFrequency = static_cast<float>(l.value().toInt());
                                             if (l.key() =="Edge")
                                                 sfx.distortion.fEdge = static_cast<float>(l.value().toInt());
-                                            if (l.key() =="Enabled")
-                                                sfx.distortionEnabled = static_cast<bool>(l.value().toBool());
                                             if (l.key() =="Gain")
                                                 sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
                                         }
@@ -1003,7 +1019,7 @@ void SoundboardMainUI::Open(QString fileName)
                                 else
                                 {
                                     // set default values here
-                                    sfx.distortionEnabled = false;
+                                    //sfx.distortionEnabled = false;
                                     sfx.distortion.fGain =  -18;
                                     sfx.distortion.fEdge = 15;
                                     sfx.distortion.fPostEQCenterFrequency = 2400;
@@ -1155,7 +1171,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
              QJsonObject properties;
              properties.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
              properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
-
+             properties.insert("SFX Flags", static_cast<int>(j->getSFX().flags));
              QJsonObject soundEffects;
              QJsonObject distortion;
              BASS_DX8_DISTORTION tempDist;
@@ -1184,8 +1200,8 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
                  tempDist.fPreLowpassCutoff = 8000;
              else
                  tempDist.fPreLowpassCutoff = j->getSFX().distortion.fPreLowpassCutoff;
-
-             distortion.insert("Enabled", j->getSFX().distortionEnabled   );
+            // TODO: add as flags
+          //   distortion.insert("Enabled", j->getSFX().flags );
              distortion.insert("Gain", tempDist.fGain     );
              distortion.insert("Edge",tempDist.fEdge);
              distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
@@ -1573,6 +1589,84 @@ void SoundboardMainUI::SetUpRecentMenu()
     }
 }
 
+
+void SoundboardMainUI::CheckForUpdates()
+{
+    if (!_updateScheduled)
+    {
+        QProcess process;
+    #ifdef QT_DEBUG
+        process.start("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe --checkupdates");
+        qDebug() << "path is set to Program Files SDK";
+    #endif
+    #ifndef QT_DEBUG
+         process.start(qApp->applicationDirPath + "/SDKMaintenanceTool.exe --checkupdates");
+    #endif
+
+
+
+        // Wait until the update tool is finished
+        process.waitForFinished();
+
+        connect(&process, &QProcess::errorOccurred, [=](QProcess::ProcessError error)
+        {
+            qDebug() << "Error while checking updates enum val = " << error;
+        });
+
+        // Read the output
+        QByteArray data = process.readAllStandardOutput();
+
+        qDebug() << data;
+        // No output means no updates available
+        // Note that the exit code will also be 1, but we don't use that
+        // Also note that we should parse the output instead of just checking if it is empty if we want specific update info
+        if(data.isEmpty())
+        {
+            qDebug() << "No updates available";
+            //return;
+        }
+    //    else
+    //    {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Update available");
+            msgBox.setIcon(QMessageBox::Information);
+            msgBox.setMinimumSize(300,75);
+            msgBox.setText(tr("A New Update is available.\n"
+                              "Do you wish to update?"));
+
+            QPushButton *nowButton = msgBox.addButton(tr("Now"), QMessageBox::ActionRole);
+            QPushButton *laterButton = msgBox.addButton(tr("On Exit"), QMessageBox::ActionRole);
+            QPushButton *abortButton = msgBox.addButton(QMessageBox::Abort);
+
+            msgBox.exec();
+            QStringList args("--updater");
+            if (msgBox.clickedButton() == nowButton)
+            {
+            #ifdef QT_DEBUG
+                bool success = QProcess::startDetached("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe", args);
+                qDebug() << "path is set to Program Files SDK";
+            #endif
+            #ifndef QT_DEBUG
+                 bool success = QProcess::startDetached(qApp->applicationDirPath + "/SDKMaintenanceTool.exe", args);
+            #endif
+                _updateScheduled = false;
+                qApp->closeAllWindows();
+            }
+            else if (msgBox.clickedButton() == laterButton)
+            {
+                _updateScheduled = true;
+                emit this->SetStatusTextEditText(tr("Updater will run after LIDL Sounboard is closed."));
+                _actions.at(14)->setText(tr("Cancel scheduled update"));
+            }
+        }
+    //    }
+    else
+    {
+        _updateScheduled = false;
+        _actions.at(14)->setText(tr("Check for updates"));
+        emit this->SetStatusTextEditText(tr("Update canceled."));
+    }
+}
 
 //void SoundboardMainUI::ScrollStatusText(int howMuch)
 //{

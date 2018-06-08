@@ -76,8 +76,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.4.0
-#define VER_STRING "1.4.0"
+#define VER 1.5.0
+#define VER_STRING "1.5.0"
 
 //#include "QSimpleUpdater.h"
 #include <QMainWindow>
@@ -91,6 +91,10 @@
 #include "wrapperproperties.h"
 #include <QFileInfo>
 #include <deque>
+#include "updater.h"
+
+#include <QProcess>
+
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -197,6 +201,8 @@ private:
     //void ScrollStatusText(int howMuch);
     QMenu * _openRecentMenu;
     void HelpShowFirstUserDialog();
+
+    bool _updateScheduled;
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 
@@ -272,6 +278,8 @@ public slots:
     void PostConstruction();
     //void ErrorOnPlaying(QString);
     void SetUpRecentMenu();
+
+    void CheckForUpdates();
 };
 
 

@@ -170,13 +170,22 @@ double CustomPlayer::PlayAt(int index)
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
 
         // if distortion is enabled:
-        if (_soundList.at(index)->getSFX().distortionEnabled)
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
         {
             int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
             BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
             BASS_FXSetParameters(LUL, &wut );
-
         }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
+        {
+            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_CHORUS,254);
+            BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
+            BASS_FXSetParameters(LUL,&SoBayed);
+        }
+
+
+
+
         //}
 
         BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
@@ -194,7 +203,7 @@ double CustomPlayer::PlayAt(int index)
         //qDebug() << "vac volume:" <<  _soundList.at(index)->getVacVolume();
         BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
         //qDebug() << "Is distortion enabled here" << _soundList.at(index)->getSFX().distortionEnabled;
-        if (_soundList.at(index)->getSFX().distortionEnabled)
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::DISTORTION )
         {
            // qDebug() <<"WOLOLO";
             int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
@@ -202,7 +211,12 @@ double CustomPlayer::PlayAt(int index)
             BASS_FXSetParameters(LUL, &wut );
 
         }
-
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
+        {
+            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_CHORUS,254);
+            BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
+            BASS_FXSetParameters(LUL,&SoBayed);
+        }
 
        //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
         duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
