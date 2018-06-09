@@ -1015,6 +1015,28 @@ void SoundboardMainUI::Open(QString fileName)
                                                 sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
                                         }
                                     }
+                                    if (sfx_obj.contains("Chorus"))
+                                    {
+                                        QJsonObject chorusObj = sfx_obj.value("Chorus").toObject();
+                                        for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();l++)
+                                        {
+                                            if (l.key() == "Delay")
+                                                sfx.chorus.fDelay = static_cast<float>(l.value().toInt());
+                                            if (l.key() == "Depth")
+                                                sfx.chorus.fDepth = static_cast<float>(l.value().toInt());
+                                            if (l.key() == "Feedback")
+                                                sfx.chorus.fFeedback = static_cast<float>(l.value().toInt());
+                                            if (l.key() == "Frequency")
+                                                sfx.chorus.fFrequency = static_cast<float>(l.value().toInt());
+                                            if (l.key() == "WetDryMix")
+                                                sfx.chorus.fWetDryMix = static_cast<float>(l.value().toInt());
+                                            if (l.key() == "Phase")
+                                                sfx.chorus.lPhase = static_cast<int>(l.value().toInt());
+                                            if (l.key() == "Waveform")
+                                                sfx.chorus.lWaveform =  static_cast<int>(l.value().toInt());
+                                        }
+
+                                    }
                                 }
                                 else
                                 {
@@ -1173,41 +1195,39 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
              properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
              properties.insert("SFX Flags", static_cast<int>(j->getSFX().flags));
              QJsonObject soundEffects;
-             QJsonObject distortion;
-             BASS_DX8_DISTORTION tempDist;
-             // check for trash values
-             if((j->getSFX().distortion.fGain) < -60 || j->getSFX().distortion.fGain > 0)
-                 tempDist.fGain =  -18;
-             else
-                 tempDist.fGain = j->getSFX().distortion.fGain;
 
-             if (j->getSFX().distortion.fEdge < 1e-1|| j->getSFX().distortion.fEdge> 100)
-                 tempDist.fEdge = 15;
-             else
-                 tempDist.fEdge = j->getSFX().distortion.fEdge;
+//             if (j->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
+//             {
+                QJsonObject distortion;
+                BASS_DX8_DISTORTION tempDist;
+                // check for trash values
+                tempDist.fGain = static_cast<int>(j->getSFX().distortion.fGain);
+                tempDist.fEdge = static_cast<int>(j->getSFX().distortion.fEdge);
+                tempDist.fPostEQCenterFrequency =static_cast<int>(j->getSFX().distortion.fPostEQCenterFrequency);
 
-             if (j->getSFX().distortion.fPostEQCenterFrequency < 100 || j->getSFX().distortion.fPostEQCenterFrequency>8000)
-                 tempDist.fPostEQCenterFrequency = 2400;
-             else
-                tempDist.fPostEQCenterFrequency = j->getSFX().distortion.fPostEQCenterFrequency;
+                tempDist.fPostEQBandwidth = static_cast<int>(j->getSFX().distortion.fPostEQBandwidth);
+                tempDist.fPreLowpassCutoff = static_cast<int>(j->getSFX().distortion.fPreLowpassCutoff);
 
-             if (j->getSFX().distortion.fPostEQBandwidth < 100 || j->getSFX().distortion.fPostEQBandwidth > 8000)
-                 tempDist.fPostEQBandwidth = 2400;
-             else
-                 tempDist.fPostEQBandwidth = j->getSFX().distortion.fPostEQBandwidth;
+                 distortion.insert("Gain", tempDist.fGain     );
+                 distortion.insert("Edge",tempDist.fEdge);
+                 distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
+                 distortion.insert("EQBandwidth",tempDist.fPostEQBandwidth);
+                 distortion.insert("Cutoff",tempDist.fPreLowpassCutoff);
+                 soundEffects.insert("Distortion",distortion);
+//               }
+//               if (j->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
+//               {
+                   QJsonObject chorus;
+                   chorus.insert("Delay",static_cast<int>(j->getSFX().chorus.fDelay));
+                   chorus.insert("Depth",static_cast<int>(j->getSFX().chorus.fDepth));
+                   chorus.insert("Feedback",static_cast<int>(j->getSFX().chorus.fFeedback));
+                   chorus.insert("Frequency",static_cast<int>(j->getSFX().chorus.fFrequency));
+                   chorus.insert("WetDryMix",static_cast<int>(j->getSFX().chorus.fWetDryMix));
+                   chorus.insert("Phase",static_cast<int>(j->getSFX().chorus.lPhase));
+                   chorus.insert("Waveform",static_cast<int>(j->getSFX().chorus.lWaveform));
+                   soundEffects.insert("Chorus",chorus);
+//               }
 
-             if (j->getSFX().distortion.fPreLowpassCutoff < 100 || j->getSFX().distortion.fPreLowpassCutoff > 8000)
-                 tempDist.fPreLowpassCutoff = 8000;
-             else
-                 tempDist.fPreLowpassCutoff = j->getSFX().distortion.fPreLowpassCutoff;
-            // TODO: add as flags
-          //   distortion.insert("Enabled", j->getSFX().flags );
-             distortion.insert("Gain", tempDist.fGain     );
-             distortion.insert("Edge",tempDist.fEdge);
-             distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
-             distortion.insert("EQBandwidth",tempDist.fPostEQBandwidth);
-             distortion.insert("Cutoff",tempDist.fPreLowpassCutoff);
-             soundEffects.insert("Distortion",distortion);
              properties.insert("SFX",soundEffects);
              soundCollection.insert(  j->fileName(), properties);
 

@@ -152,11 +152,19 @@ void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
 
 void CustomListWidgetItem::setSFXChorusDefault()
 {
-    _sfx.chorus.fDelay = 0;
+    _sfx.chorus.fDelay = 10;
     _sfx.chorus.fDepth = 25;
-    _sfx.chorus.fFeedback = 0;
-    _sfx.chorus.fWetDryMix = 50;
-    _sfx.chorus.lPhase = 2;
+    _sfx.chorus.fFeedback = 2;
+    _sfx.chorus.fWetDryMix = 70;
+    _sfx.chorus.lPhase = 0;
     _sfx.chorus.lWaveform = 1;
 }
+
+//void CustomListWidgetItem::CheckForIllegalValues()
+//{
+
+
+
+
+//}
 
