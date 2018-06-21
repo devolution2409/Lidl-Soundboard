@@ -7,6 +7,7 @@
 #include <QCoreApplication>
 #include "updater.h"
 #include <QDebug>
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +28,8 @@ int main(int argc, char *argv[])
     css_dark.open(QFile::ReadOnly);
     app.setStyleSheet(css_dark.readAll());
     css_dark.close();
-
+    //app.setStyle("");
+    app.setStyle(QStyleFactory::create("plastique"));
     MSG msg;
     // Proccess the system events
     QApplication::processEvents();   

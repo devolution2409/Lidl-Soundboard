@@ -16,18 +16,24 @@ void StyledDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     QStyleOptionViewItem viewOption(option);
     initStyleOption(&viewOption, index);
 
+
+
     viewOption.state &= ~QStyle::State_HasFocus;
     auto *model = index.model();
 
-    if (option.state & QStyle::State_MouseOver) {
+    if (option.state & QStyle::State_MouseOver)
+    {
         if (option.state & QStyle::State_Selected)           // 如果是已选中状态，则去除掉hover状态
             viewOption.state &= ~QStyle::State_MouseOver;
-        else {
-            if (hoverBehavior != LIDL::HoverBehavior::HoverItems) {
+        else
+        {
+            if (hoverBehavior != LIDL::HoverBehavior::HoverItems)
+            {
                 QTableView *view = qobject_cast<QTableView *>(option.styleObject);
                 int count = (hoverBehavior == LIDL::HoverBehavior::HoverRows ?
                             model->columnCount() : model->rowCount());
-                for (int i = 0; i < count; ++i) {
+                for (int i = 0; i < count; ++i)
+                {
                     QModelIndex idx = (hoverBehavior == LIDL::HoverBehavior::HoverRows ?
                                            model->index(index.row(), i) : model->index(i, index.column()));
 
@@ -55,18 +61,20 @@ void StyledDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
 
                     //! [2] 设置图标
                     value = model->data(idx, Qt::DecorationRole);
-                    if (value.isValid() && value.canConvert<QIcon>()) {
+                    if (value.isValid() && value.canConvert<QIcon>())
+                    {
                         opt.icon = value.value<QIcon>();
                         opt.decorationSize = opt.icon.pixmap(0).size();
                         opt.decorationAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
                     }
-                    else {
+                    else
+                    {
                         opt.icon = QIcon();
                         opt.decorationSize = QSize();
                         opt.decorationAlignment = Qt::AlignLeft;
                     }
                     QStyledItemDelegate::paint(painter, opt, idx);
-
+ //QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &viewOption, painter, nullptr);
                     //! 修正hover列时不及时绘制的bug
                     view->viewport()->update();
                 } //! for
@@ -74,6 +82,30 @@ void StyledDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
             //! HoverItems 交给父类处理
         }  //! else
     }  //!   if
+ //QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &viewOption, painter, nullptr);
     QStyledItemDelegate::paint(painter, viewOption, index);
-}
+    //drawDisplay(painter, myOption, myOption.rect, text);
+}// end of MingREE function
 
+
+//QWidget* StyledDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+//                        const QModelIndex &index) const
+//{
+//    QPushButton *editor = new QPushButton("+",parent);
+//    editor->setFixedSize(10,10);
+//    return editor;
+//}
+
+//void StyledDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+//{
+
+//}
+//void StyledDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+//{
+
+//}
+//void StyledDelegate::updateEditorGeometry(QWidget *editor,
+//    const QStyleOptionViewItem &option, const QModelIndex &index) const
+//{
+//    editor->setGeometry(option.rect);
+//}

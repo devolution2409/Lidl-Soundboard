@@ -62,8 +62,14 @@ public:
     bool SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit       );
 
     bool IsThisFirstTimeUser();
-        void unHoldPTT();
-            void holdPTT(int duration);
+    void unHoldPTT();
+    void holdPTT(int duration);
+
+    // showSFX, showNumber, showFullSoundList;
+
+    void addShowFlag(LIDL::SHOW_SETTINGS addedFlag);
+    void removeShowFlag(LIDL::SHOW_SETTINGS removedFlag);
+    bool checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag);
 private:
     QString fileName;
     // Singleton class
@@ -113,6 +119,8 @@ private:
     int  _activePttScanCode;
     int  _activePttVitualKey;
 
+    // SHOW MENU SETTINGS
+    LIDL::SHOW_SETTINGS _showFlags;
 
 signals:
     void RecentFilesChanged();

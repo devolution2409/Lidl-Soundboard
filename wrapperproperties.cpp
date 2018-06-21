@@ -481,9 +481,11 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
 void WrapperProperties::closeEvent(QCloseEvent *event)
 {
 
-            this->_mainWidget->setEnabled(true);
-    //  qDebug() << "LEAYOUHOE";
-            event->accept();
+    this->_mainWidget->setEnabled(true);
+    _soundListDisplay->clearSelection();
+    this->QWidget::close();
+    event->accept();
+
     //         qDebug() << "forsenRope FeelsBadMan";
 }
 

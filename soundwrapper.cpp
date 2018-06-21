@@ -154,7 +154,60 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     QList<QStandardItem*> tempItem;
     //qDebug()<< modifiedSound->getKeySequence().toString();
     tempItem.append(new QStandardItem(this->getSoundListAsQString()));
-    // If shortcut is empty we write no shortcut
+//    tempItem.append(   new QStandardItem());
+//    for (auto &i: _soundList)
+//    {
+//        QFileInfo fileInfo;
+//        QString tmpString;
+//        fileInfo.setFile(*i);
+//        // if the file doesn't exist we put a warning sign
+//        if (!fileInfo.exists())
+//        {
+//            tmpString.append("⚠️");
+//            tmpString.append(fileInfo.fileName());
+//            emit UnexistantFile();
+//        }
+//        qDebug() << "oihio0";
+//        tempItem.at(0)->appendRow(new QStandardItem("test"));
+//    }
+    // Iterates over SFX
+    int flags = 0;
+    for (auto &i: _soundList)
+    {
+        flags+= i->getSFX().flags;
+    }
+    if (flags == 0)
+        tempItem.append(new QStandardItem("No SFX!"));
+    else
+    {
+        QString tempString;
+        for (auto &i: _soundList)
+        {
+            switch (i->getSFX().flags) {
+            case LIDL::SFX_TYPE::CHORUS:
+                tempString.append(tr("CHORUS"));
+                tempString.append("\n");
+                break;
+            case LIDL::SFX_TYPE::DISTORTION:
+                 tempString.append(tr("DISTORTION"));
+                 tempString.append("\n");
+                 break;
+            case LIDL::SFX_TYPE::ECHO:
+                 tempString.append(tr("ECHO"));
+                 tempString.append("\n");
+                 break;
+            default:
+                 tempString.append(tr("No SFX!"));
+                 tempString.append("\n");
+                break;
+            }
+
+        }
+        tempString.remove( tempString.length() -1 ,1);
+        tempItem.append(new QStandardItem(tempString));
+    }
+
+    // If shortcut is empty we write no shortcut    
     if (this->getKeySequence().isEmpty())
         tempItem.append(new QStandardItem("No Shortcut!"));
     else
@@ -168,6 +221,9 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
        case LIDL::Playback::Cancer: tmpMode.append("Singleton (Cancer)");break;
     }
     tempItem.append(new QStandardItem(tmpMode));
+
+    for (auto &i: tempItem)
+        i->setTextAlignment(Qt::AlignVCenter);
 
    return tempItem;
 }

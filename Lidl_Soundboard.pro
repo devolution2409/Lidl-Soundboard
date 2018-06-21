@@ -49,7 +49,8 @@ HEADERS += \
 #include/CustomListWidgetItem.h
 #TEMPLATE += app
 FORMS += \
-    Settings.ui
+    Settings.ui \
+    guideUI.ui
 
 RESOURCES += resources.qrc
 

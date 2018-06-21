@@ -13,13 +13,8 @@
  *              QComboBox                _deviceListOutput  Combo box to display the Output device
  *              QComboBox                _deviceListVAC                                 VAC device
  *              QComboBox                _deviceListInjector                     microphone device
- *          Methods:
- *              void fetchDeviceList(QComboBox*,QAudio::Mode );
- *                  Fetch the device list (input or ouput mode) on the computer, and display them in the combo box
- *
- * TODO: replace int _playMode by an enumeration
  */
-
+// TODO: use doxygen SoBayed
 
 
 #ifndef SOUNDBOARDMAINUI_H
@@ -94,7 +89,10 @@
 #include "updater.h"
 
 #include <QProcess>
-
+#include <ui_guideUI.h>
+#include <QDesktopWidget>
+#include "OverlayWidget.h"
+#include "EnumsAndStructs.h"
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -114,7 +112,7 @@ private:
     QVector<int> _winShorcutHandle;
 
     // vertical layout
-    QVBoxLayout *vLayout;
+//   QVBoxLayout *vLayout;
     // grid layout for btns
     QGridLayout *_gLayout;
     // Model displayed by the viewer
@@ -122,6 +120,7 @@ private:
     CustomTableModel *_model;
     // DATA of the model:
     QVector<QList< QStandardItem* >> _data;
+    QVector<QList< QStandardItem* >> _displayedData;
 
     /***************************************************
                             MENU
@@ -203,6 +202,12 @@ private:
     void HelpShowFirstUserDialog();
 
     bool _updateScheduled;
+    QWidget * _guideOverlay;
+    QWidget * _guideWidget;
+    Ui::Guide *_guideUI;
+    // refresh UI view
+    void refreshView();
+
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 
@@ -280,6 +285,8 @@ public slots:
     void SetUpRecentMenu();
 
     void CheckForUpdates();
+    void resizeEvent ( QResizeEvent * event );
+
 };
 
 

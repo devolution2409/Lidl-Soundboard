@@ -70,11 +70,19 @@ namespace LIDL{
         lWaveform
     };
 
+    enum SHOW_SETTINGS : unsigned int
+    {
+        // using binary shift LUL
+        SHOW_SFX =               1<<0, //1
+        SHOW_NUMBER =       1<<1, //2
+        SHOW_FULL_LIST =    1<<2, //4
+    };
 
 }
 
 
 
+// Doesn't work with enum class pajaL forsenL nymnL
 template<>
 struct enable_bitmask_operators<LIDL::SFX_TYPE>{
     static const bool enable=true;
@@ -82,7 +90,10 @@ struct enable_bitmask_operators<LIDL::SFX_TYPE>{
 
 
 
-
+template<>
+struct enable_bitmask_operators<LIDL::SHOW_SETTINGS>{
+    static const bool enable=true;
+};
 
 
 

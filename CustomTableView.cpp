@@ -43,3 +43,4 @@ void CustomTableView::selectionChanged(const QItemSelection & selected, const QI
     else //we clicked on valid item
         emit enableButtons();
 }
+
