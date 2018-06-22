@@ -69,7 +69,8 @@ public:
 
     void addShowFlag(LIDL::SHOW_SETTINGS addedFlag);
     void removeShowFlag(LIDL::SHOW_SETTINGS removedFlag);
-    bool checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag);
+    bool checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag) const;
+    LIDL::SHOW_SETTINGS getShowFlags() const;
 private:
     QString fileName;
     // Singleton class

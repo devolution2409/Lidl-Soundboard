@@ -16,7 +16,7 @@ SettingsController::SettingsController()
         defaultSoundsFolder     =  qApp->applicationDirPath();
         // Default file count
         recentFileCount         = 5;
-        _showFlags  = LIDL::SHOW_SETTINGS::SHOW_SFX;
+        _showFlags  = LIDL::SHOW_SETTINGS::NO_SETTINGS ;
         this->fileName = "lidlsettings.json";
         connect(&_activePttTimer,QTimer::timeout, [=]{
                 this->unHoldPTT();});
@@ -437,9 +437,13 @@ void SettingsController::removeShowFlag(LIDL::SHOW_SETTINGS removedFlag)
     this->_showFlags &= ~removedFlag;
 }
 
-bool SettingsController::checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag)
+bool SettingsController::checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag) const
 {
     return _showFlags & checkedFlag;
+}
+LIDL::SHOW_SETTINGS SettingsController::getShowFlags() const
+{
+    return _showFlags;
 }
 
 

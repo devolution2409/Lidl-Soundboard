@@ -420,7 +420,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     // we resize
     this->resultView->resizeRowsToContents();
     this->resultView->clearSelection();
-    this->resultView->setWordWrap(false);
+   // this->resultView->setWordWrap(false);
     //this->resultView->setTextElideMode(Qt::ElideLeft);
     this->refreshView();
 }
@@ -431,10 +431,11 @@ void SoundboardMainUI::refreshView()
     // data will always contain all the data available
     // [0]: Song names
     // [1]: SFXs
-    // [2]: Shortcut
+    // [2]: Shortcut niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii g_v
     // [3]: Playback
     // DATA of the model:
     // QVector<QList< QStandardItem* >> _data;
+
 
     _displayedData.clear();
     for (auto i: _data)
@@ -445,13 +446,74 @@ void SoundboardMainUI::refreshView()
             item.append(new QStandardItem(j->text()));
             item.last()->setEditable(false);
         }
+
+        // Editing the text so that it warps "properly"
+        QFontMetrics fm = resultView->fontMetrics();
+        int width = fm.width(item.at(0)->text());
+//        qDebug() << "Size of text is: " << width;
+//        qDebug() << "Size of area is:" << resultView->columnWidth(0);
+        // if the text is too big for the view, we wrap it or we only show the number depending
+        // on the option provided
+        if (width > resultView->columnWidth(0))
+        {
+            QString tempText = item.at(0)->text();
+
+            // If we DONT wanna show the full list
+            // we wrap the stuff
+            if (! LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST))
+            {
+                static int test = 0;
+                QStringList tmpText = tempText.split("\n");
+                QString tempAgain = tmpText.at(0);
+                // if we have more than 1 song
+                // we need to count the .. since we will add them.. POTENTIALLY POTENTIALLY
+                if (tmpText.size() > 1 && fm.width(tmpText.at(0)) > resultView->columnWidth(0))
+                {
+
+                    tempAgain.append(".. + " + QString::number(tmpText.size() - 1)  + " more" ) ;
+                    while( fm.width(tempAgain)  > resultView->columnWidth(0))
+                    {
+                        tempAgain.remove(tempAgain.size() - 12,1);
+                    }
+                    tempAgain.remove(tempAgain.size() - 12,1);
+                    tempAgain.remove(tempAgain.size() - 12,1);
+                    qDebug() << "1";
+                }
+                // if first item is lesser than the column but we have more item we need to remove the ..
+                else if(tmpText.size() > 1 && fm.width(tmpText.at(0) + ".. + " + QString::number(tmpText.size() - 1)  + " more" )  < resultView->columnWidth(0))
+                {
+                    qDebug() << "there";
+                    tempAgain.append(" + " + QString::number(tmpText.size() - 1)  + " more" ) ;
+                }
+                // else we are in between those two cases
+                // but we still need to check that it has more than 1 sound
+                else if (tmpText.size() > 1)
+                {
+                    qDebug() << "here";
+                    tempAgain.append(".. + " + QString::number(tmpText.size() - 1)  + " more" );
+                    while( fm.width(tempAgain)  > resultView->columnWidth(0))
+                    {
+                        tempAgain.remove(tempAgain.size() - 12,1);
+                    }
+                    tempAgain.remove(tempAgain.size() - 12,1);
+                    tempAgain.remove(tempAgain.size() - 12,1);
+                }
+                item.removeAt(0);
+                item.prepend(new QStandardItem(tempAgain));
+                // if we only have one sound we show ..
+                // actually we don't need to do it since Qt will do it by itself cause we set line maximum height
+                item.at(0)->setToolTip( i.at(0)->text() );
+            }
+
+        } // end if text width > column width
+
         // If we do not want SFX to be shown we remove the entry from the list
         // i.e. if the flag isn't set:
         if (! LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
             item.removeAt(1);
 
         _displayedData.append(item);
-    }
+    } // end for auto i: data
 
     // resetting model with the new parameters
     _model->clear();
@@ -469,7 +531,16 @@ void SoundboardMainUI::refreshView()
     for (auto i: _displayedData )
         _model->appendRow(i);
 
-    resultView->resizeRowsToContents();
+    // if we don't want to show the full list, we force the size to be 22px
+    if ( !LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST))
+        for (int i = 0; i < _displayedData.size(); ++i)
+            resultView->setRowHeight(i,22);
+    // else we resize
+    else
+        resultView->resizeRowsToContents();
+
+
+
 }
 
 
@@ -711,7 +782,7 @@ void SoundboardMainUI::setUpMenu()
     scMenu->addAction(_actions.at(15));
     scMenu->addAction(_actions.at(16));
     scMenu->addAction(_actions.at(17));
-
+    // SFX
     connect(_actions.at(15),QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
@@ -726,9 +797,38 @@ void SoundboardMainUI::setUpMenu()
             LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
             this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
-
-
-
+        this->refreshView();
+    });
+    // SHOW NUMBER OF SOUNDS
+    connect(_actions.at(16),QAction::triggered, [=]{
+        // if the show flag is already there we invert it
+        // and show the checkmark
+        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_NUMBER))
+        {
+            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_NUMBER);
+            this->_actions.at(16)->setIcon(QIcon(""));
+        }
+        else // if it's not present we set it
+        {
+            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_NUMBER);
+            this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+        }
+        this->refreshView();
+    });
+    // SHOW FULL LIST OF SOUNDS OR (n)
+    connect(_actions.at(17),QAction::triggered, [=]{
+        // if the show flag is already there we invert it
+        // and show the checkmark
+        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST))
+        {
+            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST);
+            this->_actions.at(17)->setIcon(QIcon(""));
+        }
+        else // if it's not present we set it
+        {
+            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST);
+            this->_actions.at(17)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+        }
         this->refreshView();
     });
     /***************************************************
@@ -874,11 +974,6 @@ void SoundboardMainUI::openAudioSettings()
 
 
 
-
-
-
-
-
 /***************************************************
                     FILE MENU SLOTS
 ****************************************************/
@@ -1006,6 +1101,24 @@ void SoundboardMainUI::Open(QString fileName)
                     stopName = settingsStop.value("Key Name").toString();
                 if (settingsStop.contains("VirtualKey"))
                     stopVirtualKey = settingsStop.value("VirtualKey").toInt();
+            }
+            if (settings.contains("Show Flags"))
+            {
+                LIDL::SHOW_SETTINGS flags = static_cast<LIDL::SHOW_SETTINGS>(settings.value("Show Flags").toInt());
+
+                if (flags & LIDL::SHOW_SETTINGS::SHOW_SFX){
+
+                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
+                    this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+                }
+                if (flags &  LIDL::SHOW_SETTINGS::SHOW_NUMBER){
+                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_NUMBER);
+                    this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+                }
+                if (flags &  LIDL::SHOW_SETTINGS::SHOW_FULL_LIST){
+                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST);
+                    this->_actions.at(17)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+                }
             }
         }// end if it contains settings
 
@@ -1260,6 +1373,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
      QJsonObject  settings;
      settings.insert("Main Output Device", this->_deviceListOutput->currentText());
      settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
+     settings.insert("Show Flags", static_cast<int>(LIDL::SettingsController::GetInstance()->getShowFlags()));
 
 
      QJsonObject pttKey;
@@ -1672,6 +1786,7 @@ void SoundboardMainUI::resizeEvent ( QResizeEvent * event )
     if (_guideOverlay != nullptr)
         _guideOverlay->resize(this->width()-_guideWidget->width(),this->height() - this->statusBar()->height());
        this->resultView->resizeRowsToContents();
+    this->refreshView();
     event->accept();
 
 

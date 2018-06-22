@@ -93,6 +93,7 @@
 #include <QDesktopWidget>
 #include "OverlayWidget.h"
 #include "EnumsAndStructs.h"
+#include <QFontMetrics>
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
