@@ -73,10 +73,9 @@ namespace LIDL{
     enum SHOW_SETTINGS : unsigned int
     {
         // using binary shift LUL
-        NO_SETTINGS     = 0,
+        NO_SETTINGS     = 0,    //0
         SHOW_SFX        = 1<<0, //1
-        SHOW_NUMBER     = 1<<1, //2
-        SHOW_FULL_LIST  = 1<<2, //4
+        WRAP_SONG_LIST  = 1<<1, //2
     };
 
 }

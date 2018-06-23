@@ -9,6 +9,10 @@
 #include <QDebug>
 #include <QStyleFactory>
 
+//#include <winuser.h>
+#include "framelesswindow.h"
+#include "DarkStyle.h"
+#include "windows.h"
 int main(int argc, char *argv[])
 {
 
@@ -16,20 +20,29 @@ int main(int argc, char *argv[])
 
      qDebug() << QApplication::libraryPaths();
 //    Main UI LeBaited
+     // create frameless window (and set windowState or title)
+   // FramelessWindow framelessWindow;
+    //framelessWindow.setWindowState(Qt::WindowMaximized);
+    //framelessWindow.setWindowTitle("test title");
+    //framelessWindow.setWindowIcon(a.style()->standardIcon(QStyle::SP_DesktopIcon));
     SoundboardMainUI container;
 
+    // add the mainwindow to our custom frameless window
+//    framelessWindow.setContent(&container);
+//    framelessWindow.show();
+//    framelessWindow.setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
+//    framelessWindow.setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
 
-    container.setMinimumSize(400,600);
-    container.setMaximumSize(1280,900);
     container.show();
 
-
+//r    app.setStyle(new DarkStyle);
+    //app.setStyle(QStyleFactory::create("plastique"));
     QFile css_dark(":/css/resources/darkorange.css");
     css_dark.open(QFile::ReadOnly);
     app.setStyleSheet(css_dark.readAll());
     css_dark.close();
-    //app.setStyle("");
-    app.setStyle(QStyleFactory::create("plastique"));
+
+
     MSG msg;
     // Proccess the system events
     QApplication::processEvents();   

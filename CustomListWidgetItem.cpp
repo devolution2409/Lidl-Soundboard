@@ -140,7 +140,7 @@ void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
         _sfx.chorus.lPhase = value;
         break;
     case LIDL::SFX_CHORUS_PARAM::lWaveform:
-        _sfx.chorus.lWaveform;
+        _sfx.chorus.lWaveform = static_cast<bool>(value);
         break;
 
     default:

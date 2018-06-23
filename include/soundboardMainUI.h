@@ -94,6 +94,8 @@
 #include "OverlayWidget.h"
 #include "EnumsAndStructs.h"
 #include <QFontMetrics>
+#include <QHeaderView>
+#include <QStyleFactory>
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT

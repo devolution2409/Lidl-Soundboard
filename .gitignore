@@ -1,1 +1,12 @@
 installer/
+include/DarkStyle.h
+include/framelesswindow.h
+include/windowdragger.h
+DarkStyle.cpp
+framelesswindow.cpp
+windowdragger.cpp
+framelesswindow.qrc
+framelesswindow.ui
+darkstyle.qrc
+darkstyle/
+images/

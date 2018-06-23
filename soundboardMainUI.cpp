@@ -2,6 +2,12 @@
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
+//    QFile css_dark(":/css/resources/darkorange.css");
+//    css_dark.open(QFile::ReadOnly);
+//    this->setStyleSheet(css_dark.readAll());
+//    this->menuBar()->setStyle(QStyleFactory::create("plastique"));
+//    css_dark.close();
+ //   this->setWindowFlag( Qt::FramelessWindowHint);
     this->resize(400,600);
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
@@ -61,6 +67,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
      resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
 
      resultView->show();
+
 
 
      //Creating buttons
@@ -160,7 +167,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       this->statusBar()->show();
       this->statusBar()->setMaximumHeight(20);
       this->statusBar()->setStyleSheet( "background: #727272; border: 1px solid black" );
-      this->statusBar()->setSizeGripEnabled(false);
+      this->statusBar()->setSizeGripEnabled(true);
       this->statusBar()->addPermanentWidget(_statusEdit,1);
       connect(this->statusBar(),SIGNAL(messageChanged(QString)),this,SLOT(SetStatusTextEditText(QString)));
       /***************************************************
@@ -193,7 +200,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       // the window isn't existing when the AddSound method attempts to resize columns
 
       this->setMinimumSize(400,600);
-      this->setMaximumSize(1280,900);
+      this->setMaximumSize(9999999999999999,9999999999999);
       this->show();
       /***************************************************
                    CONNECTING TO OPEN SOUNDBOARD
@@ -243,12 +250,14 @@ void SoundboardMainUI::PostConstruction()
 {
     // Open the soundboard post-construction
     if (LIDL::SettingsController::GetInstance()->OpenSettings())
+    {
         if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
         {
             this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());
         }
         else // show firt use dialog
             this->ClearAll();
+    }
     // If this is the first time the user uses soundboard
     if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
@@ -460,9 +469,8 @@ void SoundboardMainUI::refreshView()
 
             // If we DONT wanna show the full list
             // we wrap the stuff
-            if (! LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST))
+            if ( LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
             {
-                static int test = 0;
                 QStringList tmpText = tempText.split("\n");
                 QString tempAgain = tmpText.at(0);
                 // if we have more than 1 song
@@ -477,19 +485,16 @@ void SoundboardMainUI::refreshView()
                     }
                     tempAgain.remove(tempAgain.size() - 12,1);
                     tempAgain.remove(tempAgain.size() - 12,1);
-                    qDebug() << "1";
                 }
                 // if first item is lesser than the column but we have more item we need to remove the ..
                 else if(tmpText.size() > 1 && fm.width(tmpText.at(0) + ".. + " + QString::number(tmpText.size() - 1)  + " more" )  < resultView->columnWidth(0))
                 {
-                    qDebug() << "there";
                     tempAgain.append(" + " + QString::number(tmpText.size() - 1)  + " more" ) ;
                 }
                 // else we are in between those two cases
                 // but we still need to check that it has more than 1 sound
                 else if (tmpText.size() > 1)
                 {
-                    qDebug() << "here";
                     tempAgain.append(".. + " + QString::number(tmpText.size() - 1)  + " more" );
                     while( fm.width(tempAgain)  > resultView->columnWidth(0))
                     {
@@ -505,12 +510,57 @@ void SoundboardMainUI::refreshView()
                 item.at(0)->setToolTip( i.at(0)->text() );
             }
 
+
+
         } // end if text width > column width
+        else // well if it's smaller than the col but contains more than one file we need to wrap it anyway
+        {
+            QString tempText = item.at(0)->text();
+            QStringList tmpText = tempText.split("\n");
+            if (tmpText.size() > 1)
+            {
+                item.removeAt(0);
+                item.prepend(new QStandardItem( tmpText.first() + " + " + QString::number(tmpText.size() - 1)  + " more"   ));
+            }
+
+        }   // maybe this whole algorithm could use a revamp
 
         // If we do not want SFX to be shown we remove the entry from the list
         // i.e. if the flag isn't set:
         if (! LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
             item.removeAt(1);
+        /* Else: we deal with multiline SFX. Which will always be the case if we have more than 1 sound
+         * This else won't be called if the SFX are set to none for all the sounds in a collection
+         * Because the QStringList doesn't contain \n */
+        else if (item.at(1)->text().contains("\n"))
+        {
+
+            QStringList tempText = item.at(1)->text().split("\n");
+            /* In case we ever support translations (pepeLaugh)
+             we need to check if all the items are the same, if they are
+             we can write EFFECT * number of sounds
+             else we write several or something */
+
+            auto sameStuff = [=](){
+                for (auto i: tempText)
+                    // if we find a single difference we return false, else there are none
+                    if( i != tempText.at(0)  )
+                        return false;
+                return true;
+            };
+
+            if (sameStuff())
+            {
+                item.removeAt(1);
+                item.insert(1,new QStandardItem(tempText.at(0) + "*" + QString::number(tempText.size()) ));
+            }
+            else
+            {
+                item.removeAt(1);
+                item.insert(1,new QStandardItem(tr("≠")));
+            }
+        }
+
 
         _displayedData.append(item);
     } // end for auto i: data
@@ -518,7 +568,7 @@ void SoundboardMainUI::refreshView()
     // resetting model with the new parameters
     _model->clear();
 
-
+    // Setting headers
     QStringList tempZulul;
     tempZulul << "Sound Collections";
     if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
@@ -529,20 +579,36 @@ void SoundboardMainUI::refreshView()
 
     _model->setHorizontalHeaderLabels(tempZulul);
     for (auto i: _displayedData )
+    {
+        for (int j = 0; j == i.size(); j++)
+            static_cast<QStandardItem*>(i.at(j))->setEditable(false);
         _model->appendRow(i);
-
+    }
     // if we don't want to show the full list, we force the size to be 22px
-    if ( !LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST))
+    if ( LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
         for (int i = 0; i < _displayedData.size(); ++i)
             resultView->setRowHeight(i,22);
     // else we resize
     else
         resultView->resizeRowsToContents();
 
+    // We resize the SFX row if it exists
+    if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
+    {
+        resultView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+        resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    }
+    // We might as well resize the Shortcut and Playback mode
+    resultView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
+    resultView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::ResizeToContents);
 
-
+    // Centering SFX and playback mode
+    // OMEGALUL NE LINERS
+    for (auto i: _displayedData)
+        for (int j = 0; j == i.size(); j++)
+            if (j!=0 && j !=2)
+                static_cast<QStandardItem*>(i.at(j))->setTextAlignment(Qt::AlignCenter);
 }
-
 
 // Dealing with click on a row: update index
 void SoundboardMainUI::onCellClicked(QModelIndex index)
@@ -777,11 +843,10 @@ void SoundboardMainUI::setUpMenu()
     // sound collection menu
     QMenu * scMenu =  viewMenu->addMenu(tr("Sound Collection"));
     _actions.append(new QAction("Show SFX"));
-    _actions.append(new QAction("Show number of sounds in a collection"));
-    _actions.append(new QAction("Show full sound list"));
+    _actions.append(new QAction("Wrap sound list"));
     scMenu->addAction(_actions.at(15));
     scMenu->addAction(_actions.at(16));
-    scMenu->addAction(_actions.at(17));
+
     // SFX
     connect(_actions.at(15),QAction::triggered, [=]{
         // if the show flag is already there we invert it
@@ -799,35 +864,19 @@ void SoundboardMainUI::setUpMenu()
         }
         this->refreshView();
     });
-    // SHOW NUMBER OF SOUNDS
+    // SHOW FULL LIST OF SOUNDS OR (n)
     connect(_actions.at(16),QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
-        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_NUMBER))
+        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
         {
-            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_NUMBER);
+            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
             this->_actions.at(16)->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
-            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_NUMBER);
+            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
             this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
-        }
-        this->refreshView();
-    });
-    // SHOW FULL LIST OF SOUNDS OR (n)
-    connect(_actions.at(17),QAction::triggered, [=]{
-        // if the show flag is already there we invert it
-        // and show the checkmark
-        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST))
-        {
-            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST);
-            this->_actions.at(17)->setIcon(QIcon(""));
-        }
-        else // if it's not present we set it
-        {
-            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST);
-            this->_actions.at(17)->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
     });
@@ -1111,13 +1160,9 @@ void SoundboardMainUI::Open(QString fileName)
                     LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
                     this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
                 }
-                if (flags &  LIDL::SHOW_SETTINGS::SHOW_NUMBER){
-                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_NUMBER);
+                if (flags &  LIDL::SHOW_SETTINGS::WRAP_SONG_LIST){
+                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
                     this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
-                }
-                if (flags &  LIDL::SHOW_SETTINGS::SHOW_FULL_LIST){
-                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_FULL_LIST);
-                    this->_actions.at(17)->setIcon(QIcon(":/icon/resources/checkmark.png"));
                 }
             }
         }// end if it contains settings
@@ -1560,7 +1605,7 @@ void SoundboardMainUI::HelpGuide()
     // reseting selection
     resultView->clearSelection();
 //    this->setMaximumSize(1170,632);
-//    this->setMinimumSize(1170,632);
+    this->setMinimumSize(771,664);
 
     // _guideOverlay = new QWidget(this);
 
@@ -1587,6 +1632,7 @@ void SoundboardMainUI::HelpGuide()
     _gLayout->setColumnStretch(8,100);
     _guideUI->setupUi(_guideWidget);
     _guideWidget->show();
+    _guideWidget->setMaximumWidth(515);
     this->_gLayout->update();
     ui->titleLabel->setText("LIDL Helper");
     ui->pageLabel->setText("1/14");
@@ -1622,14 +1668,79 @@ void SoundboardMainUI::HelpGuide()
                        "     Report a bug or request a feature<br>"
                        "     About LIDL Soundboard<br>"
                        ));
-    helpText.append(tr("<h1>Sound wrapper list</h1><br>"
+        helpText.append(tr("<h1>Sound wrapper list</h1><br>"
                        "Each line represent a wrapper, you can see:<br>"
                        "Which sounds it contains on the first column<br>"
                        "The shortcut it is assigned to<br> "
-                       "The playback mode"
+                       "The playback mode<br>"
                        "The list of sound effects assigned to each sound in the wrapper"
                        ""
                        ""));
+
+        helpText.append(tr(	"<h1>Adding sounds</h1><br>"
+                                                "Opens the LIDL Soundboard Entry Editor, allowing you to add sound files to the sound collection. <br>"
+                                                "You can either drag and drop sound files at the window, <br>"
+                                                "or open the file browser to choose a file to import. <br><br>"
+                                                "In this window, you can also edit the volume of each sound file, <br>"
+                                                "as well as add additional special effects. <br><br>"
+                                                "The playback mode and the shortcut key sequence to play the sounds in the wrappers <br>"
+                                                "can also be selected here."
+                                        ));
+
+        helpText.append(tr(	"<h1>Deleting sounds</h1><br>"
+                                                "Press this button to remove the selected song from the sound collection. :)"
+                                        ));
+
+        helpText.append(tr(	"<h1>Edit sounds</h1><br>"
+                                "Brings up a menu to edit the settings for the selected sound file. <br>"
+                                "(Will open the LIDL Soundboard Entry Editor.)"
+                                        ));
+
+        helpText.append(tr(	"<h1>Playing sounds</h1><br>"
+                                                "Press this button to play the selected sound file through the <br>"
+                                                "selected audio devices."
+                                        ));
+
+        helpText.append(tr(	"<h1>Stop playback</h1><br>"
+                                                "This button cures cancer."
+                                        ));
+
+        helpText.append(tr(	"<h1>First output device</h1><br>"
+                                                "Pick an audio device to output audio to.<br>"
+                                                "Select your primary playback device (so that you can hear the sound too)."
+                                        ));
+
+        helpText.append(tr( "<h1>Virtual audio cable output</h1><br>"
+                                                "Select your virtual audio cable."
+                                        ));
+
+        helpText.append(tr(	"<h1>Microphone injection</h1><br>"
+                                                "Opens Windows Sound menu to help set up microphone injection.<br>"
+                                                "First, open the properties for your microphone in the Recording tab. <br>"
+                                                "Then in the 'Listen' tab, tick the 'Listen to this device' checkbox, <br>"
+                                                "and select your virtual audio cable in the 'Playback through this device' menu.<br>"
+                                                "Finally, set the virtual audio cable as your default input device, whether in windows or in your game."
+                                        ));
+
+        helpText.append(tr(	"<h1>Key to Auto-Hold (push to talk users)</h1><br>"
+                                "Click on this box followed by the desired key to set up a push-to-talk key that the LIDL soundboard will auto-hold.<br>"
+                                "When playing a file, whether through its shortcut or by clicking play, the soundboard will emulate both a physical (through Scan Code) and virtual (through Virtual Key) key press<br>"
+                                "This way, you don't have to hold the push to talk key yourself when propagating ebola. <br>"
+                                "Leave blank if you are using voice activation."
+                                        ));
+        helpText.append(tr(	"<h1>Clear push-to-talk key</h1><br>"
+                                                "Clears the previously set push-to-talk key."
+                                        ));
+
+        helpText.append(tr(	"<h1>Stop playback key</h1><br>"
+                                "Click on this box followed by the desired key to set up a stop hotkey. <br>"
+                                "When this hotkey is pressed, all currently playing sounds will be stopped."
+                                        ));
+
+
+        helpText.append(tr(	"<h1>Clear stop playback key</h1><br>"
+                                 "Clears the previously set stop hotkey."
+                                        ));
 
 
    for (int i=0;i<14;i++)

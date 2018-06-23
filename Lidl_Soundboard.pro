@@ -19,7 +19,10 @@ SOURCES += \
     CustomTableModel.cpp \
     StyledDelegate.cpp \
     SettingsController.cpp \
-    Spoiler.cpp
+    Spoiler.cpp \
+    framelesswindow.cpp \
+    windowdragger.cpp \
+    DarkStyle.cpp
 
 
 HEADERS += \
@@ -38,7 +41,13 @@ HEADERS += \
     include/StyledDelegate.h \
     include/SettingsController.h \
     include/Spoiler.h \
-    include/bitmask_operators.h
+    include/bitmask_operators.h \
+    include/framelesswindow.h \
+    include/windowdragger.h \
+    include/DarkStyle.h
+
+
+
 #HEADERS+= \
 # include/flags/allow_flags.hpp \
 #          include/flags/flags.hpp \
@@ -50,9 +59,13 @@ HEADERS += \
 #TEMPLATE += app
 FORMS += \
     Settings.ui \
-    guideUI.ui
+    guideUI.ui \
+    framelesswindow.ui
 
-RESOURCES += resources.qrc
+RESOURCES +=  \
+    resources.qrc \
+    framelesswindow.qrc \
+    darkstyle.qrc
 
 VERSION = 1.4.0
 
