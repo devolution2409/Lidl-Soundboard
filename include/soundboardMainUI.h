@@ -219,7 +219,7 @@ signals:
 
     // We save soundboard state once we open a file or when we save it,
     // Than we can compare it when closing it to tell the user it hasn't been saved
-    void SaveSoundboardSate();
+    void SaveSoundboardState();
 
     void OnConstructionDone();
 

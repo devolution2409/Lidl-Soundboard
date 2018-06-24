@@ -28,7 +28,7 @@
 #include "CustomShortcutEdit.h"
 #include <QTimer>
 #include "windows.h"
-
+#include <QJsonObject>
 namespace LIDL{
 
 
@@ -58,8 +58,8 @@ public:
 
     // Literally a snapshot whenever we open or save
     //             Sounds to be compared (including shorcuts) pointer to pttKeySequenceEdit and stop KeySequenceEdit
-    void SaveState( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit );
-    bool SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit       );
+    void SaveState( QJsonObject object);
+    bool SaveIsDifferentFrom( QJsonObject  newObject);
 
     bool IsThisFirstTimeUser();
     void unHoldPTT();
@@ -105,11 +105,7 @@ private:
     /******************************************
      *           DETECT MODIFICATIONS         *
      ******************************************/
-
-        QVector<SoundWrapper *> savedSounds;
-        CustomShortcutEdit savedPTT;
-        CustomShortcutEdit savedStop;
-
+     QJsonObject oldObject;
     bool fileAlreadyExisted;
 
 

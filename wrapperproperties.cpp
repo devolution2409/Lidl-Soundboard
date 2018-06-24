@@ -37,7 +37,40 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _gLayout = new QGridLayout;
     // Add and delete
     _vLayout->addLayout(_gLayout);
-    _btnAdd = new QPushButton("Add");
+    _btnAdd = new QPushButton("Add local file");
+    _btnAddFromURL = new QPushButton("Add from URL");
+    // connecting to show the modal
+    connect(this->_btnAddFromURL, QPushButton::clicked, [=]{
+        bool ok;
+        QInputDialog dialog;
+        // -> this isn't workking somehow
+        //dialog.setMinimumSize(417,121);
+        QString urlString = dialog.getText(this, tr("Add sound from URL"),
+                                             tr("Enter complete file URL.\n"
+                                                "Supported protocols are http, https (and maybe, one day, ftp.")                                                , QLineEdit::Normal,
+                                             "https://pajlada.se/files/clr/AAAAAAAH.mp3", &ok);
+
+        if (ok && !urlString.isEmpty())
+        {
+            QUrl url(urlString);
+            qDebug() << "roegpjhgrep:" << url.scheme();
+            if ( url.scheme() != "http" && url.scheme() != "https") // && url.scheme() != "ftp" )
+            {
+                QMessageBox::critical(this, tr("LIDL Soundboard Entry Editor"),
+                                               tr("Specified URL is invalid !\n"
+                                                  "Did you forget protocol? OMGScoods"),
+                                               QMessageBox::Discard);
+
+            }
+            else
+                _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
+                                                                                                     static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                                     static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
+
+
+        }
+    });
+
     _btnDelete= new QPushButton("Delete");
     _btnDelete->setEnabled(false);
 
@@ -359,14 +392,15 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      *                                                     *
      *******************************************************/
     _gLayout->addWidget(_btnAdd,0,0,1,2);
-    _gLayout->addWidget(_btnDelete,0,2,1,2);
-    _gLayout->addWidget(_soundListHint,1,0,2,4);
-     _gLayout->addWidget(_sliderSpoiler,3,0,1,4 );
-     _gLayout->addWidget(_sfxSpoiler,4,0,3,4);
-    _gLayout->addWidget(_radioGroupBox,7,0,1,4);
-    _gLayout->addWidget(_shortcutGroup,8,0,1,4);
-    _gLayout->addWidget(_btnDone,9,0,1,3);
-    _gLayout->addWidget(_btnAbort,9,3,1,1);
+    _gLayout->addWidget(_btnAddFromURL,0,2,1,2);
+    _gLayout->addWidget(_btnDelete,0,4,1,2);
+    _gLayout->addWidget(_soundListHint,1,0,2,6);
+     _gLayout->addWidget(_sliderSpoiler,3,0,1,6 );
+     _gLayout->addWidget(_sfxSpoiler,4,0,3,6);
+    _gLayout->addWidget(_radioGroupBox,7,0,1,6);
+    _gLayout->addWidget(_shortcutGroup,8,0,1,6);
+    _gLayout->addWidget(_btnDone,9,0,1,4);
+    _gLayout->addWidget(_btnAbort,9,4,1,2);
 
     //_sfxTabWidget->setMinimumHeight(200);
 
@@ -447,12 +481,11 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
         for (auto &i: sound->getSoundList())
         {
             //qDebug() << "Sound volume:"  << i->getMainVolume() <<       i->getVacVolume() ;
-            _soundListDisplay->insertItem(_soundListDisplay->count(),new CustomListWidgetItem(i->fileName(),
+            _soundListDisplay->insertItem(_soundListDisplay->count(),new CustomListWidgetItem(i->url().toUtf8(),
                                                                                               i->getMainVolume(),
                                                                                               i->getVacVolume(),
                                                                                               i->getSFX()
                                                                                               ));
-
         }
         // Set the mode to the according one
         _playBackMode = sound->getPlayMode();
@@ -500,7 +533,7 @@ void WrapperProperties::AddSound()
     //if we already have more than one sound we set the mode to sequential (default)
 
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3 *.ogg *.flac)"));
     // if the fileName isn't empty, the user selected a file, so we add it.
     if (!fileName.isEmpty())
     {
@@ -520,7 +553,7 @@ void WrapperProperties::AddSound()
             }
         }
     }
-}
+} // adding of the URI scheme (file:/// will be dealt in CustomListWidgetItem
 void WrapperProperties::AddSoundFromDrop(QString file)
 {
     //if we already have more than one sound and playback mode was singleton
@@ -539,7 +572,9 @@ void WrapperProperties::AddSoundFromDrop(QString file)
     QString fileName = file;
         // if the fileName isn't empty, the user selected a file, so we add it.
         if (!fileName.isEmpty())
-            _soundListDisplay->insertItem(_soundListDisplay->count() ,new CustomListWidgetItem(fileName));
+            _soundListDisplay->insertItem(_soundListDisplay->count() ,new CustomListWidgetItem(fileName,
+                                                                         static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                         static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
 }
 
 

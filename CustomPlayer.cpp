@@ -145,6 +145,7 @@ void CustomPlayer::Stop()
 double CustomPlayer::PlayAt(int index)
 {
     double duration = -1;
+
     if (_mainOutputDevice != 0)
     {
 
@@ -156,8 +157,31 @@ double CustomPlayer::PlayAt(int index)
        // _mainChannel = BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE);
         //Playing the sound on main device
 
-        _mainChannel.append(BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE));
-        //BASS_ChannelSetDevice(_mainChannel,_mainOutputDevice);
+        // We check for scheme
+        // if it is a URL we use the StreamCreateURL
+        if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
+        {
+            _mainChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0,  BASS_STREAM_PRESCAN | BASS_STREAM_AUTOFREE,NULL,NULL  ));
+            if (duration == -1)
+                duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
+                                                            BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
+          duration += 1;
+        }
+        else// its a local file, we need to remove file/// because bass is OMEGAZULIDL
+        {
+            /* RemoveScheme just remove the "file" but not the following three /
+             *so we need to remove the first 3 char
+             * we also need to use unicode, so wide std string, to that c_str
+             * returns a wchar_t[] instead of char[] */
+            std::wstring wideString = _soundList.at(index)->url(QUrl::RemoveScheme).remove(0,3).toStdWString();
+            // need to use AT LEAST unicode for some lidl character like ♂ to work
+            _mainChannel.append(BASS_StreamCreateFile(false, wideString.c_str(), 0, 0, BASS_STREAM_AUTOFREE));
+        }
+
+        if (duration == -1)
+            duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
+                                                        BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
+        qDebug() << "duration:" << duration;
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
 
@@ -182,30 +206,44 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
-
-
-
-
-        //}
-
+        if (_PTTScanCode !=-1 )
+            emit holdPTT(static_cast<int>(duration*1000) );
         BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
-        //qDebug() << "Main Volume should be: " << _soundList.at(index)->getMainVolume();
-        duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
-                                                    BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
     }
     // same for VAC output, and we check the two outputs aren't the same
     if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
     {
         BASS_Init(_VACOutputDevice, 44100, 0, 0, nullptr);
-        _vacChannel.append(BASS_StreamCreateFile(false, _soundList.at(index)->fileName().toStdString().c_str() , 0, 0, BASS_STREAM_AUTOFREE));
-        BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
-        BASS_ChannelPlay(_vacChannel.last(),true);
+        // We check for scheme
+        // if it is a URL we use the StreamCreateURL
+        if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
+        {
+            _vacChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0, BASS_STREAM_AUTOFREE,NULL,NULL  ));
+            duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
+                                                        BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
+            duration += 1;
+        }
+        else// its a local file, we need to remove file/// because bass is OMEGAZULIDL
+        {
+            /* RemoveScheme just remove the "file" but not the following three /
+             *so we need to remove the first 3 char
+             * we also need to use unicode, so wide std string, to that c_str
+             * returns a wchar_t[] instead of char[] */
+            std::wstring wideString = _soundList.at(index)->url(QUrl::RemoveScheme).remove(0,3).toStdWString();
+            _vacChannel.append(BASS_StreamCreateFile(false, wideString.c_str(), 0, 0, BASS_STREAM_AUTOFREE));
+            if (duration == -1)
+                duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
+                                                        BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
+            BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
+        }
+        // prevent the get channel length call twice (cause i think this is sending a request to the http server)
+
+
         //qDebug() << "vac volume:" <<  _soundList.at(index)->getVacVolume();
         BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
         //qDebug() << "Is distortion enabled here" << _soundList.at(index)->getSFX().distortionEnabled;
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::DISTORTION )
         {
-           // qDebug() <<"WOLOLO";
             int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
             BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
             BASS_FXSetParameters(LUL, &wut );
@@ -217,22 +255,18 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
-
-       //qDebug() << "VAC Volume should be: " << _soundList.at(index)->getVacVolume();
-        duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
-                                                   BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
+        if (_PTTScanCode !=-1 )
+            emit holdPTT(static_cast<int>(duration*1000) );
+        BASS_ChannelPlay(_vacChannel.last(),true);
     }
 
     // We check if any of the outputs are valid, if they are, we hold the PTT key
     // if it's not empty (clearing it in the main ui will set both
     // VirtualKey and ScanCode to to -1
-    if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
-    {
-         // this is for cancer mode: we reset the timer, else it doesn't really matter since it's stopped
-        //_timerPTT->stop();
-        emit holdPTT(static_cast<int>(duration*1000) );
-        //_timerPTT->start(static_cast<int>(duration*1000) );
-    }
+    // we can call it twice since it will just set it to the largest one
+//    if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
+//        emit holdPTT(static_cast<int>(duration*1000) );
+
 
 
     return duration;

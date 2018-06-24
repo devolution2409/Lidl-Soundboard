@@ -47,6 +47,7 @@
 #include "CustomSoundFile.h"
 #include <QComboBox>
 #include <QScrollArea>
+#include <QInputDialog>
 
 class WrapperProperties : public QWidget
 {
@@ -70,6 +71,7 @@ private:
 
     // Buttons to add and delete
     QPushButton *_btnAdd;
+    QPushButton *_btnAddFromURL;
     QPushButton *_btnDelete;
     CustomListWidgetItem *_selectedItem;
 

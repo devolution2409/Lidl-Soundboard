@@ -3,7 +3,8 @@ QT += widgets \
       core \
       gui \
       multimedia \
-      autoupdatergui
+      autoupdatergui \
+      network
 SOURCES += \
     main.cpp \
     wrapperproperties.cpp \
@@ -20,9 +21,9 @@ SOURCES += \
     StyledDelegate.cpp \
     SettingsController.cpp \
     Spoiler.cpp \
-    framelesswindow.cpp \
-    windowdragger.cpp \
-    DarkStyle.cpp
+#    framelesswindow.cpp \
+#    windowdragger.cpp \
+#    DarkStyle.cpp
 
 
 HEADERS += \
@@ -42,9 +43,9 @@ HEADERS += \
     include/SettingsController.h \
     include/Spoiler.h \
     include/bitmask_operators.h \
-    include/framelesswindow.h \
-    include/windowdragger.h \
-    include/DarkStyle.h
+#    include/framelesswindow.h \
+#    include/windowdragger.h \
+#    include/DarkStyle.h
 
 
 
@@ -64,10 +65,11 @@ FORMS += \
 
 RESOURCES +=  \
     resources.qrc \
-    framelesswindow.qrc \
-    darkstyle.qrc
+#    framelesswindow.qrc \
+#    darkstyle.qrc
 
-VERSION = 1.4.0
+#deprecated because we use .rc file
+#VERSION = 1.4.0
 
 RC_FILE = lidlsoundboard.rc
 
@@ -77,8 +79,8 @@ TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
 QMAKE_CXXFLAGS += -static-libgcc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass  #-lbassmix
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass #-lbassmix
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass       #-lbassmix
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass -lbassflac   #-lbassmix
 else:unix: LIBS += -L$$PWD/lib/ -lbass
 
 INCLUDEPATH += $$PWD/include

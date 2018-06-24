@@ -339,17 +339,9 @@ std::deque<QFileInfo> SettingsController::GetRecentFiles()
 
 // We save the state here and than we can use it to be compared when
 // we need to know if soundboard was modified
-void SettingsController::SaveState(QVector<SoundWrapper *> sounds, CustomShortcutEdit * pttEdit, CustomShortcutEdit * stopEdit)
+void SettingsController::SaveState(QJsonObject object)
 {
-    savedSounds = sounds;
-    // QKeySequence are copy disabled so we need to do it by hand forsenT
-    savedPTT.setKeySequence(    pttEdit->keySequence()        );
-    savedPTT.setScanCode( pttEdit->getScanCode()       );
-    savedPTT.setVirtualKey(pttEdit->getVirtualKey() );
-
-    savedStop.setKeySequence(stopEdit->keySequence());
-    savedStop.setScanCode(stopEdit->getScanCode()  );
-    savedStop.setVirtualKey(stopEdit->getVirtualKey());
+    this->oldObject = object;
 }
 
 bool SettingsController::IsThisFirstTimeUser()
@@ -357,29 +349,9 @@ bool SettingsController::IsThisFirstTimeUser()
     return !(this->fileAlreadyExisted);
 }
 
-bool SettingsController::SaveIsDifferentFrom( QVector<SoundWrapper*> sounds, CustomShortcutEdit* pttEdit, CustomShortcutEdit* stopEdit  )
+bool SettingsController::SaveIsDifferentFrom( QJsonObject newObject )
 {
-    //    comparing ptt
-    if (    (pttEdit->keySequence()   != this->savedPTT.keySequence()) ||
-            (pttEdit->getScanCode()   != this->savedPTT.getScanCode()) ||
-            (pttEdit->getVirtualKey() != this->savedPTT.getVirtualKey()))
-        return true;
-    // comparing stop
-    if (    (stopEdit->keySequence()   != this->savedStop.keySequence()) ||
-            (stopEdit->getScanCode()   != this->savedStop.getScanCode()) ||
-            (stopEdit->getVirtualKey() != this->savedStop.getVirtualKey()))
-        return true;
-    // comparing size of Qvectors
-    if (sounds.size() != this->savedSounds.size())
-        return true;
-
-    else  // comparing wrappers using overloaded operator==
-        for (int i = 0; i < savedSounds.size(); ++i)
-            // need to call the operator== while dereferencing the pointers forsenE
-            if ( *(savedSounds.at(i)) != *(sounds.at(i)))
-                return true;
-
-   return false;
+    return  !(this->oldObject == newObject);
 }
 
 

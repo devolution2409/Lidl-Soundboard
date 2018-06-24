@@ -6,11 +6,14 @@
 #include <QDebug>
 #include "lib/bass.h"
 #include "EnumsAndStructs.h"
-#include <QMap>
+#include <QFileInfo>
+#include <QUrl>
+#include <QTcpSocket>
+#include <QSslSocket>
 namespace LIDL {
 
 
-class SoundFile : public QFile
+class SoundFile : public QUrl
 {
 public:
     SoundFile();
@@ -23,6 +26,7 @@ public:
     // HYPERDANSGAME
     bool IsEqualTo(const LIDL::SoundFile &other) const;
     LIDL::SFX getSFX() const;
+    bool exists() const;
 
 private:
     float _mainVolume;

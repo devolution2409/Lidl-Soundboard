@@ -3,13 +3,13 @@ namespace LIDL {
 
 
 
-SoundFile::SoundFile() : QFile()
+SoundFile::SoundFile() : QUrl()
 {
 
 }
 
 
-SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume) : 	QFile(name)
+SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume) : 	QUrl(name)
 {
     _mainVolume = mainVolume;
     _vacVolume  = vacVolume;
@@ -30,6 +30,70 @@ float SoundFile::getVacVolume() const
     return _vacVolume;
 }
 
+bool SoundFile::exists() const
+{
+//    qDebug() << "scheme for this url:" << this->scheme();
+//    qDebug() << "url: " << this->url().toUtf8();
+    if (this->scheme() == "file")
+    {
+        QFileInfo info(this->toLocalFile());
+        if (info.exists())
+                return true;
+        return false;
+    }
+    else if (this->scheme() == "http")
+    {
+        qDebug() << "YOLO";
+        QTcpSocket socket;
+        socket.connectToHost(this->host() , 80);
+        if (socket.waitForConnected())
+        {
+            qDebug() << "wutfpoezrjfopez";
+            socket.write("HEAD " + this->path().toUtf8() + " HTTP/1.1\r\n"
+            "Host: " + this->host().toUtf8() + "\r\n"
+            "\r\n");
+            if (socket.waitForReadyRead())
+            {
+                QByteArray bytes = socket.readAll();
+                qDebug() << "zulululul";
+                if (bytes.contains("200 OK"))
+                    return true;
+                qDebug() << "SIKE! that's the wrok numba";
+            }
+        }
+        return false;
+    }
+    else if (this->scheme() == "https")
+    {
+        // https is 443, and we need a SSL socket instead of a reguler TCP socket
+        // (SSLsocket is derived from tcp socket)
+        qDebug() << "YOLO2";
+        QSslSocket socket;
+        socket.connectToHostEncrypted(this->host() , 443);
+        if (socket.waitForConnected())
+        {
+
+            qDebug() << "wutfpoezrjfopez";
+            socket.write("HEAD " + this->path().toUtf8() + " HTTP/1.1\r\n"
+            "Host: " + this->host().toUtf8() + "\r\n"
+            "\r\n");
+            if (socket.waitForReadyRead())
+            {
+                QByteArray bytes = socket.readAll();                
+                //qDebug() << "bytes:" << bytes;
+//"HTTP/1.1 200 OK\r\nServer: Cowboy\r\nDate: Sun, 24 Jun 2018 09:44:06 GMT\r\nConnection: keep-alive\r\nLast-Modified: Fri, 20 Oct 2017 09:55:06 GMT\r\nContent-Type: application/ogg\r\nContent-Length: 48506\r\nVia: 1.1 vegur\r\n\r\n"
+                if (bytes.contains("200 OK"))
+                    return true;
+            }
+        }
+        return false;
+    }
+    else if (this->scheme() == "ftp")
+    {
+        // and ANOTHER ONE (port)
+    }
+    return false;
+}
 
 //bool SoundFile::IsEqualTo(const LIDL::SoundFile &other) const
 //{

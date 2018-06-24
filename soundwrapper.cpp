@@ -124,19 +124,20 @@ LIDL::Playback SoundWrapper::getPlayMode()
 
 QString SoundWrapper::getSoundListAsQString()
 {
-    QFileInfo fileInfo;
     QString tmpString;
     // auto &i instead of auto i because the array contains pointers
+    // we created exists method in LIDL::SoundFile and it will
+    // check for http and https files existing on remote server aswell smiley face
     for (auto &i: _soundList)
     {
-        fileInfo.setFile(*i);
+
         // if the file doesn't exist we put a warning sign
-        if (!fileInfo.exists())
+        if ( !(i->exists()))
         {
             tmpString.append("⚠️");
             emit UnexistantFile();
         }
-        tmpString.append(fileInfo.fileName());
+        tmpString.append(i->fileName());
         tmpString.append("\n");
 
     }

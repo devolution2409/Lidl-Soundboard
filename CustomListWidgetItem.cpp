@@ -18,10 +18,11 @@ void CustomListWidgetItem::setVacVolume(float newVacVolume)
     _vacVolume  = newVacVolume;
 }
 
-
+//! This constructor will attempt to deduct a valid
+//! URI scheme from the string. If it is local it will prepend file:///
 CustomListWidgetItem::CustomListWidgetItem(const QString & text,float mainVolume,
                                            float vacVolume,QListWidget * parent, int type)
-    : QListWidgetItem(text,parent,type)
+    : QListWidgetItem(QUrl::fromUserInput(text).toString(),parent,type)
 {
     _mainVolume = mainVolume;
     _vacVolume  = vacVolume;

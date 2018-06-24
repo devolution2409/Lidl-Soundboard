@@ -167,7 +167,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       this->statusBar()->show();
       this->statusBar()->setMaximumHeight(20);
       this->statusBar()->setStyleSheet( "background: #727272; border: 1px solid black" );
-      this->statusBar()->setSizeGripEnabled(true);
+      this->statusBar()->setSizeGripEnabled(false);
       this->statusBar()->addPermanentWidget(_statusEdit,1);
       connect(this->statusBar(),SIGNAL(messageChanged(QString)),this,SLOT(SetStatusTextEditText(QString)));
       /***************************************************
@@ -200,7 +200,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       // the window isn't existing when the AddSound method attempts to resize columns
 
       this->setMinimumSize(400,600);
-      this->setMaximumSize(9999999999999999,9999999999999);
+      this->setMaximumSize(16777215,16777215);
       this->show();
       /***************************************************
                    CONNECTING TO OPEN SOUNDBOARD
@@ -216,13 +216,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                 Qt::QueuedConnection
                   );
       connect(this,
-              SoundboardMainUI::SaveSoundboardSate,
+              SoundboardMainUI::SaveSoundboardState,
               [=]
                 {
 
-                    LIDL::SettingsController::GetInstance()->SaveState(this->_sounds,
-                                                                       this->_shortcutEditPTT,
-                                                                       this->_shortcutEditStop);
+                    LIDL::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
                 });
       connect(LIDL::SettingsController::GetInstance(),
               LIDL::SettingsController::SettingsChanged,
@@ -253,7 +251,10 @@ void SoundboardMainUI::PostConstruction()
     {
         if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
         {
-            this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());
+            _model->clear();
+            _model->setHorizontalHeaderLabels( (QStringList() << "LOADING LAST OPENED SOUNDBOARD") );
+
+            QTimer::singleShot(1, [=]{   this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
         }
         else // show firt use dialog
             this->ClearAll();
@@ -900,7 +901,7 @@ void SoundboardMainUI::setUpMenu()
             [=]{
                     // Saving Soundboard state in the SettingsController object
                     this->ClearAll();
-                    //emit SaveSoundboardSate();
+                    //emit SaveSoundboardState();
                     this->SetStatusTextEditText(QString("Creating new empty soundboard"));
                 });
 
@@ -928,7 +929,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     // save the settings forsenE
     LIDL::SettingsController::GetInstance()->SaveSettings();
     // Compare saved soundboard state with the one we have now
-    if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( this->_sounds,this->_shortcutEditPTT,this->_shortcutEditStop))
+    if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( * this->GenerateSaveFile()))
     {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "LIDL Soundboard: Changes Detected",
@@ -1338,7 +1339,7 @@ void SoundboardMainUI::Open(QString fileName)
                     /***************************************************
                                    CREATING THE WRAPPERS
                     ****************************************************/
-                    qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
+//                    qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
 
                     this->addSound(new SoundWrapper(fileArray,
                                                       playbackmode,
@@ -1353,8 +1354,8 @@ void SoundboardMainUI::Open(QString fileName)
         } // end if json contains wrapper
          //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
         // Saving Soundboard state in the SettingsController object
-        qDebug() << "Keys here: " << _shortcutEditStop->getText() << "vk:" << _shortcutEditStop->getVirtualKey();
-        emit SaveSoundboardSate();
+        //qDebug() << "Keys here: " << _shortcutEditStop->getText() << "vk:" << _shortcutEditStop->getVirtualKey();
+        emit SaveSoundboardState();
     }//endif file was opened
 }
 
@@ -1490,7 +1491,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
 //               }
 
              properties.insert("SFX",soundEffects);
-             soundCollection.insert(  j->fileName(), properties);
+             soundCollection.insert(  j->url(), properties);
 
          }
 
@@ -1529,7 +1530,7 @@ void SoundboardMainUI::Save()
             out << jsonString.toUtf8();
             file.close();
             // Saving Soundboard state in the SettingsController object
-            emit SaveSoundboardSate();
+            emit SaveSoundboardState();
             this->SetStatusTextEditText("Succesfully saved file: " + _saveName);
         }
 
@@ -1571,7 +1572,7 @@ QString fileName  = QFileDialog::getSaveFileName(this,
         emit lidlJsonDetected(QFileInfo(file));
         file.close();
         // Saving Soundboard state in the SettingsController object
-        emit SaveSoundboardSate();
+        emit SaveSoundboardState();
         this->SetStatusTextEditText("Succesfully saved file: " + fileName);
     }
 }
@@ -2145,7 +2146,7 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
         QTimer::singleShot(1500, [=]
         {
             // if snapshot now is different from stored one
-            if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( this->_sounds,this->_shortcutEditPTT,this->_shortcutEditStop))
+            if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom(*(this->GenerateSaveFile())))
             {
                 if (_saveName.isEmpty() || _saveName.size() == 0)
                     _statusEdit->setText("Soundboard file not saved.");

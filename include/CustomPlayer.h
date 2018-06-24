@@ -10,6 +10,8 @@
 //#include <QMediaService>
 //#include <QAudioOutputSelectorControl>
 #include "lib/bass.h"
+// flac and OGG vorbis support
+#include "lib/bassflac.h"
 #include <QTimer>
 #include <QKeySequence>
 //#include "Utility.h"
@@ -34,6 +36,7 @@ typedef DWORD HFX;			// DX8 effect handle
 typedef DWORD HPLUGIN;		// Plugin handle
 */
 #include "CustomSoundFile.h"
+
 //#include "SettingsController.h"
 
 class CustomPlayer : public QObject

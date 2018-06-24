@@ -7,6 +7,7 @@
 #include <QDebug>
 #include "EnumsAndStructs.h"
 #include "lib/bass.h"
+#include <QUrl>
 class CustomListWidgetItem : public QListWidgetItem
 {
 
