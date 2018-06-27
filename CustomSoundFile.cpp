@@ -43,22 +43,18 @@ bool SoundFile::exists() const
     }
     else if (this->scheme() == "http")
     {
-        qDebug() << "YOLO";
         QTcpSocket socket;
         socket.connectToHost(this->host() , 80);
         if (socket.waitForConnected())
         {
-            qDebug() << "wutfpoezrjfopez";
             socket.write("HEAD " + this->path().toUtf8() + " HTTP/1.1\r\n"
             "Host: " + this->host().toUtf8() + "\r\n"
             "\r\n");
             if (socket.waitForReadyRead())
             {
                 QByteArray bytes = socket.readAll();
-                qDebug() << "zulululul";
                 if (bytes.contains("200 OK"))
                     return true;
-                qDebug() << "SIKE! that's the wrok numba";
             }
         }
         return false;
@@ -67,7 +63,6 @@ bool SoundFile::exists() const
     {
         // https is 443, and we need a SSL socket instead of a reguler TCP socket
         // (SSLsocket is derived from tcp socket)
-        qDebug() << "YOLO2";
         QSslSocket socket;
         socket.connectToHostEncrypted(this->host() , 443);
         if (socket.waitForConnected())
@@ -79,9 +74,7 @@ bool SoundFile::exists() const
             "\r\n");
             if (socket.waitForReadyRead())
             {
-                QByteArray bytes = socket.readAll();                
-                //qDebug() << "bytes:" << bytes;
-//"HTTP/1.1 200 OK\r\nServer: Cowboy\r\nDate: Sun, 24 Jun 2018 09:44:06 GMT\r\nConnection: keep-alive\r\nLast-Modified: Fri, 20 Oct 2017 09:55:06 GMT\r\nContent-Type: application/ogg\r\nContent-Length: 48506\r\nVia: 1.1 vegur\r\n\r\n"
+                QByteArray bytes = socket.readAll();
                 if (bytes.contains("200 OK"))
                     return true;
             }

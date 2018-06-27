@@ -48,7 +48,11 @@
 #include <QComboBox>
 #include <QScrollArea>
 #include <QInputDialog>
-
+//#include <QMimeData>
+//#include <QMimeDatabase>
+#include <QTcpSocket>
+#include <QSslSocket>
+#include <QRegExp>
 class WrapperProperties : public QWidget
 {
     Q_OBJECT

@@ -71,8 +71,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.5.0
-#define VER_STRING "1.5.0"
+#define VER 1.6.0
+#define VER_STRING "1.6.0"
 
 //#include "QSimpleUpdater.h"
 #include <QMainWindow>
@@ -205,7 +205,7 @@ private:
     void HelpShowFirstUserDialog();
 
     bool _updateScheduled;
-    QWidget * _guideOverlay;
+   // QWidget * _guideOverlay;
     QWidget * _guideWidget;
     Ui::Guide *_guideUI;
     // refresh UI view

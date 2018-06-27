@@ -45,15 +45,18 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
         QInputDialog dialog;
         // -> this isn't workking somehow
         //dialog.setMinimumSize(417,121);
-        QString urlString = dialog.getText(this, tr("Add sound from URL"),
-                                             tr("Enter complete file URL.\n"
-                                                "Supported protocols are http, https (and maybe, one day, ftp.")                                                , QLineEdit::Normal,
-                                             "https://pajlada.se/files/clr/AAAAAAAH.mp3", &ok);
+        QString urlString = dialog.getText(this,
+                                      tr("Add sound from URL"),
+                                      tr("Enter complete file URL.\n"
+                                      "Supported protocols are http, https (and maybe, one day, ftp."),
+                                      QLineEdit::Normal,
+                                      "https://pajlada.se/files/clr/AAAAAAAH.mp3", &ok);
 
         if (ok && !urlString.isEmpty())
         {
             QUrl url(urlString);
-            qDebug() << "roegpjhgrep:" << url.scheme();
+            qDebug() << "url.scheme():" << url.scheme();
+            // If the scheme wasn't provided we abort
             if ( url.scheme() != "http" && url.scheme() != "https") // && url.scheme() != "ftp" )
             {
                 QMessageBox::critical(this, tr("LIDL Soundboard Entry Editor"),
@@ -61,9 +64,64 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
                                                   "Did you forget protocol? OMGScoods"),
                                                QMessageBox::Discard);
 
+                return;
             }
-            else
-                _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
+            else if (url.scheme() == "https")
+            {
+                //https://pajlada.se/files/clr/2018-05-28/howstrong.ogg
+                QSslSocket socket;
+                socket.connectToHostEncrypted(url.host() , 443);
+                if (socket.waitForConnected())
+                {
+                    socket.write("HEAD " + url.path().toUtf8() + " HTTP/1.1\r\n"
+                    "Host: " + url.host().toUtf8() + "\r\n"
+                    "\r\n");
+                    if (socket.waitForReadyRead())
+                    {
+                        QByteArray bytes = socket.readAll();
+                        qDebug() << "Answer:" << bytes;
+                        if (bytes.contains("200 OK"))
+                        {
+                            QString answer(bytes);
+                            if (answer.contains("Content-Type"))
+                            {
+                                QStringList supportedMimes;
+                                supportedMimes << "audio/wav"   << "audio/xwav" // wav
+                                           << "audio/mpeg3" << "audio/x-mpeg-3" <<"audio/mpeg" //mp3
+                                           << "audio/ogg"  //ogg
+                                           << "audio/flac"; // flac
+                                /* https://shugo.developpez.com/tutoriels/regexqt/
+                                 * \w is any letter/number or _, + is "once or more"
+                                 * slash needs to be escaped
+                                 * so audio/ will search for audio/
+                                 * [\\w]+ search for any number of char or _
+                                 * we need to allow -anycharacter-anychar etc and
+                                 * ()* means 0 or any number of times
+                                 * QString test = "audio/x-mpeg-3-forsen-is-foobar";
+                                 */
+
+
+                                QRegExp reg("audio/[\\w]+(-{,1}[\\w]{,10})*");
+                                // comparing the string against the QRegExp
+                                answer.contains(reg);
+                                //qDebug() << reg.cap(0);
+                                // reg.cap(0) should now contain the MIME type (if its audio)
+                                if (supportedMimes.contains(reg.cap(0)))
+                                {
+
+
+                                }
+                                else // meme type not supported forsenD
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //else // we coo? cmonBruh
+            _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
                                                                                                      static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
                                                                                                      static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
 

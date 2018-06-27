@@ -74,7 +74,6 @@ RESOURCES +=  \
 RC_FILE = lidlsoundboard.rc
 
 
-
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
 QMAKE_CXXFLAGS += -static-libgcc

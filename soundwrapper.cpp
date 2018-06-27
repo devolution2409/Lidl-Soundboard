@@ -17,7 +17,6 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainVolume, int vacVolume,int mainOutput, int vacOutput,QObject * parent)
     : SoundWrapper::SoundWrapper(parent)
 {
-    qDebug() << "forsen1" << mainVolume << vacVolume;
     // Adding sound to the QVector<QFile*>
     for (auto i: fileList)
         this->addSound(i,static_cast<float>(mainVolume/100.0),static_cast<float>(vacVolume/100.0));
@@ -32,10 +31,9 @@ SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode
 //II: Constructor to be used in the add sound window
 // not used anymore
 SoundWrapper::SoundWrapper(CustomListWidget *soundList, LIDL::Playback playbackMode, QKeySequence * shortcut, int virtualKey, QObject * parent)
-    :SoundWrapper::SoundWrapper(parent)
+    : SoundWrapper::SoundWrapper(parent)
 {
     _virtualKey  = virtualKey;
-    qDebug() << "ZULULWARRIOR";
     for(int row = 0; row < soundList->count(); row++)
     {
              // get a pointer on the list item and fetches its text
@@ -60,8 +58,7 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
                            int mainOutput, int vacOutput, QObject *parent)
             : SoundWrapper(parent)
 {
-    qDebug() << "WAKANDA FOR EVAH";
-
+    //qDebug() << "WAKANDA FOR EVAH";
     this->_soundList = fileList;
     this->_playMode = playbackMode;
     this->setKeySequence(shortcut);
@@ -130,7 +127,6 @@ QString SoundWrapper::getSoundListAsQString()
     // check for http and https files existing on remote server aswell smiley face
     for (auto &i: _soundList)
     {
-
         // if the file doesn't exist we put a warning sign
         if ( !(i->exists()))
         {
@@ -139,11 +135,10 @@ QString SoundWrapper::getSoundListAsQString()
         }
         tmpString.append(i->fileName());
         tmpString.append("\n");
-
     }
     // we remove the last \n
     // not needed since the model won't show it forsenKek
-     tmpString.remove(tmpString.length()-1,1);
+    tmpString.remove(tmpString.length()-1,1);
     return tmpString;
 }
 
@@ -155,22 +150,13 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     QList<QStandardItem*> tempItem;
     //qDebug()<< modifiedSound->getKeySequence().toString();
     tempItem.append(new QStandardItem(this->getSoundListAsQString()));
-//    tempItem.append(   new QStandardItem());
-//    for (auto &i: _soundList)
-//    {
-//        QFileInfo fileInfo;
-//        QString tmpString;
-//        fileInfo.setFile(*i);
-//        // if the file doesn't exist we put a warning sign
-//        if (!fileInfo.exists())
-//        {
-//            tmpString.append("⚠️");
-//            tmpString.append(fileInfo.fileName());
-//            emit UnexistantFile();
-//        }
-//        qDebug() << "oihio0";
-//        tempItem.at(0)->appendRow(new QStandardItem("test"));
-//    }
+    // if we have remote files
+    int remoteFiles = 0;
+    for (auto &i: this->_soundList)
+        if ( i->scheme() =="http" || i->scheme() =="https" || i->scheme() =="ftp")
+            remoteFiles++;
+
+    tempItem.append(new QStandardItem(QString::number(remoteFiles) ));
     // Iterates over SFX
     int flags = 0;
     for (auto &i: _soundList)
@@ -202,6 +188,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
                  tempString.append("\n");
                 break;
             }
+// !: <- my cat did this
 
         }
         tempString.remove( tempString.length() -1 ,1);

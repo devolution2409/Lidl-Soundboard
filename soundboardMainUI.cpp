@@ -435,17 +435,19 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     this->refreshView();
 }
 
+// Sort of delegate. Re-implemented here cause i don't know how the fuck
+// to do it in the delegate.
 void SoundboardMainUI::refreshView()
 {
     // re-fetching data
     // data will always contain all the data available
     // [0]: Song names
-    // [1]: SFXs
-    // [2]: Shortcut niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii g_v
-    // [3]: Playback
+    // [1]: Number of remote sound files
+    // [2]: SFXs
+    // [3]: Shortcut
+    // [4]: Playback
     // DATA of the model:
     // QVector<QList< QStandardItem* >> _data;
-
 
     _displayedData.clear();
     for (auto i: _data)
@@ -529,7 +531,7 @@ void SoundboardMainUI::refreshView()
         // If we do not want SFX to be shown we remove the entry from the list
         // i.e. if the flag isn't set:
         if (! LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
-            item.removeAt(1);
+            item.removeAt(2);
         /* Else: we deal with multiline SFX. Which will always be the case if we have more than 1 sound
          * This else won't be called if the SFX are set to none for all the sounds in a collection
          * Because the QStringList doesn't contain \n */
@@ -571,11 +573,12 @@ void SoundboardMainUI::refreshView()
 
     // Setting headers
     QStringList tempZulul;
-    tempZulul << "Sound Collections";
+    tempZulul << tr("Sound Collections");
+    tempZulul << tr("Remotes");
     if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
-        tempZulul << "SFX";
+        tempZulul << tr("SFX");
 
-    tempZulul  << "Shortcut" << "Mode";
+    tempZulul  << tr("Shortcut") << tr("Mode");
    // qDebug() << tempZulul;
 
     _model->setHorizontalHeaderLabels(tempZulul);
@@ -596,12 +599,9 @@ void SoundboardMainUI::refreshView()
     // We resize the SFX row if it exists
     if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
     {
-        resultView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+      //  resultView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
         resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
     }
-    // We might as well resize the Shortcut and Playback mode
-    resultView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
-    resultView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::ResizeToContents);
 
     // Centering SFX and playback mode
     // OMEGALUL NE LINERS
@@ -609,6 +609,10 @@ void SoundboardMainUI::refreshView()
         for (int j = 0; j == i.size(); j++)
             if (j!=0 && j !=2)
                 static_cast<QStandardItem*>(i.at(j))->setTextAlignment(Qt::AlignCenter);
+    for (long i = 1; i < resultView->horizontalHeader()->count(); ++i)
+    {
+        resultView->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
+    }
 }
 
 // Dealing with click on a row: update index
@@ -1065,11 +1069,6 @@ void SoundboardMainUI::ClearAll()
     ****************************************************/
     _model->clear();
     //resultView->setWordWrap(false);
-    _model->setHorizontalHeaderLabels(
-        (QStringList() << "Sound Collections"
-                       << "SFX"
-                       << "Shortcut"
-                       << "Mode"));
 
     /***************************************************
                           DATA
@@ -1084,6 +1083,8 @@ void SoundboardMainUI::ClearAll()
     this->_deviceListOutput->setCurrentIndex(0);
     this->_deviceListVAC->setCurrentIndex(0);
     this->_saveName.clear();
+
+    this->refreshView();
 }
 
 // Open slot
@@ -1671,12 +1672,12 @@ void SoundboardMainUI::HelpGuide()
                        ));
         helpText.append(tr("<h1>Sound wrapper list</h1><br>"
                        "Each line represent a wrapper, you can see:<br>"
-                       "Which sounds it contains on the first column<br>"
-                       "The shortcut it is assigned to<br> "
-                       "The playback mode<br>"
-                       "The list of sound effects assigned to each sound in the wrapper"
-                       ""
-                       ""));
+                       "Which sounds it contains on the first column.<br>"
+                       "The number of remote files contained in the wrapper.<br>"
+                       "The shortcut it is assigned to.<br> "
+                       "The playback mode.<br>"
+                       "The list of sound effects assigned to each sound in the wrapper."
+                       ));
 
         helpText.append(tr(	"<h1>Adding sounds</h1><br>"
                                                 "Opens the LIDL Soundboard Entry Editor, allowing you to add sound files to the sound collection. <br>"
@@ -1895,9 +1896,9 @@ void SoundboardMainUI::HelpGuide()
 void SoundboardMainUI::resizeEvent ( QResizeEvent * event )
 {
     // if the widget exists
-    if (_guideOverlay != nullptr)
-        _guideOverlay->resize(this->width()-_guideWidget->width(),this->height() - this->statusBar()->height());
-       this->resultView->resizeRowsToContents();
+    //if (_guideOverlay != nullptr)
+    //    _guideOverlay->resize(this->width()-_guideWidget->width(),this->height() - this->statusBar()->height());
+    this->resultView->resizeRowsToContents();
     this->refreshView();
     event->accept();
 
