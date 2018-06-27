@@ -2,12 +2,12 @@
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
-//    QFile css_dark(":/css/resources/darkorange.css");
-//    css_dark.open(QFile::ReadOnly);
-//    this->setStyleSheet(css_dark.readAll());
-//    this->menuBar()->setStyle(QStyleFactory::create("plastique"));
-//    css_dark.close();
- //   this->setWindowFlag( Qt::FramelessWindowHint);
+    //    QFile css_dark(":/css/resources/darkorange.css");
+    //    css_dark.open(QFile::ReadOnly);
+    //    this->setStyleSheet(css_dark.readAll());
+    //    this->menuBar()->setStyle(QStyleFactory::create("plastique"));
+    //    css_dark.close();
+    //   this->setWindowFlag( Qt::FramelessWindowHint);
     this->resize(400,600);
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
@@ -18,7 +18,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     this->setUpMenu();
     _updateScheduled = false;
     // Setting up the layouts
-   // vLayout = new QVBoxLayout();
+    // vLayout = new QVBoxLayout();
     // not need since adding a parent in the constructor set layout by itself
     //  _nameEdit = new QLineEdit(this);
 
@@ -40,9 +40,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     //Adding the headers
     // Headers will be set by the ClearAll() method which is called regardless
 
-   // Also works
-   // _model->setHeaderData(0,Qt::Horizontal, QString("Sound File"));
-   // _model->setHeaderData(1,Qt::Horizontal, tr("Shortcut"));
+    // Also works
+    // _model->setHeaderData(0,Qt::Horizontal, QString("Sound File"));
+    // _model->setHeaderData(1,Qt::Horizontal, tr("Shortcut"));
 
 
     //Creating the Viewer
@@ -57,189 +57,189 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _gLayout->setColumnStretch(0,100);
     //QStandardItem item;
     // Adding the viewer to the layout
-//     vLayout->addWidget(resultView);
-//     vLayout->addLayout(_gLayout);
+    //     vLayout->addWidget(resultView);
+    //     vLayout->addLayout(_gLayout);
 
     // Set up the QTableView to fill the layout
-     resultView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    resultView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     // Set up the column of said QTableView to stretch evenly
-     resultView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-     resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    resultView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
 
-     resultView->show();
+    resultView->show();
 
 
 
-     //Creating buttons
-     _btnAdd = new QPushButton("Add",this);
-     _btnDelete = new QPushButton("Delete",this);
-     _btnEdit = new QPushButton("Edit",this);
-     _btnPlay = new QPushButton("Play",this);
-     _btnStop = new QPushButton("Stop All",this);
+    //Creating buttons
+    _btnAdd = new QPushButton("Add",this);
+    _btnDelete = new QPushButton("Delete",this);
+    _btnEdit = new QPushButton("Edit",this);
+    _btnPlay = new QPushButton("Play",this);
+    _btnStop = new QPushButton("Stop All",this);
 
-      // Disabling the edit and delete button so that the soundboard doesn't crash
-      // if no items are selected
-      this->_btnDelete->setEnabled(false);
-      this->_btnEdit->setEnabled(false);
+    // Disabling the edit and delete button so that the soundboard doesn't crash
+    // if no items are selected
+    this->_btnDelete->setEnabled(false);
+    this->_btnEdit->setEnabled(false);
 
-      // Adding them to grid layout
-      _gLayout->addWidget(_btnAdd,1,0,1,1);
-      _gLayout->addWidget(_btnDelete,1,1,1,1);
-      _gLayout->addWidget(_btnEdit,1,2,1,1);
-      _gLayout->addWidget(_btnPlay,1,4,1,1);
-      _gLayout->addWidget(_btnStop,1,5,1,1);
+    // Adding them to grid layout
+    _gLayout->addWidget(_btnAdd,1,0,1,1);
+    _gLayout->addWidget(_btnDelete,1,1,1,1);
+    _gLayout->addWidget(_btnEdit,1,2,1,1);
+    _gLayout->addWidget(_btnPlay,1,4,1,1);
+    _gLayout->addWidget(_btnStop,1,5,1,1);
 
-      // Adding label to vlayout
-      _label1 = new QLabel("1st Output (e.g. your speakers)",this);
-      _gLayout->addWidget(_label1,2,0,1,6);
+    // Adding label to vlayout
+    _label1 = new QLabel("1st Output (e.g. your speakers)",this);
+    _gLayout->addWidget(_label1,2,0,1,6);
 
-      // Adding output list
-      _deviceListOutput = new QComboBox(this);
-      _gLayout->addWidget(_deviceListOutput,3,0,1,6 );
-      // Second label
-      _label2 = new QLabel("Virtual Audio Cable output (optional)",this);
-      _gLayout->addWidget(_label2,4,0,1,6);
+    // Adding output list
+    _deviceListOutput = new QComboBox(this);
+    _gLayout->addWidget(_deviceListOutput,3,0,1,6 );
+    // Second label
+    _label2 = new QLabel("Virtual Audio Cable output (optional)",this);
+    _gLayout->addWidget(_label2,4,0,1,6);
 
-      // Combo box to select VAC
-      _deviceListVAC = new QComboBox(this);
-      _gLayout->addWidget(_deviceListVAC,5,0,1,6);
+    // Combo box to select VAC
+    _deviceListVAC = new QComboBox(this);
+    _gLayout->addWidget(_deviceListVAC,5,0,1,6);
 
-      /***************************************************
+    /***************************************************
                         MIC INJECTION SECTION
       ****************************************************/
-      _label3 = new QLabel("Setup microphone injection (optional)",this);
-      _gLayout->addWidget(_label3,6,0,1,6);
-      //_deviceListInjector = new QComboBox(this);
-      _btnMicInjection = new QPushButton("Open sound configuration",this);
-      _gLayout->addWidget(_btnMicInjection,7,0,1,6);
+    _label3 = new QLabel("Setup microphone injection (optional)",this);
+    _gLayout->addWidget(_label3,6,0,1,6);
+    //_deviceListInjector = new QComboBox(this);
+    _btnMicInjection = new QPushButton("Open sound configuration",this);
+    _gLayout->addWidget(_btnMicInjection,7,0,1,6);
 
-       connect(this->_btnMicInjection,SIGNAL(clicked()),this,SLOT(openAudioSettings()));
+    connect(this->_btnMicInjection,SIGNAL(clicked()),this,SLOT(openAudioSettings()));
 
-         // _gLayout->addWidget(_deviceListInjector,6,0,1,6);
+    // _gLayout->addWidget(_deviceListInjector,6,0,1,6);
 
-      // Fetching the devices
-      this->fetchDeviceList(_deviceListOutput,QAudio::AudioOutput);
-      this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
-  //    this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
+    // Fetching the devices
+    this->fetchDeviceList(_deviceListOutput,QAudio::AudioOutput);
+    this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
+    //    this->fetchDeviceList(_deviceListInjector,QAudio::AudioInput);
 
-      /***************************************************
+    /***************************************************
                             PTT BIND
       ****************************************************/
-      _label4 = new QLabel("Push to talk key to auto-hold:");
-      _shortcutEditPTT = new CustomShortcutEdit();
-      _btnClearPTT = new QPushButton("Clear");
+    _label4 = new QLabel("Push to talk key to auto-hold:");
+    _shortcutEditPTT = new CustomShortcutEdit();
+    _btnClearPTT = new QPushButton("Clear");
 
-      _gLayout->addWidget(_label4,8,0,1,3);
-      _gLayout->addWidget(_shortcutEditPTT,8,4,1,1);
-      _gLayout->addWidget(_btnClearPTT,8,5,1,1);
+    _gLayout->addWidget(_label4,8,0,1,3);
+    _gLayout->addWidget(_shortcutEditPTT,8,4,1,1);
+    _gLayout->addWidget(_btnClearPTT,8,5,1,1);
 
-      connect(this->_btnClearPTT,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
-      /***************************************************
+    connect(this->_btnClearPTT,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
+    /***************************************************
                          STOP SOUND BIND
       ****************************************************/
-      _label5 = new QLabel("Stop ALL sound shortcut:");
-      _shortcutEditStop= new CustomShortcutEdit();
-      _btnClearStop = new QPushButton("Clear");
+    _label5 = new QLabel("Stop ALL sound shortcut:");
+    _shortcutEditStop= new CustomShortcutEdit();
+    _btnClearStop = new QPushButton("Clear");
 
-      _gLayout->addWidget(_label5,9,0,1,3);
-      _gLayout->addWidget(_shortcutEditStop,9,4,1,1);
-      _gLayout->addWidget(_btnClearStop,9,5,1,1);
+    _gLayout->addWidget(_label5,9,0,1,3);
+    _gLayout->addWidget(_shortcutEditStop,9,4,1,1);
+    _gLayout->addWidget(_btnClearStop,9,5,1,1);
 
-      connect(this->_btnClearStop,SIGNAL(clicked()),this,SLOT(resetStopAllEdit()));
-      connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
-      // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
+    connect(this->_btnClearStop,SIGNAL(clicked()),this,SLOT(resetStopAllEdit()));
+    connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
+    // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
-      /***************************************************
+    /***************************************************
                          STATUS BAR
       ****************************************************/
 
-      _statusEdit = new QTextEdit();
-      _statusEdit->setMaximumHeight(20);
-      _statusEdit->setAcceptDrops(false);
-      _statusEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-      _statusEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-      _statusEdit->setLineWrapMode(QTextEdit::NoWrap);
-      _statusEdit->setReadOnly(true);
-      _statusEdit->setCursorWidth(0);
-      _statusEdit->setEnabled(false);
-      _statusEdit->setStyleSheet("border: none; color: #b1b1b1;");
+    _statusEdit = new QTextEdit();
+    _statusEdit->setMaximumHeight(20);
+    _statusEdit->setAcceptDrops(false);
+    _statusEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _statusEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _statusEdit->setLineWrapMode(QTextEdit::NoWrap);
+    _statusEdit->setReadOnly(true);
+    _statusEdit->setCursorWidth(0);
+    _statusEdit->setEnabled(false);
+    _statusEdit->setStyleSheet("border: none; color: #b1b1b1;");
 
-      this->statusBar()->show();
-      this->statusBar()->setMaximumHeight(20);
-      this->statusBar()->setStyleSheet( "background: #727272; border: 1px solid black" );
-      this->statusBar()->setSizeGripEnabled(false);
-      this->statusBar()->addPermanentWidget(_statusEdit,1);
-      connect(this->statusBar(),SIGNAL(messageChanged(QString)),this,SLOT(SetStatusTextEditText(QString)));
-      /***************************************************
+    this->statusBar()->show();
+    this->statusBar()->setMaximumHeight(20);
+    this->statusBar()->setStyleSheet( "background: #727272; border: 1px solid black" );
+    this->statusBar()->setSizeGripEnabled(false);
+    this->statusBar()->addPermanentWidget(_statusEdit,1);
+    connect(this->statusBar(),SIGNAL(messageChanged(QString)),this,SLOT(SetStatusTextEditText(QString)));
+    /***************************************************
                TODO: PUT IN RELEVANT SECTION forsenT
       ****************************************************/
-      connect(this->_btnAdd, SIGNAL(clicked()), this, SLOT(addSoundDialog()));
-      connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
-      connect(this->resultView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(onCellDoubleClicked(QModelIndex)));
+    connect(this->_btnAdd, SIGNAL(clicked()), this, SLOT(addSoundDialog()));
+    connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
+    connect(this->resultView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(onCellDoubleClicked(QModelIndex)));
 
-      connect(this->_btnEdit, SIGNAL(clicked()), this, SLOT(editSoundDialog()));
-      connect(this->_btnDelete, SIGNAL(clicked()), this, SLOT(deleteSound()));
+    connect(this->_btnEdit, SIGNAL(clicked()), this, SLOT(editSoundDialog()));
+    connect(this->_btnDelete, SIGNAL(clicked()), this, SLOT(deleteSound()));
 
 
-      connect(this->resultView,SIGNAL(enableButtons()),this,SLOT(enableButtons()));
-      connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
+    connect(this->resultView,SIGNAL(enableButtons()),this,SLOT(enableButtons()));
+    connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
 
-      // Declaring savename empty string so save doesn't work forsenE
-      this->_saveName = "";
+    // Declaring savename empty string so save doesn't work forsenE
+    this->_saveName = "";
 
-      /* Calling OpenSetting will created the instance of the SettingsController we can after wards access it everywhere.
+    /* Calling OpenSetting will created the instance of the SettingsController we can after wards access it everywhere.
        * If the settings file was found, this function will return true
        * => we can automatically open last opened file */
 
-      // Ensure LIDL::SettingsController exist so we can connect it
-      if (LIDL::SettingsController::GetInstance() != nullptr)
-          connect(this,&SoundboardMainUI::lidlJsonDetected,
-                  LIDL::SettingsController::GetInstance(),&LIDL::SettingsController::addFile);
+    // Ensure LIDL::SettingsController exist so we can connect it
+    if (LIDL::SettingsController::GetInstance() != nullptr)
+        connect(this,&SoundboardMainUI::lidlJsonDetected,
+                LIDL::SettingsController::GetInstance(),&LIDL::SettingsController::addFile);
 
-      // We are required to do this trick else
-      // the window isn't existing when the AddSound method attempts to resize columns
+    // We are required to do this trick else
+    // the window isn't existing when the AddSound method attempts to resize columns
 
-      this->setMinimumSize(400,600);
-      this->setMaximumSize(16777215,16777215);
-      this->show();
-      /***************************************************
+    this->setMinimumSize(400,600);
+    this->setMaximumSize(16777215,16777215);
+    this->show();
+    /***************************************************
                    CONNECTING TO OPEN SOUNDBOARD
       ****************************************************/
-      // QueudConnection so that it doesn't fucks up the view
-      connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
+    // QueudConnection so that it doesn't fucks up the view
+    connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
 
 
-      connect(LIDL::SettingsController::GetInstance(),
-              LIDL::SettingsController::RecentFilesChanged,
-              this,
-              SoundboardMainUI::SetUpRecentMenu,
-                Qt::QueuedConnection
-                  );
-      connect(this,
-              SoundboardMainUI::SaveSoundboardState,
-              [=]
-                {
+    connect(LIDL::SettingsController::GetInstance(),
+            LIDL::SettingsController::RecentFilesChanged,
+            this,
+            SoundboardMainUI::SetUpRecentMenu,
+            Qt::QueuedConnection
+            );
+    connect(this,
+            SoundboardMainUI::SaveSoundboardState,
+            [=]
+    {
 
-                    LIDL::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
-                });
-      connect(LIDL::SettingsController::GetInstance(),
-              LIDL::SettingsController::SettingsChanged,
-              this, SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
+        LIDL::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
+    });
+    connect(LIDL::SettingsController::GetInstance(),
+            LIDL::SettingsController::SettingsChanged,
+            this, SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
 
-      // connected modified soundboard with a lambda to call the savestate function
-      // that way we can know if soundboard was modified or not Pog
+    // connected modified soundboard with a lambda to call the savestate function
+    // that way we can know if soundboard was modified or not Pog
 
-      emit OnConstructionDone();
+    emit OnConstructionDone();
 
 
-      /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
-      connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
-              LIDL::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
+    /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
+    connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
+            LIDL::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
 
-      connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
-              LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
-      connect(this->_btnStop,QPushButton::clicked, [=]{
-          LIDL::SettingsController::GetInstance()->unHoldPTT();});
+    connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
+            LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
+    connect(this->_btnStop,QPushButton::clicked, [=]{
+        LIDL::SettingsController::GetInstance()->unHoldPTT();});
 
 
 }
@@ -270,26 +270,26 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
     // Adding null device
     comboBox->addItem("<No device selected>",Qt::DisplayRole);
 
-//    for (auto &deviceInfo: QAudioDeviceInfo::availableDevices(mode))
-//        comboBox->addItem(deviceInfo.deviceName(),Qt::DisplayRole);
-   // Modifying this so it is the same order as BASS library
+    //    for (auto &deviceInfo: QAudioDeviceInfo::availableDevices(mode))
+    //        comboBox->addItem(deviceInfo.deviceName(),Qt::DisplayRole);
+    // Modifying this so it is the same order as BASS library
     //http://www.un4seen.com/doc/#bass/BASS_GetDeviceInfo.html
-  //device 0 is always the "no sound" device, so you should start at device 1 if you only want to list real output devices.
+    //device 0 is always the "no sound" device, so you should start at device 1 if you only want to list real output devices.
 
-   if (mode == QAudio::AudioOutput)
-   {
+    if (mode == QAudio::AudioOutput)
+    {
         BASS_DEVICEINFO info;
         for (long i=1; BASS_GetDeviceInfo(i, &info); i++)
             if (info.flags&BASS_DEVICE_ENABLED) // device is enabled
                 comboBox->addItem(info.name, Qt::DisplayRole);
-   }
-   else if (mode == QAudio::AudioInput)
-   {
+    }
+    else if (mode == QAudio::AudioInput)
+    {
         BASS_DEVICEINFO info;
         for (int n=0; BASS_RecordGetDeviceInfo(n, &info); n++)
             comboBox->addItem(info.name, Qt::DisplayRole);
 
-   }
+    }
 
 }
 // The dialogue to be opened when the Add button is pressed
@@ -333,7 +333,7 @@ void SoundboardMainUI::deleteSound()
         this->_winShorcutHandle.removeAt(lastSelectedRow);
         this->_keySequence.removeAt(lastSelectedRow);
         this->_keyVirtualKey.removeAt(lastSelectedRow);
-       // qDebug() << "sounds size:" << _sounds.size() << "shortcut size" << _winShorcutHandle.size();
+        // qDebug() << "sounds size:" << _sounds.size() << "shortcut size" << _winShorcutHandle.size();
 
 
         // Regenerate shortcuts so that it doesn't go OOB when trying to play a non-existing handle
@@ -379,7 +379,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
     connect(modifiedSound, SoundWrapper::holdPTTProxy, [=] (int duration){
-            LIDL::SettingsController::GetInstance()->holdPTT(duration);
+        LIDL::SettingsController::GetInstance()->holdPTT(duration);
     } );
 
     QList<QStandardItem*> tempList;
@@ -430,7 +430,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     // we resize
     this->resultView->resizeRowsToContents();
     this->resultView->clearSelection();
-   // this->resultView->setWordWrap(false);
+    // this->resultView->setWordWrap(false);
     //this->resultView->setTextElideMode(Qt::ElideLeft);
     this->refreshView();
 }
@@ -462,8 +462,8 @@ void SoundboardMainUI::refreshView()
         // Editing the text so that it warps "properly"
         QFontMetrics fm = resultView->fontMetrics();
         int width = fm.width(item.at(0)->text());
-//        qDebug() << "Size of text is: " << width;
-//        qDebug() << "Size of area is:" << resultView->columnWidth(0);
+        //        qDebug() << "Size of text is: " << width;
+        //        qDebug() << "Size of area is:" << resultView->columnWidth(0);
         // if the text is too big for the view, we wrap it or we only show the number depending
         // on the option provided
         if (width > resultView->columnWidth(0))
@@ -579,7 +579,7 @@ void SoundboardMainUI::refreshView()
         tempZulul << tr("SFX");
 
     tempZulul  << tr("Shortcut") << tr("Mode");
-   // qDebug() << tempZulul;
+    // qDebug() << tempZulul;
 
     _model->setHorizontalHeaderLabels(tempZulul);
     for (auto i: _displayedData )
@@ -599,7 +599,7 @@ void SoundboardMainUI::refreshView()
     // We resize the SFX row if it exists
     if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
     {
-      //  resultView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
+        //  resultView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
         resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
     }
 
@@ -636,14 +636,14 @@ void SoundboardMainUI::onCellClicked(QModelIndex index)
 void SoundboardMainUI::onCellDoubleClicked( QModelIndex index)
 {
 
-   // but we update it regardless
+    // but we update it regardless
     disconnect(_btnPlay,0,0,0);
     lastSelectedRow = index.row();
     this->_btnEdit->setEnabled(true);
     this->_btnDelete->setEnabled(true);
     this->_btnPlay->setEnabled(true);
     if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
-    connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+        connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
     // And we call the edit sound dialog
     this->editSoundDialog();
 }
@@ -658,14 +658,14 @@ void SoundboardMainUI::editSoundDialog()
     {
         //Send infos about all the devices and the push to talk key to hold
         // and the sound wrapper
-       _propertiesWindow= new WrapperProperties(
-                   this->_deviceListOutput->currentIndex(),
-                   this->_deviceListVAC->currentIndex(),
-                   this->_shortcutEditPTT->getScanCode(),
-                   this->_shortcutEditPTT->getVirtualKey(),
-                   this->_sounds.at(this->lastSelectedRow)  ,
-                   this);
-       _propertiesWindow->show();
+        _propertiesWindow= new WrapperProperties(
+                    this->_deviceListOutput->currentIndex(),
+                    this->_deviceListVAC->currentIndex(),
+                    this->_shortcutEditPTT->getScanCode(),
+                    this->_shortcutEditPTT->getVirtualKey(),
+                    this->_sounds.at(this->lastSelectedRow)  ,
+                    this);
+        _propertiesWindow->show();
     }
     // Connection of the done button to mainUI slots is dealt in the contructor
     // to account for edit or add mode
@@ -701,7 +701,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
     }
     //need to UNREGISTER ALL hotkeys and rebind them
     //https://msdn.microsoft.com/fr-fr/library/windows/desktop/ms646327(v=vs.85).aspx
-   // qDebug() << "Unregistering all hotkeys";
+    // qDebug() << "Unregistering all hotkeys";
     for (auto i: _winShorcutHandle)
         UnregisterHotKey(NULL,i);
 
@@ -716,7 +716,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
         {
             // since alt and ctrl CANNOT be binded alone
             // first argument will either be a modifier (Ctrl, alt) or the key
-        //    qDebug() << i.toString();
+            //    qDebug() << i.toString();
 
             // Looking for the flags and setting no repeat as default. to check for spamming sound forsenT
             int tempFlags = 0;//
@@ -730,13 +730,13 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
                 else if (j=="Shift")
                     tempFlags = tempFlags | MOD_SHIFT;
             }
-       //   qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
+            //   qDebug() << "Attempting to register the shortcut:" <<i.toString() ;
 
             // Testing the new stuff
 
-           RegisterHotKey(NULL, count,tempFlags, _keyVirtualKey.at(count) );
-       //     qDebug() << "Registering hotkey handle number:" << count;
-       //     qDebug() << _sounds.at(0)->getSoundListAsQString();
+            RegisterHotKey(NULL, count,tempFlags, _keyVirtualKey.at(count) );
+            //     qDebug() << "Registering hotkey handle number:" << count;
+            //     qDebug() << _sounds.at(0)->getSoundListAsQString();
         }
         count++;
     }
@@ -750,7 +750,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 // Method to run the sound via hotkeys
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
-     qDebug() << "Pressed hotkey handle: " << handle;
+    qDebug() << "Pressed hotkey handle: " << handle;
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
@@ -759,7 +759,7 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
         for (auto &i: _sounds)
             i->Stop();
     }
-        // else this a sound hotkey handle
+    // else this a sound hotkey handle
     // We check if the soundwrapper at this location has one file else it will play nullptr and crash
     else if ( ! _sounds.at(handle)->getSoundList().isEmpty() )
         _sounds.at(handle)->Play();
@@ -821,7 +821,7 @@ void SoundboardMainUI::setUpMenu()
     helpMenu->addAction(_actions.at(6));
     helpMenu->addAction(_actions.at(10));
     helpMenu->addSeparator();
-   // helpMenu->addAction(_actions.at(7));
+    // helpMenu->addAction(_actions.at(7));
     helpMenu->addAction(_actions.at(8));
     helpMenu->addSeparator();
     helpMenu->addAction(_actions.at(9));
@@ -888,8 +888,8 @@ void SoundboardMainUI::setUpMenu()
     /***************************************************
                             ?
     ****************************************************/
-//    _actions.append(new QAction("?",this));
-//    menuBar->addAction(_actions.at(15));
+    //    _actions.append(new QAction("?",this));
+    //    menuBar->addAction(_actions.at(15));
 
 
     /***************************************************
@@ -900,21 +900,21 @@ void SoundboardMainUI::setUpMenu()
     // New action will call save soundboard state aswell, however we only want
     // to call it if it is done through the new button to avoid calling it two times when
     // opening a soundboard weSmart
-  //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
+    //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
     connect(this->_actions.at(0),QAction::triggered,
             [=]{
-                    // Saving Soundboard state in the SettingsController object
-                    this->ClearAll();
-                    //emit SaveSoundboardState();
-                    this->SetStatusTextEditText(QString("Creating new empty soundboard"));
-                });
+        // Saving Soundboard state in the SettingsController object
+        this->ClearAll();
+        //emit SaveSoundboardState();
+        this->SetStatusTextEditText(QString("Creating new empty soundboard"));
+    });
 
 
     connect(this->_actions.at(5),SIGNAL(triggered()),this,SLOT(close()));
     connect(this->_actions.at(2),SIGNAL(triggered()),this,SLOT(OpenEXPSounboard()));
     connect(this->_actions.at(3),SIGNAL(triggered()),this,SLOT(Save()));
     connect(this->_actions.at(6),SIGNAL(triggered()),this,SLOT(HelpGuide()));
-   // connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
+    // connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
     connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
     connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
     connect(this->_actions.at(10), QAction::triggered, this, SoundboardMainUI::HelpShowFirstUserDialog);
@@ -938,16 +938,16 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "LIDL Soundboard: Changes Detected",
                                       "Do you wish to save changes before quitting?",
-                                        QMessageBox::Yes|QMessageBox::No | QMessageBox::Cancel);
+                                      QMessageBox::Yes|QMessageBox::No | QMessageBox::Cancel);
         switch (reply){
-          case QMessageBox::Yes: this->Save(); break;
+        case QMessageBox::Yes: this->Save(); break;
 
-          case QMessageBox::No : break;
+        case QMessageBox::No : break;
 
-          default:
+        default:
             event->ignore();
             return;
-          break;
+            break;
         }
 
     }
@@ -959,15 +959,15 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
     if (_updateScheduled)
     {
-    #ifdef QT_DEBUG
+#ifdef QT_DEBUG
         QProcess::startDetached("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe",QStringList("--updater"));
         qDebug() << "path is set to Program Files SDK";
-    #endif
-    #ifndef QT_DEBUG
-         QString path = qApp->applicationDirPath();
-         path.append("/SDKMaintenanceTool.exe");
-         bool success = QProcess::startDetached(path,QStringList("--updater"));
-    #endif
+#endif
+#ifndef QT_DEBUG
+        QString path = qApp->applicationDirPath();
+        path.append("/SDKMaintenanceTool.exe");
+        bool success = QProcess::startDetached(path,QStringList("--updater"));
+#endif
     }
     // send message to stop the listening loop L OMEGALUL OMEGALUL P
     PostQuitMessage(0);
@@ -1126,7 +1126,7 @@ void SoundboardMainUI::Open(QString fileName)
         file.close();
         QJsonObject json = cdOMEGALUL.object();
 
-      //  QVector<SoundWrapper*> sounds;
+        //  QVector<SoundWrapper*> sounds;
         // if it has a setting block we read it
         if (json.contains("Settings"))
         {
@@ -1134,7 +1134,7 @@ void SoundboardMainUI::Open(QString fileName)
             if (settings.contains("Main Output Device"))
                 mainOutputDevice = settings.value("Main Output Device").toString();
             if (settings.contains("VAC Output Device"))
-                 vacOutputDevice = settings.value("VAC Output Device").toString();
+                vacOutputDevice = settings.value("VAC Output Device").toString();
             if (settings.contains("Push To Talk Key"))
             {
                 QJsonObject settingsPTT = settings.value("Push To Talk Key").toObject();
@@ -1219,7 +1219,7 @@ void SoundboardMainUI::Open(QString fileName)
                     playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
                     //qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
                 }
-                    // Shortcut info
+                // Shortcut info
                 if (item.contains("Shortcut"))
                 {
                     QJsonObject shortcut = item.value("Shortcut").toObject();
@@ -1240,77 +1240,77 @@ void SoundboardMainUI::Open(QString fileName)
 
                         for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); it++)
                         {
-                                QString fileName = it.key();
-                                float mainVolume = 1.0;
-                                float vacVolume = 1.0;
-                                QJsonObject settings = it.value().toObject();
-                                if (settings.contains("Main Volume"))
-                                        mainVolume = static_cast<float>(settings.value("Main Volume").toInt()/100.0);
-                                if (settings.contains("VAC Volume"))
-                                        vacVolume  = static_cast<float>(settings.value("VAC Volume").toInt()/100.0);
-                                // SFX
-                                LIDL::SFX sfx;
+                            QString fileName = it.key();
+                            float mainVolume = 1.0;
+                            float vacVolume = 1.0;
+                            QJsonObject settings = it.value().toObject();
+                            if (settings.contains("Main Volume"))
+                                mainVolume = static_cast<float>(settings.value("Main Volume").toInt()/100.0);
+                            if (settings.contains("VAC Volume"))
+                                vacVolume  = static_cast<float>(settings.value("VAC Volume").toInt()/100.0);
+                            // SFX
+                            LIDL::SFX sfx;
 
-                                if (settings.contains("SFX Flags"))
-                                    sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
+                            if (settings.contains("SFX Flags"))
+                                sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
 
-                                if (settings.contains("SFX"))
+                            if (settings.contains("SFX"))
+                            {
+                                QJsonObject sfx_obj =  settings.value("SFX").toObject();
+                                if (sfx_obj.contains("Distortion"))
                                 {
-                                    QJsonObject sfx_obj =  settings.value("SFX").toObject();
-                                    if (sfx_obj.contains("Distortion"))
+                                    QJsonObject distObj = sfx_obj.value("Distortion").toObject();
+                                    for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();l++)
                                     {
-                                       QJsonObject distObj = sfx_obj.value("Distortion").toObject();
-                                        for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();l++)
-                                        {
-                                            if (l.key() == "Cutoff")
-                                                sfx.distortion.fPreLowpassCutoff = static_cast<float>(l.value().toInt());
-                                            if (l.key() =="EQBandwidth")
-                                                sfx.distortion.fPostEQBandwidth = static_cast<float>(l.value().toInt());
-                                            if (l.key() =="EQCenterFrequency")
-                                                sfx.distortion.fPostEQCenterFrequency = static_cast<float>(l.value().toInt());
-                                            if (l.key() =="Edge")
-                                                sfx.distortion.fEdge = static_cast<float>(l.value().toInt());
-                                            if (l.key() =="Gain")
-                                                sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
-                                        }
-                                    }
-                                    if (sfx_obj.contains("Chorus"))
-                                    {
-                                        QJsonObject chorusObj = sfx_obj.value("Chorus").toObject();
-                                        for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();l++)
-                                        {
-                                            if (l.key() == "Delay")
-                                                sfx.chorus.fDelay = static_cast<float>(l.value().toInt());
-                                            if (l.key() == "Depth")
-                                                sfx.chorus.fDepth = static_cast<float>(l.value().toInt());
-                                            if (l.key() == "Feedback")
-                                                sfx.chorus.fFeedback = static_cast<float>(l.value().toInt());
-                                            if (l.key() == "Frequency")
-                                                sfx.chorus.fFrequency = static_cast<float>(l.value().toInt());
-                                            if (l.key() == "WetDryMix")
-                                                sfx.chorus.fWetDryMix = static_cast<float>(l.value().toInt());
-                                            if (l.key() == "Phase")
-                                                sfx.chorus.lPhase = static_cast<int>(l.value().toInt());
-                                            if (l.key() == "Waveform")
-                                                sfx.chorus.lWaveform =  static_cast<int>(l.value().toInt());
-                                        }
-
+                                        if (l.key() == "Cutoff")
+                                            sfx.distortion.fPreLowpassCutoff = static_cast<float>(l.value().toInt());
+                                        if (l.key() =="EQBandwidth")
+                                            sfx.distortion.fPostEQBandwidth = static_cast<float>(l.value().toInt());
+                                        if (l.key() =="EQCenterFrequency")
+                                            sfx.distortion.fPostEQCenterFrequency = static_cast<float>(l.value().toInt());
+                                        if (l.key() =="Edge")
+                                            sfx.distortion.fEdge = static_cast<float>(l.value().toInt());
+                                        if (l.key() =="Gain")
+                                            sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
                                     }
                                 }
-                                else
+                                if (sfx_obj.contains("Chorus"))
                                 {
-                                    // set default values here
-                                    //sfx.distortionEnabled = false;
-                                    sfx.distortion.fGain =  -18;
-                                    sfx.distortion.fEdge = 15;
-                                    sfx.distortion.fPostEQCenterFrequency = 2400;
-                                    sfx.distortion.fPostEQBandwidth = 2400;
-                                    sfx.distortion.fPreLowpassCutoff = 8000;
+                                    QJsonObject chorusObj = sfx_obj.value("Chorus").toObject();
+                                    for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();l++)
+                                    {
+                                        if (l.key() == "Delay")
+                                            sfx.chorus.fDelay = static_cast<float>(l.value().toInt());
+                                        if (l.key() == "Depth")
+                                            sfx.chorus.fDepth = static_cast<float>(l.value().toInt());
+                                        if (l.key() == "Feedback")
+                                            sfx.chorus.fFeedback = static_cast<float>(l.value().toInt());
+                                        if (l.key() == "Frequency")
+                                            sfx.chorus.fFrequency = static_cast<float>(l.value().toInt());
+                                        if (l.key() == "WetDryMix")
+                                            sfx.chorus.fWetDryMix = static_cast<float>(l.value().toInt());
+                                        if (l.key() == "Phase")
+                                            sfx.chorus.lPhase = static_cast<int>(l.value().toInt());
+                                        if (l.key() == "Waveform")
+                                            sfx.chorus.lWaveform =  static_cast<int>(l.value().toInt());
+                                    }
 
                                 }
-                                fileArray.append(new LIDL::SoundFile(fileName,
-                                                                     mainVolume,
-                                                                vacVolume,sfx));
+                            }
+                            else
+                            {
+                                // set default values here
+                                //sfx.distortionEnabled = false;
+                                sfx.distortion.fGain =  -18;
+                                sfx.distortion.fEdge = 15;
+                                sfx.distortion.fPostEQCenterFrequency = 2400;
+                                sfx.distortion.fPostEQBandwidth = 2400;
+                                sfx.distortion.fPreLowpassCutoff = 8000;
+
+                            }
+                            fileArray.append(new LIDL::SoundFile(fileName,
+                                                                 mainVolume,
+                                                                 vacVolume,sfx));
 
                         }
                     }
@@ -1329,31 +1329,31 @@ void SoundboardMainUI::Open(QString fileName)
 
 
                 }
-//                    qDebug() << "Wrapper: \n\tPlayback Mode:" << playbackmode
-//                             << "\n\tShortcut String:" << shortcutString
-//                             << "\n\tVirtualKey:"      << shortcutVirtualKey
-//                             << "\n\tSoundlist:";
-//                    for (auto j: fileArray)
-//                        qDebug() << j;
+                //                    qDebug() << "Wrapper: \n\tPlayback Mode:" << playbackmode
+                //                             << "\n\tShortcut String:" << shortcutString
+                //                             << "\n\tVirtualKey:"      << shortcutVirtualKey
+                //                             << "\n\tSoundlist:";
+                //                    for (auto j: fileArray)
+                //                        qDebug() << j;
 
 
-                    /***************************************************
+                /***************************************************
                                    CREATING THE WRAPPERS
                     ****************************************************/
-//                    qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
+                //                    qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
 
-                    this->addSound(new SoundWrapper(fileArray,
-                                                      playbackmode,
-                                                      QKeySequence(shortcutString),
-                                                      shortcutVirtualKey,
-                                                      indexMainOutputDevice,
-                                                      indexVACOutputDevice,
-                                                      nullptr));
+                this->addSound(new SoundWrapper(fileArray,
+                                                playbackmode,
+                                                QKeySequence(shortcutString),
+                                                shortcutVirtualKey,
+                                                indexMainOutputDevice,
+                                                indexVACOutputDevice,
+                                                nullptr));
 
 
-                } // end for auto wrapper
+            } // end for auto wrapper
         } // end if json contains wrapper
-         //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
+        //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
         // Saving Soundboard state in the SettingsController object
         //qDebug() << "Keys here: " << _shortcutEditStop->getText() << "vk:" << _shortcutEditStop->getVirtualKey();
         emit SaveSoundboardState();
@@ -1413,94 +1413,94 @@ void SoundboardMainUI::OpenEXPSounboard()
 // This function will generate the save file used by the save and SaveAs slots
 QJsonObject * SoundboardMainUI::GenerateSaveFile()
 {
-     // creating the new JSon object
-     QJsonObject * save = new QJsonObject();
+    // creating the new JSon object
+    QJsonObject * save = new QJsonObject();
 
-     // Storing settings
-     QJsonObject  settings;
-     settings.insert("Main Output Device", this->_deviceListOutput->currentText());
-     settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
-     settings.insert("Show Flags", static_cast<int>(LIDL::SettingsController::GetInstance()->getShowFlags()));
+    // Storing settings
+    QJsonObject  settings;
+    settings.insert("Main Output Device", this->_deviceListOutput->currentText());
+    settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
+    settings.insert("Show Flags", static_cast<int>(LIDL::SettingsController::GetInstance()->getShowFlags()));
 
 
-     QJsonObject pttKey;
-     pttKey.insert("Key Name",this->_shortcutEditPTT->getText());
-     pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
-     pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
-     settings.insert("Push To Talk Key",pttKey);
+    QJsonObject pttKey;
+    pttKey.insert("Key Name",this->_shortcutEditPTT->getText());
+    pttKey.insert("VirtualKey" ,this->_shortcutEditPTT->getVirtualKey());
+    pttKey.insert("ScanCode"   ,this->_shortcutEditPTT->getScanCode());
+    settings.insert("Push To Talk Key",pttKey);
 
-     QJsonObject stopSoundKey;
-     stopSoundKey.insert("Key Name",this->_shortcutEditStop->getText());
-     stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
-     settings.insert("Stop Sound Key",stopSoundKey);
+    QJsonObject stopSoundKey;
+    stopSoundKey.insert("Key Name",this->_shortcutEditStop->getText());
+    stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
+    settings.insert("Stop Sound Key",stopSoundKey);
 
-     save->insert("Settings",settings);
+    save->insert("Settings",settings);
 
-     QJsonArray sounds;
-     for (auto &i: _sounds)
-     {
-         // creating temp sound collection
-         QJsonObject tempSound;
-         tempSound.insert("Playback Mode",static_cast<int>(i->getPlayMode()));
-         // qDebug() << i->getPlayMode();
-         QJsonObject key;
-         key.insert("Key",i->getKeySequence().toString());
-         key.insert("VirtualKey", i->getShortcutVirtualKey());
-         tempSound.insert("Shortcut",key);
-         // The sound collection
-         QJsonObject soundCollection;
-         // Declaring temps sound collection object
-         QVector<LIDL::SoundFile*> soundList = i->getSoundList();
-         for (auto &j: soundList)
-         {
-             QJsonObject properties;
-             properties.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
-             properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
-             properties.insert("SFX Flags", static_cast<int>(j->getSFX().flags));
-             QJsonObject soundEffects;
+    QJsonArray sounds;
+    for (auto &i: _sounds)
+    {
+        // creating temp sound collection
+        QJsonObject tempSound;
+        tempSound.insert("Playback Mode",static_cast<int>(i->getPlayMode()));
+        // qDebug() << i->getPlayMode();
+        QJsonObject key;
+        key.insert("Key",i->getKeySequence().toString());
+        key.insert("VirtualKey", i->getShortcutVirtualKey());
+        tempSound.insert("Shortcut",key);
+        // The sound collection
+        QJsonObject soundCollection;
+        // Declaring temps sound collection object
+        QVector<LIDL::SoundFile*> soundList = i->getSoundList();
+        for (auto &j: soundList)
+        {
+            QJsonObject properties;
+            properties.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
+            properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
+            properties.insert("SFX Flags", static_cast<int>(j->getSFX().flags));
+            QJsonObject soundEffects;
 
-//             if (j->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
-//             {
-                QJsonObject distortion;
-                BASS_DX8_DISTORTION tempDist;
-                // check for trash values
-                tempDist.fGain = static_cast<int>(j->getSFX().distortion.fGain);
-                tempDist.fEdge = static_cast<int>(j->getSFX().distortion.fEdge);
-                tempDist.fPostEQCenterFrequency =static_cast<int>(j->getSFX().distortion.fPostEQCenterFrequency);
+            //             if (j->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
+            //             {
+            QJsonObject distortion;
+            BASS_DX8_DISTORTION tempDist;
+            // check for trash values
+            tempDist.fGain = static_cast<int>(j->getSFX().distortion.fGain);
+            tempDist.fEdge = static_cast<int>(j->getSFX().distortion.fEdge);
+            tempDist.fPostEQCenterFrequency =static_cast<int>(j->getSFX().distortion.fPostEQCenterFrequency);
 
-                tempDist.fPostEQBandwidth = static_cast<int>(j->getSFX().distortion.fPostEQBandwidth);
-                tempDist.fPreLowpassCutoff = static_cast<int>(j->getSFX().distortion.fPreLowpassCutoff);
+            tempDist.fPostEQBandwidth = static_cast<int>(j->getSFX().distortion.fPostEQBandwidth);
+            tempDist.fPreLowpassCutoff = static_cast<int>(j->getSFX().distortion.fPreLowpassCutoff);
 
-                 distortion.insert("Gain", tempDist.fGain     );
-                 distortion.insert("Edge",tempDist.fEdge);
-                 distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
-                 distortion.insert("EQBandwidth",tempDist.fPostEQBandwidth);
-                 distortion.insert("Cutoff",tempDist.fPreLowpassCutoff);
-                 soundEffects.insert("Distortion",distortion);
-//               }
-//               if (j->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
-//               {
-                   QJsonObject chorus;
-                   chorus.insert("Delay",static_cast<int>(j->getSFX().chorus.fDelay));
-                   chorus.insert("Depth",static_cast<int>(j->getSFX().chorus.fDepth));
-                   chorus.insert("Feedback",static_cast<int>(j->getSFX().chorus.fFeedback));
-                   chorus.insert("Frequency",static_cast<int>(j->getSFX().chorus.fFrequency));
-                   chorus.insert("WetDryMix",static_cast<int>(j->getSFX().chorus.fWetDryMix));
-                   chorus.insert("Phase",static_cast<int>(j->getSFX().chorus.lPhase));
-                   chorus.insert("Waveform",static_cast<int>(j->getSFX().chorus.lWaveform));
-                   soundEffects.insert("Chorus",chorus);
-//               }
+            distortion.insert("Gain", tempDist.fGain     );
+            distortion.insert("Edge",tempDist.fEdge);
+            distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
+            distortion.insert("EQBandwidth",tempDist.fPostEQBandwidth);
+            distortion.insert("Cutoff",tempDist.fPreLowpassCutoff);
+            soundEffects.insert("Distortion",distortion);
+            //               }
+            //               if (j->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
+            //               {
+            QJsonObject chorus;
+            chorus.insert("Delay",static_cast<int>(j->getSFX().chorus.fDelay));
+            chorus.insert("Depth",static_cast<int>(j->getSFX().chorus.fDepth));
+            chorus.insert("Feedback",static_cast<int>(j->getSFX().chorus.fFeedback));
+            chorus.insert("Frequency",static_cast<int>(j->getSFX().chorus.fFrequency));
+            chorus.insert("WetDryMix",static_cast<int>(j->getSFX().chorus.fWetDryMix));
+            chorus.insert("Phase",static_cast<int>(j->getSFX().chorus.lPhase));
+            chorus.insert("Waveform",static_cast<int>(j->getSFX().chorus.lWaveform));
+            soundEffects.insert("Chorus",chorus);
+            //               }
 
-             properties.insert("SFX",soundEffects);
-             soundCollection.insert(  j->url(), properties);
+            properties.insert("SFX",soundEffects);
+            soundCollection.insert(  j->url(), properties);
 
-         }
+        }
 
         tempSound.insert("Sound Collection",soundCollection);
         sounds.append(tempSound);
-     }
-     save->insert("SoundWrappers",sounds);
-     return save;
+    }
+    save->insert("SoundWrappers",sounds);
+    return save;
 }
 
 // Save
@@ -1541,18 +1541,18 @@ void SoundboardMainUI::Save()
 // Save as
 void SoundboardMainUI::SaveAs()
 {
-/*QFileDialog::getSaveFileName(QWidget *parent = Q_NULLPTR,
+    /*QFileDialog::getSaveFileName(QWidget *parent = Q_NULLPTR,
                                 const QString &caption = QString(),
                                 const QString &dir = QString(),
                                 const QString &filter = QString(),
                                 QString *selectedFilter = Q_NULLPTR,
                                  Options options = Options())
 */
-QString fileName  = QFileDialog::getSaveFileName(this,
-                                                 tr("Save Soundboard As.."),
-                                                 LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
-                                                 tr("LIDL JSON file(*.lidljson)"));
-  //  fileName.append(".lidljson");
+    QString fileName  = QFileDialog::getSaveFileName(this,
+                                                     tr("Save Soundboard As.."),
+                                                     LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
+                                                     tr("LIDL JSON file(*.lidljson)"));
+    //  fileName.append(".lidljson");
     QJsonObject *save = GenerateSaveFile();
     QJsonDocument *doc = new QJsonDocument(*save);
     QString jsonString = doc->toJson(QJsonDocument::Indented);
@@ -1598,15 +1598,15 @@ void SoundboardMainUI::HelpGuide()
     _guideWidget = new QWidget();
     Ui::Guide * ui = _guideUI;
     this->setGeometry(
-        QStyle::alignedRect(
-            Qt::LeftToRight,
-            Qt::AlignCenter,
-            this->size(),
-            qApp->desktop()->availableGeometry()
-        ));
+                QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    this->size(),
+                    qApp->desktop()->availableGeometry()
+                    ));
     // reseting selection
     resultView->clearSelection();
-//    this->setMaximumSize(1170,632);
+    //    this->setMaximumSize(1170,632);
     this->setMinimumSize(771,664);
 
     // _guideOverlay = new QWidget(this);
@@ -1623,12 +1623,12 @@ void SoundboardMainUI::HelpGuide()
     QVector<bool> state;
     for (int i = 0; i < _gLayout->count(); ++i)
     {
-      QWidget *widget = _gLayout->itemAt(i)->widget();
-      if (widget != nullptr)
-      {
-        state.append(widget->isEnabled());
-        widget->setEnabled(false);
-      }
+        QWidget *widget = _gLayout->itemAt(i)->widget();
+        if (widget != nullptr)
+        {
+            state.append(widget->isEnabled());
+            widget->setEnabled(false);
+        }
     }
     _gLayout->addWidget(_guideWidget,0,8,9,4);
     _gLayout->setColumnStretch(8,100);
@@ -1670,82 +1670,83 @@ void SoundboardMainUI::HelpGuide()
                        "     Report a bug or request a feature<br>"
                        "     About LIDL Soundboard<br>"
                        ));
-        helpText.append(tr("<h1>Sound wrapper list</h1><br>"
+    helpText.append(tr("<h1>Sound wrapper list</h1><br>"
                        "Each line represent a wrapper, you can see:<br>"
                        "Which sounds it contains on the first column.<br>"
                        "The number of remote files contained in the wrapper.<br>"
                        "The shortcut it is assigned to.<br> "
                        "The playback mode.<br>"
-                       "The list of sound effects assigned to each sound in the wrapper."
+                       "The list of sound effects assigned to each sound in the wrapper.<br><br>"
+                       "You can toggle some display option in the view window."
                        ));
 
-        helpText.append(tr(	"<h1>Adding sounds</h1><br>"
-                                                "Opens the LIDL Soundboard Entry Editor, allowing you to add sound files to the sound collection. <br>"
-                                                "You can either drag and drop sound files at the window, <br>"
-                                                "or open the file browser to choose a file to import. <br><br>"
-                                                "In this window, you can also edit the volume of each sound file, <br>"
-                                                "as well as add additional special effects. <br><br>"
-                                                "The playback mode and the shortcut key sequence to play the sounds in the wrappers <br>"
-                                                "can also be selected here."
-                                        ));
+    helpText.append(tr(	"<h1>Adding sounds</h1><br>"
+                        "Opens the LIDL Soundboard Entry Editor, allowing you to add sound files to the sound collection. <br>"
+                        "You can either drag and drop sound files at the window, <br>"
+                        "or open the file browser to choose a file to import. <br><br>"
+                        "In this window, you can also edit the volume of each sound file, <br>"
+                        "as well as add additional special effects. <br><br>"
+                        "The playback mode and the shortcut key sequence to play the sounds in the wrappers <br>"
+                        "can also be selected here."
+                        ));
 
-        helpText.append(tr(	"<h1>Deleting sounds</h1><br>"
-                                                "Press this button to remove the selected song from the sound collection. :)"
-                                        ));
+    helpText.append(tr(	"<h1>Deleting sounds</h1><br>"
+                        "Press this button to remove the selected song from the sound collection. :)"
+                        ));
 
-        helpText.append(tr(	"<h1>Edit sounds</h1><br>"
-                                "Brings up a menu to edit the settings for the selected sound file. <br>"
-                                "(Will open the LIDL Soundboard Entry Editor.)"
-                                        ));
+    helpText.append(tr(	"<h1>Edit sounds</h1><br>"
+                        "Brings up a menu to edit the settings for the selected sound file. <br>"
+                        "(Will open the LIDL Soundboard Entry Editor.)"
+                        ));
 
-        helpText.append(tr(	"<h1>Playing sounds</h1><br>"
-                                                "Press this button to play the selected sound file through the <br>"
-                                                "selected audio devices."
-                                        ));
+    helpText.append(tr(	"<h1>Playing sounds</h1><br>"
+                        "Press this button to play the selected sound file through the <br>"
+                        "selected audio devices."
+                        ));
 
-        helpText.append(tr(	"<h1>Stop playback</h1><br>"
-                                                "This button cures cancer."
-                                        ));
+    helpText.append(tr(	"<h1>Stop playback</h1><br>"
+                        "This button cures cancer."
+                        ));
 
-        helpText.append(tr(	"<h1>First output device</h1><br>"
-                                                "Pick an audio device to output audio to.<br>"
-                                                "Select your primary playback device (so that you can hear the sound too)."
-                                        ));
+    helpText.append(tr(	"<h1>First output device</h1><br>"
+                        "Pick an audio device to output audio to.<br>"
+                        "Select your primary playback device (so that you can hear the sound too)."
+                        ));
 
-        helpText.append(tr( "<h1>Virtual audio cable output</h1><br>"
-                                                "Select your virtual audio cable."
-                                        ));
+    helpText.append(tr( "<h1>Virtual audio cable output</h1><br>"
+                        "Select your virtual audio cable."
+                        ));
 
-        helpText.append(tr(	"<h1>Microphone injection</h1><br>"
-                                                "Opens Windows Sound menu to help set up microphone injection.<br>"
-                                                "First, open the properties for your microphone in the Recording tab. <br>"
-                                                "Then in the 'Listen' tab, tick the 'Listen to this device' checkbox, <br>"
-                                                "and select your virtual audio cable in the 'Playback through this device' menu.<br>"
-                                                "Finally, set the virtual audio cable as your default input device, whether in windows or in your game."
-                                        ));
+    helpText.append(tr(	"<h1>Microphone injection</h1><br>"
+                        "Opens Windows Sound menu to help set up microphone injection.<br>"
+                        "First, open the properties for your microphone in the Recording tab. <br>"
+                        "Then in the 'Listen' tab, tick the 'Listen to this device' checkbox, <br>"
+                        "and select your virtual audio cable in the 'Playback through this device' menu.<br>"
+                        "Finally, set the virtual audio cable as your default input device, whether in windows or in your game."
+                        ));
 
-        helpText.append(tr(	"<h1>Key to Auto-Hold (push to talk users)</h1><br>"
-                                "Click on this box followed by the desired key to set up a push-to-talk key that the LIDL soundboard will auto-hold.<br>"
-                                "When playing a file, whether through its shortcut or by clicking play, the soundboard will emulate both a physical (through Scan Code) and virtual (through Virtual Key) key press<br>"
-                                "This way, you don't have to hold the push to talk key yourself when propagating ebola. <br>"
-                                "Leave blank if you are using voice activation."
-                                        ));
-        helpText.append(tr(	"<h1>Clear push-to-talk key</h1><br>"
-                                                "Clears the previously set push-to-talk key."
-                                        ));
+    helpText.append(tr(	"<h1>Key to Auto-Hold (push to talk users)</h1><br>"
+                        "Click on this box followed by the desired key to set up a push-to-talk key that the LIDL soundboard will auto-hold.<br>"
+                        "When playing a file, whether through its shortcut or by clicking play, the soundboard will emulate both a physical (through Scan Code) and virtual (through Virtual Key) key press<br>"
+                        "This way, you don't have to hold the push to talk key yourself when propagating ebola. <br>"
+                        "Leave blank if you are using voice activation."
+                        ));
+    helpText.append(tr(	"<h1>Clear push-to-talk key</h1><br>"
+                        "Clears the previously set push-to-talk key."
+                        ));
 
-        helpText.append(tr(	"<h1>Stop playback key</h1><br>"
-                                "Click on this box followed by the desired key to set up a stop hotkey. <br>"
-                                "When this hotkey is pressed, all currently playing sounds will be stopped."
-                                        ));
-
-
-        helpText.append(tr(	"<h1>Clear stop playback key</h1><br>"
-                                 "Clears the previously set stop hotkey."
-                                        ));
+    helpText.append(tr(	"<h1>Stop playback key</h1><br>"
+                        "Click on this box followed by the desired key to set up a stop hotkey. <br>"
+                        "When this hotkey is pressed, all currently playing sounds will be stopped."
+                        ));
 
 
-   for (int i=0;i<14;i++)
+    helpText.append(tr(	"<h1>Clear stop playback key</h1><br>"
+                        "Clears the previously set stop hotkey."
+                        ));
+
+
+    for (int i=0;i<14;i++)
         helpText.append("12");
 
     QString buttonCSS =  _btnAdd->styleSheet();
@@ -1767,129 +1768,129 @@ void SoundboardMainUI::HelpGuide()
 
     // The close button
     connect(ui->okButton, QPushButton::clicked, [=] {
-       _guideWidget->close();
-       _gLayout->removeWidget(_guideWidget);
-       delete _guideWidget;
-       // resetting widgets to their previous states
-       for (int i = 0; i < _gLayout->count(); ++i)
-       {
-         QWidget *widget = _gLayout->itemAt(i)->widget();
-         if (widget != nullptr)
-           widget->setEnabled(state.at(i));
-       }
-       this->resize(previousSize);
-       _guideUI = new Ui::Guide();
-       _guideWidget = new QWidget();
-       Ui::Guide * ui = _guideUI;
-       this->setGeometry(
-           QStyle::alignedRect(
-               Qt::LeftToRight,
-               Qt::AlignCenter,
-               this->size(),
-               qApp->desktop()->availableGeometry()
-           ));
-       _gLayout->setColumnStretch(8,0);
-       // resetting style
-       this->menuBar()->setStyleSheet(menuCSS);
-       _btnAdd->setStyleSheet(buttonCSS);
-       _btnDelete->setStyleSheet(buttonCSS);
-       _btnEdit->setStyleSheet(buttonCSS);
-       _btnPlay->setStyleSheet(buttonCSS);
-       _btnStop->setStyleSheet(buttonCSS);
-       _deviceListOutput->setStyleSheet(comboCSS);
-       _deviceListVAC->setStyleSheet(comboCSS);
-       _btnMicInjection->setStyleSheet(buttonCSS);
-       _shortcutEditPTT->setStyleSheet(lineEditCSS);
-       _shortcutEditStop->setStyleSheet(lineEditCSS);
-       _btnClearPTT->setStyleSheet(buttonCSS);
-       _btnClearStop->setStyleSheet(buttonCSS);
-       resultView->setStyleSheet(viewCSS);
+        _guideWidget->close();
+        _gLayout->removeWidget(_guideWidget);
+        delete _guideWidget;
+        // resetting widgets to their previous states
+        for (int i = 0; i < _gLayout->count(); ++i)
+        {
+            QWidget *widget = _gLayout->itemAt(i)->widget();
+            if (widget != nullptr)
+                widget->setEnabled(state.at(i));
+        }
+        this->resize(previousSize);
+        _guideUI = new Ui::Guide();
+        _guideWidget = new QWidget();
+        Ui::Guide * ui = _guideUI;
+        this->setGeometry(
+                    QStyle::alignedRect(
+                        Qt::LeftToRight,
+                        Qt::AlignCenter,
+                        this->size(),
+                        qApp->desktop()->availableGeometry()
+                        ));
+        _gLayout->setColumnStretch(8,0);
+        // resetting style
+        this->menuBar()->setStyleSheet(menuCSS);
+        _btnAdd->setStyleSheet(buttonCSS);
+        _btnDelete->setStyleSheet(buttonCSS);
+        _btnEdit->setStyleSheet(buttonCSS);
+        _btnPlay->setStyleSheet(buttonCSS);
+        _btnStop->setStyleSheet(buttonCSS);
+        _deviceListOutput->setStyleSheet(comboCSS);
+        _deviceListVAC->setStyleSheet(comboCSS);
+        _btnMicInjection->setStyleSheet(buttonCSS);
+        _shortcutEditPTT->setStyleSheet(lineEditCSS);
+        _shortcutEditStop->setStyleSheet(lineEditCSS);
+        _btnClearPTT->setStyleSheet(buttonCSS);
+        _btnClearStop->setStyleSheet(buttonCSS);
+        resultView->setStyleSheet(viewCSS);
     });
 
-   // the lambda we connect the slider to forsenE
-   connect(ui->pageSlider,QSlider::valueChanged, [=] (int value){
-       if (value == 14)
-       {
-           ui->btnNext->setEnabled(false);
-       }
-       else if (value == 1)
-       {
-           ui->btnPrevious->setEnabled(false);
-       }
-       else
-       {
-           ui->btnNext->setEnabled(true);
-           ui->btnPrevious->setEnabled(true);
-       }
-       ui->mainTextLabel->setText(helpText.at(value-1));
-       ui->pageLabel->setText(QString::number(value) + "/14");
+    // the lambda we connect the slider to forsenE
+    connect(ui->pageSlider,QSlider::valueChanged, [=] (int value){
+        if (value == 14)
+        {
+            ui->btnNext->setEnabled(false);
+        }
+        else if (value == 1)
+        {
+            ui->btnPrevious->setEnabled(false);
+        }
+        else
+        {
+            ui->btnNext->setEnabled(true);
+            ui->btnPrevious->setEnabled(true);
+        }
+        ui->mainTextLabel->setText(helpText.at(value-1));
+        ui->pageLabel->setText(QString::number(value) + "/14");
         // Reset every thing to its previous CSS
-       this->menuBar()->setStyleSheet(menuCSS);
-       _btnAdd->setStyleSheet(buttonCSS);
-       _btnDelete->setStyleSheet(buttonCSS);
-       _btnEdit->setStyleSheet(buttonCSS);
-       _btnPlay->setStyleSheet(buttonCSS);
-       _btnStop->setStyleSheet(buttonCSS);
-       _deviceListOutput->setStyleSheet(comboCSS);
-       _deviceListVAC->setStyleSheet(comboCSS);
-       _btnMicInjection->setStyleSheet(buttonCSS);
-       _shortcutEditPTT->setStyleSheet(lineEditCSS);
-       _shortcutEditStop->setStyleSheet(lineEditCSS);
-       _btnClearPTT->setStyleSheet(buttonCSS);
-       _btnClearStop->setStyleSheet(buttonCSS);
-       resultView->setStyleSheet(viewCSS);
+        this->menuBar()->setStyleSheet(menuCSS);
+        _btnAdd->setStyleSheet(buttonCSS);
+        _btnDelete->setStyleSheet(buttonCSS);
+        _btnEdit->setStyleSheet(buttonCSS);
+        _btnPlay->setStyleSheet(buttonCSS);
+        _btnStop->setStyleSheet(buttonCSS);
+        _deviceListOutput->setStyleSheet(comboCSS);
+        _deviceListVAC->setStyleSheet(comboCSS);
+        _btnMicInjection->setStyleSheet(buttonCSS);
+        _shortcutEditPTT->setStyleSheet(lineEditCSS);
+        _shortcutEditStop->setStyleSheet(lineEditCSS);
+        _btnClearPTT->setStyleSheet(buttonCSS);
+        _btnClearStop->setStyleSheet(buttonCSS);
+        resultView->setStyleSheet(viewCSS);
 
-       switch (value) {
-       case 1:
+        switch (value) {
+        case 1:
             //this->menuBar()->setStyleSheet("QMenuBar:item { border-bottom: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);}" );
             break;
-       case 2:
-           resultView->setStyleSheet(highlightedCSS);
-           break;
-       case 3:
-           _btnAdd->setStyleSheet(highlightedCSS);
-           break;
-       case 4:
-           _btnDelete->setStyleSheet(highlightedCSS);
-           break;
-       case 5:
-           _btnEdit->setStyleSheet(highlightedCSS);
-           break;
-       case 6:
-           _btnPlay->setStyleSheet(highlightedCSS);
-           break;
-       case 7:
-           _btnStop->setStyleSheet(highlightedCSS);
-           break;
-       case 8:
-           _deviceListOutput->setStyleSheet(highlightedCSS);
-           break;
-       case 9:
-           _deviceListVAC->setStyleSheet(highlightedCSS);
-           break;
-       case 10:
-           _btnMicInjection->setStyleSheet(highlightedCSS);
-           break;
-       case 11:
-           _shortcutEditPTT->setStyleSheet(highlightedCSS);
-           break;
-       case 12:
-           _btnClearPTT->setStyleSheet(highlightedCSS);
-           break;
-       case 13:
-           _shortcutEditStop->setStyleSheet(highlightedCSS);
-           break;
-       case 14:
-           _btnClearStop->setStyleSheet(highlightedCSS);
-           break;
-       default:
-           break;
-       }
- //  connect(ui->okButton, QButton::clicked);
+        case 2:
+            resultView->setStyleSheet(highlightedCSS);
+            break;
+        case 3:
+            _btnAdd->setStyleSheet(highlightedCSS);
+            break;
+        case 4:
+            _btnDelete->setStyleSheet(highlightedCSS);
+            break;
+        case 5:
+            _btnEdit->setStyleSheet(highlightedCSS);
+            break;
+        case 6:
+            _btnPlay->setStyleSheet(highlightedCSS);
+            break;
+        case 7:
+            _btnStop->setStyleSheet(highlightedCSS);
+            break;
+        case 8:
+            _deviceListOutput->setStyleSheet(highlightedCSS);
+            break;
+        case 9:
+            _deviceListVAC->setStyleSheet(highlightedCSS);
+            break;
+        case 10:
+            _btnMicInjection->setStyleSheet(highlightedCSS);
+            break;
+        case 11:
+            _shortcutEditPTT->setStyleSheet(highlightedCSS);
+            break;
+        case 12:
+            _btnClearPTT->setStyleSheet(highlightedCSS);
+            break;
+        case 13:
+            _shortcutEditStop->setStyleSheet(highlightedCSS);
+            break;
+        case 14:
+            _btnClearStop->setStyleSheet(highlightedCSS);
+            break;
+        default:
+            break;
+        }
+        //  connect(ui->okButton, QButton::clicked);
 
 
-   });
-      //  QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/blob/master/Lidl_manual.pdf")));
+    });
+    //  QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/blob/master/Lidl_manual.pdf")));
 }
 
 // Just in case but we will set this shit to be non-resizable
@@ -1972,19 +1973,19 @@ void SoundboardMainUI::HelpShowFirstUserDialog()
     zulul->setFixedSize(492,312);
     zulul->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
     zulul->setModal(true);
-    zulul->setWindowTitle("Welcome to LIDL Soundboard" + QString(VER_STRING) + " !");
+    zulul->setWindowTitle("Welcome to LIDL Soundboard " + QString(VER_STRING) + " !");
     QGridLayout *layout = new QGridLayout(zulul);
     QLabel *text = new QLabel(tr("New User? Here are some things to know before using lidl soundboard:\n"));
     QLabel *text2 = new QLabel(tr("• A shortcut will be captured by the soundboard and will NOT get transmitted to any other program.\n"
-                                 "• A shortcut can use one, or any combination of those modifiers: CTRL, ALT, SHIFT.\n"
-                                 "• A sound collection can contain one or several sound files, using one the following playback modes:\n"
+                                  "• A shortcut can use one, or any combination of those modifiers: CTRL, ALT, SHIFT.\n"
+                                  "• A sound collection can contain one or several sound files, using one the following playback modes:\n"
                                   "\t ‣Singleton: a single sound file.\n"
                                   "\t ‣Singleton (Cancer): hold it to spam it.\n"
                                   "\t ‣Sequential: will play the next sound in the collection every time shortcut\n\t   or play button signal is received.\n"
                                   "\t ‣Sequential(auto): Same as sequential except it will play next sound automatically.\n"
                                   "• You can set default value for many things in Tools->Settings.\n"
                                   "This message can be found again in the Help->Welcome message."
-                                 ));
+                                  ));
     text->setWordWrap(true);
     text2->setWordWrap(true);
     QFont f( "Arial", 14, QFont::Bold);
@@ -2017,8 +2018,8 @@ void SoundboardMainUI::HelpShowFirstUserDialog()
     for (auto &i: polishing)
     {
         i->movie()->start();
-       layout->addWidget(i,3,j,1,1);
-       layout->addWidget(new QLabel(tr("KEYLOGGER"),this),3,j+1,1,1);
+        layout->addWidget(i,3,j,1,1);
+        layout->addWidget(new QLabel(tr("KEYLOGGER"),this),3,j+1,1,1);
 
         j+=2;
     }
@@ -2075,10 +2076,10 @@ void SoundboardMainUI::ToolClearShortcut()
     _sounds.clear();
     _model->clear();
     _model->setHorizontalHeaderLabels(
-        (QStringList() << "Sound Collections"
-                       << "SFX"
-                       << "Shortcut"
-                       << "Mode"));
+                (QStringList() << "Sound Collections"
+                 << "SFX"
+                 << "Shortcut"
+                 << "Mode"));
 
 
     for (auto &i: temp)
@@ -2097,12 +2098,12 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
     SoundWrapper * temp = _sounds.at(firstRow);
 
     SoundWrapper * firstPtr = new SoundWrapper(temp->getSoundList(),
-                                           temp->getPlayMode(),
-                                           temp->getKeySequence(),
-                                           temp->getShortcutVirtualKey(),
-                                           temp->getMainDevice(),
-                                           temp->getVacDevice(),
-                                           nullptr);
+                                               temp->getPlayMode(),
+                                               temp->getKeySequence(),
+                                               temp->getShortcutVirtualKey(),
+                                               temp->getMainDevice(),
+                                               temp->getVacDevice(),
+                                               nullptr);
 
 
     temp = _sounds.at(secondRow);
@@ -2141,7 +2142,7 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
         else
         {
             _statusEdit->setText(text);
-           // this->ScrollStatusText( max - size  );
+            // this->ScrollStatusText( max - size  );
         }
         // if the soundboard has been modified:
         QTimer::singleShot(1500, [=]
@@ -2179,12 +2180,12 @@ void SoundboardMainUI::SetUpRecentMenu()
         connect( actions.last(),
                  QAction::triggered,
                  [=] {
-                        this->Open( i.filePath() );
-                        });
+            this->Open( i.filePath() );
+        });
         _openRecentMenu->addAction(actions.last());
 
         if (++count == LIDL::SettingsController::GetInstance()->GetRecentFilesCount())
-                break;
+            break;
     }
 }
 
@@ -2194,13 +2195,13 @@ void SoundboardMainUI::CheckForUpdates()
     if (!_updateScheduled)
     {
         QProcess process;
-    #ifdef QT_DEBUG
+#ifdef QT_DEBUG
         process.start("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe --checkupdates");
         qDebug() << "path is set to Program Files SDK";
-    #endif
-    #ifndef QT_DEBUG
-         process.start(qApp->applicationDirPath() + "/SDKMaintenanceTool.exe --checkupdates");
-    #endif
+#endif
+#ifndef QT_DEBUG
+        process.start(qApp->applicationDirPath() + "/SDKMaintenanceTool.exe --checkupdates");
+#endif
 
 
 
@@ -2221,11 +2222,14 @@ void SoundboardMainUI::CheckForUpdates()
         // Also note that we should parse the output instead of just checking if it is empty if we want specific update info
         if(data.isEmpty())
         {
-            qDebug() << "No updates available";
-            //return;
+            QMessageBox msgBox;
+            msgBox.setText(tr("Update Check Complete"));
+            msgBox.setText(tr("No Updates Available."));
+            msgBox.setIcon(QMessageBox::Information);
+            msgBox.exec();
         }
-    //    else
-    //    {
+        else
+        {
             QMessageBox msgBox;
             msgBox.setWindowTitle("Update available");
             msgBox.setIcon(QMessageBox::Information);
@@ -2241,13 +2245,13 @@ void SoundboardMainUI::CheckForUpdates()
             QStringList args("--updater");
             if (msgBox.clickedButton() == nowButton)
             {
-            #ifdef QT_DEBUG
+#ifdef QT_DEBUG
                 bool success = QProcess::startDetached("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe", args);
                 qDebug() << "path is set to Program Files SDK";
-            #endif
-            #ifndef QT_DEBUG
-                 bool success = QProcess::startDetached(qApp->applicationDirPath() + "/SDKMaintenanceTool.exe", args);
-            #endif
+#endif
+#ifndef QT_DEBUG
+                bool success = QProcess::startDetached(qApp->applicationDirPath() + "/SDKMaintenanceTool.exe", args);
+#endif
                 _updateScheduled = false;
                 qApp->closeAllWindows();
             }
@@ -2258,7 +2262,7 @@ void SoundboardMainUI::CheckForUpdates()
                 _actions.at(14)->setText(tr("Cancel scheduled update"));
             }
         }
-    //    }
+    }
     else
     {
         _updateScheduled = false;

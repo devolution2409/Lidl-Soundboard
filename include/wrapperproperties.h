@@ -41,18 +41,17 @@
 #include <CustomListWidgetItem.h>
 #include <QSpinBox>
 #include "SettingsController.h"
-#include "Spoiler.h"
-#include <QCheckBox>
-#include <QTabWidget>
-#include "CustomSoundFile.h"
-#include <QComboBox>
-#include <QScrollArea>
-#include <QInputDialog>
-//#include <QMimeData>
-//#include <QMimeDatabase>
-#include <QTcpSocket>
-#include <QSslSocket>
-#include <QRegExp>
+#include "Spoiler.h"            // UI:SFX
+#include <QCheckBox>            // UI:SFX
+#include <QTabWidget>           // UI:SFX Tab widget
+#include "CustomSoundFile.h"    // LIDL::SoundFile methods
+#include <QComboBox>            // UI:SFX:Chorus
+#include <QScrollArea>          // UI:SFX
+#include <QInputDialog>         // Asking user for URL
+
+#include <QTcpSocket>           // TCP Socket to check if file exist in HTTP
+#include <QSslSocket>           // SSL Socket to check if file exist in HTTPS
+#include <QRegExp>              // RegExp to find out the MIMEType of the file so user can't retarded stuff
 class WrapperProperties : public QWidget
 {
     Q_OBJECT
@@ -193,6 +192,7 @@ signals:
 public slots:
     // Qlist Widget slots
     void AddSound();
+    void AddSoundFromUrl();
     void AddSoundFromDrop(QString);
     void ItemWasClicked(QListWidgetItem* item);
     void DeleteSelectedSound(); //will call DeleteSound()
