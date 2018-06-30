@@ -1,24 +1,14 @@
-/*  Class containing the main window for the application:
- *      Members:
- *          Attributes:
- *             Type                     Name                Description
- *
- *              QVector<SoundWrapper>    _sounds            array of SoundWrapper objects:
- *              QVBoxLayout              _vLayout           main vertical layout, that contains the display and the grid layout
- *              QGridLayout              _gLayout           grid layout
- *              QStandardItem_model       __model             _model for the MVC architecture
- *              QTableView               _resultView        viewer in the MVC architecture
- *              QPushButton              _btnXYZ            add delete edit play stop boutons
- *              QLabel                   _labelX            labels
- *              QComboBox                _deviceListOutput  Combo box to display the Output device
- *              QComboBox                _deviceListVAC                                 VAC device
- *              QComboBox                _deviceListInjector                     microphone device
- */
-// TODO: use doxygen SoBayed
-
 
 #ifndef SOUNDBOARDMAINUI_H
 #define SOUNDBOARDMAINUI_H
+
+/*!
+ * \file soundboardMainUI.h
+ * \brief Soundboard Main UI file
+ * \author Devolution
+ * \version 1.7.0
+ */
+
 
 #include <QWidget>
 #include <QVector>
@@ -71,8 +61,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.6.0
-#define VER_STRING "1.6.0"
+#define VER 1.6.1
+#define VER_STRING "1.6.1"
 
 //#include "QSimpleUpdater.h"
 #include <QMainWindow>
@@ -96,6 +86,12 @@
 #include <QFontMetrics>
 #include <QHeaderView>
 #include <QStyleFactory>
+
+/*! \class SoundboardMainUI
+  * \brief Inherits QMainWindow.
+  *
+  *  Deals with displaying and intercepting shortcuts
+  */
 class SoundboardMainUI : public QMainWindow
 {
     Q_OBJECT
@@ -104,93 +100,107 @@ private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
 
     // sound list
-    QVector<SoundWrapper*> _sounds;
-    // shorcut list, we need to store both shortcut and scancodes forsenT. TODO: revamp this whole shit with a class i guess
+    QVector<SoundWrapper*> _sounds; /*!< SoundWrapper array*/
 
-    // no sure the _keySequence is needed forsenT
-    // Key sequence is needed for display purposes.
-    QVector<QKeySequence> _keySequence;
-    QVector<int>          _keyVirtualKey;
+
+    QVector<QKeySequence> _keySequence; /*!< keySequence array: contains the shortcuts to the sounds (mostly for displaying).*/
+    QVector<int>          _keyVirtualKey; /*!< keyVirtualKey array: contains virtual code of the shortcuts to play (to register them).*/
     // Windows Shorcut HANDLE for the sound shortcuts
-    QVector<int> _winShorcutHandle;
+    QVector<int> _winShorcutHandle; /*!< Handles to the registered shortcuts.*/
 
-    // vertical layout
-//   QVBoxLayout *vLayout;
-    // grid layout for btns
-    QGridLayout *_gLayout;
+
+    QGridLayout *_gLayout; /*!< A grid layout: everything is inside it.*/
     // Model displayed by the viewer
     //QStandardItemModel *_model;
-    CustomTableModel *_model;
+    CustomTableModel *_model; /*!< Custom model that contains the data being displayed.*/
     // DATA of the model:
-    QVector<QList< QStandardItem* >> _data;
-    QVector<QList< QStandardItem* >> _displayedData;
+    QVector<QList< QStandardItem* >> _data; /*!< ALL the data recieved by using GetSoundAsItem method. */
+    QVector<QList< QStandardItem* >> _displayedData; /*!< Processed data according to the user settings. */
 
     /***************************************************
                             MENU
     ****************************************************/
     //QMenuBar *_menuBar;
     // We already have this->MenuBar() since we QMainWindow now
-    QVector<QAction*> _actions;
+    QVector<QAction*> _actions; /*!< List of the actions in the MenuBar.*/
     /***************************************************
                        NAME DISPLAYING
     ****************************************************/
-    QGroupBox *_nameGroupBox;
-    QLineEdit *_nameEdit;
+    // QGroupBox *_nameGroupBox;
+    // QLineEdit *_nameEdit;
 
     // view
   //  QTableView *resultView;
-    CustomTableView *resultView;
+    CustomTableView *resultView; /*!< Custom table view (inherists from QTableView) to display the data in the model.*/
 
     // buttons
-    QPushButton  * _btnAdd;
-    QPushButton  * _btnDelete;
-    QPushButton  * _btnEdit;
-    QPushButton  * _btnPlay;
-    QPushButton  * _btnStop;
+    QPushButton  * _btnAdd; /*!< Add SoundWrapper button.*/
+    QPushButton  * _btnDelete; /*!< Delete SoundWrapper button.*/
+    QPushButton  * _btnEdit; /*!< Edit SoundWrapper button/*/
+    QPushButton  * _btnPlay; /*!< Play the SoundWrapper according to its playback mode button.*/
+    QPushButton  * _btnStop; /*!< Delete SoundWrapper button.*/
 
     // Device selection
-    QLabel       * _label1;
-    QComboBox  * _deviceListOutput;
+    QLabel       * _label1; /*!<Label for the main output device list.*/
+    QComboBox  * _deviceListOutput; /*!<Contains the actual output device list.*/
 
-    QLabel       * _label2;
-    QComboBox  * _deviceListVAC;
+    QLabel       * _label2; /*!<Label for the VAC output device list.*/
+    QComboBox  * _deviceListVAC; /*!<Contains the actual VAC output device list.*/
 
     // Open windows settings button
-    QLabel      * _label3;
-    QPushButton *_btnMicInjection;
+    QLabel      * _label3; /*!<Label for microphone injection.*/
+    QPushButton *_btnMicInjection;/*!<Button that opens the windows sound settings.*/
 
     // Auto-hold ptt
-    QLabel      * _label4;
-    CustomShortcutEdit *_shortcutEditPTT;
-    QPushButton *_btnClearPTT;
+    QLabel      * _label4; /*!<Label for the Auto-Hold PTT feature.*/
+    CustomShortcutEdit *_shortcutEditPTT; /*!<CustomShortcutEdit field to set the microphone injection hotkey.*/
+    QPushButton *_btnClearPTT; /*!<Button to unregister and clear the auto-PTT hotkey.*/
     // Stop button
-    QLabel      * _label5;
-    CustomShortcutEdit *_shortcutEditStop;
-    QPushButton *_btnClearStop;
+    QLabel      * _label5; /*!<Label for the stop all feature.*/
+    CustomShortcutEdit *_shortcutEditStop; /*!<CustomShortcutEdit field to set the stop all hotkey.*/
+    QPushButton *_btnClearStop; /*!<Button to unregister and clear the Stop All hotkey.*/
     // The property window
-    WrapperProperties *_propertiesWindow;
+    WrapperProperties *_propertiesWindow; /*!<Window that handle wrapper edition.*/
 
 
-
-    void fetchDeviceList(QComboBox*,QAudio::Mode);
+    /**
+     * \brief This function fetches the devices list, and sets up the given combo box.
+     *
+     * \param comboBox Pointer to the combo box that will display devices.
+     * \param mode Deprecated. Defaults to QAudio::AudioOutput.
+     */
+    void fetchDeviceList(QComboBox* comboBox,QAudio::Mode mode = QAudio::AudioOutput);
+    /**
+     * \brief This function adds all the entries of the QMenuBar.
+     */
     void setUpMenu();
+    /**
+     * \brief This function adds all the entries of the QMenuBar.(Reimplementation of the QMainWindow close event).
+     * \param event Pointer to the event (automatically called).
+     */
     void closeEvent (QCloseEvent *event);
 
-    bool checkFileExistence(QString fileName);
+
+
+   // bool checkFileExistence(QString fileName);
 
     // Will return true if update is available
-    bool IsUpdateAvailable();
+    // bool IsUpdateAvailable(); //
 
     // keep track of selection
-    int lastSelectedRow;
+    int lastSelectedRow; /*!<Keeps tracks of last selected rows. (Could probably use a method of QTableView.*/
 
 
-    QTextEdit * _statusEdit;
+    QTextEdit * _statusEdit; /*!<Main widget of the QStatusBar so we have more control over it.*/
     /***************************************************
                             SAVE
     ****************************************************/
-    QString _saveName;
+    QString _saveName; /*!<Keeps tracks the .lidljson file being read/written.*/
 
+    /**
+     * \brief This function Open a saved soundboard and add all the entries in the CustomTableView.
+     * \param fileName String containing the file path.
+     */
     void Open(QString fileName);
 
     /* LIDL::SettingsController is a singleton and calling
@@ -201,33 +211,60 @@ private:
     //LIDL::SettingsController* settingsObj;
 
     //void ScrollStatusText(int howMuch);
-    QMenu * _openRecentMenu;
+    QMenu * _openRecentMenu; /*!<QMenu containing the recently opened lidljson*/
+
+    /**
+     * \brief This function construct and display the first-time user dialog.
+     */
     void HelpShowFirstUserDialog();
 
-    bool _updateScheduled;
-   // QWidget * _guideOverlay;
-    QWidget * _guideWidget;
-    Ui::Guide *_guideUI;
-    // refresh UI view
+    bool _updateScheduled; /*!<Boolean to know if the user wanna update the soundboard after quitting.*/
+
+    QWidget * _guideWidget; /*!<Widget for the guide/app tour.*/
+    Ui::Guide *_guideUI; /*!<UI for the guide/app tour.*/
+
+    /**
+     * \brief This function deals with editing the data that will be displayed according to user settings. (Read: kind of delegate).
+     */
     void refreshView();
 
 public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 
 signals:
+    /**
+     * \brief Signal to be emitted whenever a file is saved or opened. So that it appears in the recent menu.
+     */
     void lidlJsonDetected(QFileInfo); // forsenBee (to deal with recent saved or opened files)*
 
     // We save soundboard state once we open a file or when we save it,
     // Than we can compare it when closing it to tell the user it hasn't been saved
+
+    /**
+     * \brief Signal to be emitted whenever a file is saved or opened. So that its save can be saved and compared to the "ending" state, so modifications can be detected.
+     */
     void SaveSoundboardState();
 
     void OnConstructionDone();
 
 public slots:
     //This slot will allow us to add a sound, opens a file explorer dialogue
-    void addSoundDialog();
+    // void addSoundDialog(); replace by a lambda
+
+    /**
+     * \brief This function add a soundwrapper to the main UI display, and adds/modify the entries in the private members so that the said wrapper can be played.
+     * \param modifiedSound The added sounded/modified sound.
+     * \param whereToInsert The spot where to insert the sound (only used when it's a sound being edited. Else if it's -1 we insert it at the bottom.
+     * \param generationMode Should the shortcut be registered or not. Useful when adding a bunch of soundswrapper (opening a soundboard).
+     */
     void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
+
+    /**
+     * \brief This function will call addSound with the modified sound and the correct whereToInsert param.
+     * \param modifiedSound The modified sound.
+     */
     void soundModified(SoundWrapper * modifiedSound);
+
     // Slots for where user click or double click a cell
     void onCellClicked(QModelIndex index);
     void onCellDoubleClicked(QModelIndex index);

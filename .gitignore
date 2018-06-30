@@ -10,3 +10,5 @@ framelesswindow.ui
 darkstyle.qrc
 darkstyle/
 images/
+doxygen.exe
+Doxyfile

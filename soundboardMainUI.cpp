@@ -173,7 +173,23 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     /***************************************************
                TODO: PUT IN RELEVANT SECTION forsenT
       ****************************************************/
-    connect(this->_btnAdd, SIGNAL(clicked()), this, SLOT(addSoundDialog()));
+
+    // Lambda forsenE
+    connect(this->_btnAdd, QPushButton::clicked, this, [=]{
+        this->setEnabled(false);
+
+        _propertiesWindow = new WrapperProperties(
+                    this->_deviceListOutput->currentIndex(),
+                    this->_deviceListVAC->currentIndex(),
+                    this->_shortcutEditPTT->getScanCode(),
+                    this->_shortcutEditPTT->getVirtualKey(),
+                    nullptr,
+                    this);
+        // Connection of the done button to mainUI slots is dealt in the contructor
+        // to account for edit or add mode
+        _propertiesWindow->show();
+
+    });
     connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
     connect(this->resultView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(onCellDoubleClicked(QModelIndex)));
 
@@ -293,22 +309,22 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 
 }
 // The dialogue to be opened when the Add button is pressed
-void SoundboardMainUI::addSoundDialog()
-{
-    this->setEnabled(false);
+//void SoundboardMainUI::addSoundDialog()
+//{
+//    this->setEnabled(false);
 
-    _propertiesWindow = new WrapperProperties(
-                this->_deviceListOutput->currentIndex(),
-                this->_deviceListVAC->currentIndex(),
-                this->_shortcutEditPTT->getScanCode(),
-                this->_shortcutEditPTT->getVirtualKey(),
-                nullptr,
-                this);
-    // Connection of the done button to mainUI slots is dealt in the contructor
-    // to account for edit or add mode
-    _propertiesWindow->show();
+//    _propertiesWindow = new WrapperProperties(
+//                this->_deviceListOutput->currentIndex(),
+//                this->_deviceListVAC->currentIndex(),
+//                this->_shortcutEditPTT->getScanCode(),
+//                this->_shortcutEditPTT->getVirtualKey(),
+//                nullptr,
+//                this);
+//    // Connection of the done button to mainUI slots is dealt in the contructor
+//    // to account for edit or add mode
+//    _propertiesWindow->show();
 
-}
+//}
 
 void SoundboardMainUI::deleteSound()
 {

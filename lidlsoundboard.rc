@@ -3,8 +3,8 @@
 
 IDI_ICON1               ICON    DISCARDABLE     "/resources/forsenAim.ico"
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION 1, 6, 0, 0
-PRODUCTVERSION 1, 6, 0, 0
+FILEVERSION 1, 6, 1, 0
+PRODUCTVERSION 1, 6, 1, 0
 FILEFLAGSMASK 0x3fL
 FILEFLAGS 0
 FILEOS VOS_NT_WINDOWS32
@@ -21,12 +21,12 @@ BLOCK "040904b0"
 BEGIN
 VALUE "CompanyName", "Devolution\0"
 VALUE "FileDescription", "LIDL Soundboard executable\0"
-VALUE "FileVersion", "1.6.0\0"
+VALUE "FileVersion", "1.6.1\0"
 VALUE "InternalName", "Filename\0"
 VALUE "LegalCopyright", "\0"
 VALUE "OriginalFilename", "Lidl_Soundboard.exe\0"
 VALUE "ProductName", "LIDL Sounboard\0"
-VALUE "ProductVersion", "1.6.0\0"
+VALUE "ProductVersion", "1.6.1\0"
 END
 END
 END
