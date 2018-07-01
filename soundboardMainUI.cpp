@@ -11,7 +11,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     this->resize(400,600);
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
-
+    this->setAcceptDrops(true);
     /***************************************************
                       SETTING UP MENU BAR
     ****************************************************/
@@ -113,7 +113,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _btnMicInjection = new QPushButton("Open sound configuration",this);
     _gLayout->addWidget(_btnMicInjection,7,0,1,6);
 
-    connect(this->_btnMicInjection,SIGNAL(clicked()),this,SLOT(openAudioSettings()));
+    connect(this->_btnMicInjection,QPushButton::clicked,this, [=]{
+        WinExec("control mmsys.cpl sounds",8);
+        });
 
     // _gLayout->addWidget(_deviceListInjector,6,0,1,6);
 
@@ -133,7 +135,15 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _gLayout->addWidget(_shortcutEditPTT,8,4,1,1);
     _gLayout->addWidget(_btnClearPTT,8,5,1,1);
 
-    connect(this->_btnClearPTT,SIGNAL(clicked()),this,SLOT(resetPushToTalkEdit()));
+    connect(this->_btnClearPTT,QPushButton::clicked,this,[=]{
+            // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
+            _shortcutEditPTT->clear();
+            for (auto &i: _sounds)
+            {
+                i->PTTVirtualKeyChanged(-1);
+                i->PTTScanCodeChanged(-1);
+            }
+        });
     /***************************************************
                          STOP SOUND BIND
       ****************************************************/
@@ -145,7 +155,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _gLayout->addWidget(_shortcutEditStop,9,4,1,1);
     _gLayout->addWidget(_btnClearStop,9,5,1,1);
 
-    connect(this->_btnClearStop,SIGNAL(clicked()),this,SLOT(resetStopAllEdit()));
+    connect(this->_btnClearStop,QPushButton::clicked,this,[=]{
+        UnregisterHotKey(NULL,2147483647);
+        _shortcutEditStop->clear();
+    });
+
     connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
     // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
@@ -190,15 +204,85 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         _propertiesWindow->show();
 
     });
-    connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
-    connect(this->resultView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(onCellDoubleClicked(QModelIndex)));
+    // Lambda
+    //connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
+
+    connect(this->resultView, CustomTableView::clicked, this, [=](QModelIndex index){
+        // disconnect the play button
+        disconnect(_btnPlay,0,0,0);
+        lastSelectedRow = index.row();
+        this->_btnEdit->setEnabled(true);
+        this->_btnDelete->setEnabled(true);
+        this->_btnPlay->setEnabled(true);
+        // qDebug() << "User clicked a cell on row number: " << index.row();
+        // connect it to the selected cell
+        // ONLY if soundlist isn't empty
+        if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
+            connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+
+
+    });
+
+    // Lambda
+    connect(this->resultView, CustomTableView::doubleClicked,this, [=](QModelIndex index){
+        // but we update it regardless
+        disconnect(_btnPlay,0,0,0);
+        lastSelectedRow = index.row();
+        this->_btnEdit->setEnabled(true);
+        this->_btnDelete->setEnabled(true);
+        this->_btnPlay->setEnabled(true);
+        if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
+            connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+        // And we call the edit sound dialog
+        this->editSoundDialog();
+    });
 
     connect(this->_btnEdit, SIGNAL(clicked()), this, SLOT(editSoundDialog()));
-    connect(this->_btnDelete, SIGNAL(clicked()), this, SLOT(deleteSound()));
+    connect(this->_btnDelete, QPushButton::clicked, this, [=]{    // check if selected sound is inside the array
+        if (this->lastSelectedRow <= this->_sounds.size())
+        {
+            this->SetStatusTextEditText("Deleted selected sound");
+            // disconnect anything connected to the sound
+            disconnect(_sounds.at(lastSelectedRow));
+
+            //Schedule deletion just in case
+            this->_sounds.at(lastSelectedRow)->deleteLater();
+            this->_sounds.removeAt(lastSelectedRow);
+            this->_data.removeAt(lastSelectedRow);
+            this->_model->removeRow(lastSelectedRow);
+            // Unregistering the hotkey
+            UnregisterHotKey(NULL,_winShorcutHandle.at(lastSelectedRow));
+            /* Deleting the associated handle and keysquence
+             *  (we don't really need keysequence since
+             * we use virtual keys now but oh well) */
+            this->_winShorcutHandle.removeAt(lastSelectedRow);
+            this->_keySequence.removeAt(lastSelectedRow);
+            this->_keyVirtualKey.removeAt(lastSelectedRow);
+            // qDebug() << "sounds size:" << _sounds.size() << "shortcut size" << _winShorcutHandle.size();
 
 
-    connect(this->resultView,SIGNAL(enableButtons()),this,SLOT(enableButtons()));
-    connect(this->resultView,SIGNAL(disableButtons()),this,SLOT(disableButtons()));
+            // Regenerate shortcuts so that it doesn't go OOB when trying to play a non-existing handle
+            GenerateGlobalShortcuts();
+        }
+        // If we have no more sounds in the soundboard, disable delete and edit button
+        if (this->_sounds.size() == 0)
+        {
+            this->_btnDelete->setEnabled(false);
+            this->_btnEdit->setEnabled(false);
+        }
+        // in any case we clear the focus
+
+        resultView->clearFocus();
+        resultView->clearSelection();});
+
+
+    connect(this->resultView, CustomTableView::enableButtons  ,this, [=]{
+        _btnEdit->setEnabled(true);
+        _btnDelete->setEnabled(true);});
+    connect(this->resultView,CustomTableView::disableButtons,this, [=]{
+        _btnEdit->setEnabled(false);
+        _btnDelete->setEnabled(false);
+    });
 
     // Declaring savename empty string so save doesn't work forsenE
     this->_saveName = "";
@@ -262,22 +346,23 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
 void SoundboardMainUI::PostConstruction()
 {
+    // Take a snapshot right now to avoid lidl errors when loading soundboard automatically
+    LIDL::SettingsController::GetInstance()->SaveState(*this->GenerateSaveFile() );
     // Open the soundboard post-construction
     if (LIDL::SettingsController::GetInstance()->OpenSettings())
     {
         if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
-        {
-            _model->clear();
-            _model->setHorizontalHeaderLabels( (QStringList() << "LOADING LAST OPENED SOUNDBOARD") );
-
-            QTimer::singleShot(1, [=]{   this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
-        }
+            QTimer::singleShot(0, [=]{   this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
         else // show firt use dialog
             this->ClearAll();
     }
     // If this is the first time the user uses soundboard
     if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
+
+
+    // Testing the thing for chatterino
+
 }
 
 
@@ -308,69 +393,11 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
     }
 
 }
-// The dialogue to be opened when the Add button is pressed
-//void SoundboardMainUI::addSoundDialog()
-//{
-//    this->setEnabled(false);
-
-//    _propertiesWindow = new WrapperProperties(
-//                this->_deviceListOutput->currentIndex(),
-//                this->_deviceListVAC->currentIndex(),
-//                this->_shortcutEditPTT->getScanCode(),
-//                this->_shortcutEditPTT->getVirtualKey(),
-//                nullptr,
-//                this);
-//    // Connection of the done button to mainUI slots is dealt in the contructor
-//    // to account for edit or add mode
-//    _propertiesWindow->show();
-
-//}
-
-void SoundboardMainUI::deleteSound()
-{
-
-    // check if selected sound is inside the array
-    if (this->lastSelectedRow <= this->_sounds.size())
-    {
-        this->SetStatusTextEditText("Deleted selectedsound");
-        // disconnect anything connected to the sound
-        disconnect(_sounds.at(lastSelectedRow));
-
-        //Schedule deletion just in case
-        this->_sounds.at(lastSelectedRow)->deleteLater();
-        this->_sounds.removeAt(lastSelectedRow);
-        this->_data.removeAt(lastSelectedRow);
-        this->_model->removeRow(lastSelectedRow);
-        // Unregistering the hotkey
-        UnregisterHotKey(NULL,_winShorcutHandle.at(lastSelectedRow));
-        /* Deleting the associated handle and keysquence
-         *  (we don't really need keysequence since
-         * we use virtual keys now but oh well) */
-        this->_winShorcutHandle.removeAt(lastSelectedRow);
-        this->_keySequence.removeAt(lastSelectedRow);
-        this->_keyVirtualKey.removeAt(lastSelectedRow);
-        // qDebug() << "sounds size:" << _sounds.size() << "shortcut size" << _winShorcutHandle.size();
-
-
-        // Regenerate shortcuts so that it doesn't go OOB when trying to play a non-existing handle
-        GenerateGlobalShortcuts();
-    }
-    // If we have no more sounds in the soundboard, disable delete and edit button
-    if (this->_sounds.size() == 0)
-    {
-        this->_btnDelete->setEnabled(false);
-        this->_btnEdit->setEnabled(false);
-    }
-    // in any case we clear the focus
-
-    resultView->clearFocus();
-    resultView->clearSelection();
-}
-
 
 // Add a sound if whereToInsert isn't
 void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, LIDL::Shortcut generationMode)
 {
+    qDebug() << "forsenWut";
     //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
@@ -386,11 +413,17 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
 
 
     // connecting the status bar signal for unexistant files (reading json)
-    connect(modifiedSound,SIGNAL(UnexistantFile()),this,SLOT(StatusErrorUnexistant()));
+    connect(modifiedSound,SoundWrapper::UnexistantFile,this, [=]{
+            this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
+        });
     // connecting the wrapper proxy signal for player NowPlaying
-    connect(modifiedSound,SIGNAL(NowPlaying(QString)),this,SLOT(StatusPlaying(QString)));
+    connect(modifiedSound,SoundWrapper::NowPlaying,this,[=](QString name){
+            this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
+        });
     // connecting the wrapper proxy signal for player ErrorPlaying
-    connect(modifiedSound,SIGNAL(ErrorPlaying(QString)),this,SLOT(StatusErrorPlaying(QString)));
+    connect(modifiedSound,SoundWrapper::ErrorPlaying,this, [=](QString name){
+            this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
+         });
     // connect the clear button to the clear shortcut slot
     connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
@@ -631,41 +664,9 @@ void SoundboardMainUI::refreshView()
     }
 }
 
-// Dealing with click on a row: update index
-void SoundboardMainUI::onCellClicked(QModelIndex index)
-{
-    // disconnect the play button
-    disconnect(_btnPlay,0,0,0);
-    lastSelectedRow = index.row();
-    this->_btnEdit->setEnabled(true);
-    this->_btnDelete->setEnabled(true);
-    this->_btnPlay->setEnabled(true);
-    // qDebug() << "User clicked a cell on row number: " << index.row();
-    // connect it to the selected cell
-    // ONLY if soundlist isn't empty
-    if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
-        connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
-
-}
-// Double click will open the properties windows.
-// simple click event is also called, so lastSelectedRow SHOULD BE correct
-void SoundboardMainUI::onCellDoubleClicked( QModelIndex index)
-{
-
-    // but we update it regardless
-    disconnect(_btnPlay,0,0,0);
-    lastSelectedRow = index.row();
-    this->_btnEdit->setEnabled(true);
-    this->_btnDelete->setEnabled(true);
-    this->_btnPlay->setEnabled(true);
-    if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
-        connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
-    // And we call the edit sound dialog
-    this->editSoundDialog();
-}
 
 
-// open the dialog to edit sound
+//// open the dialog to edit sound
 void SoundboardMainUI::editSoundDialog()
 {
     this->setEnabled(false);
@@ -692,20 +693,6 @@ void SoundboardMainUI::soundModified(SoundWrapper *modifiedSound)
     this->addSound(modifiedSound,lastSelectedRow);
 }
 
-void SoundboardMainUI::enableButtons()
-{
-    _btnEdit->setEnabled(true);
-    _btnDelete->setEnabled(true);
-
-}
-
-
-void SoundboardMainUI::disableButtons()
-{
-    _btnEdit->setEnabled(false);
-    _btnDelete->setEnabled(false);
-
-}
 
 void SoundboardMainUI::GenerateGlobalShortcuts()
 {
@@ -766,7 +753,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 // Method to run the sound via hotkeys
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
-    qDebug() << "Pressed hotkey handle: " << handle;
+    // qDebug() << "Pressed hotkey handle: " << handle;
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
@@ -931,7 +918,11 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.at(3),SIGNAL(triggered()),this,SLOT(Save()));
     connect(this->_actions.at(6),SIGNAL(triggered()),this,SLOT(HelpGuide()));
     // connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
-    connect(this->_actions.at(8),SIGNAL(triggered()),this,SLOT(HelpReportBug()));
+    connect(this->_actions.at(8),QAction::triggered,this,[=]{
+         QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
+    });
+
+
     connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
     connect(this->_actions.at(10), QAction::triggered, this, SoundboardMainUI::HelpShowFirstUserDialog);
 
@@ -946,27 +937,15 @@ void SoundboardMainUI::setUpMenu()
 //Reimplementing to kill all shortcuts
 void SoundboardMainUI::closeEvent (QCloseEvent *event)
 {
-    // save the settings forsenE
-    LIDL::SettingsController::GetInstance()->SaveSettings();
+
     // Compare saved soundboard state with the one we have now
-    if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom( * this->GenerateSaveFile()))
+    if ( LIDL::SettingsController::GetInstance()->CompareSaves( * this->GenerateSaveFile()) == 0)
+        this->Save();
+    else if ( LIDL::SettingsController::GetInstance()->CompareSaves( * this->GenerateSaveFile()) == 2)
+         return;
+    else
     {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "LIDL Soundboard: Changes Detected",
-                                      "Do you wish to save changes before quitting?",
-                                      QMessageBox::Yes|QMessageBox::No | QMessageBox::Cancel);
-        switch (reply){
-        case QMessageBox::Yes: this->Save(); break;
 
-        case QMessageBox::No : break;
-
-        default:
-            event->ignore();
-            return;
-            break;
-        }
-
-    }
 
 
 
@@ -989,28 +968,11 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     PostQuitMessage(0);
     QWidget::closeEvent(event);
 
-}
-
-
-void SoundboardMainUI::resetPushToTalkEdit()
-{
-    // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
-    _shortcutEditPTT->clear();
-
-    for (auto &i: _sounds)
-    {
-        i->PTTVirtualKeyChanged(-1);
-        i->PTTScanCodeChanged(-1);
     }
 
-
 }
 
-void SoundboardMainUI::resetStopAllEdit()
-{
-    UnregisterHotKey(NULL,2147483647);
-    _shortcutEditStop->clear();
-}
+
 
 void SoundboardMainUI::setStopShortcut(int virtualKey)
 {
@@ -1020,12 +982,6 @@ void SoundboardMainUI::setStopShortcut(int virtualKey)
 
 }
 
-void SoundboardMainUI::openAudioSettings()
-{
-
-    //system("control mmsys.cpl sounds");
-    WinExec("control mmsys.cpl sounds",8);
-}
 
 
 
@@ -1093,6 +1049,7 @@ void SoundboardMainUI::ClearAll()
     // the objects SHOULD have been deleted when clearing the model
     //TODO: check khow to delete later those items, just in case forsenT
     this->_data.clear();
+    this->_displayedData.clear();
     /***************************************************
                        COMBO BOXES
     ****************************************************/
@@ -1113,30 +1070,38 @@ void SoundboardMainUI::OpenSlot()
 
 void SoundboardMainUI::Open(QString fileName)
 {
-    //qDebug() << "FileName is:" << fileName;
-    QFile file(fileName);
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
+
+    if (LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == 0) //yes
+        this->Save();
+    else if  (LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == 2) // cancel or X button
+        return;
+    else if  (LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == 1 ||
+              LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == -1 ) //no or file up to date
     {
-        // Declare the temp variables we are going to use to construct our objects
-        QString mainOutputDevice, vacOutputDevice;
-        QString pttName;
-        int pttScanCode=-1, pttVirtualKey =-1;
-        QString stopName; int stopVirtualKey =-1;
-
-        QString jsonAsString = file.readAll();
-
-        //QJsonParseError error;
-        QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
-        if (cdOMEGALUL.isNull())
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
         {
-            file.close();
-            QString errorMsg( "\""  +  fileName +  "\" isn't a valid .lidljson file.");
-            this->statusBar()->showMessage(errorMsg);
-            return;
-        }
-        // Else, if is valid Json we prooeced:
-        // We clear the soundboard
+            // Declare the temp variables we are going to use to construct our objects
+            QString mainOutputDevice, vacOutputDevice;
+            QString pttName;
+            int pttScanCode=-1, pttVirtualKey =-1;
+            QString stopName; int stopVirtualKey =-1;
+            QString jsonAsString = file.readAll();
+
+            //QJsonParseError error;
+            QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
+            if (cdOMEGALUL.isNull())
+            {
+                file.close();
+                QString errorMsg( "\""  +  fileName +  "\" isn't a valid .lidljson file.");
+                this->statusBar()->showMessage(errorMsg);
+                return;
+            }
+
+        _model->clear();
+        _data.clear();
         this->ClearAll();
+
         this->_saveName = fileName;
         emit lidlJsonDetected(QFileInfo(file)); // forsenBee
         file.close();
@@ -1220,7 +1185,11 @@ void SoundboardMainUI::Open(QString fileName)
 
         if (json.contains("SoundWrappers"))
         {
+
+
+            //progressWidget->move(0,this->resultView->size().height() - progressWidget->height() + 20);
             QJsonArray wrappersArray = json.value("SoundWrappers").toArray();
+
             // we iterate over wrappers
             for (auto i:wrappersArray)
             {
@@ -1373,9 +1342,10 @@ void SoundboardMainUI::Open(QString fileName)
         // Saving Soundboard state in the SettingsController object
         //qDebug() << "Keys here: " << _shortcutEditStop->getText() << "vk:" << _shortcutEditStop->getVirtualKey();
         emit SaveSoundboardState();
-    }//endif file was opened
-}
+        }//endif file was opened
 
+    }
+}
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
@@ -1655,15 +1625,6 @@ void SoundboardMainUI::HelpGuide()
     ui->titleLabel->setText("LIDL Helper");
     ui->pageLabel->setText("1/14");
 
-    //Resizing overlay just in case forsenE
-    //_guideOverlay->resize(this->width()-_guideWidget->width(),this->height() - this->statusBar()->height());
-    // _guideOverlay->setWindowFlags( Qt::FramelessWindowHint | Qt::Dialog | Qt::WindowStaysOnTopHint );
-
-    // usage
-    //DarkenEffect * effect = new DarkenEffect();
-
-    //_guideOverlay->setGraphicsEffect( effect );
-    //_guideOverlay->show();
     QStringList helpText;
     helpText.reserve(14);
     helpText.append(tr("The Menu Bar is where you will find the following actions:<br>"
@@ -1923,11 +1884,6 @@ void SoundboardMainUI::resizeEvent ( QResizeEvent * event )
 
 }
 
-void SoundboardMainUI::HelpReportBug()
-{
-    QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
-}
-
 void SoundboardMainUI::HelpAbout()
 {
     QDialog * zulul = new QDialog(this);
@@ -2042,37 +1998,6 @@ void SoundboardMainUI::HelpShowFirstUserDialog()
     zulul->show();
 }
 
-
-//void SoundboardMainUI::HelpCheckForUpdate()
-//{
-//    this->statusBar()->showMessage("Checking for updates...");
-//    QString url = "https://raw.githubusercontent.com/devolution2409/Lidl-Soundboard/master/updates.json";
-//    //qDebug() << QSimpleUpdater::getInstance()->getDownloadUrl(url);
-//  //  QSimpleUpdater::getInstance()->ownloaderEnabled(url,false);
-//   // QSimpleUpdater::getInstance()->checkForUpdates (url);
-//    //QSimpleUpdater::getInstance()->getChangelog()
-//    //qDebug() << QSimpleUpdater::getInstance()->getLatestVersion(url);
-//    this->statusBar()->clearMessage();
-//}
-
-
-
-
-void SoundboardMainUI::StatusErrorUnexistant()
-{
-    this->statusBar()->showMessage("The files marked with ⚠️ aren't present on disk.");
-}
-
-void SoundboardMainUI::StatusErrorPlaying(QString name)
-{
-    this->statusBar()->showMessage("Error playing file: " + name);
-}
-
-void SoundboardMainUI::StatusPlaying(QString name)
-{
-    this->statusBar()->showMessage("Now playing: " + name);
-}
-
 void SoundboardMainUI::ToolClearShortcut()
 {
     // Clearing KeySequence, else GenerateGlobalShortcut() will be able to pull info from there
@@ -2097,7 +2022,7 @@ void SoundboardMainUI::ToolClearShortcut()
                  << "Shortcut"
                  << "Mode"));
 
-
+    _data.clear();
     for (auto &i: temp)
         this->addSound(i,-1,LIDL::Shortcut::DONT_GENERATE);
     this->SetStatusTextEditText("Shortcuts cleared.");
@@ -2287,11 +2212,75 @@ void SoundboardMainUI::CheckForUpdates()
     }
 }
 
-//void SoundboardMainUI::ScrollStatusText(int howMuch)
-//{
+
+void SoundboardMainUI::dragEnterEvent(QDragEnterEvent *e)
+{
+    if (e->mimeData()->hasUrls())
+    {
+        bool accept  = true;
+        QList<QUrl> urlList = e->mimeData()->urls();
+
+        QMimeDatabase db;
+
+        for (auto i: urlList)
+        {
+          QMimeType type = db.mimeTypeForFile(i.path());
+          qDebug() << type.name();
+          if (!( LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
+            accept = false;
+        }
+
+        // check for lidljson file
+        //qDebug() << e->mimeData()->urls().at(0).path();
+        if (urlList.size() == 1 && e->mimeData()->urls().at(0).path().contains(".lidljson") )
+            accept = true;
 
 
+        if (accept)
+            e->acceptProposedAction();
+    }
 
+}
 
-//}
+void SoundboardMainUI::dropEvent(QDropEvent *e)
+{
+    // we can only have supported mime types or lidljson
+    foreach (const QUrl &url, e->mimeData()->urls())
+    {
+        //QString fileName = url.toLocalFile();
+        qDebug() << "Dropped file:" << url.toString();
+        if (url.toString().contains(".lidljson"))
+            this->Open(url.path().remove(0,1));
+        else
+        {
+                // check anyway but it shouldn't be possible
+              QMimeDatabase db;
+              QMimeType type = db.mimeTypeForFile(url.toString());
+              if (LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name()))
+              {
+                    // if the behaviour is to add one wrapper per sound
+                    // OR we only have one sound
+                    if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() ||  e->mimeData()->urls().size() == 1)
+                    {
+                        QVector<LIDL::SoundFile*> file;
+                        file.append( new LIDL::SoundFile(url.toString(),
+                                                         LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                         LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()  ));
+                        QKeySequence emptySeq;
+                        // adding sound with empty shortcut and defaulting to singleton
+                        this->addSound( new SoundWrapper(file,LIDL::Playback::Singleton,
+                                                                 emptySeq, -1,
+                                                                 this->_deviceListOutput->currentIndex(),
+                                                                 this->_deviceListVAC->currentIndex()));
 
+                    }
+                    // if we have more than 1 sound and we want to add them  all in one thing
+                    else if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers()
+                              &&  e->mimeData()->urls().size() > 1)
+                    {
+                        qDebug() << "test";
+                    }
+              }
+        }
+    }
+}

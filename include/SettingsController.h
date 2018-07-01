@@ -29,6 +29,7 @@
 #include <QTimer>
 #include "windows.h"
 #include <QJsonObject>
+#include <QMessageBox>
 namespace LIDL{
 
 
@@ -65,12 +66,16 @@ public:
     void unHoldPTT();
     void holdPTT(int duration);
 
+    int CompareSaves(QJsonObject newObject);
     // showSFX, showNumber, showFullSoundList;
 
     void addShowFlag(LIDL::SHOW_SETTINGS addedFlag);
     void removeShowFlag(LIDL::SHOW_SETTINGS removedFlag);
     bool checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag) const;
     LIDL::SHOW_SETTINGS getShowFlags() const;
+    QStringList GetSupportedMimeTypes() const;
+    bool GetDragAndDropSeveralWrappers() const;
+
 private:
     QString fileName;
     // Singleton class
@@ -118,6 +123,10 @@ private:
 
     // SHOW MENU SETTINGS
     LIDL::SHOW_SETTINGS _showFlags;
+
+
+    bool  dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
+
 
 signals:
     void RecentFilesChanged();

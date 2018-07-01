@@ -61,7 +61,9 @@ HEADERS += \
 FORMS += \
     Settings.ui \
     guideUI.ui \
-    framelesswindow.ui
+    loadingJson.ui
+   # framelesswindow.ui \
+
 
 RESOURCES +=  \
     resources.qrc \

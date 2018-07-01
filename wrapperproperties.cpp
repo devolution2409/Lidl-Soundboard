@@ -937,11 +937,7 @@ void WrapperProperties::AddSoundFromUrl()
                 if (answer.contains("Content-Type"))
                 {
                     // Supported Mimes types
-                    QStringList supportedMimes;
-                    supportedMimes << "audio/wav"   << "audio/xwav" // wav
-                                   << "audio/mpeg3" << "audio/x-mpeg-3" <<"audio/mpeg" //mp3
-                                   << "audio/ogg"  //ogg
-                                   << "audio/flac"; // flac
+                    QStringList supportedMimes = LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes();
                     /* https://shugo.developpez.com/tutoriels/regexqt/
                          * \w is any letter/number or _, + is "once or more"
                          * slash needs to be escaped

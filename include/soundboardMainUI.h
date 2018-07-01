@@ -5,6 +5,21 @@
 /*!
  * \file soundboardMainUI.h
  * \brief Soundboard Main UI file
+ *
+ *  Replaced by lambdas expression in 1.7.0 update:
+ *      void onCellClicked(QModelIndex index);
+ *      void onCellDoubleClicked(QModelIndex index);
+ *      void deleteSound();
+ *      void enableButtons();
+ *      void disableButtons();
+ *      void resetPushToTalkEdit();
+ *      void addSoundDialog();
+ *      void resetStopAllEdit();
+ *      void openAudioSettings();
+ *      void HelpReportBug();
+ *      void StatusErrorUnexistant();
+ *      void StatusPlaying(QString);
+ *      void StatusErrorPlaying(QString);
  * \author Devolution
  * \version 1.7.0
  */
@@ -87,6 +102,14 @@
 #include <QHeaderView>
 #include <QStyleFactory>
 
+
+
+#include <QRegExp>
+#include <QMimeData>
+#include <QMimeDatabase>
+#include <QProgressBar>
+#include <ui_loadingJson.h>
+
 /*! \class SoundboardMainUI
   * \brief Inherits QMainWindow.
   *
@@ -99,8 +122,7 @@ class SoundboardMainUI : public QMainWindow
 private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
 
-    // sound list
-    QVector<SoundWrapper*> _sounds; /*!< SoundWrapper array*/
+    QVector<SoundWrapper*> _sounds; /*!< SoundWrapper array: contains the sounds*/
 
 
     QVector<QKeySequence> _keySequence; /*!< keySequence array: contains the shortcuts to the sounds (mostly for displaying).*/
@@ -110,10 +132,9 @@ private:
 
 
     QGridLayout *_gLayout; /*!< A grid layout: everything is inside it.*/
-    // Model displayed by the viewer
-    //QStandardItemModel *_model;
+
     CustomTableModel *_model; /*!< Custom model that contains the data being displayed.*/
-    // DATA of the model:
+
     QVector<QList< QStandardItem* >> _data; /*!< ALL the data recieved by using GetSoundAsItem method. */
     QVector<QList< QStandardItem* >> _displayedData; /*!< Processed data according to the user settings. */
 
@@ -123,14 +144,6 @@ private:
     //QMenuBar *_menuBar;
     // We already have this->MenuBar() since we QMainWindow now
     QVector<QAction*> _actions; /*!< List of the actions in the MenuBar.*/
-    /***************************************************
-                       NAME DISPLAYING
-    ****************************************************/
-    // QGroupBox *_nameGroupBox;
-    // QLineEdit *_nameEdit;
-
-    // view
-  //  QTableView *resultView;
     CustomTableView *resultView; /*!< Custom table view (inherists from QTableView) to display the data in the model.*/
 
     // buttons
@@ -179,15 +192,6 @@ private:
      * \param event Pointer to the event (automatically called).
      */
     void closeEvent (QCloseEvent *event);
-
-
-
-   // bool checkFileExistence(QString fileName);
-
-    // Will return true if update is available
-    // bool IsUpdateAvailable(); //
-
-    // keep track of selection
     int lastSelectedRow; /*!<Keeps tracks of last selected rows. (Could probably use a method of QTableView.*/
 
 
@@ -203,13 +207,6 @@ private:
      */
     void Open(QString fileName);
 
-    /* LIDL::SettingsController is a singleton and calling
-     * GetInstance() will either create it or give a pointer
-     * towards the already existing instance
-     */
-
-    //LIDL::SettingsController* settingsObj;
-
     //void ScrollStatusText(int howMuch);
     QMenu * _openRecentMenu; /*!<QMenu containing the recently opened lidljson*/
 
@@ -223,7 +220,7 @@ private:
     QWidget * _guideWidget; /*!<Widget for the guide/app tour.*/
     Ui::Guide *_guideUI; /*!<UI for the guide/app tour.*/
 
-    /**
+    /*!
      * \brief This function deals with editing the data that will be displayed according to user settings. (Read: kind of delegate).
      */
     void refreshView();
@@ -232,7 +229,7 @@ public:
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 
 signals:
-    /**
+    /*!
      * \brief Signal to be emitted whenever a file is saved or opened. So that it appears in the recent menu.
      */
     void lidlJsonDetected(QFileInfo); // forsenBee (to deal with recent saved or opened files)*
@@ -240,7 +237,7 @@ signals:
     // We save soundboard state once we open a file or when we save it,
     // Than we can compare it when closing it to tell the user it hasn't been saved
 
-    /**
+    /*!
      * \brief Signal to be emitted whenever a file is saved or opened. So that its save can be saved and compared to the "ending" state, so modifications can be detected.
      */
     void SaveSoundboardState();
@@ -248,10 +245,7 @@ signals:
     void OnConstructionDone();
 
 public slots:
-    //This slot will allow us to add a sound, opens a file explorer dialogue
-    // void addSoundDialog(); replace by a lambda
-
-    /**
+    /*!
      * \brief This function add a soundwrapper to the main UI display, and adds/modify the entries in the private members so that the said wrapper can be played.
      * \param modifiedSound The added sounded/modified sound.
      * \param whereToInsert The spot where to insert the sound (only used when it's a sound being edited. Else if it's -1 we insert it at the bottom.
@@ -259,60 +253,113 @@ public slots:
      */
     void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
 
-    /**
+    /*!
      * \brief This function will call addSound with the modified sound and the correct whereToInsert param.
      * \param modifiedSound The modified sound.
      */
     void soundModified(SoundWrapper * modifiedSound);
 
-    // Slots for where user click or double click a cell
-    void onCellClicked(QModelIndex index);
-    void onCellDoubleClicked(QModelIndex index);
-    void deleteSound();
-    void editSoundDialog();
 
-    void enableButtons();
-    void disableButtons();
-    void winHotKeyPressed(int);
+    /*!
+     * \brief This function opens the Sound Entry Editor to open the selected sound.
+     * It is used by both the EDIT button and the DoubleClicked signal in the view.
+     */
+    void editSoundDialog();
+    /*!
+     * \brief Function to deal with Shortcut being pressed.
+     *
+     * This function will check if the shortcut being processed is the stop key
+     * If it is, it tells the controller to un-hold the ptt and stops all running sounds.
+     * If it is not, it plays the sound associated with the shortcut.
+     *
+     * This function is called by the event loop declared in main.cpp.
+     * The shortcut arrays and the soundswrapper array uses the same index.
+     * \param handle The index of the shortcut being played.
+     */
+    void winHotKeyPressed(int handle);
+
+
+    /*!
+     * \brief Function to register all the Shortcuts being used by the LIDL Soundboard.
+     *
+     * It will unregister all existing Shortcuts, and register them again.
+     */
     void GenerateGlobalShortcuts();
 
-    void resetPushToTalkEdit();
+    /*!
+     * \brief Function to register the Stop ALL Shortcut.
+     * It is used by the associated CustomShortcutEdit and the Open soundboard function.
+     */
     void setStopShortcut(int);
-    void resetStopAllEdit();
 
 
-    void openAudioSettings();
 
-    //Soundboard as JSON
+
+
+
+    /*!
+     * \brief Function to generate the .lidljson save file.
+     *
+     * It is used to save the active soundboard.
+     * It is also used to detect any modification by comparing the QJsonObject store inside the settings controller with a freshly generated one.
+     */
     QJsonObject * GenerateSaveFile();
-    //Json for saving the json path forsenT
-    //void SaveSettings();
 
-    // save slot
+    /*!
+     * \brief Function save the active lidljson file. If no file is already set, it will open the Save As prompt.
+     */
     void Save();
-    // Save as slot
+
+    /*!
+     * \brief This function Opens a Save As prompt, and save the active soundboard as a .lidljson file.
+     */
     void SaveAs();
 
-    // open slot
+    /*!
+     * \brief This function Opens a Open prompt, and opens .lidljson file.
+     *
+     * It parses the Json contained the file, and add all the settings and wrappers found inside it.
+     */
     void OpenSlot();
-    // Clear the soundboard
+
+    /*!
+     * \brief This function clears the soundboard, as if it was just opened without any file.
+     *
+     * It clears the soundwrapper array, unregister the shortcuts and clear their array, clear the model, clear the data, clear the devices lists, and finally refresh the view.
+     */
     void ClearAll();
-    // EXP soundboard compatibility
+
+    /*!
+     * \brief This function allows the opening of .json files written by EXP Soundboard
+     */
     void OpenEXPSounboard();
-    // help guide slot
+
+    /*!
+     * \brief This function will open the application tour guide.
+     *
+     * Adds a widget to the right of the view, guiding user through every element.
+     */
     void HelpGuide();
-    // help report bug
-    void HelpReportBug();
-    // About
+
+
+    /*!
+     * \brief This function will open the about window.
+     *
+     * Shows some text about the soundboard, version number, compilation time and compiler, and link to git.
+     */
     void HelpAbout();
 
-    void StatusErrorUnexistant();
-    void StatusPlaying(QString);
-    void StatusErrorPlaying(QString);
-
-    //void HelpCheckForUpdate();
 
 
+
+
+
+
+    /*!
+     * \brief This function will clear all the shortcuts in the soundboard.
+     *
+     * Will unregister all shortcuts. Clears the _data array. Replaced the wrappers in _sounds array by freshly created one without shortcuts. It will alos update the view in the process.
+     */
     void ToolClearShortcut();
 
     void DealDragAndDrop(int);
@@ -326,6 +373,9 @@ public slots:
 
     void CheckForUpdates();
     void resizeEvent ( QResizeEvent * event );
+
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
 
 };
 

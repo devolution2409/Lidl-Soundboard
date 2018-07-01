@@ -426,9 +426,12 @@ QProgressBar
 
 QProgressBar::chunk
 {
-    background-color: #d7801a;
-    width: 2.15px;
-    margin: 0.5px;
+/*    background-color: #d7801a;*/
+    background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,
+        stop: 0 #bbf, stop: 1 #55f);
+    width: 1px;
+  /*  width: 2.15px;
+    margin: 0.5px;*/
 }
 
 QTabBar::tab {

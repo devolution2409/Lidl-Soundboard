@@ -16,6 +16,9 @@ SettingsController::SettingsController()
         defaultSoundsFolder     =  qApp->applicationDirPath();
         // Default file count
         recentFileCount         = 5;
+
+        dragAndDropSeveralWrappers = true;
+
         _showFlags  = LIDL::SHOW_SETTINGS::NO_SETTINGS ;
         this->fileName = "lidlsettings.json";
         connect(&_activePttTimer,QTimer::timeout, [=]{
@@ -418,6 +421,44 @@ LIDL::SHOW_SETTINGS SettingsController::getShowFlags() const
     return _showFlags;
 }
 
+QStringList SettingsController::GetSupportedMimeTypes() const
+{
+    QStringList mimes;
+    mimes << "audio/wav"   << "audio/xwav" << "audio/x-wav" // wav
+                           << "audio/mpeg3" << "audio/x-mpeg-3" <<"audio/mpeg" //mp3
+                           << "audio/ogg"  //ogg
+                           << "audio/flac"; // flac
+    return mimes;
+}
+
+
+int SettingsController::CompareSaves(QJsonObject newObject)
+{
+    // save the settings forsenE
+    this->SaveSettings();
+    if (!(this->oldObject == newObject))
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(nullptr,tr("LIDL Soundboard: Changes Detected"),
+                                      tr("Do you wish to save changes?"),
+                                      QMessageBox::Yes|QMessageBox::No| QMessageBox::Cancel);
+        switch (reply){
+        case QMessageBox::Yes: return 0; break;
+        case QMessageBox::No : return 1; break;
+        case QMessageBox::Cancel: return 2; break;
+        default:
+            return 2;
+            break;
+        }
+
+    }
+    return -1;
+}
+
+bool SettingsController::GetDragAndDropSeveralWrappers() const
+{
+    return this->dragAndDropSeveralWrappers;
+}
 
 } // end namespace
 
