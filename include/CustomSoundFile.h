@@ -10,6 +10,7 @@
 #include <QUrl>
 #include <QTcpSocket>
 #include <QSslSocket>
+
 namespace LIDL {
 
 
@@ -17,6 +18,7 @@ class SoundFile : public QUrl
 {
 public:
     SoundFile();
+    SoundFile(const QString &name, int mainVolumeBase100 = 100,  int vacVolumeBase100 = 100);
     SoundFile(const QString &name, float mainVolume = 1.0, float vacVolume = 1.0);
     SoundFile(const QString &name, float mainVolume, float vacVolume, LIDL::SFX SFX);
 public:

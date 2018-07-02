@@ -8,6 +8,13 @@ SoundFile::SoundFile() : QUrl()
 
 }
 
+SoundFile::SoundFile(const QString &name, int mainVolumeBase100,  int vacVolumeBase100) : QUrl(name)
+{
+    _mainVolume = static_cast<float>(mainVolumeBase100/100);
+    _vacVolume  = static_cast<float>(vacVolumeBase100/100);
+}
+
+
 
 SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume) : 	QUrl(name)
 {

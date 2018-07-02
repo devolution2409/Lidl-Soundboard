@@ -110,6 +110,19 @@ void SettingsController::ShowSettingsWindow()
     ui->sliderMain->setValue(defaultMainVolume);
     ui->sliderVAC->setValue(defaultVacVolume);
     ui->fileCount->setValue(recentFileCount);
+    ui->radioOne->setChecked(dragAndDropSeveralWrappers);
+//    bool wrapperBehavior = true; // default
+
+
+//    connect(ui->radioOne, QRadioButton::clicked, [=]{
+//        wrapperBehavior = false;
+//    } );
+
+//    connect(ui->radioSeveral, QRadioButton::clicked, [=]{
+//        wrapperBehavior = true;
+//    } )
+
+
 
     connect(ui->buttonBox,QDialogButtonBox::accepted,
             [=]{
@@ -118,6 +131,7 @@ void SettingsController::ShowSettingsWindow()
                     recentFileCount         = ui->fileCount->value();
                     defaultMainVolume       = ui->sliderMain->value();
                     defaultVacVolume        = ui->sliderVAC->value();
+                    dragAndDropSeveralWrappers = ui->radioOne->isChecked();
                     widget->close();
                     this->SaveSettings();
                     emit SettingsChanged();
@@ -227,6 +241,8 @@ bool SettingsController::OpenSettings()
 
                   }
               }
+              if (json.contains("Drag And Drop Mode"))
+                  this->dragAndDropSeveralWrappers = json.value("Drag And Drop Mode").toBool();
             }
         }
         //qDebug() <<"size here:" << recentFiles.size();
@@ -253,6 +269,7 @@ void SettingsController::SaveSettings()
     volume.insert("Main Volume", defaultMainVolume);
     volume.insert("VAC Volume",  defaultVacVolume);
 
+
     // Location
     QJsonObject location;
     location.insert("Defaut Soundboards (.lidljson) Path",defaultSoundboardFolder);
@@ -272,7 +289,7 @@ void SettingsController::SaveSettings()
 
     files.insert("Files",fileArray);
 
-
+    saveFile.insert("Drag And Drop Mode",dragAndDropSeveralWrappers);
     saveFile.insert("Default Volumes",volume);
     saveFile.insert("Default Locations",location);
     saveFile.insert("Recent Files Info",files);
@@ -452,7 +469,7 @@ int SettingsController::CompareSaves(QJsonObject newObject)
         }
 
     }
-    return -1;
+    return -1; // file up-to-date
 }
 
 bool SettingsController::GetDragAndDropSeveralWrappers() const

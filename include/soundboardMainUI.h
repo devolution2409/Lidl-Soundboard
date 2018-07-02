@@ -325,7 +325,7 @@ public slots:
     /*!
      * \brief This function clears the soundboard, as if it was just opened without any file.
      *
-     * It clears the soundwrapper array, unregister the shortcuts and clear their array, clear the model, clear the data, clear the devices lists, and finally refresh the view.
+     * Call a function from the controller settings to prompt for save, clears the soundwrapper array, unregisters the shortcuts and clear their array, clears the model, clears the data, clears the devices lists, and finally refreshes the view.
      */
     void ClearAll();
 
@@ -361,20 +361,70 @@ public slots:
      * Will unregister all shortcuts. Clears the _data array. Replaced the wrappers in _sounds array by freshly created one without shortcuts. It will alos update the view in the process.
      */
     void ToolClearShortcut();
-
+    /*!
+     * \brief This function deals with drag and drop in the view, or at least, attempts to. I'm not sure it works correctly forsenD
+     *
+     * Will unregister all shortcuts. Clears the _data array. Replaced the wrappers in _sounds array by freshly created one without shortcuts. It will alos update the view in the process.
+     */
     void DealDragAndDrop(int);
+
+    /*!
+     * \brief This function swaps two soundwrappers in the view.
+     *
+     * Will unregister all shortcuts. Clears the _data array. Replaced the wrappers in _sounds array by freshly created one without shortcuts. It will alos update the view in the process.
+     */
     void SwapWrappers(int firstRow, int secondRow);
 
+
+
+    /*!
+     * \brief This function set the text of the permanent widget in the status bar.
+     *
+     * Will probably be removed at some point.
+     */
     void SetStatusTextEditText(QString);
 
     void PostConstruction();
     //void ErrorOnPlaying(QString);
-    void SetUpRecentMenu();
 
+
+    /*!
+     * \brief This function sets up the recent menu.
+     *
+     * Just add the necessaries entry in the recent menu.
+     */
+    void SetUpRecentMenu();
+    /*!
+     *  \brief This function check for updates.
+     *
+     * Check for updates by launching the maintenance tool in the background. If no data => no updates.
+     * If data => Ask for user if he wants to update now or later.
+     * The updates is stored on a github repository.
+     */
     void CheckForUpdates();
+
+    /*!
+     *  \brief This function is called whenever the window is resized, and just resizerowstocontent(). And call refreshView()
+     */
     void resizeEvent ( QResizeEvent * event );
 
+    /*!
+     *  \brief This function checks for the MIME type of files being dragged onto the sounboard.
+     *
+     * If the mime types of the files being dropped are all contained in the settings controller mime types, we accept the event.
+     * If one of them isn't, we refuse.
+     * If it is a .lidljson file, we accept aswell.
+     * Refusing an event will show the 🚫 icon instead of the + one.
+     */
     void dragEnterEvent(QDragEnterEvent *e);
+
+    /*!
+     *  \brief This function checks for the MIME type of files being dragged onto the sounboard.
+     *
+     *  This function deals with accepted events from the dragEnterEvent.
+     *  If it is sound file(s) it will add them to the soundboard based on the settings found inside the controller.
+     *  If it is a lidljson file, it will open it.
+     */
     void dropEvent(QDropEvent *e);
 
 };

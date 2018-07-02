@@ -38,7 +38,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     //_model = new QStandardItemModel(0,3,this);
     _model = new CustomTableModel(0,4,this);
     //Adding the headers
-    // Headers will be set by the ClearAll() method which is called regardless
+    // Headers will be set by the ClearAll() method which is called regardless<
 
     // Also works
     // _model->setHeaderData(0,Qt::Horizontal, QString("Sound File"));
@@ -781,17 +781,44 @@ void SoundboardMainUI::setUpMenu()
     menuBar->setFixedHeight(20);
     //vLayout->addWidget(menuBar);
     QMenu * fileMenu = menuBar->addMenu(tr("File"));
-    _actions.append(   new QAction("New",this)); //0
-    _actions.append(   new QAction("Open",this)); //1
+    _actions.append(   new QAction(tr("New"),this)); //0
+    // New action will call save soundboard state aswell, however we only want
+    // to call it if it is done through the new button to avoid calling it two times when
+    // opening a soundboard weSmart
+    //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
+    connect(this->_actions.last(),QAction::triggered,
+            [=]{
+        switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+        {
+            case 0: this->Save(); break; // yes
+            case 1: break; // no
+            case 2: return; break; // cancel or x button
 
+            case -1: break; // file up to date
+        }
+        // Saving Soundboard state in the SettingsController object
+        this->ClearAll();
+        //emit SaveSoundboardState();
+        this->SetStatusTextEditText(QString(tr("Creating new empty soundboard")));
+        LIDL::SettingsController::GetInstance()->SaveState( * this->GenerateSaveFile() );
+    });
 
-    _actions.append(   new QAction("Open EXP soundboard file",this)); //2
+    _actions.append(   new QAction(tr("Open"),this)); //1
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::OpenSlot);
 
-    _actions.append(   new QAction("Save",this)); //3
-    _actions.append(   new QAction("Save as..",this)); //4
+    _actions.append(   new QAction(tr("Open EXP soundboard file"),this)); //2
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::OpenEXPSounboard);
+
+    _actions.append(   new QAction(tr("Save"),this)); //3
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::Save);
+
+    _actions.append(   new QAction(tr("Save as.."),this)); //4
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::SaveAs);
+
+    _actions.append(   new QAction(tr("Exit"),this)); // 5
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::close);
+
     fileMenu->addSeparator();
-    _actions.append(   new QAction("Exit",this)); // 5
-
     fileMenu->addAction(_actions.at(0)); // new
     fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(1)); // open
@@ -815,121 +842,113 @@ void SoundboardMainUI::setUpMenu()
                             Help
     ****************************************************/
     QMenu * helpMenu = menuBar->addMenu(tr("Help"));
-    _actions.append(   new QAction("Guide",this));  //6
-    _actions.append(   new QAction("Check for update..",this)); //7
-    _actions.append(   new QAction("Report a bug or request a feature",this)); //8
-    _actions.append(   new QAction("About LIDL Soundboard",this)); //9
-    _actions.append(   new QAction("Welcome message",this)); //10
+    _actions.append(   new QAction(tr("Guide"),this));                                              //6
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::HelpGuide);
+
+    _actions.append(   new QAction(tr("Check for updates.."),this));                                //7
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::CheckForUpdates);
+
+    _actions.append(   new QAction(tr("Report a bug or request a feature"),this));                  //8
+    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::HelpAbout);
+
+
+    _actions.append(   new QAction(tr("About LIDL Soundboard"),this));                              //9
+    connect(this->_actions.last(),QAction::triggered,this,[=]{
+         QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
+    });
+
+    _actions.append(   new QAction(tr("First user message"),this));                                 //10
+    connect(this->_actions.last(),QAction::triggered,this, SoundboardMainUI::HelpShowFirstUserDialog);
+
 
     helpMenu->addAction(_actions.at(6));
     helpMenu->addAction(_actions.at(10));
     helpMenu->addSeparator();
-    // helpMenu->addAction(_actions.at(7));
+
     helpMenu->addAction(_actions.at(8));
     helpMenu->addSeparator();
+
     helpMenu->addAction(_actions.at(9));
-
-
+    helpMenu->addAction(_actions.at(7));
     /***************************************************
                             Tools
     ****************************************************/
-    _actions.append(new QAction("Regenerate shortcuts",this));  //11);
+    _actions.append(new QAction(tr("Regenerate shortcuts"),this));  //11);
     toolMenu->addAction(_actions.at(11));
-    _actions.at(10)->setToolTip( ("Regenerate shortcuts in case they get glitched."));
-    _actions.append(new QAction("Clear sounds shortcuts",this));  //12
+    connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
+
+    _actions.at(10)->setToolTip( tr("Regenerate shortcuts in case they get glitched."));
+    _actions.append(new QAction(tr("Clear sounds shortcuts"),this));  //12
     toolMenu->addAction(_actions.at(12));
+    connect(this->_actions.at(12),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
+
+    _actions.append(new QAction(tr("Refresh sound devices"),this)); // 13
+    connect(_actions.last(), QAction::triggered, [=]{
+        // clearing the view
+        this->_deviceListOutput->clear();
+        this->_deviceListVAC->clear();
+        // changing the wrapper playback device to 0 will be automatically done when the .clear() option happens since
+        // they are all connected to the comboboxes weSmart
+
+        // Fetching the devices
+        this->fetchDeviceList(_deviceListOutput,QAudio::AudioOutput);
+        this->fetchDeviceList(_deviceListVAC,QAudio::AudioOutput);
+        });
+    toolMenu->addAction(_actions.last());
     toolMenu->addSeparator();
-    _actions.append(new QAction("Settings",this)); //13
-    toolMenu->addAction(_actions.at(13));
-    toolMenu->addSeparator();
-    _actions.append(new QAction("Check for updates",this));
+
+    _actions.append(new QAction(tr("Settings"),this)); //14
     toolMenu->addAction(_actions.at(14));
+    connect(this->_actions.at(14),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
+    toolMenu->addSeparator();
+
+
 
     /***************************************************
                               View
     ****************************************************/
     // sound collection menu
     QMenu * scMenu =  viewMenu->addMenu(tr("Sound Collection"));
-    _actions.append(new QAction("Show SFX"));
-    _actions.append(new QAction("Wrap sound list"));
-    scMenu->addAction(_actions.at(15));
-    scMenu->addAction(_actions.at(16));
+
+    _actions.append(new QAction(tr("Show SFX"))); // 15
 
     // SFX
-    connect(_actions.at(15),QAction::triggered, [=]{
+    connect(_actions.last(),QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
 
         if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
         {
             LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
-            this->_actions.at(15)->setIcon(QIcon(""));
+            this->_actions.at(16)->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
             LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
-            this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+            this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
     });
+    scMenu->addAction(_actions.last());
+    _actions.append(new QAction(tr("Wrap sound list"))); //17
     // SHOW FULL LIST OF SOUNDS OR (n)
-    connect(_actions.at(16),QAction::triggered, [=]{
+    connect(_actions.last(),QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
         if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
         {
             LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
-            this->_actions.at(16)->setIcon(QIcon(""));
+            this->_actions.last()->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
             LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
-            this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+            this->_actions.last()->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
     });
-    /***************************************************
-                            ?
-    ****************************************************/
-    //    _actions.append(new QAction("?",this));
-    //    menuBar->addAction(_actions.at(15));
 
-
-    /***************************************************
-                           CONNECTIONS
-    ****************************************************/
-    connect(this->_actions.at(4),SIGNAL(triggered()),this,SLOT(SaveAs()));
-    connect(this->_actions.at(1),SIGNAL(triggered()),this,SLOT(OpenSlot()));
-    // New action will call save soundboard state aswell, however we only want
-    // to call it if it is done through the new button to avoid calling it two times when
-    // opening a soundboard weSmart
-    //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
-    connect(this->_actions.at(0),QAction::triggered,
-            [=]{
-        // Saving Soundboard state in the SettingsController object
-        this->ClearAll();
-        //emit SaveSoundboardState();
-        this->SetStatusTextEditText(QString("Creating new empty soundboard"));
-    });
-
-
-    connect(this->_actions.at(5),SIGNAL(triggered()),this,SLOT(close()));
-    connect(this->_actions.at(2),SIGNAL(triggered()),this,SLOT(OpenEXPSounboard()));
-    connect(this->_actions.at(3),SIGNAL(triggered()),this,SLOT(Save()));
-    connect(this->_actions.at(6),SIGNAL(triggered()),this,SLOT(HelpGuide()));
-    // connect(this->_actions.at(7),SIGNAL(triggered()),this,SLOT(HelpCheckForUpdate()));
-    connect(this->_actions.at(8),QAction::triggered,this,[=]{
-         QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
-    });
-
-
-    connect(this->_actions.at(9),SIGNAL(triggered()),this,SLOT(HelpAbout()));
-    connect(this->_actions.at(10), QAction::triggered, this, SoundboardMainUI::HelpShowFirstUserDialog);
-
-    connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
-    connect(this->_actions.at(12),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
-    connect(this->_actions.at(13),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
-    connect(this->_actions.at(14),QAction::triggered,this,SoundboardMainUI::CheckForUpdates);
+    scMenu->addAction(_actions.last());
 }
 
 
@@ -939,12 +958,14 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 {
 
     // Compare saved soundboard state with the one we have now
-    if ( LIDL::SettingsController::GetInstance()->CompareSaves( * this->GenerateSaveFile()) == 0)
-        this->Save();
-    else if ( LIDL::SettingsController::GetInstance()->CompareSaves( * this->GenerateSaveFile()) == 2)
-         return;
-    else
+    switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
+        case 0: this->Save(); break; // yes
+        case 1: break; // no
+        case 2: return; break; // cancel or x button
+
+        case -1: break; // file up to date
+    }
 
 
 
@@ -968,7 +989,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     PostQuitMessage(0);
     QWidget::closeEvent(event);
 
-    }
+
 
 }
 
@@ -1070,14 +1091,14 @@ void SoundboardMainUI::OpenSlot()
 
 void SoundboardMainUI::Open(QString fileName)
 {
-
-    if (LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == 0) //yes
-        this->Save();
-    else if  (LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == 2) // cancel or X button
-        return;
-    else if  (LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == 1 ||
-              LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()) == -1 ) //no or file up to date
+    switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
+        case 0: this->Save(); break; // yes
+        case 1: break; // no
+        case 2: return; break; // cancel or x button
+
+        case -1: break; // file up to date
+    }
         QFile file(fileName);
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
         {
@@ -1300,7 +1321,7 @@ void SoundboardMainUI::Open(QString fileName)
                         }
                     }
 
-                    //Else If this is an array than we are on the old save system without the volumes:
+                    //Else If this is an array than we are on the old save system without the volumes
                     else if (item.value("Sound Collection").isArray() )
                     {
                         //qDebug() << "Old file detected forsenBee";
@@ -1308,7 +1329,10 @@ void SoundboardMainUI::Open(QString fileName)
                         // We iterate over the sound files and add them to the array
                         // (default volume is 100%).
                         for (auto j: soundArray)
-                            fileArray.append( new LIDL::SoundFile(j.toString())  );
+                            fileArray.append(
+                                        new LIDL::SoundFile(j.toString(),
+                                                            LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                            LIDL::SettingsController::GetInstance()->GetDefaultVacVolume())  );
 
                     }
 
@@ -1344,7 +1368,7 @@ void SoundboardMainUI::Open(QString fileName)
         emit SaveSoundboardState();
         }//endif file was opened
 
-    }
+
 }
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
@@ -1879,9 +1903,6 @@ void SoundboardMainUI::resizeEvent ( QResizeEvent * event )
     this->resultView->resizeRowsToContents();
     this->refreshView();
     event->accept();
-
-
-
 }
 
 void SoundboardMainUI::HelpAbout()
@@ -2215,6 +2236,7 @@ void SoundboardMainUI::CheckForUpdates()
 
 void SoundboardMainUI::dragEnterEvent(QDragEnterEvent *e)
 {
+    qDebug() << "giugiugiu";
     if (e->mimeData()->hasUrls())
     {
         bool accept  = true;
@@ -2245,6 +2267,7 @@ void SoundboardMainUI::dragEnterEvent(QDragEnterEvent *e)
 void SoundboardMainUI::dropEvent(QDropEvent *e)
 {
     // we can only have supported mime types or lidljson
+    QVector<LIDL::SoundFile*> file;
     foreach (const QUrl &url, e->mimeData()->urls())
     {
         //QString fileName = url.toLocalFile();
@@ -2262,25 +2285,35 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
                     // OR we only have one sound
                     if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() ||  e->mimeData()->urls().size() == 1)
                     {
-                        QVector<LIDL::SoundFile*> file;
+                        file.clear();
                         file.append( new LIDL::SoundFile(url.toString(),
-                                                         LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                         LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()  ));
+                                                          LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                         LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()));
                         QKeySequence emptySeq;
                         // adding sound with empty shortcut and defaulting to singleton
                         this->addSound( new SoundWrapper(file,LIDL::Playback::Singleton,
                                                                  emptySeq, -1,
                                                                  this->_deviceListOutput->currentIndex(),
-                                                                 this->_deviceListVAC->currentIndex()));
-
+                                                                 this->_deviceListVAC->currentIndex()));          
                     }
                     // if we have more than 1 sound and we want to add them  all in one thing
-                    else if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers()
+                    else if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
                               &&  e->mimeData()->urls().size() > 1)
                     {
-                        qDebug() << "test";
+                        file.append( new LIDL::SoundFile(url.toString(),
+                                                         LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                         LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()));
                     }
               }
         }
+    }
+    if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
+            &&  e->mimeData()->urls().size() > 1){
+    QKeySequence emptySeq;
+    // adding sound with empty shortcut and defaulting to sequential
+    this->addSound( new SoundWrapper(file,LIDL::Playback::Sequential,
+                                             emptySeq, -1,
+                                             this->_deviceListOutput->currentIndex(),
+                                             this->_deviceListVAC->currentIndex()));
     }
 }
