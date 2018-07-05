@@ -138,11 +138,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(this->_btnClearPTT,QPushButton::clicked,this,[=]{
             // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
             _shortcutEditPTT->clear();
-            for (auto &i: _sounds)
-            {
-                i->PTTVirtualKeyChanged(-1);
-                i->PTTScanCodeChanged(-1);
-            }
+            LIDL::SettingsController::GetInstance()->SetPTTScanCode(-1);
+            LIDL::SettingsController::GetInstance()->SetPTTVirtualKey(-1);
         });
     /***************************************************
                          STOP SOUND BIND
@@ -800,7 +797,7 @@ void SoundboardMainUI::setUpMenu()
         this->ClearAll();
         //emit SaveSoundboardState();
         this->SetStatusTextEditText(QString(tr("Creating new empty soundboard")));
-        LIDL::SettingsController::GetInstance()->SaveState( * this->GenerateSaveFile() );
+        emit SaveSoundboardState(); // == LIDL::SettingsController::GetInstance()->SaveSoundboardState(QJsonObject save);
     });
 
     _actions.append(   new QAction(tr("Open"),this)); //1
@@ -961,8 +958,12 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
         case 0: this->Save(); break; // yes
-        case 1: break; // no
-        case 2: return; break; // cancel or x button
+        case 1:
+            break; // no
+        case 2:
+            event->ignore();
+            return;
+            break; // cancel or x button
 
         case -1: break; // file up to date
     }
@@ -1002,22 +1003,6 @@ void SoundboardMainUI::setStopShortcut(int virtualKey)
     RegisterHotKey(NULL,2147483647,0, virtualKey);
 
 }
-
-
-
-
-
-//This thing will create a txt file for the soundboard to store *.lidljson locations
-// so that they can be added in the c OMEGALUL mbo box
-//void GenerateLidlLocations()
-//{
-
-
-
-//}
-
-
-
 
 
 
@@ -1102,6 +1087,8 @@ void SoundboardMainUI::Open(QString fileName)
         QFile file(fileName);
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
         {
+            this->_deviceListOutput->setCurrentIndex(-1);
+            this->_deviceListVAC->setCurrentIndex(-1);
             // Declare the temp variables we are going to use to construct our objects
             QString mainOutputDevice, vacOutputDevice;
             QString pttName;
@@ -1174,19 +1161,46 @@ void SoundboardMainUI::Open(QString fileName)
         /***************************************************
                           SETTING COMBO BOX
         ****************************************************/
+        QString error ="";
 
-        // we have to set the devices before
+        // Return -1 if device isn't found
+        int indexMainOutputDevice = this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
+        if (indexMainOutputDevice == -1)
+        {
+            indexMainOutputDevice = 0;
+            error+= tr("Device: \"%1\" used as main output not found.\n").arg(mainOutputDevice);
+            // using a single-shot lambda connection to change the invalid to <no device selected>
+            // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
+            QMetaObject::Connection * const connection = new QMetaObject::Connection;
+            *connection = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
+                this->_deviceListOutput->setCurrentIndex(0);
+                QObject::disconnect(*connection);
+                delete connection;
+            });
+        }
         this->_deviceListOutput->setCurrentIndex(this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole));
+
+        int indexVACOutputDevice  = this->_deviceListVAC->findData(vacOutputDevice, Qt::DisplayRole);
+        if (indexVACOutputDevice == -1)
+        {
+            indexVACOutputDevice = 0;
+            error+= tr("Device: \"%1\" used as VAC output not found.\n").arg(vacOutputDevice);
+            QMetaObject::Connection * const conn = new QMetaObject::Connection;
+            *conn = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
+                this->_deviceListVAC->setCurrentIndex(0);
+                QObject::disconnect(*conn);
+                delete conn;
+            });
+        }
+
         this->_deviceListVAC->setCurrentIndex(this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole));
 
+        if (!error.isEmpty())
+            error+= tr("Resetting..");
 
 
-        /***************************************************
-                 SETTING LOCALL DEVICES INDEX TO -1
-                 just kidding we don't need to
-        ****************************************************/
-        int indexMainOutputDevice = this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);// == 0) ? -1 : (this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole)) ;
-        int indexVACOutputDevice  = this->_deviceListOutput->findData(vacOutputDevice, Qt::DisplayRole);//  == 0)? -1 : (this->_deviceListOutput->findData(vacOutputDevice, Qt::DisplayRole));
+
+
         /***************************************************
                           SETTING KEY SEQUENCES
         ****************************************************/
@@ -1362,9 +1376,10 @@ void SoundboardMainUI::Open(QString fileName)
 
             } // end for auto wrapper
         } // end if json contains wrapper
-        //qDebug() << mainOutputDevice << "\t" << vacOutputDevice << "\t" << pttName << "\t" << pttScanCode << "\t" << pttVirtualKey << "\t" << stopName << "\t" << stopVirtualKey;
+        // showing error
+        if (!error.isEmpty())
+            QMessageBox::warning(this,tr("Error opening: %1").arg(fileName),error);
         // Saving Soundboard state in the SettingsController object
-        //qDebug() << "Keys here: " << _shortcutEditStop->getText() << "vk:" << _shortcutEditStop->getVirtualKey();
         emit SaveSoundboardState();
         }//endif file was opened
 
@@ -1598,37 +1613,24 @@ void SoundboardMainUI::SaveAs()
 
 void SoundboardMainUI::HelpGuide()
 {
-    // prepare overlay widget
-
-    //this->setGraphicsEffect( nullptr );
+    //if guide is already opened we return
+    if ( _guideWidget != nullptr)
+        return;
 
     QSize previousSize = this->size();
-    this->resize(1170,632);
+    if (  previousSize.width() < 771)
+        this->resize(1170,632);
     _guideUI = new Ui::Guide();
     _guideWidget = new QWidget();
     Ui::Guide * ui = _guideUI;
-    this->setGeometry(
-                QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,
-                    this->size(),
-                    qApp->desktop()->availableGeometry()
-                    ));
+
     // reseting selection
     resultView->clearSelection();
     //    this->setMaximumSize(1170,632);
     this->setMinimumSize(771,664);
 
-    // _guideOverlay = new QWidget(this);
 
-    //_guideOverlay->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-    //qDebug() << "size is:" << resultView->width();
-    //_guideOverlay->resize( this->size());
-
-
-
-
-    // Getting the state of the widget and disablin
+    // Getting the state of the widget and disablin'
     // EVERY LAST OF THEM forsenC forsenGun
     QVector<bool> state;
     for (int i = 0; i < _gLayout->count(); ++i)
@@ -1641,11 +1643,19 @@ void SoundboardMainUI::HelpGuide()
         }
     }
     _gLayout->addWidget(_guideWidget,0,8,9,4);
-    _gLayout->setColumnStretch(8,100);
+    _gLayout->setColumnStretch(8,50);
     _guideUI->setupUi(_guideWidget);
     _guideWidget->show();
     _guideWidget->setMaximumWidth(515);
     this->_gLayout->update();
+    this->setGeometry(
+                QStyle::alignedRect(
+                    Qt::LeftToRight,
+                    Qt::AlignCenter,
+                    this->size(),
+                    qApp->desktop()->availableGeometry()
+                    ));
+
     ui->titleLabel->setText("LIDL Helper");
     ui->pageLabel->setText("1/14");
 
@@ -1772,6 +1782,7 @@ void SoundboardMainUI::HelpGuide()
         _guideWidget->close();
         _gLayout->removeWidget(_guideWidget);
         delete _guideWidget;
+        _guideWidget = nullptr;
         // resetting widgets to their previous states
         for (int i = 0; i < _gLayout->count(); ++i)
         {
@@ -1780,16 +1791,7 @@ void SoundboardMainUI::HelpGuide()
                 widget->setEnabled(state.at(i));
         }
         this->resize(previousSize);
-        _guideUI = new Ui::Guide();
-        _guideWidget = new QWidget();
-        Ui::Guide * ui = _guideUI;
-        this->setGeometry(
-                    QStyle::alignedRect(
-                        Qt::LeftToRight,
-                        Qt::AlignCenter,
-                        this->size(),
-                        qApp->desktop()->availableGeometry()
-                        ));
+
         _gLayout->setColumnStretch(8,0);
         // resetting style
         this->menuBar()->setStyleSheet(menuCSS);

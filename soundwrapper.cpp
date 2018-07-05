@@ -239,15 +239,15 @@ void SoundWrapper::VACDeviceChanged(int index)
     _player->SetVACDevice(index);
 }
 
-void SoundWrapper::PTTScanCodeChanged(int scanCode)
-{
-    _player->SetPTTScanCode(scanCode);
-}
+//void SoundWrapper::PTTScanCodeChanged(int scanCode)
+//{
+//    _player->SetPTTScanCode(scanCode);
+//}
 
-void SoundWrapper::PTTVirtualKeyChanged(int key)
-{
-    _player->SetPTTVirtualKey(key);
-}
+//void SoundWrapper::PTTVirtualKeyChanged(int key)
+//{
+//    _player->SetPTTVirtualKey(key);
+//}
 
 
 
@@ -282,15 +282,6 @@ int SoundWrapper::setPlayMode(LIDL::Playback playmode)
     return 0;
 }
 
-// SETTERS for the players, need when constructing new objects forsenT
-void SoundWrapper::setPlayerPTTScanCode(int pttScanCode)
-{
-    this->_player->SetPTTScanCode(pttScanCode);
-}
-void SoundWrapper::setPlayerPTTVirtualKey(int vKey)
-{
-    this->_player->SetPTTVirtualKey(vKey);
-}
 
 
 
@@ -326,8 +317,6 @@ void SoundWrapper::clearShorcut()
 {
     QKeySequence empty;
     this->_keySequence.swap(empty);
-    this->setPlayerPTTScanCode(-1);
-    this->setPlayerPTTVirtualKey(-1);
 }
 
 // ILLEGAL IN QT
@@ -362,17 +351,6 @@ int SoundWrapper::getMainDevice()
 int SoundWrapper::getVacDevice()
 {
     return this->_player->GetVACDevice();
-}
-
-
-int  SoundWrapper::getPlayerPTTScanCode()
-{
-    return this->_player->GetPTTScanCode();
-}
-
-int  SoundWrapper::getPlayerPTTVirtualKey()
-{
-      return this->_player->GetPTTVirtualKey();
 }
 
 bool operator==(const SoundWrapper &a, const SoundWrapper &b)

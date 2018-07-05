@@ -113,7 +113,7 @@
 /*! \class SoundboardMainUI
   * \brief Inherits QMainWindow.
   *
-  *  Deals with displaying and intercepting shortcuts
+  *  Deals with displaying sounds (main UUI) and intercepting shortcuts.
   */
 class SoundboardMainUI : public QMainWindow
 {
@@ -302,6 +302,8 @@ public slots:
      *
      * It is used to save the active soundboard.
      * It is also used to detect any modification by comparing the QJsonObject store inside the settings controller with a freshly generated one.
+     *
+     * \return QJSonObject* (pointer) containing the data.
      */
     QJsonObject * GenerateSaveFile();
 

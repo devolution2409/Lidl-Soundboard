@@ -1,23 +1,3 @@
-/*  Class containing the wrapper of a sound collection:
- *      Members:
- *          Attributes:
- *             Type                 Name                Description
- *
- *              QVector<QFile*>     _soundList          array of pointers to file:
- *              QKeySequence        _keySequence        the shortcut to play those sounds
- *              int _playMode       _playMode           the play type mode (sequential, circling, repeating etc)
- *
- *          Methods:
- *              addSound(QString filename);
- *              int removeSoundAt(int);
- *              int setKeySequence(QKeySequence);
- *              int setPlayMode(int);
- *
- * TODO: replace int _playMode by an enumeration
- */
-
-
-
 //#ifndef SOUNDWRAPPER_H
 //#define SOUNDWRAPPER_H
 #pragma once
@@ -42,6 +22,12 @@
 #include "CustomListWidgetItem.h"
 #include "CustomSoundFile.h"
 
+/*! \class SoundWrapper
+  * \brief Inherits QObject
+  *
+  * Soundwrapper class contains all the data necessary to play one or several sounds,
+  * as well as a player capable of playing them.
+  */
 class SoundWrapper : public QObject
 {
     Q_OBJECT
@@ -81,11 +67,6 @@ SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainVolum
     int setKeySequence(QKeySequence);
     int setPlayMode(LIDL::Playback);
 
-    void setPlayerPTTScanCode(int);
-    void setPlayerPTTVirtualKey(int);
-    int  getPlayerPTTScanCode();
-    int  getPlayerPTTVirtualKey();
-
     void setPlayerMainOutput(int);
     void setPlayerVACOutput(int);
     int getVacDevice();
@@ -98,44 +79,107 @@ SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainVolum
 
 
 private:
-    // Vector to store the soundlist
-     QVector<LIDL::SoundFile*> _soundList;
 
-  //  std::vector< std::map<QFile*, std::pair<float,float>>> _soundList;
+     QVector<LIDL::SoundFile*> _soundList; /*!< Vector containing the files.*/
 
-
-    //  playblack mode
-    // TODO: remplacer par une enum
-    LIDL::Playback _playMode;
+    LIDL::Playback _playMode; /*!< Variable holding the playback mode (enumeration defined in EnumsAndStruct.h .*/
 
     // shortcut
-    QKeySequence _keySequence;
-    int _virtualKey;
+    QKeySequence _keySequence; /*!< Key Sequence of the shortcut playing the sound. Can be empty. Used for displayed purposes. */
+    int _virtualKey; /*!< Virtual Key of the shortcut playing the sound. Needed to register it into windows API.*/
     // the player to play the sounds
-    CustomPlayer * _player;
+    CustomPlayer * _player; /*!< Player that will play the sound according to their volume, SFX, and playback settings.*/
 
     bool checkFileExistence(QString fileName);
 
     // need this to check for soundboard modification forsenT
     // will implement SettingsController:WasModified() or something
-    friend bool operator==(const SoundWrapper &a, const SoundWrapper &b);
-    friend bool operator!=(const SoundWrapper &a, const SoundWrapper &b);
+    /*!
+     * \brief Deprecated.
+     *
+     * \deprecated Used to be used to detect modification to prompt the user to save. Now, we compare entry save file, and what would be the output save file.
+     * \param a The soundwrapper to be compared against.
+     * \param b The second soundwrapper.
+     */
+    friend bool operator==(const SoundWrapper & a, const SoundWrapper & b);
+    /*!
+    * \brief Deprecated.
+    *
+    * \deprecated Used to be used to detect modification to prompt the user to save. Now, we compare entry save file, and what would be the output save file.
+    * \param a The soundwrapper to be compared against.
+    * \param b The second soundwrapper.
+    */
+    friend bool operator!=(const SoundWrapper & a, const SoundWrapper & b); /*!< */
 signals:
+    /*!
+     * \brief Used to send warning to main ui that a file doesn't exist.
+     *
+     * This function will check if the local file exists (when opening a soundboard).
+     * It will also check if a remote file exists using a tcp/tsl socket to check the MIME type.
+     */
     void UnexistantFile();
-    // Signal to redirect signal from the player forsenT
+
+
+    /*!
+     * \brief Used to send a warning to main ui that an error happened playing a file.
+     *
+     */
     void ErrorPlaying(QString);
+
+    /*!
+     * \brief Used to send a message to main ui that a file is playing
+     *
+     */
     void NowPlaying(QString);
+
+    /*!
+     * \brief This signal is sent whenever the  "holdPTT" signal of the player is sent.
+     *
+     * It is used to tell the settingscontroller to hold the PTT key for the duration of the sound played.
+     */
     void holdPTTProxy(int);
 
 public slots:
+    /*!
+     * \brief Tell the player to play the sound according to the playback mode.
+     */
     void Play();
+
+    /*!
+     * \brief Tell the player to stop playing the sound.
+     */
     void Stop();
+
+    /*!
+     * \brief Set the main output device of the player according to the combo box in the UI.
+     */
+
     void OutputDeviceChanged(int);
+    /*!
+     * \brief Set the VAC output device of the player according to the combo box in the UI.
+     */
     void VACDeviceChanged(int);
-    void PTTVirtualKeyChanged(int);
-    void PTTScanCodeChanged(int);
+
+    /*!
+     * \brief Proxy for the player now playing signal.
+     *
+     * Redirect the signal of the player to the main UI.
+     */
     void playerNowPlaying(QString);
+
+    /*!
+     * \brief Proxy for the player error playing signal.
+     *
+     * Redirect the signal of the player to the main UI.
+     */
     void playerErrorPlaying(QString);
+
+    /*!
+     * \brief Clears the shortcut of the wrapper. (Display purposes)
+     *
+     * Will get called whenever clearing the shortcut is needed.
+     * Swap the existing key sequence with a blank one.
+     */
     void clearShorcut();
 
 
