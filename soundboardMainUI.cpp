@@ -750,7 +750,16 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 // Method to run the sound via hotkeys
 void SoundboardMainUI::winHotKeyPressed(int handle)
 {
-    // qDebug() << "Pressed hotkey handle: " << handle;
+    // If we shouldn't process event, we return.
+    //(a.k.a. bug fix for shortcut playing themselves if
+    // they have the same shortcut as modifier + autohold PTT key.
+    //qDebug() << "var:" << LIDL::SettingsController::GetInstance()->_eventProcessing;
+    if(!(LIDL::SettingsController::GetInstance()->getEventProcessing()))
+    {
+        qDebug() << "shouldn't process handle number:" << handle;
+        return;
+    }
+    qDebug() << "Pressed hotkey handle: " << handle;
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
@@ -761,6 +770,7 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     }
     // else this a sound hotkey handle
     // We check if the soundwrapper at this location has one file else it will play nullptr and crash
+
     else if ( ! _sounds.at(handle)->getSoundList().isEmpty() )
         _sounds.at(handle)->Play();
 }
@@ -1106,19 +1116,29 @@ void SoundboardMainUI::Open(QString fileName)
                 return;
             }
 
-        _model->clear();
-        _data.clear();
-        this->ClearAll();
 
-        this->_saveName = fileName;
-        emit lidlJsonDetected(QFileInfo(file)); // forsenBee
         file.close();
         QJsonObject json = cdOMEGALUL.object();
+
+        if (!(json.contains("Settings") && json.contains("SoundWrappers")))
+        {
+            QMessageBox::warning(this,tr("Error"),tr("File \"%1\" is not a valid lidljson file.").arg(fileName));
+            return;
+        }
+
+
 
         //  QVector<SoundWrapper*> sounds;
         // if it has a setting block we read it
         if (json.contains("Settings"))
         {
+            // we only clear if file is valid weSmart
+            _model->clear();
+            _data.clear();
+            this->ClearAll();
+
+            this->_saveName = fileName;
+            emit lidlJsonDetected(QFileInfo(file)); // forsenBee
             QJsonObject settings = json.value("Settings").toObject();
             if (settings.contains("Main Output Device"))
                 mainOutputDevice = settings.value("Main Output Device").toString();
@@ -1163,14 +1183,14 @@ void SoundboardMainUI::Open(QString fileName)
         ****************************************************/
         QString error ="";
 
-        // Return -1 if device isn't found
+        // using a single-shot lambda connection to change the invalid to <no device selected>
+        // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
         int indexMainOutputDevice = this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
         if (indexMainOutputDevice == -1)
         {
             indexMainOutputDevice = 0;
             error+= tr("Device: \"%1\" used as main output not found.\n").arg(mainOutputDevice);
-            // using a single-shot lambda connection to change the invalid to <no device selected>
-            // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
+
             QMetaObject::Connection * const connection = new QMetaObject::Connection;
             *connection = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
                 this->_deviceListOutput->setCurrentIndex(0);
@@ -1180,6 +1200,8 @@ void SoundboardMainUI::Open(QString fileName)
         }
         this->_deviceListOutput->setCurrentIndex(this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole));
 
+        // using a single-shot lambda connection to change the invalid to <no device selected>
+        // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
         int indexVACOutputDevice  = this->_deviceListVAC->findData(vacOutputDevice, Qt::DisplayRole);
         if (indexVACOutputDevice == -1)
         {
@@ -1215,9 +1237,6 @@ void SoundboardMainUI::Open(QString fileName)
         // need to update the VirtualKey aswell in case we save afterwards, else it will be -1
 
         // The wrapper stuff
-
-
-
         if (json.contains("SoundWrappers"))
         {
 
@@ -1388,11 +1407,18 @@ void SoundboardMainUI::Open(QString fileName)
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
+    switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+    {
+        case 0: this->Save(); break; // yes
+        case 1: break; // no
+        case 2: return; break; // cancel or x button
+
+        case -1: break; // file up to date
+    }
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("EXP Sounboard JSON  (*.json)"));
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
-    {   // We clear the soundboard
-        this->ClearAll();
+    {
         QString jsonAsString = file.readAll();
         file.close();
         QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
@@ -1401,6 +1427,9 @@ void SoundboardMainUI::OpenEXPSounboard()
 
         if (json.contains("soundboardEntries"))
         {
+            // we clear the soundboard only if it's a valid file forsenE
+            // We clear the soundboard
+                  this->ClearAll();
 
             QJsonArray soundArray = json.value("soundboardEntries").toArray();
             for (auto i: soundArray)
@@ -1429,6 +1458,11 @@ void SoundboardMainUI::OpenEXPSounboard()
 
 
             } //end for sound array
+        }
+        else
+        {
+            QMessageBox::warning(this,tr("Error"),tr("File \"%1\" is not a valid EXP Soundboard save.").arg(fileName));
+            return;
         }
     }
 }
@@ -1617,11 +1651,16 @@ void SoundboardMainUI::HelpGuide()
     if ( _guideWidget != nullptr)
         return;
 
+    bool wasMaximized = false;
+    if (this->windowState() & Qt::WindowMaximized)
+        wasMaximized = true;
+
     QSize previousSize = this->size();
     if (  previousSize.width() < 771)
         this->resize(1170,632);
     _guideUI = new Ui::Guide();
     _guideWidget = new QWidget();
+
     Ui::Guide * ui = _guideUI;
 
     // reseting selection
@@ -1639,22 +1678,29 @@ void SoundboardMainUI::HelpGuide()
         if (widget != nullptr)
         {
             state.append(widget->isEnabled());
-            widget->setEnabled(false);
+            //widget->setEnabled(false);
         }
     }
-    _gLayout->addWidget(_guideWidget,0,8,9,4);
-    _gLayout->setColumnStretch(8,50);
+    // :point_down: I VON ZULUL
+    _gLayout->addWidget(_guideWidget,0,8,9,1);
+    _gLayout->setColumnStretch(8,0);
     _guideUI->setupUi(_guideWidget);
+    _gLayout->setColumnStretch(0,100);
     _guideWidget->show();
     _guideWidget->setMaximumWidth(515);
     this->_gLayout->update();
-    this->setGeometry(
-                QStyle::alignedRect(
-                    Qt::LeftToRight,
-                    Qt::AlignCenter,
-                    this->size(),
-                    qApp->desktop()->availableGeometry()
-                    ));
+    if (!wasMaximized)
+        this->setGeometry(
+                    QStyle::alignedRect(
+                        Qt::LeftToRight,
+                        Qt::AlignCenter,
+                        this->size(),
+                        qApp->desktop()->availableGeometry()
+                       ));
+    else
+        this->setWindowState(Qt::WindowMaximized);
+
+
 
     ui->titleLabel->setText("LIDL Helper");
     ui->pageLabel->setText("1/14");
@@ -1808,6 +1854,18 @@ void SoundboardMainUI::HelpGuide()
         _btnClearPTT->setStyleSheet(buttonCSS);
         _btnClearStop->setStyleSheet(buttonCSS);
         resultView->setStyleSheet(viewCSS);
+        // resetting fullscreen or recentering anyway
+        if (!wasMaximized)
+            this->setGeometry(
+                        QStyle::alignedRect(
+                            Qt::LeftToRight,
+                            Qt::AlignCenter,
+                            this->size(),
+                            qApp->desktop()->availableGeometry()
+                           ));
+        else
+            this->setWindowState(Qt::WindowMaximized);
+
     });
 
     // the lambda we connect the slider to forsenE

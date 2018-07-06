@@ -80,9 +80,14 @@ TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
 QMAKE_CXXFLAGS += -static-libgcc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/lib/ -lbass       #-lbassmix
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/lib/ -lbass -lbassflac   #-lbassmix
-else:unix: LIBS += -L$$PWD/lib/ -lbass
+#win32:CONFIG(release, debug|release):
+# LIBS += -L$$PWD/lib/ -lbass -lbassflac -lole32    #-lbassmix
+#else:win32:CONFIG(debug, debug|release):
+
+LIBS += -L$$PWD/lib/ -lbass -lbassflac   -lole32 -loleaut32 -limm32 -lwinmm #-lbassmix
+
+#else:unix:
+#LIBS += -L$$PWD/lib/ -lbass
 
 INCLUDEPATH += $$PWD/include
 DEPENDPATH += $$PWD/.

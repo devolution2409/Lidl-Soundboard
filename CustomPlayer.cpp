@@ -181,7 +181,7 @@ double CustomPlayer::PlayAt(int index)
         if (duration == -1)
             duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
                                                         BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
-        qDebug() << "duration:" << duration;
+        qDebug() << "duration of file:" << _soundList.at(index)->path() << " is: " << duration;
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
 
@@ -206,10 +206,12 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
-        if (_PTTScanCode !=-1 )
-            emit holdPTT(static_cast<int>(duration*1000) );
         BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
     }
+
+
+
+
     // same for VAC output, and we check the two outputs aren't the same
     if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
     {
@@ -255,18 +257,16 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
-        if (_PTTScanCode !=-1 )
-            emit holdPTT(static_cast<int>(duration*1000) );
+//        if (_PTTScanCode !=-1 )
+//            emit holdPTT(static_cast<int>(duration*1000) );
         BASS_ChannelPlay(_vacChannel.last(),true);
     }
 
-    // We check if any of the outputs are valid, if they are, we hold the PTT key
-    // if it's not empty (clearing it in the main ui will set both
-    // VirtualKey and ScanCode to to -1
-    // we can call it twice since it will just set it to the largest one
-//    if (( (_VACOutputDevice != 0) || (_mainOutputDevice != 0)) && (_PTTScanCode !=-1 ))
-//        emit holdPTT(static_cast<int>(duration*1000) );
 
+    // If any of the previous if were passed, the duration isn't -1.
+    // if the PTT Scan code is valid (!=-1) we can hold it
+    if (_PTTScanCode !=-1 && duration != -1)
+        emit holdPTT(static_cast<int>(duration*1000) );
 
 
     return duration;

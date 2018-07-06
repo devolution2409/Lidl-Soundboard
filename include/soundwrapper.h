@@ -33,47 +33,114 @@ class SoundWrapper : public QObject
     Q_OBJECT
 public:
     explicit SoundWrapper(QObject *parent = nullptr);
-    // Constructor to be used from the add sound dialog
-    SoundWrapper(CustomListWidget *soundList,
-                 LIDL::Playback playbackMode,
-                 QKeySequence * shortcut,
-                 int virtualKey = -1,
-                 QObject *parent = nullptr   );
 
-// Constructor for when we OPEN a LIDLJSON soundboard json file
-    SoundWrapper( QVector<LIDL::SoundFile*> fileList,
-                 LIDL::Playback playbackMode,
-                 QKeySequence  shortcut,
-                 int shortcutVirtualKey =-1,
-                 int mainOutput = -1,
-                 int vacOutput = -1,
-                 QObject *parent = nullptr   );
+
+    /*!
+     * \brief Main constructor of sound wrappers.
+     *
+     *  Used to construct a soundwrapper object, used 99% of the time, except when opening EXP SOUNDBOARD json files.
+     * \param fileList The wrapper's sound list. Each sound file is associated with two volumes (Main and VAC).
+     * \param playbackMode The playback mode of this wrapper.
+     * \param shortcut The keysequence to be displayed in the UI.
+     * \param shortcutVirtualKey =-1, The shortcut's virtual key to be registered in the windows api.
+     * \param mainOutput The index of the main output.
+     * \param vacOutput The index of the VAC ouput
+     * \param *parent A pointer to the parent (not used).
+     */
+    SoundWrapper(QVector<LIDL::SoundFile*> fileList,
+                LIDL::Playback playbackMode,
+                QKeySequence  shortcut,
+                int shortcutVirtualKey =-1,
+                int mainOutput = -1,
+                int vacOutput = -1,
+                QObject *parent = nullptr   );
 
 
 ///ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE
 
-// CONSTRUCTOR FOR EXP JSON
-SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode,int mainVolume, int vacVolume, int mainOutput, int vacOutput,QObject * parent=nullptr);
-    //Getters
+    /*!
+     * \brief Main constructor of sound wrappers.
+     *
+     *  Used to construct a soundwrapper object when opening an EXP SOUNDBOARD json files.
+     * \param fileList The wrapper's sound list. Each sound file is associated with two volumes (Main and VAC).
+     * \param playbackMode The playback mode of this wrapper.
+     * \param shortcut The keysequence to be displayed in the UI.
+     * \param shortcutVirtualKey =-1, The shortcut's virtual key to be registered in the windows api.
+     * \param mainOutput The index of the main output.
+     * \param vacOutput The index of the VAC ouput
+     * \param *parent A pointer to the parent (not used).
+     */
+    SoundWrapper(QVector<QString> fileList,
+                LIDL::Playback playbackMode,
+                int mainVolume,
+                int vacVolume,
+                int mainOutput,
+                int vacOutput,
+                QObject * parent=nullptr);
+
+
+
+//Getters
+
+    /*!
+     * \return QVector<LIDL::SoundFile*> The sound list of the wrapper.
+     */
     QVector<LIDL::SoundFile*> getSoundList();
+
+    /*!
+     * \return  QKeySequence
+     */
     QKeySequence getKeySequence();
+
+    /*!
+     * \return  LIDL::Playback One of the playbackmode defined in "EnumsAndStruct.h".
+     */
     LIDL::Playback getPlayMode();
+
+    /*!
+     * \return  QString Sound list as a QString. Sounds are separated by "\#n".
+     */
     QString getSoundListAsQString();
+
+    /*!
+     * \return  QList<QStandardItem*> Sound list as QList of QStandarItems*. Each sound will take 5 slots in the list:
+     * ListItem << Sound names << number of remotes files << SFX << Shortcut << Playback mode;
+     */
     QList<QStandardItem*> getSoundAsItem();
 
-    //Setters
+    /*!
+    * \brief Used by OpenEXPJson to add the revelant sound files.
+    *
+    * \param filename the file to be added.
+    * \param mainVolume main output volume.
+    * \param vacVolume VAC output volume.
+    */
     int addSound(QString filename, float mainVolume = 1.0, float vacVolume = 1.0);
-    int removeSoundAt(int);
-    int setKeySequence(QKeySequence);
-    int setPlayMode(LIDL::Playback);
 
-    void setPlayerMainOutput(int);
-    void setPlayerVACOutput(int);
-    int getVacDevice();
 
+
+    /*! \brief Set the index of the main output device.
+     *  \param index The new index
+     */
+    void setPlayerMainOutput(int index);
+
+    /*! \brief Set the index of the VAC output device.
+     *  \param index The new index
+     */
+    void setPlayerVACOutput(int index);
+    /*!
+     * \return int The index of the main output device.
+     */
     int getMainDevice();
 
+    /*!
+     * \return int The index of the VAC output device.
+     */
+    int getVacDevice();
 
+    /*!
+     * \return int The shortcut virtual key.
+     */
     int getShortcutVirtualKey();
 
 

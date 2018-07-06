@@ -13,25 +13,19 @@
 #include "framelesswindow.h"
 #include "DarkStyle.h"
 #include "windows.h"
+//#define _WIN32_DCOM
+//#include <comdef.h>
+//#include <Wbemidl.h>
+//#pragma comment(lib, "wbemuuid.lib")
+
 int main(int argc, char *argv[])
 {
 
     QApplication app(argc, argv);
 
      qDebug() << QApplication::libraryPaths();
-//    Main UI LeBaited
-     // create frameless window (and set windowState or title)
-   // FramelessWindow framelessWindow;
-    //framelessWindow.setWindowState(Qt::WindowMaximized);
-    //framelessWindow.setWindowTitle("test title");
-    //framelessWindow.setWindowIcon(a.style()->standardIcon(QStyle::SP_DesktopIcon));
-    SoundboardMainUI container;
 
-    // add the mainwindow to our custom frameless window
-//    framelessWindow.setContent(&container);
-//    framelessWindow.show();
-//    framelessWindow.setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
-//    framelessWindow.setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
+    SoundboardMainUI container;
 
     container.show();
 
@@ -43,31 +37,40 @@ int main(int argc, char *argv[])
     css_dark.close();
 
 
-    MSG msg;
-    // Proccess the system events
-    QApplication::processEvents();   
 
 
+//    HRESULT hres;
 
+//      // Step 1: --------------------------------------------------
+//      // Initialize COM. ------------------------------------------
 
+//      hres =  CoInitializeEx(0, COINIT_MULTITHREADED);
+//      if (FAILED(hres))
+//      {
+//          qDebug() << "Failed to initialize COM library. Error code = 0x"
+//               <<  hres;
 
+//      }
+//      else
+//      {
+//        qDebug() << "COM object initialized correctly.";
+//      }
 
-// Send a signal to the mainUI with the int parm
-// check if the parm is inside a table
-// if it is, play the associated sound forsenT    
-    // JUST BUILD A L OMEGALUL OMEGALUL P
-    while(GetMessage(&msg,NULL,0,0))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-        if (msg.message == WM_HOTKEY)
-            container.winHotKeyPressed(static_cast<int>(msg.wParam));
+      MSG msg;
+      // Proccess the system events
+      QApplication::processEvents();
+      // Send a signal to the mainUI with the int parm
+      // check if the parm is inside a table
+      // if it is, play the associated sound forsenT
+      // JUST BUILD A L OMEGALUL OMEGALUL P
+      while(GetMessage(&msg,NULL,0,0))
+      {
+          TranslateMessage(&msg);
+          DispatchMessage(&msg);
+          if (msg.message == WM_HOTKEY)
+              container.winHotKeyPressed(static_cast<int>(msg.wParam));
 
-    }
-
-
-
-
+      }
 
     // Re-send post quit message or the app runs as a daemon for some reason forsenT
     PostQuitMessage(0);

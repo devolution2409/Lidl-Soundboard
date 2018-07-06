@@ -20,6 +20,8 @@ SettingsController::SettingsController()
         dragAndDropSeveralWrappers = true;
 
         _showFlags  = LIDL::SHOW_SETTINGS::NO_SETTINGS ;
+        // we must process events except when a auto-hold ptt command has just been issued.
+        _eventProcessing = true;
         this->fileName = "lidlsettings.json";
         connect(&_activePttTimer,QTimer::timeout, [=]{
                 this->unHoldPTT();});
@@ -377,28 +379,31 @@ bool SettingsController::SaveIsDifferentFrom( QJsonObject newObject )
 
 void SettingsController::holdPTT(int duration)
 {
+
+
     if (_activePttVitualKey == -1 || _activePttScanCode ==-1)
         return;
-//    // If the timer is not running we start it with the new duration
-    // qDebug() << "_activePttTimer.remainingTime() , duration" << _activePttTimer.remainingTime() << duration ;
 
     // If a timer is already running we compare remaining time
     // and new duration, if remaining < new, we need to reschedule the stop
     if ( _activePttTimer.remainingTime() < duration )
     {
-        // we should already be holding PTT so we don't need to auto hold
-        // but eShrug
-        if (_activePttVitualKey != -1 && _activePttScanCode !=-1)
-        {
-            keybd_event(_activePttVitualKey,_activePttScanCode,KEYEVENTF_EXTENDEDKEY, 0);
-            _activePttTimer.stop();
-            _activePttTimer.start(duration);
-        //       qDebug() << "timer extended";
-        }
-
+        this->_eventProcessing = false;
+        keybd_event(_activePttVitualKey,_activePttScanCode,KEYEVENTF_EXTENDEDKEY, 0);
+        // works with 1ms for some reason OMEGALUL
+        QTimer::singleShot(1,Qt::PreciseTimer, [=]{
+                this->_eventProcessing = true;
+            });
+        //this->_eventProcessing = true;
+        _activePttTimer.stop();
+        _activePttTimer.start(duration);
     }
 }
 
+bool SettingsController::getEventProcessing() const
+{
+    return this->_eventProcessing;
+}
 void SettingsController::unHoldPTT()
 {
     //qDebug() << "unholding ptt here";

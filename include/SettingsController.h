@@ -75,6 +75,10 @@ public:
     LIDL::SHOW_SETTINGS getShowFlags() const;
     QStringList GetSupportedMimeTypes() const;
     bool GetDragAndDropSeveralWrappers() const;
+    /*!
+      * \return bool
+      */
+    bool getEventProcessing() const;
 
 private:
     QString fileName;
@@ -120,7 +124,7 @@ private:
     QTimer _activePttTimer;
     int  _activePttScanCode;
     int  _activePttVitualKey;
-
+    bool _eventProcessing; /*!< boolean to be tested in MainUI to know if events (key sequences) should be processed  */
     // SHOW MENU SETTINGS
     LIDL::SHOW_SETTINGS _showFlags;
 
