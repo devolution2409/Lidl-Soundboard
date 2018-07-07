@@ -6,12 +6,11 @@
 WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 {
 
-
     this->setFocusPolicy(Qt::StrongFocus);
     this->setMinimumSize(415,687);
 
 
-    this->_mainWidget = parent;
+  //  this->_mainWidget = parent;
     // Ajout d'un layout vertical pour afficher les sons
     this->setWindowTitle("Lidl Sounboard Entry Editor");
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
@@ -402,8 +401,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_shortcutEdit,SIGNAL(editingFinished()),this,SLOT(editingDone()));
 
     /*******************BUTTON DONE AND ABORT*****************/
-    connect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
-    connect(this,SIGNAL(signalAddDone(SoundWrapper*)),_mainWidget,SLOT(addSound(SoundWrapper*)));
+    // connect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
     connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
     /*******************DRAG AND DROP EVENT******************/
     connect(_soundListDisplay,SIGNAL(fileDragged(QString)),this,SLOT(AddSoundFromDrop(QString)));
@@ -432,20 +430,17 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 //Basically, first 4 things are
 // the main audio output
 // the VAC output
-// and the PTT key to autohold (as both Scan Code and Virtual Key)
 // last item is the soundwrapper
-WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,SoundWrapper *sound, QWidget *parent)
+WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper *sound, QWidget *parent)
     : WrapperProperties(parent) //: QWidget(parent)
 {
     this->_mainOutput = mainOutput;
     this->_VACOutput = VACOutput;
-    this->_pttScanCode = pttScanCode;
-    this->_pttVirtualKey = pttVirtualKey;
     // if we are opening a sound
     if (sound!= nullptr)
     {
         // Disconnect the done button because else it will create another wrapper
-        disconnect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
+        // disconnect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
         // Add the files contained in the wrapper to the list
 
 
@@ -472,11 +467,75 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
         // need to set the virtual key now
         this->_shortcutEdit->setVirtualKey(sound->getShortcutVirtualKey());
 
+        connect(_btnDone,&QPushButton::clicked,this, [=]{
+            if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
+            {
+                QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
+                return;
+            }
+            //SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
 
-        connect(_btnDone, SIGNAL(clicked()), this, SLOT(SendEditedWrapper()));
-        connect(this,SIGNAL(signalEditDone(SoundWrapper*)),_mainWidget,SLOT(soundModified(SoundWrapper *)));
+
+            QVector<LIDL:: SoundFile *> tempFiles;
+            for (int row = 0; row < _soundListDisplay->count(); row++)
+            {
+                CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(_soundListDisplay->item(row));
+                if (item == nullptr)
+                    return;
+                else
+                    tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
+            }
+            // Calling constructor IV
+            SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
+                                                      this->_playBackMode,
+                                                      *(this->_shortcutSequence),
+                                                      _shortcutEdit->getVirtualKey(),
+                                                      _mainOutput,
+                                                      _VACOutput);
+            // we emit the signal so that the main window knows
+            // IT KNOWS forsenKek */
+            emit signalEditDone(tmpSound);
+            this->close();
+
+        });
 
 
+
+    }
+    else // if it is a fresh window we need to connect the _btnDone to send a new wrapper
+    {
+        // we check for the sound being singleton or not, if it is, we don't accept if we have more than 1 sound
+        if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
+        {
+            QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
+            return;
+        }
+
+        /*SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
+                                                  this->_playBackMode,
+                                                  this->_shortcutSequence,
+                                                  this->_shortcutEdit->getVirtualKey(),
+                                                  nullptr);*/
+        connect(_btnDone,&QPushButton::clicked,this,[=]{
+            QVector<LIDL:: SoundFile *> tempFiles;
+            for (int row = 0; row < _soundListDisplay->count(); row++)
+            {
+                CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(_soundListDisplay->item(row));
+                if (item == nullptr)
+                    return;
+                else
+                    tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
+            }
+            // Calling constructor IV
+            SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
+                                                      this->_playBackMode,
+                                                      *(this->_shortcutSequence),
+                                                      _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput);
+            // we emit the signal so that the main window knows
+            // IT KNOWS forsenKek
+            emit signalAddDone(tmpSound);
+            this->close();
+        });
     }
 }
 
@@ -484,9 +543,8 @@ WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCod
 
 void WrapperProperties::closeEvent(QCloseEvent *event)
 {
-
-    this->_mainWidget->setEnabled(true);
     _soundListDisplay->clearSelection();
+    emit closed();
     this->QWidget::close();
     event->accept();
 
@@ -587,79 +645,7 @@ void WrapperProperties::SetKeySequence(QKeySequence shortcut)
     this->_shortcutSequence->swap(shortcut);
 }
 
-void WrapperProperties::CreateWrapper()
-{
-    // we check for the sound being singleton or not, if it is, we don't accept if we have more than 1 sound
 
-    if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
-    {
-        QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
-        return;
-    }
-
-    /*SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
-                                              this->_playBackMode,
-                                              this->_shortcutSequence,
-                                              this->_shortcutEdit->getVirtualKey(),
-                                              nullptr);*/
-    QVector<LIDL:: SoundFile *> tempFiles;
-    for (int row = 0; row < _soundListDisplay->count(); row++)
-    {
-        CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(_soundListDisplay->item(row));
-        if (item == nullptr)
-            return;
-        else
-            tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
-    }
-    // Calling constructor IV
-    SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
-                                              this->_playBackMode,
-                                              *(this->_shortcutSequence),
-                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput);
-    // we emit the signal so that the main window knows
-    // IT KNOWS forsenKek
-    emit signalAddDone(tmpSound);
-    this->close();
-}
-
-void WrapperProperties::SendEditedWrapper()
-{
-    if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
-    {
-        QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
-        return;
-    }
-    //SoundWrapper::SoundWrapper(QListWidget* soundList, int playbackMode,QKeySequence * shortcut, QObject * parent)
-    // We construct the item first and than set the player parameters.
-    /*    SoundWrapper *tmpSound = new SoundWrapper(this->_soundListDisplay,
-                                              this->_playBackMode,
-                                              this->_shortcutSequence,
-                                              this->_shortcutEdit->getVirtualKey() ,
-                                              nullptr);
-    // we emit the signal so that the main window knows
-    // IT KNOWS forsenKek
-    tmpSound->setPlayerPTTScanCode(_pttScanCode);
-    tmpSound->setPlayerPTTVirtualKey(_pttVirtualKey);
-    tmpSound->setPlayerMainOutput(_mainOutput);
-    tmpSound->setPlayerVACOutput(_VACOutput); */
-    QVector<LIDL:: SoundFile *> tempFiles;
-    for (int row = 0; row < _soundListDisplay->count(); row++)
-    {
-        CustomListWidgetItem *item = dynamic_cast<CustomListWidgetItem*>(_soundListDisplay->item(row));
-        if (item == nullptr)
-            return;
-        else
-            tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
-    }
-    // Calling constructor IV
-    SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
-                                              this->_playBackMode,
-                                              *(this->_shortcutSequence),
-                                              _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput);
-
-    emit signalEditDone(tmpSound);
-    this->close();
-}
 
 void WrapperProperties::editingDone()
 {

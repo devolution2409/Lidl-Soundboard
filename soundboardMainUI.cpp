@@ -185,20 +185,23 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                TODO: PUT IN RELEVANT SECTION forsenT
       ****************************************************/
 
-    // Lambda forsenE
+    // Lamnda _btnAdd
     connect(this->_btnAdd, QPushButton::clicked, this, [=]{
         this->setEnabled(false);
 
         _propertiesWindow = new WrapperProperties(
                     this->_deviceListOutput->currentIndex(),
                     this->_deviceListVAC->currentIndex(),
-                    this->_shortcutEditPTT->getScanCode(),
-                    this->_shortcutEditPTT->getVirtualKey(),
                     nullptr,
                     this);
         // Connection of the done button to mainUI slots is dealt in the contructor
         // to account for edit or add mode
         _propertiesWindow->show();
+        connect(_propertiesWindow, &WrapperProperties::signalAddDone, this, [=](SoundWrapper* sound){
+            this->addSound(sound);
+            this->setEnabled(true);
+          });
+        connect(_propertiesWindow,&WrapperProperties::closed, this,[=] { this->setEnabled(true);});
 
     });
     // Lambda
@@ -394,33 +397,29 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 // Add a sound if whereToInsert isn't
 void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, LIDL::Shortcut generationMode)
 {
-    qDebug() << "forsenWut";
     //connecting the wrappper to the combo box for devices
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
-
-    // connecting the pushtotalk key thing
-    //connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),modifiedSound,SLOT(PTTScanCodeChanged(int)));
-    //connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),modifiedSound,SLOT( PTTVirtualKeyChanged(int)));
-
 
 
     // connecting the stop btn
     connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
 
-
     // connecting the status bar signal for unexistant files (reading json)
     connect(modifiedSound,SoundWrapper::UnexistantFile,this, [=]{
             this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
         });
+
     // connecting the wrapper proxy signal for player NowPlaying
     connect(modifiedSound,SoundWrapper::NowPlaying,this,[=](QString name){
             this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
         });
+
     // connecting the wrapper proxy signal for player ErrorPlaying
     connect(modifiedSound,SoundWrapper::ErrorPlaying,this, [=](QString name){
             this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
          });
+
     // connect the clear button to the clear shortcut slot
     connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
@@ -447,6 +446,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
         _winShorcutHandle.append(_winShorcutHandle.size());
         _keySequence.append(modifiedSound->getKeySequence());
         _keyVirtualKey.append(modifiedSound->getShortcutVirtualKey());
+
     }
     // else it was modified, need to swap  the previous item by the new, and than delete the item
     else
@@ -470,6 +470,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
         _keyVirtualKey.insert(whereToInsert,modifiedSound->getShortcutVirtualKey());
 
     }
+
     if (generationMode == LIDL::Shortcut::GENERATE)
         this->GenerateGlobalShortcuts();
 
@@ -663,7 +664,7 @@ void SoundboardMainUI::refreshView()
 
 
 
-//// open the dialog to edit sound
+// NO lambda cause we call it twice :slight_smile:
 void SoundboardMainUI::editSoundDialog()
 {
     this->setEnabled(false);
@@ -675,20 +676,25 @@ void SoundboardMainUI::editSoundDialog()
         _propertiesWindow= new WrapperProperties(
                     this->_deviceListOutput->currentIndex(),
                     this->_deviceListVAC->currentIndex(),
-                    this->_shortcutEditPTT->getScanCode(),
-                    this->_shortcutEditPTT->getVirtualKey(),
                     this->_sounds.at(this->lastSelectedRow)  ,
                     this);
+        // Lambda to connect the edit signal to the addSound method
+        connect(_propertiesWindow,&WrapperProperties::signalEditDone,this,[=](SoundWrapper* modifiedSound){
+            this->addSound(modifiedSound,lastSelectedRow);
+
+        });
+        connect(_propertiesWindow,&WrapperProperties::closed, this,[=] { this->setEnabled(true);});
+
         _propertiesWindow->show();
+
+
     }
     // Connection of the done button to mainUI slots is dealt in the contructor
     // to account for edit or add mode
+
+    // NOT ANYMORE SoBayed. God bless lambdas.
 }
-// deal with modified sound
-void SoundboardMainUI::soundModified(SoundWrapper *modifiedSound)
-{
-    this->addSound(modifiedSound,lastSelectedRow);
-}
+
 
 
 void SoundboardMainUI::GenerateGlobalShortcuts()
@@ -2296,7 +2302,6 @@ void SoundboardMainUI::CheckForUpdates()
 
 void SoundboardMainUI::dragEnterEvent(QDragEnterEvent *e)
 {
-    qDebug() << "giugiugiu";
     if (e->mimeData()->hasUrls())
     {
         bool accept  = true;
@@ -2309,7 +2314,10 @@ void SoundboardMainUI::dragEnterEvent(QDragEnterEvent *e)
           QMimeType type = db.mimeTypeForFile(i.path());
           qDebug() << type.name();
           if (!( LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
+          {
             accept = false;
+            break;
+          }
         }
 
         // check for lidljson file

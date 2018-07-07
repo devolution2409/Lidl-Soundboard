@@ -27,6 +27,8 @@
   *
   * Soundwrapper class contains all the data necessary to play one or several sounds,
   * as well as a player capable of playing them.
+  * \author Devolution
+  * \version 1.7.0
   */
 class SoundWrapper : public QObject
 {
@@ -88,7 +90,7 @@ public:
     QVector<LIDL::SoundFile*> getSoundList();
 
     /*!
-     * \return  QKeySequence
+     * \return  QKeySequence The Key Sequence of the shortcut associated with the wrapper, in a human readable format.
      */
     QKeySequence getKeySequence();
 

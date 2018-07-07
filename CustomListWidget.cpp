@@ -11,21 +11,32 @@ void CustomListWidget::dragEnterEvent(QDragEnterEvent *event)
     // If the drop event contains a URI
     if (event->mimeData()->hasUrls())
     {
-        bool accept = true;
-        foreach (const QUrl &url, event->mimeData()->urls())
+        bool accept  = true;
+        QList<QUrl> urlList = event->mimeData()->urls();
+
+        QMimeDatabase db;
+
+        for (auto i: urlList)
         {
-            QFileInfo info = QFile(url.toLocalFile());
-            //if one of the file isn't a song we reject
-            if (!(info.suffix() == "wav" || info.suffix() == "wave" || info.suffix() == "mp3"))
-                accept = false;
+          QMimeType type = db.mimeTypeForFile(i.path());
+          qDebug() << type.name();
+          if (!( LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
+          {
+            accept = false;
+            break;
+          }
         }
+
+
         if (accept)
-            event->acceptProposedAction();
-    }
-    // QListItems have no mime data so we can test it that way...
-    // ITS A HACK THO forsenT
-    else if (event->mimeData()->text() == "")
         event->acceptProposedAction();
+    }
+    // QListItems have no mime data so we can test it that way (for reorder purposes)
+    // ITS A HACK THO forsenT
+    // fixed FeelsOkayMan: https://stackoverflow.com/questions/10597444/how-to-accept-drag-and-drop-from-qlistwidget-in-custom-qtextedit
+    else if (event->mimeData()->formats() == QStringList("application/x-qabstractitemmodeldatalist"))
+        event->acceptProposedAction();
+
 }
 
 void CustomListWidget::dropEvent(QDropEvent *e)

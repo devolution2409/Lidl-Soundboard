@@ -51,19 +51,56 @@
 
 #include <QTcpSocket>           // TCP Socket to check if file exist in HTTP
 #include <QSslSocket>           // SSL Socket to check if file exist in HTTPS
-#include <QRegExp>              // RegExp to find out the MIMEType of the file so user can't retarded stuff
+#include <QRegExp>              // RegExp to find out the MIMEType of the file so user can't add retarded stuff from the internet
+
+
+
+/*! \class WrapperProperties
+  * \brief Inherits QWidget
+  *
+  * WrapperProperties class deals with displaying a soundwrapper's data in order to edit them.
+  * It displays a UI that allows to add local and remote files to a wrapper as well as delete them.
+  * Each sound can be assigned several sound effects, main output volume, and VAC output volume.
+  *
+  * Removed pointers to main UI and replaced several functions and connections by lambdas in both
+  * this file and soundboardmainUI.
+  * \author Devolution
+  * \version 1.7.0
+  */
 class WrapperProperties : public QWidget
 {
     Q_OBJECT
 public:
-    explicit WrapperProperties(QWidget *parent = nullptr);
-    // One constructor will deal
-    // for both Add sound dialog and Edit sound dialog
-    WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,SoundWrapper * sound = nullptr,QWidget *parent = nullptr);
-    // WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,QWidget *parent = nullptr);
+    /*!
+     * \brief Constructor of the "Sound Entry Editor" UI.
+     *
+     * Will construct a blank window, to be populated, or not, by a wrapper, by calling the private default constructor
+     *
+     * The UI will either be blank or populated by the SoundWrapper to be edited.
+     * The function will check for SoundWrapper being nullptr.
+     *  If it is, nothing is to be done, the Entry Editor will created a new wrapper.
+     *  If it isn't, then we opened a wrapper. Several steps are then done:
+     *      Iterating through the wrapper to display the files inside it, with their SFX and volume.
+     *      Disconnect the "Done!" button from its connection, and connect it
+     *      to the relevant function. (SendEditedWrapper)
+     * \param mainOutput The index of the main output device.
+     * \param VACOutput The index of the VAC output device.
+     * \param sound A pointer to the sound being edited.
+     *
+     */
+    WrapperProperties(int mainOutput,int VACOutput,SoundWrapper * sound = nullptr,QWidget *parent = nullptr);
+
 private:
-    // Pointer to the main window
-    QWidget     * _mainWidget;
+    /*!
+     * \brief Default constructor, private because we only need the populated one.
+     *
+     * Will construct a blank window, to be populated, or not, by a wrapper.
+     * This constructor is only called by the initialization list of the public constructor.
+     * \param parent A pointer to the parent (default is nullptr);
+     */
+    explicit WrapperProperties(QWidget *parent = nullptr);
+
+
     // Display for sounds
     // QListWidget *_soundListDisplay;
     //  QGroupBox        * _soundListGroup;
@@ -110,7 +147,7 @@ private:
     QPushButton *_btnDone;
     QPushButton *_btnAbort;
 
-    //reimplementation de l'event close
+
     void  closeEvent(QCloseEvent *event);
     LIDL::Playback  _playBackMode;
     // variables to store which output device and PTT are already set (if any)
@@ -188,6 +225,7 @@ BASS_FX_DX8_REVERB */
 signals:
     void signalAddDone(SoundWrapper *sound);
     void signalEditDone(SoundWrapper *sound);
+    void closed();
 
 public slots:
     // Qlist Widget slots
@@ -208,8 +246,8 @@ public slots:
     void editingStarted();
     void editingDone();
     // Communicating with main ui slots: CreateWrapper and Edited wrapper
-    void CreateWrapper();
-    void SendEditedWrapper();
+    // void CreateWrapper();
+
 
     // Slots for the item as the items aren't Q_OBJECT they can't have slots of their own forsenT
     void SetItemMainVolume(int);

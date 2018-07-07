@@ -20,6 +20,7 @@
  *      void StatusErrorUnexistant();
  *      void StatusPlaying(QString);
  *      void StatusErrorPlaying(QString);
+ *      void soundModified(SoundWrapper * modifiedSound);
  * \author Devolution
  * \version 1.7.0
  */
@@ -252,12 +253,6 @@ public slots:
      * \param generationMode Should the shortcut be registered or not. Useful when adding a bunch of soundswrapper (opening a soundboard).
      */
     void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
-
-    /*!
-     * \brief This function will call addSound with the modified sound and the correct whereToInsert param.
-     * \param modifiedSound The modified sound.
-     */
-    void soundModified(SoundWrapper * modifiedSound);
 
 
     /*!

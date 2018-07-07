@@ -129,7 +129,7 @@ private:
     LIDL::SHOW_SETTINGS _showFlags;
 
 
-    bool  dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
+    bool dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
 
 
 signals:

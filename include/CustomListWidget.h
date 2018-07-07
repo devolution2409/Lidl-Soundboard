@@ -11,7 +11,9 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QDrag>
-
+#include "SettingsController.h"
+#include <QMimeDataBase>
+#include <QMimeType>
 class CustomListWidget : public QListWidget
 {
     Q_OBJECT
