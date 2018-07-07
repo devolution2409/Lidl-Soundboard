@@ -23,7 +23,6 @@ SliderSpin::SliderSpin(QWidget *parent)
 SliderSpin::SliderSpin(int min, int max, QString suffix, QString prefix, QWidget *parent)
     : SliderSpin(parent)
 {
-
     this->setRange(min,max);
     if (! prefix.isEmpty())
         this->_spinbox->setPrefix(prefix);

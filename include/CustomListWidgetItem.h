@@ -27,7 +27,7 @@ public:
 
     void setSFXChorusDefault();
     void setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value);
-
+    int getSFXChorus(LIDL::SFX_CHORUS_PARAM which) const;
  //   void SetDistortionEnabled(bool);
 
 

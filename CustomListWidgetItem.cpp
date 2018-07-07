@@ -109,7 +109,8 @@ void CustomListWidgetItem::SetSFXEnabled(LIDL::SFX_TYPE type, bool enabled)
        _sfx.flags &= ~type;
 }
 
-
+//http://www.un4seen.com/doc/#bass/BASS_DX8_CHORUS.html
+//http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
 void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
 {
     float fValue = static_cast<float>(value);
@@ -137,8 +138,7 @@ void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
         break;
 
     case LIDL::SFX_CHORUS_PARAM::lPhase:
-
-        _sfx.chorus.lPhase = value;
+        _sfx.chorus.lPhase = value; // is enumeration Brokeback (therefore int)
         break;
     case LIDL::SFX_CHORUS_PARAM::lWaveform:
         _sfx.chorus.lWaveform = static_cast<bool>(value);
@@ -159,6 +159,46 @@ void CustomListWidgetItem::setSFXChorusDefault()
     _sfx.chorus.fWetDryMix = 70;
     _sfx.chorus.lPhase = 0;
     _sfx.chorus.lWaveform = 1;
+}
+
+int CustomListWidgetItem::getSFXChorus(LIDL::SFX_CHORUS_PARAM which) const
+{
+
+    switch(which){
+
+    case LIDL::SFX_CHORUS_PARAM::fDelay:
+        return static_cast<int>(_sfx.chorus.fDelay);
+        break;
+
+    case LIDL::SFX_CHORUS_PARAM::fDepth:
+        return static_cast<int>(_sfx.chorus.fDepth);
+        break;
+
+    case LIDL::SFX_CHORUS_PARAM::fFeedback:
+        return static_cast<int>(_sfx.chorus.fFeedback);
+        break;
+
+    case LIDL::SFX_CHORUS_PARAM::fFrequency:
+        return static_cast<int>(_sfx.chorus.fFrequency);
+        break;
+
+    case LIDL::SFX_CHORUS_PARAM::fWetDryMix:
+        return static_cast<int>(_sfx.chorus.fWetDryMix);
+        break;
+
+    case LIDL::SFX_CHORUS_PARAM::lPhase:
+        return static_cast<int>(_sfx.chorus.lPhase); // is enumeration Brokeback (therefore int)
+        break;
+    case LIDL::SFX_CHORUS_PARAM::lWaveform:
+        return static_cast<int>(_sfx.chorus.lWaveform);
+        break;
+
+    default:
+        qDebug() << "Wrong usage of setSFXDistortion";
+        return -1;
+        break;
+    }
+
 }
 
 //void CustomListWidgetItem::CheckForIllegalValues()

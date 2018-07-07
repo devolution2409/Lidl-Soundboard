@@ -24,11 +24,13 @@ public:
     void setEnabled(bool state);
 
     int value() const;
-
+    int specialValue() const;
 private:
     QGridLayout *_layout;
     QSlider *_slider;
     QSpinBox *_spinbox;
+
+
 
 signals:
     void valueChanged(int value);

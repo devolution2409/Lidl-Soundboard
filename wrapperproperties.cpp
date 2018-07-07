@@ -202,95 +202,30 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
     });
 */
-    /****************************************************/
-    //                       CHORUS
+
     /*****************************************************/
-    _sfxChorusWidget = new QWidget();
-    _sfxChorusLayout = new QGridLayout(); //_sfxChorusWidget
+    /*              REVAMPED  CHORUS                     */
+    /*****************************************************/
+    _chorusWidget = new SfxSettingsWidget("Chorus");
+    // check EnumsAndStructs.h for special value
+    _chorusWidget->addSlider("Delay",0,20," ms",0);
+    _chorusWidget->addSlider("Depth",0,100," %",1);
+    _chorusWidget->addSlider("Feedback",-99,99," %",2);
+    _chorusWidget->addSlider("Frequency",0,10," Hz",3);
+    _chorusWidget->addSlider("Wet Dry Mix",0,100," %",4);
+    _chorusWidget->addComboBox("Phase Differential", (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
+                                                            << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
+                                                            <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
+                                                            <<"90° (π rad)"       //BASS_FX_PHASE_90
+                                                            <<"180° (π/2 rad)"),5); //BASS_FX_PHASE_180
+
+    _chorusWidget->addComboBox("Wave Form", (QStringList() << "Sinusoidal Wave"
+                                                  << "Triangular Wave"),6);
+
+   _sfxTabWidget->addTab(_chorusWidget,"Chorus");
 
 
-    _sfxChorusScrollArea = new QScrollArea();
-    _sfxTabWidget->addTab(_sfxChorusScrollArea,"Chorus");
 
-    //   _sfxChorusLayout->setRowMinimumHeight(0,50);
-    _sfxChorusWidget->setLayout(_sfxChorusLayout);
-    _sfxChorusLayout->setSizeConstraint(QLayout::SetMinimumSize);
-
-    //_sfxChorusLayout->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-    _sfxTabWidget->addTab(_sfxChorusWidget,"Chorus");
-    _sfxChorusCheckBox = new QCheckBox("Enable Chorus");
-    _sfxChorusCheckBox->setCheckable(true);
-
-    _sfxChorusLayout->addWidget(_sfxChorusCheckBox,0,0,1,5);
-
-    //http://bass.radio42.com/help/html/846d2089-756b-8780-80ec-fc361bb434b6.htm
-    _sfxChorusLabels.append(new QLabel("Delay"));
-    _sfxChorusLabels.append(new QLabel("Depth"));
-    _sfxChorusLabels.append(new QLabel("Feedback"));
-    _sfxChorusLabels.append(new QLabel("Frequency"));
-    _sfxChorusLabels.append(new QLabel("Wet Dry Mix"));
-    _sfxChorusLabels.append(new QLabel("Phase Differential"));
-    _sfxChorusLabels.append(new QLabel("Wave form"));
-    //adding labels
-    for (int i = 0;i<_sfxChorusLabels.size();++i)
-        _sfxChorusLayout->addWidget(_sfxChorusLabels.at(i),i+1,0,1,1);
-    // adding spinboxes forsenE
-    for (int i=0; i<5;i++)
-    {
-        //connecting sliders and spinboxes is done in the ItemWasClicked Signal
-        _sfxChorusSliders.append(new QSlider(Qt::Orientation::Horizontal));
-        _sfxChorusSpinboxes.append(new QSpinBox());
-        _sfxChorusLayout->addWidget( _sfxChorusSliders.last() ,i+1,1,1,3  );
-        _sfxChorusLayout->addWidget(_sfxChorusSpinboxes.last(),i+1,4,1,1);
-        _sfxChorusSpinboxes.last()->setEnabled(false);
-        _sfxChorusSliders.last()->setEnabled(false);
-    }
-    _sfxChorusSliders.at(0)->setRange(0,20);
-    _sfxChorusSpinboxes.at(0)->setRange(0,20);
-    _sfxChorusSpinboxes.at(0)->setSuffix("ms");
-
-    _sfxChorusSliders.at(1)->setRange(0,100);
-    _sfxChorusSpinboxes.at(1)->setRange(0,100);
-    _sfxChorusSpinboxes.at(1)->setSuffix("%");
-
-    _sfxChorusSliders.at(2)->setRange(-99,99);
-    _sfxChorusSpinboxes.at(2)->setRange(-99,99);
-    _sfxChorusSpinboxes.at(2)->setSuffix("%");
-
-    _sfxChorusSliders.at(3)->setRange(0,10);
-    _sfxChorusSpinboxes.at(3)->setRange(0,10);
-    _sfxChorusSpinboxes.at(3)->setSuffix("Hz");
-
-    _sfxChorusSliders.at(4)->setRange(0,100);
-    _sfxChorusSpinboxes.at(4)->setRange(0,100);
-    _sfxChorusSpinboxes.at(4)->setSuffix("%");
-    for (int i=0; i<2;i++)
-    {
-        _sfxChorusBox.append(new QComboBox());
-        _sfxChorusLayout->addWidget( _sfxChorusBox.last() ,i+6,1,1,4 );
-        _sfxChorusBox.last()->setEnabled(false);
-    }
-
-    _sfxChorusButton.append(new QPushButton("Reset to default"));
-    _sfxChorusButton.append(new QPushButton("Preset A"));
-    _sfxChorusButton.append(new QPushButton("Preset B"));
-    for (auto &i: _sfxChorusButton)
-        i->setEnabled(false);
-
-    _sfxChorusLayout->addWidget( _sfxChorusButton.at(0),8,0,1,2);
-    _sfxChorusLayout->addWidget( _sfxChorusButton.at(1),8,2,1,1);
-    _sfxChorusLayout->addWidget( _sfxChorusButton.at(2),8,3,1,1);
-    //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
-    _sfxChorusBox.at(0)->addItem("-180° (-π rad)", QVariant(0) ); //	BASS_FX_PHASE_NEG_180
-    _sfxChorusBox.at(0)->addItem("-90° (-π/2 rad)", QVariant(1)  ); //	BASS_FX_PHASE_NEG_90
-    _sfxChorusBox.at(0)->addItem("0° (0 rad)", QVariant(2)  ); //	BASS_FX_PHASE_ZERO
-    _sfxChorusBox.at(0)->addItem("90° (π rad)", QVariant(3)  ); //	BASS_FX_PHASE_90
-    _sfxChorusBox.at(0)->addItem("180° (π/2 rad)", QVariant(4)  );  //	BASS_FX_PHASE_180
-
-    _sfxChorusBox.at(1)->addItem("Sinusoidal Wave", QVariant(1));
-    _sfxChorusBox.at(1)->addItem("Triangular Wave", QVariant(0));
-    _sfxChorusScrollArea->setWidget(_sfxChorusWidget);
-    _sfxChorusScrollArea->setWidgetResizable(true);
     /*******************************************************
      *                                                     *
      *                      PLAYBACK MODES                 *
@@ -451,36 +386,13 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_sliderMain,SIGNAL(valueChanged(int)),_sliderMainSpin,SLOT(setValue(int)));
     connect(_sliderVAC,SIGNAL(valueChanged(int)),_sliderVACSpin,SLOT(setValue(int)));
 
-
-    /* SfxSettingsWidget class */
-
-    SfxSettingsWidget* test = new SfxSettingsWidget("Testing Chorus");
-    test->addSlider("Delay",0,50);
-    test->addSlider("Depth",322,3154);
-    test->addSlider("Feedback");
-    test->addSlider("Frequency");
-    test->addSlider("Wet Dry Mix");
-    test->addComboBox("Phase Differential", (QStringList()  << "-180° (-π rad)"   //	BASS_FX_PHASE_NEG_180
-                                                            << "-90° (-π/2 rad)"  //	BASS_FX_PHASE_NEG_90
-                                                            <<"0° (0 rad)"        //	BASS_FX_PHASE_ZERO
-                                                            <<"90° (π rad)"       //BASS_FX_PHASE_90
-                                                            <<"180° (π/2 rad)")); //BASS_FX_PHASE_180
-
-    test->addComboBox("Wave Form", (QStringList() << "Sinusoidal Wave")
-                                                  << "Triangular Wave");
-
-   _sfxTabWidget->addTab(test,"bllbbll");
-    connect(test,&SfxSettingsWidget::valueChanged,this,[=](int index, int value ){
-        qDebug() << "testing widget, combo box: " << index << "now has value: " << value;
-    });
-
 }
 
 // overload to ADD sound
 //WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,QWidget *parent) : WrapperProperties(parent)
 //{
 
-//}
+//}<
 
 // Overloaded contructor to show properties of already built SoundWrapper object
 // we call the other constructor so we don't have to to this twice forsenE
@@ -698,12 +610,74 @@ void WrapperProperties::SetKeySequence(QKeySequence shortcut)
 
 void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 {
+    // Dealing with static QMetaObject so we can delete previous connections weSmart
+    // IT WORKS: FeelsAmazingMan
+    static QMetaObject::Connection *chorusSliderConn;
+    static QMetaObject::Connection *chorusComboConn;
+    static QMetaObject::Connection *chorusChkConn;
+
     // need to cast item to child class else it doesn't work
     if (item != nullptr)
         _selectedItem = dynamic_cast<CustomListWidgetItem*> (item);
     // if cast was successfull
     if (_selectedItem != nullptr)
     {
+        auto dealChorus  = [=]{
+
+            // connecting the checkbox realquick :wrench: forsenE
+            if ( chorusChkConn != nullptr)
+            {
+                delete chorusChkConn;
+                chorusChkConn = nullptr;
+            }
+            chorusChkConn = new QMetaObject::Connection;
+            *chorusChkConn = connect(_chorusWidget,&SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState){
+                _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::CHORUS ,newState);
+            } );
+            // check the checkbox state
+            if (_selectedItem->GetSFX().flags & LIDL::SFX_TYPE::CHORUS)
+            {
+                _chorusWidget->setCheckboxState(true);
+            }
+            else
+            {
+                _chorusWidget->setCheckboxState(false);
+            }
+
+
+            // Construct the appropriates sliders :)
+            // Check limit in EnumsAndStruct
+            for (int i = 0; i < 6;i++)
+                _chorusWidget->setValueOfEnumParam(i, _selectedItem->getSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(i) )   );
+
+            // if the connection already exists we delete it
+            if ( chorusSliderConn != nullptr)
+            {
+                disconnect(*chorusSliderConn);
+                delete chorusSliderConn;
+            }
+            chorusSliderConn = new QMetaObject::Connection;
+            //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
+            *chorusSliderConn = connect(_chorusWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
+                _selectedItem->setSFXChorus( static_cast<LIDL::SFX_CHORUS_PARAM>(specialValue),value);
+            });
+
+            if (chorusComboConn != nullptr)
+            {
+                disconnect(*chorusComboConn);
+                delete chorusComboConn;
+            }
+            chorusComboConn = new QMetaObject::Connection;
+            *chorusComboConn = connect(_chorusWidget,&SfxSettingsWidget::comboBoxValueChanged,this,[=](int whichOne,int newIndex, int specialValue){
+                //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
+                // index is equal to the value of the BASS_DX8 enum
+                // specialValue is equal to EnumsAndStructs.h value
+                _selectedItem->setSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(specialValue),newIndex);
+            });
+
+        };
+        dealChorus();
+
 
         // disconnecting sounds
         disconnect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
@@ -711,7 +685,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         //disconnecting checkBox because it's connected to the setter via the lambda
         disconnect(_sfxDistortionCheckBox);
         disconnect(_sfxDistortionDefault);
-        disconnect(_sfxChorusCheckBox);
+       // disconnect(_sfxChorusCheckBox);
         //  disconnecting the sfx distortion stuff
         for (int i = 0; i<5;i++)
         {
@@ -729,20 +703,6 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPostEQBandwidth));
             _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPreLowpassCutoff));
         });
-        // 0 is default, 1 is preset A, 2 is preset B
-        connect(_sfxChorusButton.at(0), QPushButton::clicked, [=]
-        {
-            // delay  depth feeback frequency wetdrymix phaseDifferential waveform
-            _selectedItem->setSFXChorusDefault();
-            _sfxChorusSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDelay));
-            _sfxChorusSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDepth));
-            _sfxChorusSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFeedback));
-            _sfxChorusSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFrequency));
-            _sfxChorusSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fWetDryMix));
-            _sfxChorusBox.at(0)->setCurrentIndex( _sfxChorusBox.at(0)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lPhase) ) );
-            _sfxChorusBox.at(1)->setCurrentIndex( _sfxChorusBox.at(1)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lWaveform) ) );
-        });
-
 
         // CONNECTING DISTORTION CHECKBOX
         for (int i = 0; i<5;i++)
@@ -760,44 +720,14 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         }
 
         // Still checkbox
-        for (int i =0;i <2;i++)
-        {
-            _sfxChorusBox.at(i)->disconnect();
-            connect(_sfxChorusCheckBox,QCheckBox::stateChanged,
-                    [=](bool checked){ _sfxChorusBox.at(i)->setEnabled(checked); });
-        }
-        // CONNECTING CHORUS CHECKBOX TO ENABLE SLIDERS. AND CONNECTING SLIDERS AND SPINBOXES TOGETHER REEEEE
-        for (int i = 0; i < 5; i ++)
-        {
-            connect(_sfxChorusCheckBox,QCheckBox::stateChanged,
-                    [=](bool checked){
-                _sfxChorusSpinboxes.at(i)->setEnabled(checked);
-                _sfxChorusSliders.at(i)->setEnabled(checked);
-            });
 
-            connect(_sfxChorusSliders.at(i), QSlider::valueChanged, _sfxChorusSpinboxes.at(i),QSpinBox::setValue);
-            connect(_sfxChorusSpinboxes.at(i), static_cast<void (QSpinBox::*)(int)>(QSpinBox::valueChanged), _sfxChorusSliders.at(i),QSlider::setValue);
-        }
-        // still check box Zzzz
-        for (int i = 0;i<3;i++)
-            connect(_sfxChorusCheckBox,QCheckBox::stateChanged, [=](bool state){
-                _sfxChorusButton.at(i)->setEnabled(state);
-            });
-        // connecting all sliders
-        connect(_sfxChorusSliders.at(0),QSlider::valueChanged, [=] (int i){
-            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fDelay,i);});
-        connect(_sfxChorusSliders.at(1),QSlider::valueChanged, [=] (int i){
-            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fDepth,i);});
-        connect(_sfxChorusSliders.at(2),QSlider::valueChanged, [=] (int i){
-            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fFeedback,i);});
-        connect(_sfxChorusSliders.at(3),QSlider::valueChanged, [=] (int i){
-            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fFrequency,i);});
-        connect(_sfxChorusSliders.at(4),QSlider::valueChanged, [=] (int i){
-            _selectedItem->setSFXChorus( LIDL::SFX_CHORUS_PARAM::fWetDryMix,i);});
-        connect(_sfxChorusBox.at(0),static_cast<void (QComboBox::*) (int)>(QComboBox::currentIndexChanged),[=] (int i){
-            _selectedItem->setSFXChorus(LIDL::SFX_CHORUS_PARAM::lPhase, _sfxChorusBox.at(0)->itemData(i).toInt() );    });
-        connect(_sfxChorusBox.at(1),static_cast<void (QComboBox::*) (int)>(QComboBox::currentIndexChanged),[=] (int i){
-            _selectedItem->setSFXChorus(LIDL::SFX_CHORUS_PARAM::lWaveform, _sfxChorusBox.at(1)->itemData(i).toInt() );    });
+
+
+
+//        connect(_sfxChorusBox.at(0),static_cast<void (QComboBox::*) (int)>(QComboBox::currentIndexChanged),[=] (int i){
+//            _selectedItem->setSFXChorus(LIDL::SFX_CHORUS_PARAM::lPhase, _sfxChorusBox.at(0)->itemData(i).toInt() );    });
+//        connect(_sfxChorusBox.at(1),static_cast<void (QComboBox::*) (int)>(QComboBox::currentIndexChanged),[=] (int i){
+//            _selectedItem->setSFXChorus(LIDL::SFX_CHORUS_PARAM::lWaveform, _sfxChorusBox.at(1)->itemData(i).toInt() );    });
 
 
         // if flags are checked then we select checkboxes
@@ -809,14 +739,6 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         else
             _sfxDistortionCheckBox->setChecked(false);
 
-        if (_selectedItem->GetSFX().flags & LIDL::SFX_TYPE::CHORUS)
-        {
-            _sfxChorusCheckBox->setChecked(true);
-            for (auto &i: _sfxChorusButton)
-                i->setEnabled(true);
-        }
-        else
-            _sfxChorusCheckBox->setChecked(false);
 
         _sfxDistortionSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fGain));
         _sfxDistortionSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fEdge));
@@ -824,22 +746,24 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         _sfxDistortionSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPostEQBandwidth));
         _sfxDistortionSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().distortion.fPreLowpassCutoff));
 
-        _sfxChorusSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDelay));
-        _sfxChorusSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDepth));
-        _sfxChorusSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFeedback));
-        _sfxChorusSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFrequency));
-        _sfxChorusSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fWetDryMix));
-        _sfxChorusBox.at(0)->setCurrentIndex( _sfxChorusBox.at(0)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lPhase) ) );
-        _sfxChorusBox.at(1)->setCurrentIndex( _sfxChorusBox.at(1)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lWaveform) ) );
-        connect(_sfxDistortionCheckBox,QCheckBox::stateChanged,[=](bool enabled){
-            _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::DISTORTION,enabled);
-            _sfxDistortionDefault->setEnabled(enabled);
-        });
 
-        connect(_sfxChorusCheckBox,QCheckBox::stateChanged,[=](bool enabled){
-            _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::CHORUS,enabled);
-            //   _sfxChorusDefault->setEnabled(enabled);
-        });
+
+//        _sfxChorusSliders.at(0)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDelay));
+//        _sfxChorusSliders.at(1)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fDepth));
+//        _sfxChorusSliders.at(2)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFeedback));
+//        _sfxChorusSliders.at(3)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fFrequency));
+//        _sfxChorusSliders.at(4)->setValue(static_cast<int>(_selectedItem->GetSFX().chorus.fWetDryMix));
+//        _sfxChorusBox.at(0)->setCurrentIndex( _sfxChorusBox.at(0)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lPhase) ) );
+////      _sfxChorusBox.at(1)->setCurrentIndex( _sfxChorusBox.at(1)->findData( static_cast<int>(_selectedItem->GetSFX().chorus.lWaveform) ) );
+//        connect(_sfxDistortionCheckBox,QCheckBox::stateChanged,[=](bool enabled){
+//            _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::DISTORTION,enabled);
+//            _sfxDistortionDefault->setEnabled(enabled);
+//        });
+
+//        connect(_sfxChorusCheckBox,QCheckBox::stateChanged,[=](bool enabled){
+//            _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::CHORUS,enabled);
+//            //   _sfxChorusDefault->setEnabled(enabled);
+//        });
 
 
 

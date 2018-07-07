@@ -32,10 +32,10 @@ namespace LIDL{
 
     enum SFX_TYPE : unsigned int
     {
-        NONE = 0,
-        DISTORTION = 1,
-        CHORUS = 2,
-        ECHO = 4
+        NONE =          0,
+        DISTORTION =    1<<0, //1
+        CHORUS =        1<<1, //2
+        ECHO =          1<<2  //4
 
     };
 
@@ -59,15 +59,15 @@ namespace LIDL{
         DEFAULT_DISTORTION = 0,
 
     };
-    enum class SFX_CHORUS_PARAM
+    enum class SFX_CHORUS_PARAM : unsigned int
     {
-        fDelay,
-        fDepth,
-        fFeedback,
-        fFrequency,
-        fWetDryMix,
-        lPhase,
-        lWaveform
+        fDelay = 0,
+        fDepth = 1,
+        fFeedback = 2,
+        fFrequency = 3,
+        fWetDryMix = 4,
+        lPhase = 5,
+        lWaveform = 6
     };
 
     enum SHOW_SETTINGS : unsigned int

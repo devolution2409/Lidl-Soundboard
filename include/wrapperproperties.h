@@ -190,16 +190,7 @@ private:
         QVector <QSpinBox*> _sfxDistortionSpinboxes; /*!< Vector containg the spinbox.*/
         QPushButton * _sfxDistortionDefault; /*!< Button to reset SFX to default.*/
     // CHORUS
-        QWidget * _sfxChorusWidget; /*!< The widget holding the chorus settings.*/
-        QGridLayout * _sfxChorusLayout; /*!<  The layout of the chorus widget.*/
-        QCheckBox *_sfxChorusCheckBox; /*!< */
-        QVector <QLabel*> _sfxChorusLabels; /*!< */
-        QVector <QSlider*> _sfxChorusSliders; /*!< */
-        QVector <QSpinBox*> _sfxChorusSpinboxes; /*!< */
-        QVector <QComboBox*> _sfxChorusBox; /*!< */
-        QVector <QPushButton*> _sfxChorusButton; /*!< */
-        QScrollArea *  _sfxChorusScrollArea; /*!< */
-
+        SfxSettingsWidget* _chorusWidget; /*!< The widget responsible of the tab construction*/
 //    QCheckBox *_sfxChorusEnabled;
 //    QCheckBox *_sfxCompressorEnabled;
 //    QCheckBox *_sfxEchoEnabled;
