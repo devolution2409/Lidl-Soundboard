@@ -1,6 +1,7 @@
 #include "SliderSpin.h"
 
-SliderSpin::SliderSpin(QWidget *parent) : QWidget(parent)
+SliderSpin::SliderSpin(QWidget *parent)
+    : QWidget(parent)
 {
     this->_layout = new QGridLayout(this);
     this->_slider = new QSlider(Qt::Orientation::Horizontal);
@@ -15,10 +16,18 @@ SliderSpin::SliderSpin(QWidget *parent) : QWidget(parent)
 
     _layout->addWidget(_slider,0,0,1,8);
     _layout->addWidget(_spinbox,0,8,1,2);
-
 }
 
+SliderSpin::SliderSpin(int min, int max, QString suffix, QString prefix, QWidget *parent)
+    : SliderSpin(parent)
+{
 
+    this->setRange(min,max);
+    if (! prefix.isEmpty())
+        this->_spinbox->setPrefix(prefix);
+    if (! suffix.isEmpty())
+        this->_spinbox->setSuffix(suffix);
+}
 
 void SliderSpin::setRange(int min, int max)
 {
@@ -27,5 +36,23 @@ void SliderSpin::setRange(int min, int max)
 }
 
 
+void SliderSpin::setValue(int value)
+{
+    this->_slider->setValue(value);
+    this->_spinbox->setValue(value);
+}
 
+void SliderSpin::setSuffix(const QString &suffix)
+{
+    this->_spinbox->setSuffix(suffix);
+}
 
+void SliderSpin::setPrefix(const QString &prefix)
+{
+    this->_spinbox->setPrefix(prefix);
+}
+
+int SliderSpin::value() const
+{
+    return this->_slider->value();
+}

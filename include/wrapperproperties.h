@@ -54,6 +54,7 @@
 #include <QRegExp>              // RegExp to find out the MIMEType of the file so user can't add retarded stuff from the internet
 
 #include "SliderSpin.h"
+#include "SfxSettingsWidget.h"
 
 /*! \class WrapperProperties
   * \brief Inherits QWidget

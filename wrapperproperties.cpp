@@ -453,13 +453,19 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
 
     /* testing slider spin class */
-    SliderSpin* test = new SliderSpin();
-    test->setRange(0,250);
-     _gLayout->addWidget(test,10,0,1,6);
+   // SliderSpin* test = new SliderSpin(100,2897,"Hz");
+//    SfxSettingsWidget* test = new SfxSettingsWidget("Testing new class");
+//    test->addSlider("slider 1",0,50);
+//    _gLayout->addWidget(test,10,0,1,6);
+//    test->addSlider("LULULUL",322,3154);
 
-     connect(test,&SliderSpin::valueChanged, this, [=](int value){
-         qDebug() << "new value is:" << value;
-     });
+//    connect(test,&SfxSettingsWidget::valueChanged,this,[=](int index, int value ){
+//        qDebug() << "testing widget, combo box: " << index << "now has value: " << value;
+//    });
+
+//     connect(test,&SliderSpin::valueChanged, this, [=](int value){
+//         qDebug() << "new value is:" << value;
+//     });
 
 }
 

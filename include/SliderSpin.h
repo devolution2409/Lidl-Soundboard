@@ -11,7 +11,7 @@ class SliderSpin : public QWidget
     Q_OBJECT
 public:
     explicit SliderSpin(QWidget *parent = nullptr);
-
+    SliderSpin(int min = 0, int max = 100, QString suffix = "", QString prefix ="", QWidget *parent = nullptr);
     /*!
      * \brief setRange Sets the range of the slider and spin box.
      * \param min Minimum value (int).
@@ -21,6 +21,8 @@ public:
     void setSuffix(const QString &suffix);
     void setPrefix(const QString &prefix);
     void setValue(int value);
+
+    int value() const;
 
 private:
     QGridLayout *_layout;
