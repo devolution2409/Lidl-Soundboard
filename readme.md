@@ -13,33 +13,12 @@ To be able to stream audio in game, you'll need a virtual audio cable software. 
 
 ### Launching the soundboard
 
-JUST UNZIP AND LAUNCH THE EXE LOOOOOOOOOOOOOL 4HEad
+JUST INSTALL AND LAUNCH THE EXE LOOOOOOOOOOOOOL 4HEad
 
 
 ### Configuration for proper cancer
 
-#### Select main audio output device
-
-Only if you wanna hear your own cancer.
-
-#### Select VAC audio output
-
-To be able to send audio to game. Don't forget to set VAC as the microphone to use in game. (or as the default device in the system).
-
-
-#### Microphone injection: System driven
-
-If you wanna be able to talk in game while also being able to send sounds, check out the manual.
-
-
-#### Set push to talk key. 
-
-So that the soundboard hold the game PTT key for you, if you set it accordingly in the settings.
-
-## Planned features
- * Being able to set volume for each sound added in a sound collection.
- * Being able to open recent soundboards, or swap them with a combo box. (will require a settings.json file or smth).
- * Auto-updater (maybe LUL).
+Check out LIDL Manual here [alt text](https://static-cdn.jtvnw.net/jtv_user_pictures/482fa2af-9a3c-43f7-8b46-90bf4f63586a-profile_image-300x300.png "")  👉 https://github.com/devolution2409/Lidl-Soundboard/blob/master/Lidl_manual.pdf
 
 ## Versioning
 

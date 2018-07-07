@@ -24,6 +24,7 @@ SOURCES += \
 #    framelesswindow.cpp \
 #    windowdragger.cpp \
 #    DarkStyle.cpp
+    SliderSpin.cpp
 
 
 HEADERS += \
@@ -46,6 +47,7 @@ HEADERS += \
 #    include/framelesswindow.h \
 #    include/windowdragger.h \
 #    include/DarkStyle.h
+    include/SliderSpin.h
 
 
 

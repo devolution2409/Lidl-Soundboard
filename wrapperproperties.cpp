@@ -44,7 +44,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _btnDelete= new QPushButton("Delete");
     _btnDelete->setEnabled(false);
 
-    _soundListHint = new QLabel("💡 You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.\n     You can set the volume of a sound in the volume panel.");
+    _soundListHint = new QLabel("💡 " +  tr("You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.\n     You can set the volumen, and SFX, of each sound in the volume panel."));
     /*******************************************************
      *                                                     *
      *                     VOLUME SLIDERS                  *
@@ -69,7 +69,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sliderVACSpin->setRange(0,maxVolume);
     _sliderMainSpin->setSuffix("%");
     _sliderVACSpin->setSuffix("%");
-    _sliderHint = new QLabel("💡 You can set the volumes of each sound individually.");
+    //_sliderHint = new QLabel("💡 You can set the volumes of each sound individually.");
 
 
     _sliderLayout->addWidget(_sliderLabelMain,0,0,1,4);
@@ -78,7 +78,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sliderLayout->addWidget(_sliderLabelVAC,2,0,1,4);
     _sliderLayout->addWidget(_sliderVAC,3,0,1,3);
     _sliderLayout->addWidget(_sliderVACSpin,3,3,1,1);
-    _sliderLayout->addWidget(_sliderHint,4,0,1,4);
+    //_sliderLayout->addWidget(_sliderHint,4,0,1,4);
 
 
     _sliderSpoiler->setContentLayout( _sliderLayout  );
@@ -307,9 +307,6 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _radioSequential = new QRadioButton("Sequential",this);
     _radioAuto       = new QRadioButton("Sequential (auto)",this);
     _radioCancer     = new QRadioButton("Singleton (Cancer)",this);
-    // Tooltip hint
-    //  _radioToolTip    = new QLabel("       ❔");
-    //_radioToolTip->setToolTip("Singleton: A Single Sound\nSequential: A Sound Collection. Next item will play after pressing play or the shortcut.\nSequential(Auto): Same as sequential, but automated.");
 
     // setting 1 has default value for playblack
     _playBackMode    = LIDL::Playback::Singleton;
@@ -339,21 +336,21 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     //_shortcutEdit       = new QKeySequenceEdit();
     _shortcutEdit       = new CustomShortcutEdit();
     _shortcutResetBtn   = new QPushButton("Reset");
-    _shortcutHint      = new QLabel("Set a shortcut to play the sound.\nWait one second after last released key to apply.");
+    _shortcutHint      = new QLabel(tr("Set a shortcut to play the sound.\nWait one second after last released key to apply."));
     _shortcutResetBtn->setFixedHeight(22);
     _shortcutLayout->addWidget(_shortcutEdit,1,0,1,2);
     _shortcutLayout->addWidget(_shortcutResetBtn,1,2,1,1);
     _shortcutLayout->addWidget(_shortcutHint,0,0,1,3);
-    _shortcutWarning = new QLabel("⚠️ Don't use the same shortcut twice, it will not work.");
+    _shortcutWarning = new QLabel("⚠️ " + tr("Don't use the same shortcut twice, it will not work."));
     _shortcutLayout->addWidget(_shortcutWarning,2,0,1,3);
 
 
 
     //Done button
-    _btnDone = new QPushButton("Done!");
+    _btnDone = new QPushButton(tr("Done!"));
 
     //Abort button
-    _btnAbort = new QPushButton("Abort mission");
+    _btnAbort = new QPushButton(tr("Abort mission"));
 
 
     /*******************************************************
@@ -388,21 +385,61 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     // Delete button needs to know which item we are deleting, this method will deal with it
     connect(_soundListDisplay,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(ItemWasClicked(QListWidgetItem*)));
     // Delete
-    connect(_btnDelete,SIGNAL(clicked()),this,SLOT(DeleteSelectedSound()));
+    connect(_btnDelete,&QPushButton::clicked,this, [=]{
+        delete this->_selectedItem;
+        this->_selectedItem = nullptr;
+        this->_btnDelete->setEnabled(false);
+        this->_sfxSpoiler->Close();
+        this->_sliderSpoiler->Close();
+        this->_sliderSpoiler ->setEnabled(false);
+        this->_sfxSpoiler->setEnabled(false);
+
+        // need to renable add button if we are in singleton song and this was the last sound
+        if (_soundListDisplay->count() == 0)
+        {
+            this->_radioSingleton->setEnabled(true);
+            this->_btnAdd->setEnabled(true);
+        }
+        // we clear selection
+        _soundListDisplay->clearSelection();
+
+    });
 
     /*******************RADIO BUTTONS************************/
     connect(_radioGroup, SIGNAL(buttonClicked(int)), this, SLOT(RadioPressed(int)));
 
     /*******************HOTKEY EDITION***********************/
-    connect(_shortcutResetBtn,SIGNAL(clicked()), this, SLOT(ShortcutReset()));
+    connect(_shortcutResetBtn,&QPushButton::clicked, this, [=]{
+        //Clear the input box for the shortcut but also clears
+        //the actual shortcut since it emits the signal that calls the SetKeySequenceSlot
+            this->_shortcutEdit->clear();
+    });
     connect(_shortcutEdit,SIGNAL(keySequenceChanged(QKeySequence)),this,SLOT(SetKeySequence(QKeySequence)));
     // connect two signals to deal with the one sec delay
-    connect(_shortcutEdit,SIGNAL(keyPressed()),this,SLOT(editingStarted()));
-    connect(_shortcutEdit,SIGNAL(editingFinished()),this,SLOT(editingDone()));
+    connect(_shortcutEdit, &CustomShortcutEdit::keyPressed,this,[=]{
+        // disabling the done button until the done editing signal is recieved
+        this->_btnDone->setEnabled(false);
+    });
+    connect(_shortcutEdit,&CustomShortcutEdit::editingFinished,this,[=]{
+        // Enabling the button
+        this->_btnDone->setEnabled(true);
+        // Showing warning if no modifiers are used
+        if ( !(this->_shortcutEdit->getText().contains("Shift",Qt::CaseInsensitive)) &&
+             !(this->_shortcutEdit->getText().contains("Ctrl",Qt::CaseInsensitive))  &&
+             !(this->_shortcutEdit->getText().contains("Alt",Qt::CaseInsensitive)))
+        {
+            QMessageBox messageBox;
+            messageBox.warning(this,"LIDL Soundboard: " + tr("Warning"),tr("You didn't provide a modifier for this key sequence, be warned this soundboard will INTERCEPT the key, and won't allow it to be used elsewhere."));
+            messageBox.setFixedSize(400,200);
+            messageBox.show();
+        }
+    });
 
     /*******************BUTTON DONE AND ABORT*****************/
     // connect(_btnDone, SIGNAL(clicked()), this, SLOT(CreateWrapper()));
-    connect(_btnAbort, SIGNAL(clicked()), this, SLOT(AbortMission()));
+    connect(_btnAbort, &QPushButton::clicked, this, [=]{
+         this->close();
+    });
     /*******************DRAG AND DROP EVENT******************/
     connect(_soundListDisplay,SIGNAL(fileDragged(QString)),this,SLOT(AddSoundFromDrop(QString)));
     /****************************SLIDERS*********************/
@@ -414,6 +451,15 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_sliderMain,SIGNAL(valueChanged(int)),_sliderMainSpin,SLOT(setValue(int)));
     connect(_sliderVAC,SIGNAL(valueChanged(int)),_sliderVACSpin,SLOT(setValue(int)));
 
+
+    /* testing slider spin class */
+    SliderSpin* test = new SliderSpin();
+    test->setRange(0,250);
+     _gLayout->addWidget(test,10,0,1,6);
+
+     connect(test,&SliderSpin::valueChanged, this, [=](int value){
+         qDebug() << "new value is:" << value;
+     });
 
 }
 
@@ -559,7 +605,7 @@ void WrapperProperties::closeEvent(QCloseEvent *event)
 
 void WrapperProperties::AddSound()
 {
-    //if we already have more than one sound we set the mode to sequential (default)
+    //if we already have more than one s²ound we set the mode to sequential (default)
 
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3 *.ogg *.flac)"));
@@ -625,20 +671,8 @@ void WrapperProperties::RadioPressed(int id)
 
     }
 }
-void WrapperProperties::AbortMission()
-{
-    this->close();
-}
 
 
-//Clear the input box for the shortcut but also clears
-//the actual shortcut since it emits the signal that calls the SetKeySequenceSlot
-void WrapperProperties::ShortcutReset()
-{
-    //qDebug() << this->_shortcutSequence->toString();
-    this->_shortcutEdit->clear();
-    //qDebug() << this->_shortcutSequence->toString();
-}
 
 void WrapperProperties::SetKeySequence(QKeySequence shortcut)
 {
@@ -647,24 +681,6 @@ void WrapperProperties::SetKeySequence(QKeySequence shortcut)
 
 
 
-void WrapperProperties::editingDone()
-{
-    this->_btnDone->setEnabled(true);
-    if ( !(this->_shortcutEdit->getText().contains("Shift",Qt::CaseInsensitive)) &&
-         !(this->_shortcutEdit->getText().contains("Ctrl",Qt::CaseInsensitive))  &&
-         !(this->_shortcutEdit->getText().contains("Alt",Qt::CaseInsensitive)))
-    {
-        QMessageBox messageBox;
-        messageBox.warning(this,"LIDL Soundboard: Warning",tr("You didn't provide a modifier for this key sequence, be warned this soundboard will INTERCEPT the key, and won't allow it to be used elsewhere."));
-        messageBox.setFixedSize(400,200);
-        messageBox.show();
-    }
-}
-
-void WrapperProperties::editingStarted()
-{
-    this->_btnDone->setEnabled(false);
-}
 
 
 void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
@@ -843,30 +859,6 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 
 }
 
-
-
-
-void WrapperProperties::DeleteSelectedSound()
-{
-    delete this->_selectedItem;
-    this->_selectedItem = nullptr;
-    this->_btnDelete->setEnabled(false);
-    this->_sfxSpoiler->Close();
-    this->_sliderSpoiler->Close();
-    this->_sliderSpoiler ->setEnabled(false);
-    this->_sfxSpoiler->setEnabled(false);
-
-    // need to renable add button if we are in singleton song and this was the last sound
-    if (_soundListDisplay->count() == 0)
-    {
-        this->_radioSingleton->setEnabled(true);
-        this->_btnAdd->setEnabled(true);
-    }
-    // we clear selection
-    _soundListDisplay->clearSelection();
-
-
-}
 
 
 
