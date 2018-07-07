@@ -134,19 +134,21 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     _chorusWidget = new SfxSettingsWidget("Chorus");
     // check EnumsAndStructs.h for special value
-    _chorusWidget->addSlider("Delay",0,20," ms",0);
-    _chorusWidget->addSlider("Depth",0,100," %",1);
-    _chorusWidget->addSlider("Feedback",-99,99," %",2);
-    _chorusWidget->addSlider("Frequency",0,10," Hz",3);
-    _chorusWidget->addSlider("Wet Dry Mix",0,100," %",4);
-    _chorusWidget->addComboBox("Phase Differential", (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
-                                                            << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
-                                                            <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
-                                                            <<"90° (π rad)"       //BASS_FX_PHASE_90
-                                                            <<"180° (π/2 rad)"),5); //BASS_FX_PHASE_180
+    _chorusWidget->addSlider("Delay",0,20," ms", static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay));
+    _chorusWidget->addSlider("Depth",0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDepth));
+    _chorusWidget->addSlider("Feedback",-99,99," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFeedback));
+    _chorusWidget->addSlider("Frequency",0,10," Hz",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFrequency));
+    _chorusWidget->addSlider("Wet Dry Mix",0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fWetDryMix));
+    _chorusWidget->addComboBox("Phase Differential",
+                               (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
+                                               << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
+                                               <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
+                                               <<"90° (π rad)"       //BASS_FX_PHASE_90
+                                               <<"180° (π/2 rad)"),
+                               static_cast<int>(LIDL::SFX_CHORUS_PARAM::lPhase)); //BASS_FX_PHASE_180
 
     _chorusWidget->addComboBox("Wave Form", (QStringList() << "Sinusoidal Wave"
-                                                  << "Triangular Wave"),6);
+                                                  << "Triangular Wave"),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
 
    _sfxTabWidget->addTab(_chorusWidget,"Chorus");
 
@@ -618,6 +620,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
                 delete distortChkConn;
                 distortChkConn = nullptr;
             }
+            // connecting checkbox to set the flag (or remove it)
             distortChkConn = new QMetaObject::Connection;
             *distortChkConn = connect(_distortionWidget,&SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState){
                 _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::DISTORTION ,newState);
