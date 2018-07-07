@@ -194,12 +194,47 @@ int CustomListWidgetItem::getSFXChorus(LIDL::SFX_CHORUS_PARAM which) const
         break;
 
     default:
-        qDebug() << "Wrong usage of setSFXDistortion";
+        qDebug() << "Wrong usage of getSFXChorus";
         return -1;
         break;
     }
 
 }
+
+int CustomListWidgetItem::getSFXDistortion(LIDL::SFX_DIST_PARAM which) const
+{
+    switch(which){
+
+    case LIDL::SFX_DIST_PARAM::fEdge:
+        return static_cast<int>(_sfx.distortion.fEdge);
+        break;
+
+    case LIDL::SFX_DIST_PARAM::fGain:
+        return static_cast<int>(_sfx.distortion.fGain);
+        break;
+
+    case LIDL::SFX_DIST_PARAM::fPostEQBandwidth:
+        return static_cast<int>(_sfx.distortion.fPostEQBandwidth);
+        break;
+
+    case LIDL::SFX_DIST_PARAM::fPostEQCenterFrequency:
+        return static_cast<int>(_sfx.distortion.fPostEQCenterFrequency);
+        break;
+
+    case LIDL::SFX_DIST_PARAM::fPreLowpassCutoff:
+        return static_cast<int>(_sfx.distortion.fPreLowpassCutoff);
+        break;
+
+    default:
+        qDebug() << "Wrong usage of getSFXDistortion";
+        return -1;
+        break;
+    }
+
+
+
+}
+
 
 //void CustomListWidgetItem::CheckForIllegalValues()
 //{

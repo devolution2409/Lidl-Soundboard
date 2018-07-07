@@ -182,15 +182,9 @@ private:
     QGridLayout *_sfxLayout; /*!< The layout of the SFX spoiler group.*/
     QTabWidget *_sfxTabWidget; /*!< Tab widget to sort all the available SFX.*/
     // DISTORTION
-        QWidget   * _sfxDistortionWidget; /*!< The widget holding the distortion settings.*/
-        QGridLayout * _sfxDistortionLayout; /*!< Layout of the distortion widget.*/
-        QCheckBox *_sfxDistortionCheckBox; /*!< Checkbox to activate the distortion.*/
-        QVector <QLabel*> _sfxDistortionLabels; /*!< Vector containing the labels.*/
-        QVector <QSlider*> _sfxDistortionSliders; /*!< Vector containing the sliders.*/
-        QVector <QSpinBox*> _sfxDistortionSpinboxes; /*!< Vector containg the spinbox.*/
-        QPushButton * _sfxDistortionDefault; /*!< Button to reset SFX to default.*/
+        SfxSettingsWidget* _distortionWidget; /*!< The widget responsible of the Distortion tab construction*/
     // CHORUS
-        SfxSettingsWidget* _chorusWidget; /*!< The widget responsible of the tab construction*/
+        SfxSettingsWidget* _chorusWidget; /*!< The widget responsible of the Chorus tab construction*/
 //    QCheckBox *_sfxChorusEnabled;
 //    QCheckBox *_sfxCompressorEnabled;
 //    QCheckBox *_sfxEchoEnabled;

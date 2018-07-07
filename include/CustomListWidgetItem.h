@@ -26,9 +26,11 @@ public:
     void setSFXDistortion(LIDL::SFX_DIST_PARAM param, int value);
 
     void setSFXChorusDefault();
+
     void setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value);
     int getSFXChorus(LIDL::SFX_CHORUS_PARAM which) const;
- //   void SetDistortionEnabled(bool);
+
+    int getSFXDistortion(LIDL::SFX_DIST_PARAM which) const;
 
 
     void SetSFXEnabled(LIDL::SFX_TYPE type, bool enabled);

@@ -49,14 +49,15 @@ namespace LIDL{
         BASS_DX8_ECHO echo;
     };
  //DEFINE_ENUM_FLAG_OPERATORS(SFX_TYPE)
-    enum class SFX_DIST_PARAM
+    enum class SFX_DIST_PARAM : unsigned int
     {
-        fGain = 1,
-        fEdge = 2,
-        fPostEQCenterFrequency = 3,
-        fPostEQBandwidth = 4,
-        fPreLowpassCutoff = 5,
-        DEFAULT_DISTORTION = 0,
+        fGain = 0,
+        fEdge = 1,
+        fPostEQCenterFrequency = 2,
+        fPostEQBandwidth = 3,
+        fPreLowpassCutoff = 4,
+        ITER_END = 5 // used in for loop as the stop condition
+     //   DEFAULT_DISTORTION = 0,
 
     };
     enum class SFX_CHORUS_PARAM : unsigned int
@@ -67,7 +68,8 @@ namespace LIDL{
         fFrequency = 3,
         fWetDryMix = 4,
         lPhase = 5,
-        lWaveform = 6
+        lWaveform = 6,
+        ITER_END = 7 // used in for loop as the stop condition
     };
 
     enum SHOW_SETTINGS : unsigned int

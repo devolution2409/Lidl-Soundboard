@@ -28,6 +28,13 @@ SfxSettingsWidget::SfxSettingsWidget(QString sfxName, QWidget *parent)
     });
 }
 
+void SfxSettingsWidget::deactivateAll()
+{
+    for (auto &i: _sliders)
+        i->setEnabled(false);
+    for (auto &i: _comboBox)
+        i->setEnabled(false);
+}
 
 void SfxSettingsWidget::addSlider(QString label,int min, int max, QString suffix,int specialValue,QString prefix)
 {

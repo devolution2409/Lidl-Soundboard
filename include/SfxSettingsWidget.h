@@ -59,9 +59,27 @@ public:
      */
     void setComboBoxIndex(int comboIndex, int newItemIndex);
 
+    /*!
+     * \brief setValueOfEnumParam Will set the value of a widget item settings.
+     *
+     * Will look through the std::map associating the int corresponding to the enum parameter,
+     * and a pointer to the widget that deals with it.
+     * \param enumValue The int representing the enum value (EnumsAndStructs.h).
+     * \param newValue The new value.
+     */
     void setValueOfEnumParam(int enumValue, int newValue);
 
+    /*!
+     * \brief setCheckboxState Set this widget checkbox checked state.
+     * \param state The new state of the check box (checked is true, unchecked is false).
+     */
     void setCheckboxState(bool state);
+
+    /*!
+     * \brief deactivateAll Deactivates all widgets except the checkbox.
+     */
+    void deactivateAll();
+
 private:
     QWidget *_container; /*!< The container widget.*/
     QCheckBox *_checkbox; /*!< Enable/disable Checkbox*/
