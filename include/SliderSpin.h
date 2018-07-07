@@ -21,6 +21,7 @@ public:
     void setSuffix(const QString &suffix);
     void setPrefix(const QString &prefix);
     void setValue(int value);
+    void setEnabled(bool state);
 
     int value() const;
 

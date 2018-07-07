@@ -16,6 +16,8 @@ SliderSpin::SliderSpin(QWidget *parent)
 
     _layout->addWidget(_slider,0,0,1,8);
     _layout->addWidget(_spinbox,0,8,1,2);
+    // following line is needed else each line will have margins BrokeBack Clap
+    this->_layout->setMargin(0);
 }
 
 SliderSpin::SliderSpin(int min, int max, QString suffix, QString prefix, QWidget *parent)
@@ -55,4 +57,10 @@ void SliderSpin::setPrefix(const QString &prefix)
 int SliderSpin::value() const
 {
     return this->_slider->value();
+}
+
+void SliderSpin::setEnabled(bool state)
+{
+    this->_spinbox->setEnabled(state);
+    this->_slider->setEnabled(state);
 }

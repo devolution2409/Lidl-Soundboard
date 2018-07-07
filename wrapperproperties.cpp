@@ -452,20 +452,27 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_sliderVAC,SIGNAL(valueChanged(int)),_sliderVACSpin,SLOT(setValue(int)));
 
 
-    /* testing slider spin class */
-   // SliderSpin* test = new SliderSpin(100,2897,"Hz");
-//    SfxSettingsWidget* test = new SfxSettingsWidget("Testing new class");
-//    test->addSlider("slider 1",0,50);
-//    _gLayout->addWidget(test,10,0,1,6);
-//    test->addSlider("LULULUL",322,3154);
+    /* SfxSettingsWidget class */
 
-//    connect(test,&SfxSettingsWidget::valueChanged,this,[=](int index, int value ){
-//        qDebug() << "testing widget, combo box: " << index << "now has value: " << value;
-//    });
+    SfxSettingsWidget* test = new SfxSettingsWidget("Testing Chorus");
+    test->addSlider("Delay",0,50);
+    test->addSlider("Depth",322,3154);
+    test->addSlider("Feedback");
+    test->addSlider("Frequency");
+    test->addSlider("Wet Dry Mix");
+    test->addComboBox("Phase Differential", (QStringList()  << "-180° (-π rad)"   //	BASS_FX_PHASE_NEG_180
+                                                            << "-90° (-π/2 rad)"  //	BASS_FX_PHASE_NEG_90
+                                                            <<"0° (0 rad)"        //	BASS_FX_PHASE_ZERO
+                                                            <<"90° (π rad)"       //BASS_FX_PHASE_90
+                                                            <<"180° (π/2 rad)")); //BASS_FX_PHASE_180
 
-//     connect(test,&SliderSpin::valueChanged, this, [=](int value){
-//         qDebug() << "new value is:" << value;
-//     });
+    test->addComboBox("Wave Form", (QStringList() << "Sinusoidal Wave")
+                                                  << "Triangular Wave");
+
+   _sfxTabWidget->addTab(test,"bllbbll");
+    connect(test,&SfxSettingsWidget::valueChanged,this,[=](int index, int value ){
+        qDebug() << "testing widget, combo box: " << index << "now has value: " << value;
+    });
 
 }
 
