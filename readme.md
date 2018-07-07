@@ -18,7 +18,7 @@ JUST INSTALL AND LAUNCH THE EXE LOOOOOOOOOOOOOL 4HEad
 
 ### Configuration for proper cancer
 
-Check out LIDL Manual here [alt text](https://static-cdn.jtvnw.net/jtv_user_pictures/482fa2af-9a3c-43f7-8b46-90bf4f63586a-profile_image-300x300.png "")  👉 https://github.com/devolution2409/Lidl-Soundboard/blob/master/Lidl_manual.pdf
+Check out LIDL Manual here ![alt text](https://static-cdn.jtvnw.net/jtv_user_pictures/482fa2af-9a3c-43f7-8b46-90bf4f63586a-profile_image-300x300.png "")  👉 https://github.com/devolution2409/Lidl-Soundboard/blob/master/Lidl_manual.pdf
 
 ## Versioning
 
