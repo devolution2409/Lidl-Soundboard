@@ -27,7 +27,7 @@ Whatever, this this use semantic versionning, go check out changelogs in the rel
 
 ## License
 
-Blabla, some licence shit that says this is open source and free to fork. But please acknowledge me so i can ride into valhalla shinny and chrome.
+Blabla, some licence shit that says this is open source and free to fork. But please acknowledge me so i can ride into valhalla shiny and chrome.
 
 ## Acknowledgments
 
