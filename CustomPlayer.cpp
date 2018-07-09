@@ -148,7 +148,6 @@ double CustomPlayer::PlayAt(int index)
 
     if (_mainOutputDevice != 0)
     {
-
         BASS_Init(_mainOutputDevice, 44100, 0, 0, nullptr);
 
         //qDebug() << "Attempting to play file index number:" << index << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
@@ -181,7 +180,6 @@ double CustomPlayer::PlayAt(int index)
         if (duration == -1)
             duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
                                                         BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
-        qDebug() << "duration of file:" << _soundList.at(index)->path() << " is: " << duration;
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
 
@@ -220,10 +218,29 @@ double CustomPlayer::PlayAt(int index)
         // if it is a URL we use the StreamCreateURL
         if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
         {
-            _vacChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0, BASS_STREAM_AUTOFREE,NULL,NULL  ));
+            _vacChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0,
+                                                      BASS_STREAM_AUTOFREE,
+                                                     nullptr,
+                                                     nullptr));
+
+           // BASS_ChannelSetSync(_vacChannel.last(), BASS_SYNC_STALL, 0, &CustomPlayer::SyncProc,  this->_soundList.at(index));
+
+
+
             duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
                                                         BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
             duration += 1;
+
+            // testing shit :monkaOMEGA:
+            QThread *thread = QThread::create([=]{
+                int test = 0;
+                do{
+                    test = BASS_ChannelIsActive( _vacChannel.last() );
+                } while(test!=1);
+                qDebug() << "NOTHING HERE :ZULOL";
+            });
+            thread->start();
+
         }
         else// its a local file, we need to remove file/// because bass is OMEGAZULIDL
         {
@@ -264,8 +281,8 @@ double CustomPlayer::PlayAt(int index)
 
 
     // If any of the previous if were passed, the duration isn't -1.
-    // if the PTT Scan code is valid (!=-1) we can hold it
-    if (_PTTScanCode !=-1 && duration != -1)
+    // if the PTT Scan code is valid (!=-1) we can hold it, but this test is made in SettingsController anyway
+    if (duration != -1)
         emit holdPTT(static_cast<int>(duration*1000) );
 
 
@@ -299,45 +316,21 @@ void CustomPlayer::SetVACDevice(int deviceIndex)
 
 CustomPlayer::~CustomPlayer()
 {
-}
-
-void CustomPlayer::SetPTTScanCode(int scanCode)
-{
-    _PTTScanCode = scanCode;
-}
-
-void CustomPlayer::SetPPTKeys(int scanCode, int virtualKey)
-{
-    _PTTScanCode = scanCode;
-    _PTTVirtualKey = virtualKey;
-}
-
-void CustomPlayer::SetPTTVirtualKey(int virtualKey)
-{
-    _PTTVirtualKey = virtualKey;
+    if (_soundList.size() != 0)
+        for (auto &i: _soundList)
+            delete i;
 }
 
 
-// Duration is in milli sec
-//void CustomPlayer::holdPTT(int duration)
-//{
-//    // Pressing key as a SCAN CODE so that it is "physically" pressed
-//    // keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY, 0);
-//    //QTimer::singleShot(duration,this,SLOT(unHoldPTT()));
-//    emit proxyHoldPTT(duration);
-//}
-
-//void CustomPlayer::unHoldPTT()
-//{
-//    qDebug() << "unholding ptt";
-//    // Unpressing the key physically
-//    keybd_event(_PTTVirtualKey,_PTTScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-//    // stopping the timer else PTT will be unhold on each tick forsenT
-//    _timerPTT->stop();
-//}
 
 void CustomPlayer::SetPlaylist(QVector<LIDL::SoundFile *> soundList)
 {
+    // Testing this for 1.7.0 release since we will add preview
+    // deleted the soundfiles before clearing everything and setting new soundlist
+    if (_soundList.size() != 0)
+        for (auto &i: _soundList)
+            delete i;
+    _soundList.clear();
     _soundList = soundList;
 }
 void CustomPlayer::SetPlaybackMode(LIDL::Playback playMode)
@@ -345,16 +338,6 @@ void CustomPlayer::SetPlaybackMode(LIDL::Playback playMode)
     _playMode = playMode;
 }
 
-int  CustomPlayer::GetPTTScanCode()
-{
-    return this->_PTTScanCode;
-
-}
-
-int  CustomPlayer::GetPTTVirtualKey()
-{
-    return this->_PTTVirtualKey;
-}
 
 int CustomPlayer::GetOutputDevice()
 {
@@ -365,8 +348,38 @@ int CustomPlayer::GetVACDevice()
     return this->_VACOutputDevice;
 }
 
-//CustomPlayer::~CustomPlayer()
+/* BASS_STREAM_RESTRATE	Restrict the download rate of the file to the rate required to sustain playback.
+ * If this flag is not used, then the file will be downloaded as quickly as the user's internet connection allows.*/
+//void CALLBACK CustomPlayer::downloadCallBack(const void *buffer, DWORD length, void *user)
 //{
+//   //NaM SHUTTHEFUCKUPCOMPILER, this is a pointer to the file being played
+//    LIDL::SoundFile* test = reinterpret_cast<LIDL::SoundFile*>(user);
+//    // download work by chunk. This function is called until we have 0 bytes left to download.
+//    // the last call is when what we need to download is 0, so we can use that to reset the downloaded var.
+//    static int downloaded = 0;
+//    if (length == 0)
+//        downloaded = 0;
+//    else
+//    {
+//        downloaded+= length;
+//        qDebug() << QString("Downloaded %1 out of %2 bytes.").arg(downloaded).arg(test->getSize() );
 
-//    QObject::~QObject();
+//    }
 //}
+
+
+//void CALLBACK CustomPlayer::SyncProc(HSYNC handle,DWORD channel,DWORD data,void *user)
+//{
+//    qDebug() << "hyperniggerW";
+
+//}
+
+
+int CustomPlayer::getLastVacChannel()
+{
+    return this->_vacChannel.last();
+}
+int CustomPlayer::getLastMainChannel()
+{
+    return this->_mainChannel.last();
+}

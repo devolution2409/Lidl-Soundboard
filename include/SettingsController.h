@@ -133,6 +133,9 @@ private:
 
 
 signals:
+    /*!
+     * \brief RecentFilesChanged Signal is caught by the main UI to changes the Open Recent Menu.
+     */
     void RecentFilesChanged();
     void SettingsChanged();
 
@@ -149,7 +152,7 @@ public slots:
     void buttonBrowseLidl();
     void buttonBrowseSound();
   //  void setPTTtimer(int duration);
-    void addFile(QFileInfo fileInfo);
+    void addFileToRecent(QFileInfo fileInfo);
 
 };
 }

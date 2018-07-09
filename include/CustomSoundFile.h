@@ -18,9 +18,9 @@ class SoundFile : public QUrl
 {
 public:
     SoundFile();
-    SoundFile(const QString &name, int mainVolumeBase100 = 100,  int vacVolumeBase100 = 100);
-    SoundFile(const QString &name, float mainVolume = 1.0, float vacVolume = 1.0);
-    SoundFile(const QString &name, float mainVolume, float vacVolume, LIDL::SFX SFX);
+    SoundFile(const QString &name, int mainVolumeBase100 = 100,  int vacVolumeBase100 = 100, unsigned long long size =0);
+    SoundFile(const QString &name, float mainVolume = 1.0, float vacVolume = 1.0,unsigned long long size =0);
+    SoundFile(const QString &name, float mainVolume, float vacVolume, LIDL::SFX SFX,unsigned long long size =0);
 public:
     float getMainVolume() const;
     float getVacVolume() const;
@@ -30,9 +30,11 @@ public:
     LIDL::SFX getSFX() const;
     bool exists() const;
 
+    unsigned long long getSize() const;
 private:
     float _mainVolume;
     float _vacVolume;
+    unsigned long long _size;
     friend bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
     friend bool operator!=(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
     // ajouter les putain de sound effect

@@ -294,7 +294,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // Ensure LIDL::SettingsController exist so we can connect it
     if (LIDL::SettingsController::GetInstance() != nullptr)
         connect(this,&SoundboardMainUI::lidlJsonDetected,
-                LIDL::SettingsController::GetInstance(),&LIDL::SettingsController::addFile);
+                LIDL::SettingsController::GetInstance(),&LIDL::SettingsController::addFileToRecent);
 
     // We are required to do this trick else
     // the window isn't existing when the AddSound method attempts to resize columns
@@ -310,9 +310,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
 
     connect(LIDL::SettingsController::GetInstance(),
-            LIDL::SettingsController::RecentFilesChanged,
+            &LIDL::SettingsController::RecentFilesChanged,
             this,
-            SoundboardMainUI::SetUpRecentMenu,
+            &SoundboardMainUI::SetUpRecentMenu,
             Qt::QueuedConnection
             );
     connect(this,
@@ -339,7 +339,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
             LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
     connect(this->_btnStop,QPushButton::clicked, [=]{
-        LIDL::SettingsController::GetInstance()->unHoldPTT();});
+        for (auto &i: _sounds)
+            i->Stop();
+        LIDL::SettingsController::GetInstance()->unHoldPTT();
+    });
 
 
 }
@@ -359,10 +362,6 @@ void SoundboardMainUI::PostConstruction()
     // If this is the first time the user uses soundboard
     if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
-
-
-    // Testing the thing for chatterino
-
 }
 
 
@@ -401,9 +400,6 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
     connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
 
-
-    // connecting the stop btn
-    connect(this->_btnStop,SIGNAL(clicked()),modifiedSound,SLOT(Stop()));
 
     // connecting the status bar signal for unexistant files (reading json)
     connect(modifiedSound,SoundWrapper::UnexistantFile,this, [=]{
@@ -771,6 +767,7 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     if (handle == 2147483647)
     {
         LIDL::SettingsController::GetInstance()->unHoldPTT();
+        // unHoldPTT also stops the timer :wave: forsenE
         for (auto &i: _sounds)
             i->Stop();
     }
@@ -984,7 +981,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
         case -1: break; // file up to date
     }
 
-
+    LIDL::SettingsController::GetInstance()->SaveSettings();
 
 
     for (auto i: _winShorcutHandle)
@@ -1094,320 +1091,361 @@ void SoundboardMainUI::Open(QString fileName)
 {
     switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
-        case 0: this->Save(); break; // yes
-        case 1: break; // no
-        case 2: return; break; // cancel or x button
+    case 0: this->Save(); break; // yes
+    case 1: break; // no
+    case 2: return; break; // cancel or x button
 
-        case -1: break; // file up to date
+    case -1: break; // file up to date
     }
-        QFile file(fileName);
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
+    QFile file(fileName);
+    QJsonObject json;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
+    {
+
+        QString jsonAsString = file.readAll();
+
+        //QJsonParseError error;
+        QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
+        if (cdOMEGALUL.isNull())
         {
-            this->_deviceListOutput->setCurrentIndex(-1);
-            this->_deviceListVAC->setCurrentIndex(-1);
-            // Declare the temp variables we are going to use to construct our objects
-            QString mainOutputDevice, vacOutputDevice;
-            QString pttName;
-            int pttScanCode=-1, pttVirtualKey =-1;
-            QString stopName; int stopVirtualKey =-1;
-            QString jsonAsString = file.readAll();
-
-            //QJsonParseError error;
-            QJsonDocument cdOMEGALUL = QJsonDocument::fromJson(jsonAsString.toUtf8());
-            if (cdOMEGALUL.isNull())
-            {
-                file.close();
-                QString errorMsg( "\""  +  fileName +  "\" isn't a valid .lidljson file.");
-                this->statusBar()->showMessage(errorMsg);
-                return;
-            }
-
-
-        file.close();
-        QJsonObject json = cdOMEGALUL.object();
-
-        if (!(json.contains("Settings") && json.contains("SoundWrappers")))
-        {
-            QMessageBox::warning(this,tr("Error"),tr("File \"%1\" is not a valid lidljson file.").arg(fileName));
+            file.close();
+            QString errorMsg( "\""  +  fileName +  "\" isn't a valid .lidljson file.");
+            this->statusBar()->showMessage(errorMsg);
             return;
         }
 
+        json = cdOMEGALUL.object()    ;
+        file.close();
+    }
+
+    if (!(json.contains("Settings") && json.contains("SoundWrappers")))
+    {
+        QMessageBox::warning(this,tr("Error"),tr("File \"%1\" is not a valid lidljson file.").arg(fileName));
+        return;
+    }
+    emit lidlJsonDetected(QFileInfo(file)); // forsenBee
 
 
-        //  QVector<SoundWrapper*> sounds;
-        // if it has a setting block we read it
-        if (json.contains("Settings"))
+    this->_deviceListOutput->setCurrentIndex(-1);
+    this->_deviceListVAC->setCurrentIndex(-1);
+    // Declare the temp variables we are going to use to construct our objects
+    QString mainOutputDevice, vacOutputDevice;
+    QString pttName;
+    int pttScanCode=-1, pttVirtualKey =-1;
+    QString stopName; int stopVirtualKey =-1;
+
+    // check for version for retrocompability with version <170
+    QString version;
+    if (json.contains("Version"))
+        version = json.value("Version").toString();
+    else
+        version = "1.x.x";
+    // do i really need the test tho? Because... we added ver number in 1.7.0 releases.
+    // better safe than sorry i guess eShrug
+    // if the version key is present we could be using either 1.7.0 or > (or < if a smartass tries to break the system)
+    bool ok170 = true;
+    if (version != "1.x.x")
+    {
+        QString target = "1.7.0";
+        int size = (version.size() < target.size() ? version.size() : target.size());
+
+        for (int z = 0; z < size; z++ )
         {
-            // we only clear if file is valid weSmart
-            _model->clear();
-            _data.clear();
-            this->ClearAll();
+            if (version[z] == ".")
+                continue;
 
-            this->_saveName = fileName;
-            emit lidlJsonDetected(QFileInfo(file)); // forsenBee
-            QJsonObject settings = json.value("Settings").toObject();
-            if (settings.contains("Main Output Device"))
-                mainOutputDevice = settings.value("Main Output Device").toString();
-            if (settings.contains("VAC Output Device"))
-                vacOutputDevice = settings.value("VAC Output Device").toString();
-            if (settings.contains("Push To Talk Key"))
+            if (version[z].digitValue() < target[z].digitValue())
             {
-                QJsonObject settingsPTT = settings.value("Push To Talk Key").toObject();
-                if (settingsPTT.contains("Key Name"))
-                    pttName = settingsPTT.value("Key Name").toString();
-                if (settingsPTT.contains("ScanCode"))
-                    pttScanCode = settingsPTT.value("ScanCode").toInt();
-                if (settingsPTT.contains("VirtualKey"))
-                    pttVirtualKey = settingsPTT.value("VirtualKey").toInt();
+                ok170 = false;
+                break;
             }
-            if (settings.contains("Stop Sound Key"))
-            {
-                QJsonObject settingsStop = settings.value("Stop Sound Key").toObject();
-                if (settingsStop.contains("Key Name"))
-                    stopName = settingsStop.value("Key Name").toString();
-                if (settingsStop.contains("VirtualKey"))
-                    stopVirtualKey = settingsStop.value("VirtualKey").toInt();
+
+        }
+
+    }
+    else
+        ok170 = false;
+    qDebug() << "Is this new file? Version is: " << version << "boolean is:" << ok170;
+
+
+
+
+    //  QVector<SoundWrapper*> sounds;
+    // if it has a setting block we read it
+    if (json.contains("Settings"))
+    {
+        // we only clear if file is valid weSmart
+        _model->clear();
+        _data.clear();
+        this->ClearAll();
+
+        this->_saveName = fileName;
+        QJsonObject settings = json.value("Settings").toObject();
+        if (settings.contains("Main Output Device"))
+            mainOutputDevice = settings.value("Main Output Device").toString();
+        if (settings.contains("VAC Output Device"))
+            vacOutputDevice = settings.value("VAC Output Device").toString();
+        if (settings.contains("Push To Talk Key"))
+        {
+            QJsonObject settingsPTT = settings.value("Push To Talk Key").toObject();
+            if (settingsPTT.contains("Key Name"))
+                pttName = settingsPTT.value("Key Name").toString();
+            if (settingsPTT.contains("ScanCode"))
+                pttScanCode = settingsPTT.value("ScanCode").toInt();
+            if (settingsPTT.contains("VirtualKey"))
+                pttVirtualKey = settingsPTT.value("VirtualKey").toInt();
+        }
+        if (settings.contains("Stop Sound Key"))
+        {
+            QJsonObject settingsStop = settings.value("Stop Sound Key").toObject();
+            if (settingsStop.contains("Key Name"))
+                stopName = settingsStop.value("Key Name").toString();
+            if (settingsStop.contains("VirtualKey"))
+                stopVirtualKey = settingsStop.value("VirtualKey").toInt();
+        }
+        if (settings.contains("Show Flags"))
+        {
+            LIDL::SHOW_SETTINGS flags = static_cast<LIDL::SHOW_SETTINGS>(settings.value("Show Flags").toInt());
+
+            if (flags & LIDL::SHOW_SETTINGS::SHOW_SFX){
+
+                LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
+                this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
             }
-            if (settings.contains("Show Flags"))
-            {
-                LIDL::SHOW_SETTINGS flags = static_cast<LIDL::SHOW_SETTINGS>(settings.value("Show Flags").toInt());
-
-                if (flags & LIDL::SHOW_SETTINGS::SHOW_SFX){
-
-                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
-                    this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
-                }
-                if (flags &  LIDL::SHOW_SETTINGS::WRAP_SONG_LIST){
-                    LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
-                    this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
-                }
+            if (flags &  LIDL::SHOW_SETTINGS::WRAP_SONG_LIST){
+                LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
+                this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
             }
-        }// end if it contains settings
+        }
+    }// end if it contains settings
 
-        /***************************************************
+    /***************************************************
                           SETTING COMBO BOX
         ****************************************************/
-        QString error ="";
+    QString error ="";
 
-        // using a single-shot lambda connection to change the invalid to <no device selected>
-        // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
-        int indexMainOutputDevice = this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
-        if (indexMainOutputDevice == -1)
-        {
-            indexMainOutputDevice = 0;
-            error+= tr("Device: \"%1\" used as main output not found.\n").arg(mainOutputDevice);
+    // using a single-shot lambda connection to change the invalid to <no device selected>
+    // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
+    int indexMainOutputDevice = this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
+    if (indexMainOutputDevice == -1)
+    {
+        indexMainOutputDevice = 0;
+        error+= tr("Device: \"%1\" used as main output not found.\n").arg(mainOutputDevice);
 
-            QMetaObject::Connection * const connection = new QMetaObject::Connection;
-            *connection = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
-                this->_deviceListOutput->setCurrentIndex(0);
-                QObject::disconnect(*connection);
-                delete connection;
-            });
-        }
-        this->_deviceListOutput->setCurrentIndex(this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole));
+        QMetaObject::Connection * const connection = new QMetaObject::Connection;
+        *connection = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
+            this->_deviceListOutput->setCurrentIndex(0);
+            QObject::disconnect(*connection);
+            delete connection;
+        });
+    }
+    this->_deviceListOutput->setCurrentIndex(this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole));
 
-        // using a single-shot lambda connection to change the invalid to <no device selected>
-        // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
-        int indexVACOutputDevice  = this->_deviceListVAC->findData(vacOutputDevice, Qt::DisplayRole);
-        if (indexVACOutputDevice == -1)
-        {
-            indexVACOutputDevice = 0;
-            error+= tr("Device: \"%1\" used as VAC output not found.\n").arg(vacOutputDevice);
-            QMetaObject::Connection * const conn = new QMetaObject::Connection;
-            *conn = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
-                this->_deviceListVAC->setCurrentIndex(0);
-                QObject::disconnect(*conn);
-                delete conn;
-            });
-        }
+    // using a single-shot lambda connection to change the invalid to <no device selected>
+    // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
+    int indexVACOutputDevice  = this->_deviceListVAC->findData(vacOutputDevice, Qt::DisplayRole);
+    if (indexVACOutputDevice == -1)
+    {
+        indexVACOutputDevice = 0;
+        error+= tr("Device: \"%1\" used as VAC output not found.\n").arg(vacOutputDevice);
+        QMetaObject::Connection * const conn = new QMetaObject::Connection;
+        *conn = connect(this,&SoundboardMainUI::SaveSoundboardState , [=]{
+            this->_deviceListVAC->setCurrentIndex(0);
+            QObject::disconnect(*conn);
+            delete conn;
+        });
+    }
 
-        this->_deviceListVAC->setCurrentIndex(this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole));
+    this->_deviceListVAC->setCurrentIndex(this->_deviceListVAC->findData(vacOutputDevice,Qt::DisplayRole));
 
-        if (!error.isEmpty())
-            error+= tr("Resetting..");
-
-
+    if (!error.isEmpty())
+        error+= tr("Resetting..");
 
 
-        /***************************************************
+
+
+    /***************************************************
                           SETTING KEY SEQUENCES
         ****************************************************/
-        this->_shortcutEditPTT->setKeySequence(QKeySequence(pttName));
-        // need to update VK and SC else it will be -1 if we save right away
-        this->_shortcutEditPTT->setScanCode(pttScanCode);
-        this->_shortcutEditPTT->setVirtualKey(pttVirtualKey);
+    this->_shortcutEditPTT->setKeySequence(QKeySequence(pttName));
+    // need to update VK and SC else it will be -1 if we save right away
+    this->_shortcutEditPTT->setScanCode(pttScanCode);
+    this->_shortcutEditPTT->setVirtualKey(pttVirtualKey);
 
-        this->_shortcutEditStop->setKeySequence(QKeySequence(stopName));
-        this->_shortcutEditStop->setVirtualKey(stopVirtualKey);
-        this->setStopShortcut(stopVirtualKey);
-        // need to update the VirtualKey aswell in case we save afterwards, else it will be -1
+    this->_shortcutEditStop->setKeySequence(QKeySequence(stopName));
+    this->_shortcutEditStop->setVirtualKey(stopVirtualKey);
+    this->setStopShortcut(stopVirtualKey);
+    // need to update the VirtualKey aswell in case we save afterwards, else it will be -1
 
-        // The wrapper stuff
-        if (json.contains("SoundWrappers"))
+    // The wrapper stuff
+    if (json.contains("SoundWrappers"))
+    {
+        //progressWidget->move(0,this->resultView->size().height() - progressWidget->height() + 20);
+        QJsonArray wrappersArray = json.value("SoundWrappers").toArray();
+
+        // we iterate over wrappers
+        for (auto i:wrappersArray)
         {
-
-
-            //progressWidget->move(0,this->resultView->size().height() - progressWidget->height() + 20);
-            QJsonArray wrappersArray = json.value("SoundWrappers").toArray();
-
-            // we iterate over wrappers
-            for (auto i:wrappersArray)
+            QJsonObject item = i.toObject();
+            LIDL::Playback playbackmode;
+            QString shortcutString;
+            int shortcutVirtualKey;
+            QVector<LIDL::SoundFile*> fileArray;
+            // Playback
+            if (item.contains("Playback Mode"))
             {
-                QJsonObject item = i.toObject();
-                LIDL::Playback playbackmode;
-                QString shortcutString;
-                int shortcutVirtualKey;
-                QVector<LIDL::SoundFile*> fileArray;
-                // Playback
-                if (item.contains("Playback Mode"))
-                {
-                    playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
-                    //qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
-                }
-                // Shortcut info
-                if (item.contains("Shortcut"))
-                {
-                    QJsonObject shortcut = item.value("Shortcut").toObject();
-                    if (shortcut.contains("Key"))
-                        shortcutString = shortcut.value("Key").toString();
-                    if (shortcut.contains("VirtualKey"))
-                        shortcutVirtualKey = shortcut.value("VirtualKey").toInt();
-                }
+                playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
+                //qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
+            }
+            // Shortcut info
+            if (item.contains("Shortcut"))
+            {
+                QJsonObject shortcut = item.value("Shortcut").toObject();
+                if (shortcut.contains("Key"))
+                    shortcutString = shortcut.value("Key").toString();
+                if (shortcut.contains("VirtualKey"))
+                    shortcutVirtualKey = shortcut.value("VirtualKey").toInt();
+            }
 
-                // Sound collection
-                if (item.contains("Sound Collection"))
+            // Sound collection
+            if (item.contains("Sound Collection"))
+            {
+                if (item.value("Sound Collection").isObject())
                 {
-                    if (item.value("Sound Collection").isObject())
+                    //qDebug() << "this is an object forsenE, so new file format forsenE";
+                    QJsonObject soundCollection = item.value("Sound Collection").toObject();
+
+
+                    // Have to use traditional iterators because auto doesn't allow to use key DansGame
+
+                    for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); it++)
                     {
-                        //qDebug() << "this is an object forsenE, so new file format forsenE";
-                        QJsonObject soundCollection = item.value("Sound Collection").toObject();
-                        // Have to use traditional iterators because auto doesn't allow to use key DansGame
-
-                        for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); it++)
+                        QJsonObject settings;
+                        QString fileName;
+                        if (ok170) // if ver > 1.7.0 we need to go down the arborescence (forsen2)
                         {
-                            QString fileName = it.key();
-                            float mainVolume = 1.0;
-                            float vacVolume = 1.0;
-                            QJsonObject settings = it.value().toObject();
-                            if (settings.contains("Main Volume"))
-                                mainVolume = static_cast<float>(settings.value("Main Volume").toInt()/100.0);
-                            if (settings.contains("VAC Volume"))
-                                vacVolume  = static_cast<float>(settings.value("VAC Volume").toInt()/100.0);
-                            // SFX
-                            LIDL::SFX sfx;
-
-                            if (settings.contains("SFX Flags"))
-                                sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
-
-                            if (settings.contains("SFX"))
-                            {
-                                QJsonObject sfx_obj =  settings.value("SFX").toObject();
-                                if (sfx_obj.contains("Distortion"))
-                                {
-                                    QJsonObject distObj = sfx_obj.value("Distortion").toObject();
-                                    for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();l++)
-                                    {
-                                        if (l.key() == "Cutoff")
-                                            sfx.distortion.fPreLowpassCutoff = static_cast<float>(l.value().toInt());
-                                        if (l.key() =="EQBandwidth")
-                                            sfx.distortion.fPostEQBandwidth = static_cast<float>(l.value().toInt());
-                                        if (l.key() =="EQCenterFrequency")
-                                            sfx.distortion.fPostEQCenterFrequency = static_cast<float>(l.value().toInt());
-                                        if (l.key() =="Edge")
-                                            sfx.distortion.fEdge = static_cast<float>(l.value().toInt());
-                                        if (l.key() =="Gain")
-                                            sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
-                                    }
-                                }
-                                if (sfx_obj.contains("Chorus"))
-                                {
-                                    QJsonObject chorusObj = sfx_obj.value("Chorus").toObject();
-                                    for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();l++)
-                                    {
-                                        if (l.key() == "Delay")
-                                            sfx.chorus.fDelay = static_cast<float>(l.value().toInt());
-                                        if (l.key() == "Depth")
-                                            sfx.chorus.fDepth = static_cast<float>(l.value().toInt());
-                                        if (l.key() == "Feedback")
-                                            sfx.chorus.fFeedback = static_cast<float>(l.value().toInt());
-                                        if (l.key() == "Frequency")
-                                            sfx.chorus.fFrequency = static_cast<float>(l.value().toInt());
-                                        if (l.key() == "WetDryMix")
-                                            sfx.chorus.fWetDryMix = static_cast<float>(l.value().toInt());
-                                        if (l.key() == "Phase")
-                                            sfx.chorus.lPhase = static_cast<int>(l.value().toInt());
-                                        if (l.key() == "Waveform")
-                                            sfx.chorus.lWaveform =  static_cast<int>(l.value().toInt());
-                                    }
-
-                                }
-                            }
-                            else
-                            {
-                                // set default values here
-                                //sfx.distortionEnabled = false;
-                                sfx.distortion.fGain =  -18;
-                                sfx.distortion.fEdge = 15;
-                                sfx.distortion.fPostEQCenterFrequency = 2400;
-                                sfx.distortion.fPostEQBandwidth = 2400;
-                                sfx.distortion.fPreLowpassCutoff = 8000;
-
-                            }
-                            fileArray.append(new LIDL::SoundFile(fileName,
-                                                                 mainVolume,
-                                                                 vacVolume,sfx));
+                            QJsonObject subObject = it.value().toObject();
+                            fileName = subObject.keys().at(0);
 
                         }
+                        else // < 1.7.0
+                        {
+                            fileName = it.key();
+                            settings = it.value().toObject();
+                        }
+
+
+
+                        float mainVolume = 1.0;
+                        float vacVolume = 1.0;
+
+                        if (settings.contains("Main Volume"))
+                            mainVolume = static_cast<float>(settings.value("Main Volume").toInt()/100.0);
+                        if (settings.contains("VAC Volume"))
+                            vacVolume  = static_cast<float>(settings.value("VAC Volume").toInt()/100.0);
+                        // SFX
+                        LIDL::SFX sfx;
+
+                        if (settings.contains("SFX Flags"))
+                            sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
+
+                        if (settings.contains("SFX"))
+                        {
+                            QJsonObject sfx_obj =  settings.value("SFX").toObject();
+                            if (sfx_obj.contains("Distortion"))
+                            {
+                                QJsonObject distObj = sfx_obj.value("Distortion").toObject();
+                                for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();l++)
+                                {
+                                    if (l.key() == "Cutoff")
+                                        sfx.distortion.fPreLowpassCutoff = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="EQBandwidth")
+                                        sfx.distortion.fPostEQBandwidth = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="EQCenterFrequency")
+                                        sfx.distortion.fPostEQCenterFrequency = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Edge")
+                                        sfx.distortion.fEdge = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Gain")
+                                        sfx.distortion.fGain=  static_cast<float>(l.value().toInt());
+                                }
+                            }
+                            if (sfx_obj.contains("Chorus"))
+                            {
+                                QJsonObject chorusObj = sfx_obj.value("Chorus").toObject();
+                                for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();l++)
+                                {
+                                    if (l.key() == "Delay")
+                                        sfx.chorus.fDelay = static_cast<float>(l.value().toInt());
+                                    if (l.key() == "Depth")
+                                        sfx.chorus.fDepth = static_cast<float>(l.value().toInt());
+                                    if (l.key() == "Feedback")
+                                        sfx.chorus.fFeedback = static_cast<float>(l.value().toInt());
+                                    if (l.key() == "Frequency")
+                                        sfx.chorus.fFrequency = static_cast<float>(l.value().toInt());
+                                    if (l.key() == "WetDryMix")
+                                        sfx.chorus.fWetDryMix = static_cast<float>(l.value().toInt());
+                                    if (l.key() == "Phase")
+                                        sfx.chorus.lPhase = static_cast<int>(l.value().toInt());
+                                    if (l.key() == "Waveform")
+                                        sfx.chorus.lWaveform =  static_cast<int>(l.value().toInt());
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            // set default values here
+                            //sfx.distortionEnabled = false;
+                            sfx.distortion.fGain =  -18;
+                            sfx.distortion.fEdge = 15;
+                            sfx.distortion.fPostEQCenterFrequency = 2400;
+                            sfx.distortion.fPostEQBandwidth = 2400;
+                            sfx.distortion.fPreLowpassCutoff = 8000;
+
+                        }
+                        fileArray.append(new LIDL::SoundFile(fileName,
+                                                             mainVolume,
+                                                             vacVolume,sfx));
+
                     }
+                }
 
-                    //Else If this is an array than we are on the old save system without the volumes
-                    else if (item.value("Sound Collection").isArray() )
-                    {
-                        //qDebug() << "Old file detected forsenBee";
-                        QJsonArray soundArray = item.value("Sound Collection").toArray();
-                        // We iterate over the sound files and add them to the array
-                        // (default volume is 100%).
-                        for (auto j: soundArray)
-                            fileArray.append(
-                                        new LIDL::SoundFile(j.toString(),
-                                                            LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                            LIDL::SettingsController::GetInstance()->GetDefaultVacVolume())  );
-
-                    }
-
+                //Else If this is an array than we are on the old save system without the volumes
+                else if (item.value("Sound Collection").isArray() )
+                {
+                    //qDebug() << "Old file detected forsenBee";
+                    QJsonArray soundArray = item.value("Sound Collection").toArray();
+                    // We iterate over the sound files and add them to the array
+                    // (default volume is 100%).
+                    for (auto j: soundArray)
+                        fileArray.append(
+                                    new LIDL::SoundFile(j.toString(),
+                                                        LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                        LIDL::SettingsController::GetInstance()->GetDefaultVacVolume())  );
 
                 }
-                //                    qDebug() << "Wrapper: \n\tPlayback Mode:" << playbackmode
-                //                             << "\n\tShortcut String:" << shortcutString
-                //                             << "\n\tVirtualKey:"      << shortcutVirtualKey
-                //                             << "\n\tSoundlist:";
-                //                    for (auto j: fileArray)
-                //                        qDebug() << j;
 
 
-                /***************************************************
+            }
+
+
+            /***************************************************
                                    CREATING THE WRAPPERS
-                    ****************************************************/
-                //                    qDebug() << this->_deviceListOutput->findData(mainOutputDevice, Qt::DisplayRole);
-
-                this->addSound(new SoundWrapper(fileArray,
-                                                playbackmode,
-                                                QKeySequence(shortcutString),
-                                                shortcutVirtualKey,
-                                                indexMainOutputDevice,
-                                                indexVACOutputDevice,
-                                                nullptr));
-
-
-            } // end for auto wrapper
-        } // end if json contains wrapper
-        // showing error
-        if (!error.isEmpty())
-            QMessageBox::warning(this,tr("Error opening: %1").arg(fileName),error);
-        // Saving Soundboard state in the SettingsController object
-        emit SaveSoundboardState();
-        }//endif file was opened
-
+            ****************************************************/
+            this->addSound(new SoundWrapper(fileArray,
+                                            playbackmode,
+                                            QKeySequence(shortcutString),
+                                            shortcutVirtualKey,
+                                            indexMainOutputDevice,
+                                            indexVACOutputDevice,
+                                            nullptr));
+        } // end for auto wrapper
+    } // end if json contains wrapper
+    // showing error
+    if (!error.isEmpty())
+        QMessageBox::warning(this,tr("Error opening: %1").arg(fileName),error);
+    // Saving Soundboard state in the SettingsController object
+    emit SaveSoundboardState();
 
 }
 // Open EXP
@@ -1480,6 +1518,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
 {
     // creating the new JSon object
     QJsonObject * save = new QJsonObject();
+    save->insert("Version", VER_STRING  );
 
     // Storing settings
     QJsonObject  settings;
@@ -1502,10 +1541,12 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
     save->insert("Settings",settings);
 
     QJsonArray sounds;
+    int index = 0;
     for (auto &i: _sounds)
     {
         // creating temp sound collection
         QJsonObject tempSound;
+        tempSound.insert("Index", index++); // We don't even use this, but for human readability it's cool
         tempSound.insert("Playback Mode",static_cast<int>(i->getPlayMode()));
         // qDebug() << i->getPlayMode();
         QJsonObject key;
@@ -1516,6 +1557,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
         QJsonObject soundCollection;
         // Declaring temps sound collection object
         QVector<LIDL::SoundFile*> soundList = i->getSoundList();
+        int jIndex = 0;
         for (auto &j: soundList)
         {
             QJsonObject properties;
@@ -1557,7 +1599,11 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
             //               }
 
             properties.insert("SFX",soundEffects);
-            soundCollection.insert(  j->url(), properties);
+            //soundCollection.insert(  j->url(), properties); // old wey
+            // new way: (VER > 1.7.0.)
+            QJsonObject numberedSound;
+            numberedSound.insert( j->url(), properties);
+            soundCollection.insert( QString::number(jIndex++), numberedSound );
 
         }
 
@@ -1586,7 +1632,8 @@ void SoundboardMainUI::Save()
         QFile file(_saveName);
         if (!file.open(QIODevice::WriteOnly))
         {
-            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+            QMessageBox::information(this, tr("Unable to open file:\n"), file.errorString());
+            file.close();
             return;
         }
         else
@@ -1599,6 +1646,8 @@ void SoundboardMainUI::Save()
             emit SaveSoundboardState();
             this->SetStatusTextEditText("Succesfully saved file: " + _saveName);
         }
+        // not needed cause it is already emitted once opened
+        // emit lidlJsonDetected(QFileInfo(file)); // forsenBee
 
     }
 }
@@ -2145,6 +2194,7 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
                                                 nullptr);
 
     // Once we created those new items we can insert them (since it deletes the items we can't reuse them)
+    // this should also swap the associated data :thinking:
     this->addSound(firstPtr, secondRow);
     this->addSound(secondPtr, firstRow);
 }
@@ -2201,8 +2251,6 @@ void SoundboardMainUI::SetUpRecentMenu()
     int count = 0;
     for (auto i: LIDL::SettingsController::GetInstance()->GetRecentFiles() )
     {
-        //qDebug() << "size of the array:" << LIDL::SettingsController::GetInstance()->GetRecentFiles().size();
-        qDebug() << "LUL:" << i.fileName();
         actions.append(new QAction( i.fileName()));
         // using lambdas forsenE
         connect( actions.last(),

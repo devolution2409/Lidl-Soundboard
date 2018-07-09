@@ -21,18 +21,19 @@ void CustomListWidgetItem::setVacVolume(float newVacVolume)
 //! This constructor will attempt to deduct a valid
 //! URI scheme from the string. If it is local it will prepend file:///
 CustomListWidgetItem::CustomListWidgetItem(const QString & text,float mainVolume,
-                                           float vacVolume,QListWidget * parent, int type)
+                                           float vacVolume,unsigned long long size,QListWidget * parent, int type)
     : QListWidgetItem(QUrl::fromUserInput(text).toString(),parent,type)
 {
     _mainVolume = mainVolume;
     _vacVolume  = vacVolume;
     _sfx.flags  = LIDL::SFX_TYPE::NONE;
+    _size       = size;
 }
 
 
 CustomListWidgetItem::CustomListWidgetItem(const QString & text,float mainVolume,
-                                           float vacVolume, LIDL::SFX sfx ,QListWidget * parent, int type)
-    : CustomListWidgetItem(text,mainVolume,vacVolume,parent,type)
+                                           float vacVolume, LIDL::SFX sfx,unsigned long long size,QListWidget * parent, int type)
+    : CustomListWidgetItem(text,mainVolume,vacVolume,size,parent,type)
 {
     this->_sfx = sfx;
 }
@@ -47,15 +48,15 @@ float CustomListWidgetItem::getVacVolume()
 {
     return _vacVolume;
 }
-void CustomListWidgetItem::setSFXDistortionDefault()
-{
-    _sfx.distortion.fGain = -18 ;
-    _sfx.distortion.fEdge = 15;
-    _sfx.distortion.fPostEQCenterFrequency = 2400;
-    _sfx.distortion.fPostEQBandwidth = 2400;
-    _sfx.distortion.fPreLowpassCutoff = 8000;
+//void CustomListWidgetItem::setSFXDistortionDefault()
+//{
+//    _sfx.distortion.fGain = -18 ;
+//    _sfx.distortion.fEdge = 15;
+//    _sfx.distortion.fPostEQCenterFrequency = 2400;
+//    _sfx.distortion.fPostEQBandwidth = 2400;
+//    _sfx.distortion.fPreLowpassCutoff = 8000;
 
-}
+//}
 
 void CustomListWidgetItem::setSFXDistortion(LIDL::SFX_DIST_PARAM param, int value)
 {
@@ -89,7 +90,7 @@ void CustomListWidgetItem::setSFXDistortion(LIDL::SFX_DIST_PARAM param, int valu
     }
 }
 
-LIDL::SFX CustomListWidgetItem::GetSFX()
+LIDL::SFX CustomListWidgetItem::getSFX()
 {
     return _sfx;
 }
@@ -151,15 +152,15 @@ void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
     }
 }
 
-void CustomListWidgetItem::setSFXChorusDefault()
-{
-    _sfx.chorus.fDelay = 10;
-    _sfx.chorus.fDepth = 25;
-    _sfx.chorus.fFeedback = 2;
-    _sfx.chorus.fWetDryMix = 70;
-    _sfx.chorus.lPhase = 0;
-    _sfx.chorus.lWaveform = 1;
-}
+//void CustomListWidgetItem::setSFXChorusDefault()
+//{
+//    _sfx.chorus.fDelay = 10;
+//    _sfx.chorus.fDepth = 25;
+//    _sfx.chorus.fFeedback = 2;
+//    _sfx.chorus.fWetDryMix = 70;
+//    _sfx.chorus.lPhase = 0;
+//    _sfx.chorus.lWaveform = 1;
+//}
 
 int CustomListWidgetItem::getSFXChorus(LIDL::SFX_CHORUS_PARAM which) const
 {
@@ -235,7 +236,10 @@ int CustomListWidgetItem::getSFXDistortion(LIDL::SFX_DIST_PARAM which) const
 
 }
 
-
+unsigned long long CustomListWidgetItem::getSize() const
+{
+    return this->_size;
+}
 //void CustomListWidgetItem::CheckForIllegalValues()
 //{
 

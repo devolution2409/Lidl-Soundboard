@@ -359,16 +359,19 @@ public slots:
      */
     void ToolClearShortcut();
     /*!
-     * \brief This function deals with drag and drop in the view, or at least, attempts to. I'm not sure it works correctly forsenD
+     * \brief This function deals with drag and drop in the view, or at least, attempts to.
      *
-     * Will unregister all shortcuts. Clears the _data array. Replaced the wrappers in _sounds array by freshly created one without shortcuts. It will alos update the view in the process.
+     *  This function will call SwapWrappers with the correct argument is it detects correct argument.
+     *  I'm not sure it works correctly forsenD
      */
     void DealDragAndDrop(int);
 
     /*!
      * \brief This function swaps two soundwrappers in the view.
      *
-     * Will unregister all shortcuts. Clears the _data array. Replaced the wrappers in _sounds array by freshly created one without shortcuts. It will alos update the view in the process.
+     * Will copy the both the wrappers and insert them at the index of the other one.
+     * It updates the _data and the _sounds arrays since we use the addSound method.
+     * The _displayedData array will also be updated, because AddSound calls refreshView().
      */
     void SwapWrappers(int firstRow, int secondRow);
 
@@ -381,6 +384,9 @@ public slots:
      */
     void SetStatusTextEditText(QString);
 
+    /*!
+     * \brief PostConstruction is called after the mainUI is done constructing forsenE
+     */
     void PostConstruction();
     //void ErrorOnPlaying(QString);
 

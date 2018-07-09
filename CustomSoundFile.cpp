@@ -8,21 +8,23 @@ SoundFile::SoundFile() : QUrl()
 
 }
 
-SoundFile::SoundFile(const QString &name, int mainVolumeBase100,  int vacVolumeBase100) : QUrl(name)
+SoundFile::SoundFile(const QString &name, int mainVolumeBase100,  int vacVolumeBase100, unsigned long long size) : QUrl(name)
 {
     _mainVolume = static_cast<float>(mainVolumeBase100/100);
     _vacVolume  = static_cast<float>(vacVolumeBase100/100);
+    _size       = size;
 }
 
 
 
-SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume) : 	QUrl(name)
+SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume, unsigned long long size) : 	QUrl(name)
 {
     _mainVolume = mainVolume;
     _vacVolume  = vacVolume;
+    _size       = size;
 }
-SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume, LIDL::SFX SFX) :
-    SoundFile(name,mainVolume,vacVolume)
+SoundFile::SoundFile(const QString &name, float mainVolume, float vacVolume, LIDL::SFX SFX, unsigned long long size) :
+    SoundFile(name,mainVolume,vacVolume,size)
 {
     this->sfx = SFX;
 }
@@ -35,6 +37,18 @@ float SoundFile::getMainVolume() const
 float SoundFile::getVacVolume() const
 {
     return _vacVolume;
+}
+
+unsigned long long SoundFile::getSize() const
+{
+    return this->_size;
+}
+
+
+
+LIDL::SFX SoundFile::getSFX() const
+{
+    return sfx;
 }
 
 bool SoundFile::exists() const
@@ -74,8 +88,6 @@ bool SoundFile::exists() const
         socket.connectToHostEncrypted(this->host() , 443);
         if (socket.waitForConnected())
         {
-
-            qDebug() << "wutfpoezrjfopez";
             socket.write("HEAD " + this->path().toUtf8() + " HTTP/1.1\r\n"
             "Host: " + this->host().toUtf8() + "\r\n"
             "\r\n");
@@ -95,90 +107,12 @@ bool SoundFile::exists() const
     return false;
 }
 
-//bool SoundFile::IsEqualTo(const LIDL::SoundFile &other) const
-//{
-//    // comparing file name
-//    if (this->fileName() != other.fileName())
-//        return false;
-//    // Checking main volume
-//    if ( this->getMainVolume() != other.getMainVolume() )
-//        return false;
-//    // Checking vac volume
-//    if (this->getVacVolume() != other.getVacVolume())
-//        return false;
 
-//    return true;
-//}
-
-LIDL::SFX SoundFile::getSFX() const
-{
-    return sfx;
-}
 
 } // end namespace LIDL
 
 // Ok so, we declare operator== as a friend to this class
 // IN the namespace
 // but we implement it OUTSIDE the namespace else ADL doesn't work forsenT
-bool operator==(const LIDL::SoundFile &a,const  LIDL::SoundFile &b)
-{
-    if (a.fileName() != b.fileName())
-        return false;
-    // Checking main volume
-    if ( a.getMainVolume() != b.getMainVolume() )
-        return false;
-    // Checking vac volume
-    if (a.getVacVolume() != b.getVacVolume())
-        return false;
-//    if (a.getSFX().distortion != b.getSFX().distortion)
- //       return false;
-    return true;
-}
-bool operator!=(const LIDL::SoundFile& a,const LIDL::SoundFile& b)
-{
-    // need to cast a and b to const references object even tho they are already const and references forsenT
-    // Somehow we cant do this:
-    // return ! (a==b);
-    // because: error: call of overloaded 'operator==(const LIDL::SoundFile&, const LIDL::SoundFile&)' is ambiguous
-    //candidate: bool operator==(const LIDL::SoundFile&, const LIDL::SoundFile&)
-    //forsenT
-
-    if (a.fileName() != b.fileName())
-        return true;
-    // Checking main volume
-    if ( a.getMainVolume() != b.getMainVolume() )
-        return true;
-    // Checking vac volume
-    if (a.getVacVolume() != b.getVacVolume())
-        return true;
-    return false;
-}
-
-
-
-
-// CANT OVERLOAD OPERATOR== WHY GOD WHY
-//
-//bool operator==( LIDL::SoundFile &a, LIDL::SoundFile &b )
-//{
-//    // comparing file name
-//    if (a.fileName() != b.fileName())
-//        return false;
-//    // Checking main volume
-//    if (a.getMainVolume() != b.getMainVolume() )
-//        return false;
-//    // Checking vac volume
-//    if (a.getVacVolume() != b.getVacVolume())
-//        return false;
-
-//    return true;
-//}
-
-
-
-/*bool operator!=( LIDL::SoundFile &a, LIDL::SoundFile &b )
-{
-    // return the opposite of operator==
-    return ! (a==b);
-}*/
+//bool operator==(const LIDL::SoundFile &a,const  LIDL::SoundFile &b)
 

@@ -5,7 +5,7 @@
 
 WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 {
-
+    Q_UNUSED(parent);
     this->setFocusPolicy(Qt::StrongFocus);
     this->setMinimumSize(415,687);
 
@@ -305,7 +305,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
          this->close();
     });
     /*******************DRAG AND DROP EVENT******************/
-    connect(_soundListDisplay,SIGNAL(fileDragged(QString)),this,SLOT(AddSoundFromDrop(QString)));
+    connect(_soundListDisplay,&CustomListWidget::fileDragged,this,&WrapperProperties::AddSoundFromDrop);
     /****************************SLIDERS*********************/
 
     // changing spin box will change slider
@@ -316,12 +316,6 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     connect(_sliderVAC,SIGNAL(valueChanged(int)),_sliderVACSpin,SLOT(setValue(int)));
 
 }
-
-// overload to ADD sound
-//WrapperProperties::WrapperProperties(int mainOutput,int VACOutput,int pttScanCode,int pttVirtualKey,QWidget *parent) : WrapperProperties(parent)
-//{
-
-//}<
 
 // Overloaded contructor to show properties of already built SoundWrapper object
 // we call the other constructor so we don't have to to this twice forsenE
@@ -383,7 +377,7 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
                 if (item == nullptr)
                     return;
                 else
-                    tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
+                    tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->getSFX(),item->getSize() ) );
             }
             // Calling constructor IV
             SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
@@ -424,7 +418,7 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
                 if (item == nullptr)
                     return;
                 else
-                    tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->GetSFX()) );
+                    tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->getSFX(), item->getSize()) );
             }
             // Calling constructor IV
             SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
@@ -470,7 +464,8 @@ void WrapperProperties::AddSound()
         //qDebug() << _soundListDisplay->row(item);
         _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName,
                                                                                              static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
+                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                             0,_soundListDisplay)) ;
         if (_soundListDisplay->count()>1)
         {
 
@@ -503,7 +498,8 @@ void WrapperProperties::AddSoundFromDrop(QString file)
     if (!fileName.isEmpty())
         _soundListDisplay->insertItem(_soundListDisplay->count() ,new CustomListWidgetItem(fileName,
                                                                                            static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                                                           static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
+                                                                                           static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                           0,_soundListDisplay)) ;
 }
 
 
@@ -559,7 +555,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             // deactivating every widget if the checkbox isn't checked.
             // However we must add a check because if it is checked already and we click
             // on an item where it is checked aswell, the state of the button will not change.
-            if(!( _selectedItem->GetSFX().flags & LIDL::SFX_TYPE::CHORUS))
+            if(!( _selectedItem->getSFX().flags & LIDL::SFX_TYPE::CHORUS))
                 _chorusWidget->deactivateAll();
             // now we are sure every settings widget is disabled.
             // connecting the checkbox realquick :wrench: forsenE
@@ -573,7 +569,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
                 _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::CHORUS ,newState);
             } );
             // checking the SFX flag and setting the checkbox accordingly
-            _chorusWidget->setCheckboxState(_selectedItem->GetSFX().flags & LIDL::SFX_TYPE::CHORUS);
+            _chorusWidget->setCheckboxState(_selectedItem->getSFX().flags & LIDL::SFX_TYPE::CHORUS);
 
 
             // Construct the appropriates sliders :)
@@ -590,6 +586,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             chorusSliderConn = new QMetaObject::Connection;
             //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
             *chorusSliderConn = connect(_chorusWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
+                Q_UNUSED(index);
                 _selectedItem->setSFXChorus( static_cast<LIDL::SFX_CHORUS_PARAM>(specialValue),value);
             });
 
@@ -600,6 +597,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             }
             chorusComboConn = new QMetaObject::Connection;
             *chorusComboConn = connect(_chorusWidget,&SfxSettingsWidget::comboBoxValueChanged,this,[=](int whichOne,int newIndex, int specialValue){
+                Q_UNUSED(whichOne);
                 //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
                 // index is equal to the value of the BASS_DX8 enum
                 // specialValue is equal to EnumsAndStructs.h value
@@ -613,7 +611,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             // deactivating every widget if the checkbox isn't checked.
             // However we must add a check because if it is checked already and we click
             // on an item where it is checked aswell, the state of the button will not change.
-            if (! _selectedItem->GetSFX().flags & LIDL::SFX_TYPE::DISTORTION)
+            if (! (_selectedItem->getSFX().flags & LIDL::SFX_TYPE::DISTORTION))
                 _distortionWidget->deactivateAll();
             if (distortChkConn != nullptr)
             {
@@ -626,7 +624,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
                 _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::DISTORTION ,newState);
             } );
             // checking the SFX flag and setting the checkbox accordingly
-            _distortionWidget->setCheckboxState(_selectedItem->GetSFX().flags & LIDL::SFX_TYPE::DISTORTION);
+            _distortionWidget->setCheckboxState(_selectedItem->getSFX().flags & LIDL::SFX_TYPE::DISTORTION);
             // Construct the sliders when the values that were there before.
             // Overflow should be dealt as the min value and max value are capped.
             // Check limit in EnumsAndStruct
@@ -643,6 +641,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             distortSliderConn = new QMetaObject::Connection;
             //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
             *distortSliderConn = connect(_distortionWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
+                Q_UNUSED(index);
                 _selectedItem->setSFXDistortion(static_cast<LIDL::SFX_DIST_PARAM>(specialValue),value);
             });
         };
@@ -720,6 +719,7 @@ void WrapperProperties::AddSoundFromUrl()
         }
         else // we coo? cmonBruh
         {
+            unsigned long long size = 0;
             //lambda to check the serverAnswer for mimes types
             // so we dont write the same code twice weSmart
             auto mimeSupported = [](QByteArray serverAnswer){
@@ -728,6 +728,8 @@ void WrapperProperties::AddSoundFromUrl()
 
                 // The regular expression to compare the servers reply against:
                 QRegExp reg("audio/[\\w]+(-{,1}[\\w]{,10})*");
+
+
                 if (answer.contains("Content-Type"))
                 {
                     // Supported Mimes types
@@ -749,11 +751,24 @@ void WrapperProperties::AddSoundFromUrl()
                     // if meme type isn't supported we return
                     if  (supportedMimes.contains(reg.cap(0)))
                         return true;
-                    else
-                        return false;
-
                 }
+                return false;
             };
+
+            auto getSize = [](QByteArray serverAnswer) -> unsigned long long {
+                QString answer(serverAnswer);
+                    // need to grab Content-Length: 66240 from server answer
+                QRegExp reg("Content-Length: [\\d]+");
+                if (answer.contains("Content-Length") )
+                {
+                    answer.contains(reg);
+                    unsigned long long size = static_cast<QString>(reg.cap(0).split(" ").at(1)).toULongLong() ;
+                    return size;
+                }
+                return 0;
+            };
+
+
             // if it is https
             if (url.scheme() == "https")
             {
@@ -770,6 +785,7 @@ void WrapperProperties::AddSoundFromUrl()
                     if (socket.waitForReadyRead())
                     {
                         QByteArray bytes = socket.readAll();
+                       // qDebug() << bytes;
                         // If the server answer is ok
                         if (bytes.contains("200 OK"))
                             if  (! mimeSupported(bytes))  // and if the mime type is NOT supported
@@ -781,10 +797,11 @@ void WrapperProperties::AddSoundFromUrl()
                                 // we return (we don't add the sound)
                                 return;
                             }
+                            size = getSize(bytes);
 
                     }
                 }// end if socket wait for connected
-            }
+            } // end if https
 
             // if it http
             if (url.scheme()== "http")
@@ -813,18 +830,18 @@ void WrapperProperties::AddSoundFromUrl()
 
                                 return;
                             }
+                        size = getSize(bytes);
                     }
                 }
 
 
-            }
-        }
+            } // end if http
+            // If everything is good we can add the sound, FeelsOkayMan
+            _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
+                                                                                                 static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                                 static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                                 size, _soundListDisplay)) ;
 
-        // If everything is good we can add the sound, FeelsOkayMan
-        _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
-                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0) )) ;
-
-
+        }// end else
     }// end if ok and string isn't empty
 }

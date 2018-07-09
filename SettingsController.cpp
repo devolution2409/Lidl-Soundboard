@@ -236,9 +236,8 @@ bool SettingsController::OpenSettings()
                       for (QJsonObject::iterator it = files.begin(); it!= files.end(); it++)
                       {
                           // if the file exists we push it into the array
-                          if (QFileInfo(it.key()).exists())
-                            recentFiles.push_back(QFileInfo(it.key()));
-                          //qDebug() <<  "file name:" << it.key() << "index:" <<it.value().toInt();
+                          if (QFileInfo(it.value().toString()).exists())
+                            recentFiles.push_back(QFileInfo(it.value().toString()));;
                       }
 
                   }
@@ -282,11 +281,11 @@ void SettingsController::SaveSettings()
 
     QJsonObject fileArray;
     int count = 0;
+
+    // Most recent file has the smallest index
     for ( auto i: this->recentFiles )
-    {
-        // oldest file will have the littlest index (forsenE)
-        fileArray.insert(i.absoluteFilePath(), count++);
-    }
+        fileArray.insert(QString::number(count++),i.absoluteFilePath());
+
 
 
     files.insert("Files",fileArray);
@@ -316,30 +315,42 @@ void SettingsController::SetRecentFileCount(int count)
     recentFileCount = count;
 }
 
-void SettingsController::addFile(QFileInfo fileInfo)
+void SettingsController::addFileToRecent(QFileInfo fileInfo)
 {
-    // Check if file isn't contained in the vector already and than we append it if not
+    // Check if file isn't contained in the vector already and then we append it if not
     auto result =  std::find(recentFiles.begin(),recentFiles.end(),fileInfo);
-    // if file wasn't already there we need to append it
+
+    // We want the deck to be 1 2 3 4 5 6
+    // and not 6 5 4 3 2 1
+    // if file wasn't already there we need to prepend it
     if (result == recentFiles.end())
     {
         // if size becomes (somehow) larger than 10
         // (in case some lidl genius hack it inside the json
         // we delete the elements anyway
         while (recentFiles.size() > 10)
-            recentFiles.pop_front();
-        // append newest file
-        recentFiles.push_back(fileInfo);
+            recentFiles.pop_back();
+        // append new file to the END of the deck
+        recentFiles.push_front(fileInfo);
     }
     // else we need to put it first forsenL
     else
     {
         // we iter from the result to the first element
+        // and we swap element one by one
+        int nigg = 0;
         for ( std::deque<QFileInfo>::reverse_iterator i(result); i != recentFiles.rend(); ++i )
+        {
             if ( std::prev(i,1) != recentFiles.rend() )
                 std::iter_swap(i,std::prev(i,1) );
+            qDebug() << "iteration :"  << nigg++ << " deck is:  ";
+            for (unsigned int j = 0; j < recentFiles.size(); j++)
+                 qDebug() << recentFiles[j].fileName();
 
-
+        }
+        // eShrug
+        while (recentFiles.size() > 10)
+            recentFiles.pop_back();
     }
     emit RecentFilesChanged();
 }
@@ -350,7 +361,7 @@ QString SettingsController::GetLastOpenedSoundboard()
     // using reverse iterator to have VALID iterator
     // on last element. (could also use --(recentFiles.end());
     if (recentFiles.size() > 0)
-        return recentFiles.rbegin()->filePath();
+        return recentFiles.begin()->filePath();
     return QString("");
 }
 
