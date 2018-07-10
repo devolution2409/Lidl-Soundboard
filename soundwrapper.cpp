@@ -4,8 +4,13 @@
 SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 {
     this->_player = new CustomPlayer();
-    connect(_player,SIGNAL(ErrorPlaying(QString)),this,SLOT(playerErrorPlaying(QString)));
-    connect(_player,SIGNAL(NowPlaying(QString)),this,SLOT(playerNowPlaying(QString)));
+    connect(_player,&CustomPlayer::ErrorPlaying,this,[=](QString songName){
+         emit ErrorPlaying(songName);
+    });
+
+    connect(_player,&CustomPlayer::NowPlaying ,this,[=](QString songName){
+        emit NowPlaying(songName);
+    });
 
     connect(_player, CustomPlayer::holdPTT, [=] (int duration){
             emit holdPTTProxy(duration);
@@ -143,28 +148,27 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
         QString tempString;
         for (auto &i: _soundList)
         {
-            switch (i->getSFX().flags) {
-            case LIDL::SFX_TYPE::CHORUS:
-                tempString.append(tr("CHORUS"));
-                tempString.append("\n");
-                break;
-            case LIDL::SFX_TYPE::DISTORTION:
-                 tempString.append(tr("DISTORTION"));
-                 tempString.append("\n");
-                 break;
-            case LIDL::SFX_TYPE::ECHO:
-                 tempString.append(tr("ECHO"));
-                 tempString.append("\n");
-                 break;
-            default:
-                 tempString.append(tr("No SFX!"));
-                 tempString.append("\n");
-                break;
+
+            if (i->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
+            {
+                tempString.append(tr("Chorus, "));
             }
-// !: <- my cat did this
+            if (i->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
+            {
+                 tempString.append(tr("Distortion, "));
+            }
+//            if (i->getSFX().flags & LIDL::SFX_TYPE::ECHO)
+//            {
+
+//                 tempString.append(tr("ECHO"));
+//                 tempString.append("\n");
+//            }
 
         }
-        tempString.remove( tempString.length() -1 ,1);
+// !: <- my cat did this
+
+
+        tempString.remove( tempString.length() -2 ,2);
         tempItem.append(new QStandardItem(tempString));
     }
 
@@ -237,18 +241,6 @@ bool SoundWrapper::checkFileExistence(QString fileName)
     QFile temp(fileName);
     return temp.exists();
 }
-
-
-void SoundWrapper::playerNowPlaying(QString songName)
-{
-    emit NowPlaying(songName);
-}
-
-void SoundWrapper::playerErrorPlaying(QString songName)
-{
-    emit ErrorPlaying(songName);
-}
-
 
 void SoundWrapper::clearShorcut()
 {

@@ -17,7 +17,12 @@
 
 
 
-
+/*!
+ * \brief The CustomShortcutEdit class
+ *
+ * \version 1.7.0
+ * \since 0.3
+ */
 class CustomShortcutEdit : public QKeySequenceEdit
 {
      Q_OBJECT

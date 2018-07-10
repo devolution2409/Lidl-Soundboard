@@ -577,6 +577,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             for (int i= static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay); i < static_cast<int>(LIDL::SFX_CHORUS_PARAM::ITER_END); i++)
                 _chorusWidget->setValueOfEnumParam(i, _selectedItem->getSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(i) )   );
 
+
             // if the connection already exists we delete it
             if ( chorusSliderConn != nullptr)
             {
@@ -629,7 +630,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             // Overflow should be dealt as the min value and max value are capped.
             // Check limit in EnumsAndStruct
             // Works as long as the parameters are contiguous.
-            for (int i = static_cast<int>(LIDL::SFX_DIST_PARAM::fGain);i < static_cast<int>(LIDL::SFX_DIST_PARAM::ITER_END) + 1;i++)
+            for (int i = static_cast<int>(LIDL::SFX_DIST_PARAM::fGain);i < static_cast<int>(LIDL::SFX_DIST_PARAM::ITER_END);i++)
                 _distortionWidget->setValueOfEnumParam(i, _selectedItem->getSFXDistortion(static_cast<LIDL::SFX_DIST_PARAM>(i) )   );
 
             // if the connection already exists we delete it
@@ -648,9 +649,6 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 
         dealChorus();
         dealDistortion();
-
-
-
 
         // enabling the delete button
         _btnDelete->setEnabled(true);

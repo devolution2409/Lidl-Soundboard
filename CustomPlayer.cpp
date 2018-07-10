@@ -15,12 +15,12 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 //    _timerSequential->setSingleShot(true);
 //    _timerPTT->setSingleShot(true);
 
-    connect(_timerSequentialAutoPlay,SIGNAL(timeout()),this,SLOT(PlayNext()));
+    connect(_timerSequentialAutoPlay,&QTimer::timeout,this,&CustomPlayer::PlayNext);
     //connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
 
-    connect(_timerSingleton,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
-    connect(_timerSequential,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
-    connect(_timerSequentialAuto,QTimer::timeout ,this,CustomPlayer::resetShouldPlay);
+    connect(_timerSingleton,&QTimer::timeout ,this, [=]{this->resetShouldPlay(); });
+    connect(_timerSequential,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
+    connect(_timerSequentialAuto,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
 
     _shouldPlay = true;
 }
@@ -128,23 +128,24 @@ void CustomPlayer::Stop()
     for (auto i: _vacChannel)
         BASS_ChannelStop(i);
 
-    _mainChannel.clear();
-    _vacChannel.clear();
 
- //   emit unHoldPTT();
+// No need to clear the channels anymore they'll get cleared by the timer forsenE
+
+//    _mainChannel.clear();
+//    _vacChannel.clear();
+
 }
 
 
-//void CustomPlayer::OnTimerTick()
-//{
-//    this->PlayNext();
-
-//}
 
 // Play the sound and return the duration in secs.
 double CustomPlayer::PlayAt(int index)
 {
+
     double duration = -1;
+    bool remote = false;
+    if (_soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp")
+        remote = true;
 
     if (_mainOutputDevice != 0)
     {
@@ -161,10 +162,7 @@ double CustomPlayer::PlayAt(int index)
         if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
         {
             _mainChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0,  BASS_STREAM_PRESCAN | BASS_STREAM_AUTOFREE,NULL,NULL  ));
-            if (duration == -1)
-                duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
-                                                            BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
-          duration += 1;
+
         }
         else// its a local file, we need to remove file/// because bass is OMEGAZULIDL
         {
@@ -183,12 +181,10 @@ double CustomPlayer::PlayAt(int index)
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
 
-    //http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
 
-   // http://www.un4seen.com/doc/#bass/BASS_ChannelSetFX.html
 
-        // Trying to implement HYPER
-        //qDebug() << "Volume :" << _soundList.at(index)->getMainVolume();
+        //http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
+        //http://www.un4seen.com/doc/#bass/BASS_ChannelSetFX.html
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
 
         // if distortion is enabled:
@@ -204,7 +200,6 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
-        BASS_ChannelPlay(_mainChannel.last(),_mainOutputDevice);
     }
 
 
@@ -222,25 +217,6 @@ double CustomPlayer::PlayAt(int index)
                                                       BASS_STREAM_AUTOFREE,
                                                      nullptr,
                                                      nullptr));
-
-           // BASS_ChannelSetSync(_vacChannel.last(), BASS_SYNC_STALL, 0, &CustomPlayer::SyncProc,  this->_soundList.at(index));
-
-
-
-            duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
-                                                        BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
-            duration += 1;
-
-            // testing shit :monkaOMEGA:
-            QThread *thread = QThread::create([=]{
-                int test = 0;
-                do{
-                    test = BASS_ChannelIsActive( _vacChannel.last() );
-                } while(test!=1);
-                qDebug() << "NOTHING HERE :ZULOL";
-            });
-            thread->start();
-
         }
         else// its a local file, we need to remove file/// because bass is OMEGAZULIDL
         {
@@ -250,14 +226,14 @@ double CustomPlayer::PlayAt(int index)
              * returns a wchar_t[] instead of char[] */
             std::wstring wideString = _soundList.at(index)->url(QUrl::RemoveScheme).remove(0,3).toStdWString();
             _vacChannel.append(BASS_StreamCreateFile(false, wideString.c_str(), 0, 0, BASS_STREAM_AUTOFREE));
-            if (duration == -1)
-                duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
-                                                        BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
-            BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
         }
         // prevent the get channel length call twice (cause i think this is sending a request to the http server)
+        if (duration == -1)
+            duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
+                                                    BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
 
 
+        BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
         //qDebug() << "vac volume:" <<  _soundList.at(index)->getVacVolume();
         BASS_ChannelSetAttribute(_vacChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getVacVolume() );
         //qDebug() << "Is distortion enabled here" << _soundList.at(index)->getSFX().distortionEnabled;
@@ -276,16 +252,47 @@ double CustomPlayer::PlayAt(int index)
         }
 //        if (_PTTScanCode !=-1 )
 //            emit holdPTT(static_cast<int>(duration*1000) );
-        BASS_ChannelPlay(_vacChannel.last(),true);
+
     }
 
 
+
+
+    BASS_ChannelPlay(_mainChannel.last(),false);
+    BASS_ChannelPlay(_vacChannel.last(),false);
+    // testing shit :monkaOMEGA:
+    // working :feelsokay man
+    if (remote)
+    {
+        // for some reason bass can't fetch the exact duration of ogg and a second is missing
+        if (_soundList.at(index)->url().contains(".ogg") )
+            duration+=1;
+
+        QThread *thread = QThread::create([=]{
+            int test = 0;
+            do{
+                test = BASS_ChannelIsActive( _vacChannel.last() );
+            } while(test!=1);
+
+        });
+        connect(thread,&QThread::finished,this, [=]{
+            emit holdPTT(static_cast<int>(duration*1000));
+        });
+        thread->start();
+    }
     // If any of the previous if were passed, the duration isn't -1.
-    // if the PTT Scan code is valid (!=-1) we can hold it, but this test is made in SettingsController anyway
-    if (duration != -1)
+    if (!remote)
         emit holdPTT(static_cast<int>(duration*1000) );
 
-
+    int tempIndex = _mainChannel.size() - 1 ;
+    if (tempIndex != -1)
+    {
+        // need to remove the appended index in the vectors else it will keep growing
+        QTimer::singleShot(static_cast<int>((duration + 0.5)*1000),this, [=]{
+                _mainChannel.pop_front();
+                _vacChannel.pop_front();
+            } );
+    }
     return duration;
 }
 
@@ -348,6 +355,11 @@ int CustomPlayer::GetVACDevice()
     return this->_VACOutputDevice;
 }
 
+// we can use (this) as user data or this.soundfile or w/e
+// to delete the last chan maybe we could use last+1 provided the size of the array is in fact already incremented when the callback
+// function is called.
+
+
 /* BASS_STREAM_RESTRATE	Restrict the download rate of the file to the rate required to sustain playback.
  * If this flag is not used, then the file will be downloaded as quickly as the user's internet connection allows.*/
 //void CALLBACK CustomPlayer::downloadCallBack(const void *buffer, DWORD length, void *user)
@@ -367,19 +379,3 @@ int CustomPlayer::GetVACDevice()
 //    }
 //}
 
-
-//void CALLBACK CustomPlayer::SyncProc(HSYNC handle,DWORD channel,DWORD data,void *user)
-//{
-//    qDebug() << "hyperniggerW";
-
-//}
-
-
-int CustomPlayer::getLastVacChannel()
-{
-    return this->_vacChannel.last();
-}
-int CustomPlayer::getLastMainChannel()
-{
-    return this->_mainChannel.last();
-}

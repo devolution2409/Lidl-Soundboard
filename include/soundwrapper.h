@@ -29,6 +29,8 @@
   * as well as a player capable of playing them.
   * \author Devolution
   * \version 1.7.0
+  *
+  * \since 0.3
   */
 class SoundWrapper : public QObject
 {
@@ -228,20 +230,6 @@ public slots:
      * \brief Set the VAC output device of the player according to the combo box in the UI.
      */
     void VACDeviceChanged(int);
-
-    /*!
-     * \brief Proxy for the player now playing signal.
-     *
-     * Redirect the signal of the player to the main UI.
-     */
-    void playerNowPlaying(QString);
-
-    /*!
-     * \brief Proxy for the player error playing signal.
-     *
-     * Redirect the signal of the player to the main UI.
-     */
-    void playerErrorPlaying(QString);
 
     /*!
      * \brief Clears the shortcut of the wrapper. (Display purposes)

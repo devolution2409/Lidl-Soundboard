@@ -12,3 +12,4 @@ darkstyle/
 images/
 doxygen.exe
 Doxyfile
+*.autosave

@@ -37,14 +37,16 @@ typedef DWORD HPLUGIN;		// Plugin handle
 */
 #include "CustomSoundFile.h"
 #include <QThread>
-
+//#include "SettingsController.h"
 /*!
  * \file CustomPlayer.h
  * \brief File describing the CustomPlayer class.
  *
  * \author Devolution
  * \version 1.7.0
+ * \since 0.3
  * \todo Precaching settings, check if we can know whenever a stream from url had enough data to start playing
+ *
  */
 
 
@@ -59,28 +61,6 @@ class CustomPlayer : public QObject
 {
     Q_OBJECT
 public:
-    /*!
-     * \brief downloadCallBack Testing something with a callback function forsenE
-     *
-     * CALLBACK is either a macro or a type, i don't really know forsenKek
-     *
-     * \param buffer
-     * \param length
-     * \param user
-     */
-    //static void CALLBACK downloadCallBack(const void *buffer, unsigned long length, void *user);
-    // DWORD is actually unsigned long in windef.h
-    // static void CALLBACK downloadCallBack(const void *buffer, DWORD length, void *user);
-
-    /*!
-     * \brief SyncProc
-     * \param handle
-     * \param channel
-     * \param data
-     * \param user
-     */
-//    static void CALLBACK SyncProc(HSYNC handle,DWORD channel,DWORD data,void *user);
-
     /*!
      * \brief CustomPlayer Default contructor, used by the default constructor of SoundWrapper
      * \param parent nullptr as usual.
@@ -138,63 +118,91 @@ public:
 
 
 public slots:
+
+    /*!
+     * \brief PlayNext PlayNext function is called whenever the shortcut, or play button, is pressed.
+     *
+     * It will either play the same sound over and over again (Singleton, Singleton Cancer)
+     * Or cycle through the files in the wrapper (Sequential, Sequential Auto)
+     */
+    void PlayNext();
+
+    /*!
+     * \brief Stop all the channels of this player.
+     *
+     * Iterates through channels and calls  BASS_ChannelStop() on them.
+     * BASS_ChannelStop will not crash the soundword if channel isn't valid.
+     * (Which <i>could</i> be the case if the iteration starts and somehow the vector is popped_front right at the same time.)
+     * It should not happen tho, as stop it called, it means the sound is still playing.
+     */
+    void Stop();
+
+signals:
+    void ErrorPlaying(QString);
+    void NowPlaying(QString);
+    void holdPTT(int );
+
+private:
+
     /*!
      * \brief PlayAt Will play the song at the specified index.
      *
      * Will play the next sound in line (_soundlist.at(index) ) if and only if one of the output is valid.
      *
      * If the file is remote, it will play it in streaming, so a few seconds to cache it are to be expected.
-     * If the file is local,
+     * Remote files will use a QThread to check on the channel state repeatedly until the status is playing,
+     * and then it will send the signal to auto-hold PTT.
+     * If the remote file is .ogg, the duration is somehow flawed by -1 second, so we manually add a second
+     * for ogg files.
      *
+     * If the file is local, it will just play it and won't use a QThread to start auto-holding push to talk
+     * since it is instantly played.
      *
-     *
+     * It will also starts a QTimer::singleShot to pop_front the arrays containing the channel indexes.
      *
      * \param index
      * \return The duration of the sound.
      */
     double PlayAt(int index);
-    void PlayNext();
-  //  void OnTimerTick();
-    //void unHoldPTT();
-    void Stop();
-    void resetShouldPlay();
-signals:
-    void ErrorPlaying(QString);
-    void NowPlaying(QString);
-    void holdPTT(int );
-    void unHoldPTT();
-private:
 
+
+    /*!
+     * \brief resetShouldPlay will reset the _shouldPlay boolean to true;
+     *
+     * It will stop all the timers and allows playing sounds again.
+     * (The _shouldPlay boolean isn't used if the playback mode is Singleton Cancer).
+     */
+    void resetShouldPlay();
 
     //need the files as an array
-    QVector<LIDL::SoundFile*> _soundList;
-    LIDL::Playback _playMode;
-    int _index;
+    QVector<LIDL::SoundFile*> _soundList; /*!< Vector containing the soundlist.*/
+    LIDL::Playback _playMode; /*!< Playmode, either Singleton, Singleton Cancer, Sequential, Sequential auto.*/
+    int _index; /*!< The index of the next song to be played.*/
 
     // Channels
 
-    QVector<int> _mainChannel;
-    QVector<int> _vacChannel;
+    QVector<int> _mainChannel; /*!< The array containing the handles to the channels being played.*/
+    QVector<int> _vacChannel; /*!< */
 
-    int getLastVacChannel();
-    int getLastMainChannel();
-   // QVector<int> _SFXHandle;
+
 
     // Devices numbers
-    int _mainOutputDevice;
-    int _VACOutputDevice;
+    int _mainOutputDevice; /*!< The index of the main output device.*/
+    int _VACOutputDevice; /*!< The index of the main output device.*/
 
 
 
     // Timers that needs to be canceled if the sound is stopped
     // Those 3 are the reset should play timers
-    QTimer * _timerSingleton;
-    QTimer * _timerSequential;
-    QTimer * _timerSequentialAuto;
+    QTimer * _timerSingleton; /*!< The timer for singleton playback mode.*/
+    QTimer * _timerSequential; /*!< The timer for sequential playback mode.*/
+    QTimer * _timerSequentialAuto;/*!< The timer for sequential auto */
     // this one is the autoplay timer
-    QTimer * _timerSequentialAutoPlay;
+    QTimer * _timerSequentialAutoPlay;/*!< */
     // and this one the ptt
     QTimer * _timerPTT;
+
+
 
 
 

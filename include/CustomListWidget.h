@@ -19,8 +19,10 @@
  * \file CustomListWidget.h
  * \brief File describing the CustomListWidget class.
  *
+ *
  * \author Devolution
  * \version 1.7.0
+ *
  */
 
 

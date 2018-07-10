@@ -497,10 +497,7 @@ void SoundboardMainUI::refreshView()
     {
         QList<QStandardItem*> item;
         for (auto &j: i)
-        {
             item.append(new QStandardItem(j->text()));
-            item.last()->setEditable(false);
-        }
 
         // Editing the text so that it warps "properly"
         QFontMetrics fm = resultView->fontMetrics();
@@ -648,6 +645,10 @@ void SoundboardMainUI::refreshView()
 
     // Centering SFX and playback mode
     // OMEGALUL NE LINERS
+    for (auto i: _displayedData)
+        for (int j = 0; j == i.size(); j++)
+            static_cast<QStandardItem*>(i.at(j))->setEditable(false);
+
     for (auto i: _displayedData)
         for (int j = 0; j == i.size(); j++)
             if (j!=0 && j !=2)
@@ -1326,7 +1327,7 @@ void SoundboardMainUI::Open(QString fileName)
                         {
                             QJsonObject subObject = it.value().toObject();
                             fileName = subObject.keys().at(0);
-
+                            settings = subObject.value(fileName).toObject();
                         }
                         else // < 1.7.0
                         {
@@ -1345,9 +1346,8 @@ void SoundboardMainUI::Open(QString fileName)
                             vacVolume  = static_cast<float>(settings.value("VAC Volume").toInt()/100.0);
                         // SFX
                         LIDL::SFX sfx;
-
                         if (settings.contains("SFX Flags"))
-                            sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
+                           sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
 
                         if (settings.contains("SFX"))
                         {
