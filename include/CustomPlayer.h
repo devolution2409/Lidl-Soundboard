@@ -37,7 +37,8 @@ typedef DWORD HPLUGIN;		// Plugin handle
 */
 #include "CustomSoundFile.h"
 #include <QThread>
-//#include "SettingsController.h"
+
+
 /*!
  * \file CustomPlayer.h
  * \brief File describing the CustomPlayer class.
@@ -45,7 +46,7 @@ typedef DWORD HPLUGIN;		// Plugin handle
  * \author Devolution
  * \version 1.7.0
  * \since 0.3
- * \todo Precaching settings, check if we can know whenever a stream from url had enough data to start playing
+ * \todo Precaching settings
  *
  */
 
@@ -138,9 +139,20 @@ public slots:
     void Stop();
 
 signals:
+    /*!
+     * \brief ErrorPlaying Signal to tell the main UI (via the proxy set up in the SoundWrapper class) that an error happened playing the sound <sound name> (will be displayed in status bar).
+     */
     void ErrorPlaying(QString);
+    /*!
+     * \brief NowPlaying Signal to tell the main UI (via the proxy set up in the SoundWrapper class) to display now playing sound <soundName> in the status bar.
+     */
     void NowPlaying(QString);
-    void holdPTT(int );
+    /*!
+     * \brief holdPTT Signal to tell the main UI (via the proxy set up in the SoundWrapper class) to hold ptt for the duration.
+     *
+     * \param duration
+     */
+    void holdPTT(int duration);
 
 private:
 
@@ -153,7 +165,7 @@ private:
      * Remote files will use a QThread to check on the channel state repeatedly until the status is playing,
      * and then it will send the signal to auto-hold PTT.
      * If the remote file is .ogg, the duration is somehow flawed by -1 second, so we manually add a second
-     * for ogg files.
+     * for ogg or flacs files.
      *
      * If the file is local, it will just play it and won't use a QThread to start auto-holding push to talk
      * since it is instantly played.
@@ -161,7 +173,7 @@ private:
      * It will also starts a QTimer::singleShot to pop_front the arrays containing the channel indexes.
      *
      * \param index
-     * \return The duration of the sound.
+     * \return The duration of the sound in seconds, account for ogg/flac glitch.
      */
     double PlayAt(int index);
 
@@ -193,21 +205,15 @@ private:
 
 
     // Timers that needs to be canceled if the sound is stopped
-    // Those 3 are the reset should play timers
-    QTimer * _timerSingleton; /*!< The timer for singleton playback mode.*/
-    QTimer * _timerSequential; /*!< The timer for sequential playback mode.*/
-    QTimer * _timerSequentialAuto;/*!< The timer for sequential auto */
-    // this one is the autoplay timer
-    QTimer * _timerSequentialAutoPlay;/*!< */
-    // and this one the ptt
-    QTimer * _timerPTT;
+    QTimer * _timerShouldPlay; /*!< Timer to reset the _shouldPlay boolean (calls the resetShouldPlay method).*/
+    QTimer * _timerSequentialAutoPlay;/*!< Timer to know when to auto-play next song.*/
 
 
 
 
 
 
-    bool _shouldPlay;
+    bool _shouldPlay; /*!<Boolean to know  whether this player is allowed to play next song or not.*/
 };
 
 

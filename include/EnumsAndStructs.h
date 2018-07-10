@@ -24,10 +24,6 @@ namespace LIDL{
         Auto =  3,
         Cancer = 4
     };
-    enum class Shortcut{
-        GENERATE,
-        DONT_GENERATE
-    };
     //http://www.un4seen.com/doc/#bass/BASS_DX8_DISTORTION.html
 
     enum SFX_TYPE : unsigned int

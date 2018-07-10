@@ -6,21 +6,20 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
     _VACOutputDevice = 0;
 
     _timerSequentialAutoPlay = new QTimer();
-    _timerPTT = new QTimer();
 
 
-    _timerSingleton = new QTimer();
-    _timerSequential = new QTimer();
-    _timerSequentialAuto = new QTimer();
-//    _timerSequential->setSingleShot(true);
-//    _timerPTT->setSingleShot(true);
+//    _timerSingleton = new QTimer();
+//    _timerSequential = new QTimer();
+//    _timerSequentialAuto = new QTimer();
+    _timerShouldPlay = new QTimer();
 
     connect(_timerSequentialAutoPlay,&QTimer::timeout,this,&CustomPlayer::PlayNext);
     //connect(_timerPTT,SIGNAL(timeout()),this,SLOT(unHoldPTT()));
 
-    connect(_timerSingleton,&QTimer::timeout ,this, [=]{this->resetShouldPlay(); });
-    connect(_timerSequential,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
-    connect(_timerSequentialAuto,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
+    connect(_timerShouldPlay,&QTimer::timeout,this,[=] {this->resetShouldPlay();});
+//    connect(_timerSingleton,&QTimer::timeout ,this, [=]{this->resetShouldPlay(); });
+//    connect(_timerSequential,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
+//    connect(_timerSequentialAuto,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
 
     _shouldPlay = true;
 }
@@ -71,8 +70,9 @@ void CustomPlayer::PlayNext()
                 _shouldPlay = false;
                // qDebug() << "ZULULUL" << _mainOutputDevice << _VACOutputDevice;
                 duration =  static_cast<int>(this->PlayAt(_index)*1000);
-                  _timerSingleton->start(duration);
-                 // qDebug() << "duration is: " << duration;
+                  //_timerSingleton->start(duration);
+                _timerShouldPlay->start(duration);
+                // qDebug() << "duration is: " << duration;
             }
             /***********************************
              *           SEQUENTIAL            *
@@ -81,7 +81,7 @@ void CustomPlayer::PlayNext()
             {
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-                _timerSequential->start(duration);
+                _timerShouldPlay->start(duration);
 
             }
             /***********************************
@@ -91,7 +91,7 @@ void CustomPlayer::PlayNext()
             {
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-                    _timerSequentialAuto->start(duration);
+                     _timerShouldPlay->start(duration);
                     // If the new index is OOB, it means we need to stop playing
                     // else we continue
                      //qDebug() << _index << "soundlist size:" << _soundList.size();
@@ -117,7 +117,6 @@ void CustomPlayer::Stop()
 
     // stop every timer.
     _timerSequentialAutoPlay->stop();
-    _timerPTT->stop();
     this->resetShouldPlay();
     // Why the fuck is this called FIVE times?
     //qDebug() << "test:" << _mainChannel.size();
@@ -255,8 +254,12 @@ double CustomPlayer::PlayAt(int index)
 
     }
 
+    // for some reason bass can't fetch the exact duration of ogg and a second is missing
+    // even if the file is local forsenD
+    if (_soundList.at(index)->url().contains(".ogg") || (_soundList.at(index)->url().contains(".flac")  ))
+        duration+=1;
 
-
+    qDebug() << "duration: " << duration;
 
     BASS_ChannelPlay(_mainChannel.last(),false);
     BASS_ChannelPlay(_vacChannel.last(),false);
@@ -264,9 +267,6 @@ double CustomPlayer::PlayAt(int index)
     // working :feelsokay man
     if (remote)
     {
-        // for some reason bass can't fetch the exact duration of ogg and a second is missing
-        if (_soundList.at(index)->url().contains(".ogg") )
-            duration+=1;
 
         QThread *thread = QThread::create([=]{
             int test = 0;
@@ -299,9 +299,7 @@ double CustomPlayer::PlayAt(int index)
 
 void CustomPlayer::resetShouldPlay()
 {
-    _timerSingleton->stop();
-    _timerSequential->stop();
-    _timerSequentialAuto->stop();
+    _timerShouldPlay->stop();
     _shouldPlay = true;
 }
 

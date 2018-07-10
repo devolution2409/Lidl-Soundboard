@@ -25,7 +25,9 @@ SOURCES += \
 #    windowdragger.cpp \
 #    DarkStyle.cpp
     SliderSpin.cpp \
-    SfxSettingsWidget.cpp
+    SfxSettingsWidget.cpp \
+    LoadingWidget.cpp \
+    LoadingWidgetWorker.cpp
 
 
 HEADERS += \
@@ -49,7 +51,9 @@ HEADERS += \
 #    include/windowdragger.h \
 #    include/DarkStyle.h
     include/SliderSpin.h \
-    include/SfxSettingsWidget.h
+    include/SfxSettingsWidget.h \
+    include/LoadingWidget.h \
+    include/LoadingWidgetWorker.h
 
 
 

@@ -8,7 +8,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     //    this->menuBar()->setStyle(QStyleFactory::create("plastique"));
     //    css_dark.close();
     //   this->setWindowFlag( Qt::FramelessWindowHint);
-    this->resize(400,600);
+    this->resize(514,741);
     this->setWindowTitle( "LIDL Sounboard " + QString(VER_STRING));
     this->setWindowIcon(QIcon(":/icon/resources/forsenAim.png"));
     this->setAcceptDrops(true);
@@ -305,8 +305,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     /***************************************************
                    CONNECTING TO OPEN SOUNDBOARD
       ****************************************************/
-    // QueudConnection so that it doesn't fucks up the view
-    connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
+
 
 
     connect(LIDL::SettingsController::GetInstance(),
@@ -329,9 +328,6 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // connected modified soundboard with a lambda to call the savestate function
     // that way we can know if soundboard was modified or not Pog
 
-    emit OnConstructionDone();
-
-
     /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
     connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
             LIDL::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
@@ -344,7 +340,23 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         LIDL::SettingsController::GetInstance()->unHoldPTT();
     });
 
+    //connecting the wrappper to the combo box for devices
+    connect(this->_deviceListOutput,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,
+            [=](int newIndex)
+            {
+                for (auto &i: _sounds)
+                    i->OutputDeviceChanged(newIndex);
+    });
+    connect(this->_deviceListVAC,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,
+            [=](int newIndex)
+            {
+                for (auto &i: _sounds)
+                    i->VACDeviceChanged(newIndex);
+    });
 
+    // QueudConnection so that it doesn't fucks up the view
+    connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
+    emit OnConstructionDone();
 }
 
 void SoundboardMainUI::PostConstruction()
@@ -394,13 +406,8 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 }
 
 // Add a sound if whereToInsert isn't
-void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, LIDL::Shortcut generationMode)
+void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, bool generateShortcuts, bool refreshView)
 {
-    //connecting the wrappper to the combo box for devices
-    connect(this->_deviceListOutput,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(OutputDeviceChanged(int)));
-    connect(this->_deviceListVAC,SIGNAL(currentIndexChanged(int)),modifiedSound,SLOT(VACDeviceChanged(int)));
-
-
     // connecting the status bar signal for unexistant files (reading json)
     connect(modifiedSound,SoundWrapper::UnexistantFile,this, [=]{
             this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
@@ -419,6 +426,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
     // connect the clear button to the clear shortcut slot
     connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
+    // needed for remotes files forsenE
     connect(modifiedSound, SoundWrapper::holdPTTProxy, [=] (int duration){
         LIDL::SettingsController::GetInstance()->holdPTT(duration);
     } );
@@ -467,15 +475,81 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
 
     }
 
-    if (generationMode == LIDL::Shortcut::GENERATE)
+    if (generateShortcuts)
         this->GenerateGlobalShortcuts();
+    if (refreshView)
+    {
+        // we resize
+        this->resultView->resizeRowsToContents();
+        this->resultView->clearSelection();
+        // this->resultView->setWordWrap(false);
+        //this->resultView->setTextElideMode(Qt::ElideLeft);
+        this->refreshView();
+    }
 
-    // we resize
-    this->resultView->resizeRowsToContents();
-    this->resultView->clearSelection();
-    // this->resultView->setWordWrap(false);
-    //this->resultView->setTextElideMode(Qt::ElideLeft);
-    this->refreshView();
+
+}
+
+void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maximum)
+{
+    QSize previous = this->size();
+    this->setEnabled(false);
+    this->setMaximumSize(previous);
+    this->setMinimumSize(previous);
+
+    _loadingWidget = new LoadingWidget( _saveName );
+    _loadingWidget->setMaximum(maximum);
+    _loadingWidget->show();
+
+    QThread *thread = QThread::create([=]
+    {
+       // this->setDisabled(true);
+        this->_sounds = sounds;
+        for (auto &i: _sounds)
+        {
+            SoundWrapper * wrapper  = static_cast<SoundWrapper*>(i);
+            _data.append(wrapper->getSoundAsItem());
+            // Adding actual row the view is done by addind the data
+            // to the model forsenT
+            //_model->appendRow(_data.last());
+            // addind the key sequence to the shortcut list
+            _winShorcutHandle.append(_winShorcutHandle.size());
+            _keySequence.append(wrapper->getKeySequence());
+            _keyVirtualKey.append(wrapper->getShortcutVirtualKey());
+
+        }
+    });
+
+
+
+    thread->start();
+
+    QThread *updateUI = new QThread();
+    LoadingWidgetWorker *worker = new LoadingWidgetWorker(&this->_data,maximum);
+    worker->moveToThread(updateUI);
+    connect(updateUI, SIGNAL (started()), worker, SLOT (process()));
+    connect(worker, SIGNAL (finished()), updateUI, SLOT (quit()));
+    connect(worker, SIGNAL (finished()), worker, SLOT (deleteLater()));
+    connect(updateUI, SIGNAL (finished()), updateUI, SLOT (deleteLater()));
+
+    connect(worker, &LoadingWidgetWorker::setValue, _loadingWidget, &LoadingWidget::setCurrent);
+
+    // final treatment can't be done in the thread
+    connect(worker, &LoadingWidgetWorker::finished, this,[=]{
+        _loadingWidget->close();
+        delete _loadingWidget;
+        _loadingWidget = nullptr;
+        this->setMaximumSize(99999,99999 );
+        this->GenerateGlobalShortcuts();
+        this->refreshView();
+        this->setEnabled(true);
+        emit SaveSoundboardState();
+
+    } );
+
+    updateUI->start();
+
+
 }
 
 // Sort of delegate. Re-implemented here cause i don't know how the fuck
@@ -998,6 +1072,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
         QString path = qApp->applicationDirPath();
         path.append("/SDKMaintenanceTool.exe");
         bool success = QProcess::startDetached(path,QStringList("--updater"));
+        Q_UNUSED(success)
 #endif
     }
     // send message to stop the listening loop L OMEGALUL OMEGALUL P
@@ -1084,6 +1159,8 @@ void SoundboardMainUI::ClearAll()
 void SoundboardMainUI::OpenSlot()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"), LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,tr("LIDL JSON file(*.lidljson)"));
+    if ((fileName).isEmpty())
+            return;
     this->Open(fileName);
     // forsenT
 }
@@ -1098,8 +1175,14 @@ void SoundboardMainUI::Open(QString fileName)
 
     case -1: break; // file up to date
     }
+
+    QString error ="";
+//    _loadingWidget = new LoadingWidget(fileName);
+//    _loadingWidget->show();
+
     QFile file(fileName);
     QJsonObject json;
+    QVector <SoundWrapper *> wrappers;
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
     {
 
@@ -1166,18 +1249,12 @@ void SoundboardMainUI::Open(QString fileName)
     }
     else
         ok170 = false;
-    qDebug() << "Is this new file? Version is: " << version << "boolean is:" << ok170;
-
-
-
 
     //  QVector<SoundWrapper*> sounds;
     // if it has a setting block we read it
     if (json.contains("Settings"))
     {
         // we only clear if file is valid weSmart
-        _model->clear();
-        _data.clear();
         this->ClearAll();
 
         this->_saveName = fileName;
@@ -1221,9 +1298,8 @@ void SoundboardMainUI::Open(QString fileName)
     }// end if it contains settings
 
     /***************************************************
-                          SETTING COMBO BOX
-        ****************************************************/
-    QString error ="";
+                              SETTING COMBO BOX
+            ****************************************************/
 
     // using a single-shot lambda connection to change the invalid to <no device selected>
     // but only AFTER the soundboard state has been saved, so it prompts user to save it if he quits.
@@ -1266,8 +1342,8 @@ void SoundboardMainUI::Open(QString fileName)
 
 
     /***************************************************
-                          SETTING KEY SEQUENCES
-        ****************************************************/
+                              SETTING KEY SEQUENCES
+            ****************************************************/
     this->_shortcutEditPTT->setKeySequence(QKeySequence(pttName));
     // need to update VK and SC else it will be -1 if we save right away
     this->_shortcutEditPTT->setScanCode(pttScanCode);
@@ -1293,12 +1369,14 @@ void SoundboardMainUI::Open(QString fileName)
             int shortcutVirtualKey;
             QVector<LIDL::SoundFile*> fileArray;
             // Playback
+            // don't mind me just avoiding the may be unitialized warnings ppHop
+            playbackmode = LIDL::Playback::Singleton;
             if (item.contains("Playback Mode"))
-            {
                 playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
-                //qDebug() << "playbackmode here:" << item.value("Playback Mode").toInt();
-            }
+
             // Shortcut info
+            // don't mind me just avoiding the may be unitialized warnings ppHop
+            shortcutVirtualKey = -1;
             if (item.contains("Shortcut"))
             {
                 QJsonObject shortcut = item.value("Shortcut").toObject();
@@ -1318,7 +1396,6 @@ void SoundboardMainUI::Open(QString fileName)
 
 
                     // Have to use traditional iterators because auto doesn't allow to use key DansGame
-
                     for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); it++)
                     {
                         QJsonObject settings;
@@ -1340,6 +1417,7 @@ void SoundboardMainUI::Open(QString fileName)
                         float mainVolume = 1.0;
                         float vacVolume = 1.0;
 
+
                         if (settings.contains("Main Volume"))
                             mainVolume = static_cast<float>(settings.value("Main Volume").toInt()/100.0);
                         if (settings.contains("VAC Volume"))
@@ -1347,7 +1425,7 @@ void SoundboardMainUI::Open(QString fileName)
                         // SFX
                         LIDL::SFX sfx;
                         if (settings.contains("SFX Flags"))
-                           sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
+                            sfx.flags = static_cast<LIDL::SFX_TYPE>(settings.value("SFX Flags").toInt());
 
                         if (settings.contains("SFX"))
                         {
@@ -1401,12 +1479,10 @@ void SoundboardMainUI::Open(QString fileName)
                             sfx.distortion.fPostEQCenterFrequency = 2400;
                             sfx.distortion.fPostEQBandwidth = 2400;
                             sfx.distortion.fPreLowpassCutoff = 8000;
-
                         }
                         fileArray.append(new LIDL::SoundFile(fileName,
                                                              mainVolume,
                                                              vacVolume,sfx));
-
                     }
                 }
 
@@ -1418,11 +1494,9 @@ void SoundboardMainUI::Open(QString fileName)
                     // We iterate over the sound files and add them to the array
                     // (default volume is 100%).
                     for (auto j: soundArray)
-                        fileArray.append(
-                                    new LIDL::SoundFile(j.toString(),
-                                                        LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                        LIDL::SettingsController::GetInstance()->GetDefaultVacVolume())  );
-
+                    {
+                        fileArray.append(new LIDL::SoundFile(j.toString(),LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),LIDL::SettingsController::GetInstance()->GetDefaultVacVolume())  );
+                    }
                 }
 
 
@@ -1430,34 +1504,53 @@ void SoundboardMainUI::Open(QString fileName)
 
 
             /***************************************************
-                                   CREATING THE WRAPPERS
-            ****************************************************/
-            this->addSound(new SoundWrapper(fileArray,
+                                       CREATING THE WRAPPERS
+                ****************************************************/
+
+
+//            this->addSound(new SoundWrapper(fileArray,
+//                                            playbackmode,
+//                                            QKeySequence(shortcutString),
+//                                            shortcutVirtualKey,
+//                                            indexMainOutputDevice,
+//                                            indexVACOutputDevice,
+//                                            this),-1,false,false);
+
+            wrappers.append( new SoundWrapper(fileArray,
                                             playbackmode,
                                             QKeySequence(shortcutString),
                                             shortcutVirtualKey,
                                             indexMainOutputDevice,
                                             indexVACOutputDevice,
-                                            nullptr));
+                                            this));
+
         } // end for auto wrapper
     } // end if json contains wrapper
     // showing error
+
+    this->addSeveralSounds(wrappers,wrappers.size());
+    /*
+    this->GenerateGlobalShortcuts();
+    this->refreshView();*/
+
     if (!error.isEmpty())
         QMessageBox::warning(this,tr("Error opening: %1").arg(fileName),error);
-    // Saving Soundboard state in the SettingsController object
-    emit SaveSoundboardState();
 
+    // Saving Soundboard state in the SettingsController object
+        emit SaveSoundboardState();
+//    delete _loadingWidget;
+//    _loadingWidget = nullptr;
 }
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
     switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
-        case 0: this->Save(); break; // yes
-        case 1: break; // no
-        case 2: return; break; // cancel or x button
+    case 0: this->Save(); break; // yes
+    case 1: break; // no
+    case 2: return; break; // cancel or x button
 
-        case -1: break; // file up to date
+    case -1: break; // file up to date
     }
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"),"",tr("EXP Sounboard JSON  (*.json)"));
     QFile file(fileName);
@@ -1473,7 +1566,7 @@ void SoundboardMainUI::OpenEXPSounboard()
         {
             // we clear the soundboard only if it's a valid file forsenE
             // We clear the soundboard
-                  this->ClearAll();
+            this->ClearAll();
 
             QJsonArray soundArray = json.value("soundboardEntries").toArray();
             for (auto i: soundArray)
@@ -2160,7 +2253,10 @@ void SoundboardMainUI::ToolClearShortcut()
 
     _data.clear();
     for (auto &i: temp)
-        this->addSound(i,-1,LIDL::Shortcut::DONT_GENERATE);
+        this->addSound(i,-1,false,false);
+    //refresh is expensive opeation
+    this->refreshView();
+    this->GenerateGlobalShortcuts();
     this->SetStatusTextEditText("Shortcuts cleared.");
 }
 
@@ -2316,7 +2412,7 @@ void SoundboardMainUI::CheckForUpdates()
             QPushButton *nowButton = msgBox.addButton(tr("Now"), QMessageBox::ActionRole);
             QPushButton *laterButton = msgBox.addButton(tr("On Exit"), QMessageBox::ActionRole);
             QPushButton *abortButton = msgBox.addButton(QMessageBox::Abort);
-
+            Q_UNUSED(abortButton);
             msgBox.exec();
             QStringList args("--updater");
             if (msgBox.clickedButton() == nowButton)
@@ -2327,6 +2423,7 @@ void SoundboardMainUI::CheckForUpdates()
 #endif
 #ifndef QT_DEBUG
                 bool success = QProcess::startDetached(qApp->applicationDirPath() + "/SDKMaintenanceTool.exe", args);
+                Q_UNUSED(success);
 #endif
                 _updateScheduled = false;
                 qApp->closeAllWindows();
@@ -2399,26 +2496,31 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
               {
                     // if the behaviour is to add one wrapper per sound
                     // OR we only have one sound
+                    LIDL::SFX tempSfx;
+                    tempSfx.flags = LIDL::SFX_TYPE::NONE;
                     if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() ||  e->mimeData()->urls().size() == 1)
                     {
                         file.clear();
-                        file.append( new LIDL::SoundFile(url.toString(),
-                                                          LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                         LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()));
+                        file.append(
+                            new LIDL::SoundFile(url.toString(),
+                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                        tempSfx));
                         QKeySequence emptySeq;
                         // adding sound with empty shortcut and defaulting to singleton
                         this->addSound( new SoundWrapper(file,LIDL::Playback::Singleton,
                                                                  emptySeq, -1,
                                                                  this->_deviceListOutput->currentIndex(),
-                                                                 this->_deviceListVAC->currentIndex()));          
+                                                                 this->_deviceListVAC->currentIndex()));
                     }
                     // if we have more than 1 sound and we want to add them  all in one thing
                     else if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
                               &&  e->mimeData()->urls().size() > 1)
                     {
-                        file.append( new LIDL::SoundFile(url.toString(),
-                                                         LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                         LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()));
+                        file.append(new LIDL::SoundFile(url.toString(),
+                                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                        tempSfx));
                     }
               }
         }

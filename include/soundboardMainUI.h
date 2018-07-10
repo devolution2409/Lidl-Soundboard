@@ -109,12 +109,25 @@
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QProgressBar>
-#include <ui_loadingJson.h>
+#include <QThread>
+#include "LoadingWidget.h"
+#include "LoadingWidgetWorker.h"
+
+/*!
+ * \file soundboardMainUI.h
+ * \brief Code of the mainUI.
+ *
+ * \author Devolution
+ * \version 1.7.0
+ * \since 0.3
+ *
+ */
 
 /*! \class SoundboardMainUI
   * \brief Inherits QMainWindow.
   *
   *  Deals with displaying sounds (main UUI) and intercepting shortcuts.
+  *
   */
 class SoundboardMainUI : public QMainWindow
 {
@@ -218,15 +231,37 @@ private:
 
     bool _updateScheduled; /*!<Boolean to know if the user wanna update the soundboard after quitting.*/
 
-    QWidget * _guideWidget; /*!<Widget for the guide/app tour.*/
-    Ui::Guide *_guideUI; /*!<UI for the guide/app tour.*/
+    QWidget * _guideWidget; /*! <Widget for the guide/app tour.*/
+    Ui::Guide *_guideUI; /*! <UI for the guide/app tour.*/
 
     /*!
      * \brief This function deals with editing the data that will be displayed according to user settings. (Read: kind of delegate).
      */
     void refreshView();
 
+    LoadingWidget * _loadingWidget;/*!< Widget that shows the loading bar. */
+
+    /*!
+     * \brief addSeveralSounds Function used by the thread created when opening a lidljson file.
+     *
+     * This function will fix the size of the soundboard.
+     * Shows the progress bar.
+     * Creates a new thread to deal with the _sounds argument and populate the needed variables.
+     * Creates a new thread to handle the displaying of the progress bar (updating current value).
+     *  This second thread use a worker to have more control over its signal.
+     * Then, it will close the widget, delete the pointer, refresh the view and generate shorcuts.
+     * Finally, it will enable the UI and save the soundboard state.
+     *
+     * \param sounds The sounds array.
+     * \param maximum The number of file in the sounds variable. (needed for display purposes).
+     */
+    void addSeveralSounds(QVector<SoundWrapper*> sounds, int maximum);
+
 public:
+    /*!
+     * \brief SoundboardMainUI Default constructor.
+     * \param parent
+     */
     explicit SoundboardMainUI(QWidget *parent = nullptr);
 
 signals:
@@ -243,6 +278,7 @@ signals:
      */
     void SaveSoundboardState();
 
+
     void OnConstructionDone();
 
 public slots:
@@ -252,7 +288,7 @@ public slots:
      * \param whereToInsert The spot where to insert the sound (only used when it's a sound being edited. Else if it's -1 we insert it at the bottom.
      * \param generationMode Should the shortcut be registered or not. Useful when adding a bunch of soundswrapper (opening a soundboard).
      */
-    void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, LIDL::Shortcut generationMode = LIDL::Shortcut::GENERATE);
+    void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, bool generateShortcuts = true, bool refreshView = true);
 
 
     /*!
