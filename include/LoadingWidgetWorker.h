@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStandardItem>
 #include <QDebug>
+#include <QTimer>
 class LoadingWidgetWorker : public QObject
 {
     Q_OBJECT

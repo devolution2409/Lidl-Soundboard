@@ -7,17 +7,30 @@ SfxSettingsWidget::SfxSettingsWidget(QWidget *parent) : QScrollArea(parent)
     _layout = new QGridLayout(_container);
     _layout->setSizeConstraint(QLayout::SetMinimumSize);
     this->setWidgetResizable(true);
-    this->setMaximumHeight(200);
+    this->setMaximumHeight(230);
     this->setWidget(_container);
+
 }
 
-SfxSettingsWidget::SfxSettingsWidget(QString sfxName, QWidget *parent)
+SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type, QWidget *parent)
     :SfxSettingsWidget(parent)
 {
     // adding checkbox
-    _checkbox = new QCheckBox(tr("Enable ") + sfxName);
+    _checkbox = new QCheckBox(QString(tr("Enable %1")).arg(sfxName));
     _checkbox->setCheckable(true);
-    _layout->addWidget( _checkbox, 0,0,1,5);
+    _layout->addWidget( _checkbox, 0,0,1,2);
+    _presetBox = new QComboBox();
+    // preset will be read from LIDL::setting controller
+    // todo: add the structure of the sound effect in the constructor so that
+    // we know where to get the info from :)
+    _presetBox->addItem(tr("<No preset selected>"));
+
+
+    _layout->addWidget( _presetBox,0,2,1,6);
+
+
+    // surchage every type like this an return the corresponding thing :)
+    //QVector<BASS_DX8_DISTORTION>  LIDL::PresetController::GetPreset(type)
 
     connect(_checkbox,&QCheckBox::toggled, this, [=](bool state){
         for (auto &i: _sliders)
@@ -26,14 +39,26 @@ SfxSettingsWidget::SfxSettingsWidget(QString sfxName, QWidget *parent)
             i->setEnabled(state);
         emit checkBoxStateChanged(state);
     });
+    _layout->setColumnStretch(3,100);
 }
 
+QSize SfxSettingsWidget::sizeHint() const
+{
+    return QSize(this->width(),230);
+}
 void SfxSettingsWidget::deactivateAll()
 {
     for (auto &i: _sliders)
         i->setEnabled(false);
     for (auto &i: _comboBox)
         i->setEnabled(false);
+}
+
+void SfxSettingsWidget::addSpacer()
+{
+    this->_layout->addItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding),
+                           _layout->rowCount(),0,-1,-1);
+
 }
 
 void SfxSettingsWidget::addSlider(QString label,int min, int max, QString suffix,int specialValue,QString prefix)
@@ -58,6 +83,7 @@ void SfxSettingsWidget::addSlider(QString label,int min, int max, QString suffix
 void SfxSettingsWidget::addComboBox(QString label,QStringList values, int enumValue)
 {
     _comboBox.append(new QComboBox());
+    //_comboBox.last()->lineEdit()->setAlignment(Qt::AlignCenter);
     _layout->addWidget(new QLabel(label), _layout->rowCount(),0,1,2);
     _layout->addWidget(_comboBox.last() ,_layout->rowCount() - 1,2,1,6 );
     for (auto i: values)
@@ -119,3 +145,15 @@ void SfxSettingsWidget::setCheckboxState(bool state)
 {
     this->_checkbox->setChecked(state);
 }
+
+//void SfxSettingsWidget::beautify()
+//{
+//    // centering the list
+//    for (auto &i: _comboBox)
+//    {
+//        for (int j = 0 ; j < i->count() ; ++j)
+//        {
+//           i->setItemData(j, Qt::AlignCenter, Qt::TextAlignmentRole);
+//        }
+//    }
+//}

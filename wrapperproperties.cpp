@@ -7,8 +7,8 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 {
     Q_UNUSED(parent);
     this->setFocusPolicy(Qt::StrongFocus);
-    this->setMinimumSize(415,687);
-
+    this->setMinimumSize(419,687);
+    //w*h
 
   //  this->_mainWidget = parent;
     // Ajout d'un layout vertical pour afficher les sons
@@ -120,26 +120,26 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*              REVAMPED  DISTORTION                 */
     /*****************************************************/
 
-    _distortionWidget = new SfxSettingsWidget("Distortion");
-    _distortionWidget->addSlider("Gain",0,60, " dB",static_cast<int>(LIDL::SFX_DIST_PARAM::fGain)," -");
-    _distortionWidget->addSlider("Edge",0 ,100 ," %",static_cast<int>(LIDL::SFX_DIST_PARAM::fEdge));
-    _distortionWidget->addSlider("Center Frequency",100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQCenterFrequency));
-    _distortionWidget->addSlider("Bandwidth",100,8000, " Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQBandwidth));
-    _distortionWidget->addSlider("Lowpass Cutoff",100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPreLowpassCutoff));
+    _distortionWidget = new SfxSettingsWidget(tr("Distortion"));
+    _distortionWidget->addSlider(tr("Gain"),0,60, " dB",static_cast<int>(LIDL::SFX_DIST_PARAM::fGain)," -");
+    _distortionWidget->addSlider(tr("Edge"),0 ,100 ," %",static_cast<int>(LIDL::SFX_DIST_PARAM::fEdge));
+    _distortionWidget->addSlider(tr("Center Frequency"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQCenterFrequency));
+    _distortionWidget->addSlider(tr("Bandwidth"),100,8000, " Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQBandwidth));
+    _distortionWidget->addSlider(tr("Lowpass Cutoff"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPreLowpassCutoff));
+//    _distortionWidget->addSpacer();
 
-    _sfxTabWidget->addTab(_distortionWidget,"Distortion");
 
     /*****************************************************/
     /*              REVAMPED  CHORUS                     */
     /*****************************************************/
-    _chorusWidget = new SfxSettingsWidget("Chorus");
+    _chorusWidget = new SfxSettingsWidget(tr("Chorus"));
     // check EnumsAndStructs.h for special value
-    _chorusWidget->addSlider("Delay",0,20," ms", static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay));
-    _chorusWidget->addSlider("Depth",0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDepth));
-    _chorusWidget->addSlider("Feedback",-99,99," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFeedback));
-    _chorusWidget->addSlider("Frequency",0,10," Hz",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFrequency));
-    _chorusWidget->addSlider("Wet Dry Mix",0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fWetDryMix));
-    _chorusWidget->addComboBox("Phase Differential",
+    _chorusWidget->addSlider(tr("Delay"),0,20," ms", static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay));
+    _chorusWidget->addSlider(tr("Depth"),0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDepth));
+    _chorusWidget->addSlider(tr("Feedback"),-99,99," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFeedback));
+    _chorusWidget->addSlider(tr("Frequency"),0,10," Hz",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFrequency));
+    _chorusWidget->addSlider(tr("Wet Dry Mix"),0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fWetDryMix));
+    _chorusWidget->addComboBox(tr("Phase Differential"),
                                (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
                                                << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
                                                <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
@@ -147,14 +147,74 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
                                                <<"180° (π/2 rad)"),
                                static_cast<int>(LIDL::SFX_CHORUS_PARAM::lPhase)); //BASS_FX_PHASE_180
 
-    _chorusWidget->addComboBox("Wave Form", (QStringList() << "Sinusoidal Wave"
-                                                  << "Triangular Wave"),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
+    _chorusWidget->addComboBox("Wave Form", (QStringList() <<tr("Triangular Wave")
+                                                  <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
 
-   _sfxTabWidget->addTab(_chorusWidget,"Chorus");
+    /*****************************************************/
+    /*                     ECHO                          */
+    /*****************************************************/
+    _echoWidget = new SfxSettingsWidget(tr("Echo"));
+    _echoWidget->addSlider(tr("Feedback"),0,100," %", static_cast<int>(LIDL::SFX_ECHO_PARAM::fFeedback) );
+    _echoWidget->addSlider(tr("Left Delay"),1,2000," ms", static_cast<int>(LIDL::SFX_ECHO_PARAM::fLeftDelay) );
+    _echoWidget->addSlider(tr("Right Delay"),1,2000," ms", static_cast<int>(LIDL::SFX_ECHO_PARAM::fRightDelay) );
+    _echoWidget->addSlider(tr("Wet Dry Mix"),0,100," %", static_cast<int>(LIDL::SFX_ECHO_PARAM::fWetDryMix) );
+    _echoWidget->addComboBox(tr("Swap left and right\n"
+                                "delay after echo"),
+                             (QStringList() << tr("No") << tr("Yes")),
+                             static_cast<int>(LIDL::SFX_ECHO_PARAM::lPanDelay));
+    /*****************************************************/
+    /*                  COMPRESSOR                   */
+    /*****************************************************/
+    _compressorWidget = new SfxSettingsWidget(tr("Compressor"));
+    _compressorWidget->addSlider(tr("Attack"),0,500," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fAttack) );
+    _compressorWidget->addSlider(tr("Gain"),-60,60," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fGain) );
+    _compressorWidget->addSlider(tr("Pre Delay"),0,4," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fPredelay) );
+
+    _compressorWidget->addSlider(tr("Ratio"),1,100,":1", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fRatio) );
+    _compressorWidget->addSlider(tr("Release"),50,3000," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fRelease) );
+    _compressorWidget->addSlider(tr("Threshold"),-60,0," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fThreshold) );
+
+    /*****************************************************/
+    /*                     FLANGER                       */
+    /*****************************************************/
+    _flangerWidget = new SfxSettingsWidget(tr("Flanger"));
+    _flangerWidget->addSlider(tr("Delay"),0,4," ms", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fDelay) );
+    _flangerWidget->addSlider(tr("Depth"),0,100," ‱", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fDepth) );
+    _flangerWidget->addSlider(tr("Feedback"),-99,99," %", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fFeedback) );
+    _flangerWidget->addSlider(tr("Frequency"),0,10," Hz", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fFrequency) );
+    _flangerWidget->addSlider(tr("Wet Dry Mix"),0,100," %", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fWetDryMix) );
+    _flangerWidget->addComboBox(tr("Phase Differential"),
+                               (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
+                                               << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
+                                               <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
+                                               <<"90° (π rad)"       //BASS_FX_PHASE_90
+                                               <<"180° (π/2 rad)"),
+                               static_cast<int>(LIDL::SFX_FLANGER_PARAM::lPhase)); //BASS_FX_PHASE_180
+
+    _flangerWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
+                                              <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_FLANGER_PARAM::lWaveform));
+
+    /*****************************************************/
+    /*    GARGLE (the cum like a bitch boi gachiBASS     */
+    /*****************************************************/
+    _gargleWidget = new SfxSettingsWidget(tr("Gargle"));
+    _gargleWidget->addSlider(tr("Modulation rate"),1,1000,"Hz",static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwRateHz));
+    _gargleWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
+                                              <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwWaveShape));
+
+
+    _sfxTabWidget->addTab(_distortionWidget,tr("Distortion"));
+    _sfxTabWidget->addTab(_chorusWidget,tr("Chorus"));
+    _sfxTabWidget->addTab(_echoWidget,tr("Echo"));
+    _sfxTabWidget->addTab(_compressorWidget,tr("Compressor"));
+    _sfxTabWidget->addTab(_flangerWidget,tr("Flanger"));
+    _sfxTabWidget->addTab(_gargleWidget,tr("Gargle"));
 
     // this line needs be be last so that the spoiler isn't blank
     // (i think there's a copy constructor somewhere maybe)
+
     _sfxSpoiler->setContentLayout(_sfxLayout);
+
     /*******************************************************
      *                                                     *
      *                      PLAYBACK MODES                 *
@@ -544,6 +604,9 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
     static QMetaObject::Connection *distortChkConn;
     static QMetaObject::Connection *distortSliderConn;
 
+    static QMetaObject::Connection *echoChkConn;
+    static QMetaObject::Connection *echoSliderConn;
+    static QMetaObject::Connection *echoComboConn;
 
     // need to cast item to child class else it doesn't work
     if (item != nullptr)
@@ -574,7 +637,8 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 
             // Construct the appropriates sliders :)
             // Check limit in EnumsAndStruct
-            for (int i= static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay); i < static_cast<int>(LIDL::SFX_CHORUS_PARAM::ITER_END); i++)
+            // starting at 0 this way we can change the order of the items in the enum
+            for (int i= 0; i < static_cast<int>(LIDL::SFX_CHORUS_PARAM::ITER_END); i++)
                 _chorusWidget->setValueOfEnumParam(i, _selectedItem->getSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(i) )   );
 
 
@@ -630,7 +694,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             // Overflow should be dealt as the min value and max value are capped.
             // Check limit in EnumsAndStruct
             // Works as long as the parameters are contiguous.
-            for (int i = static_cast<int>(LIDL::SFX_DIST_PARAM::fGain);i < static_cast<int>(LIDL::SFX_DIST_PARAM::ITER_END);i++)
+            for (int i = 0;i < static_cast<int>(LIDL::SFX_DIST_PARAM::ITER_END);i++)
                 _distortionWidget->setValueOfEnumParam(i, _selectedItem->getSFXDistortion(static_cast<LIDL::SFX_DIST_PARAM>(i) )   );
 
             // if the connection already exists we delete it
@@ -647,8 +711,65 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
             });
         };
 
+        auto dealEcho = [=]{
+                   // deactivating every widget if the checkbox isn't checked.
+                   // However we must add a check because if it is checked already and we click
+                   // on an item where it is checked aswell, the state of the button will not change.
+                   if(!( _selectedItem->getSFX().flags & LIDL::SFX_TYPE::ECHO ))
+                       _echoWidget->deactivateAll();
+                   // now we are sure every settings widget is disabled.
+                   // connecting the checkbox realquick :wrench: forsenE
+                   if ( echoChkConn != nullptr)
+                   {
+                       delete echoChkConn;
+                       echoChkConn = nullptr;
+                   }
+                   echoChkConn = new QMetaObject::Connection;
+                   *echoChkConn = connect(_echoWidget,&SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState){
+                       _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::ECHO ,newState);
+                   } );
+                   // checking the SFX flag and setting the checkbox accordingly
+                   _echoWidget->setCheckboxState(_selectedItem->getSFX().flags & LIDL::SFX_TYPE::ECHO);
+
+
+                   // Construct the appropriates sliders :)
+                   // Check limit in EnumsAndStruct
+                   // starting at 0 this way we can change the order of the items in the enum
+                   for (int i= 0; i < static_cast<int>(LIDL::SFX_ECHO_PARAM::ITER_END); i++)
+                       _echoWidget->setValueOfEnumParam(i, _selectedItem->getSFXEcho(static_cast<LIDL::SFX_ECHO_PARAM>(i) )   );
+
+
+                   // if the connection already exists we delete it
+                   if ( echoSliderConn != nullptr)
+                   {
+                       disconnect(*echoSliderConn);
+                       delete echoSliderConn;
+                   }
+                   echoSliderConn = new QMetaObject::Connection;
+                   //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
+                   *echoSliderConn = connect(_echoWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
+                       Q_UNUSED(index);
+                       _selectedItem->setSFXEcho( static_cast<LIDL::SFX_ECHO_PARAM>(specialValue),value);
+                   });
+
+                   if (echoComboConn != nullptr)
+                   {
+                       disconnect(*echoComboConn);
+                       delete echoComboConn;
+                   }
+                   echoComboConn = new QMetaObject::Connection;
+                   *echoComboConn = connect(_echoWidget,&SfxSettingsWidget::comboBoxValueChanged,this,[=](int whichOne,int newIndex, int specialValue){
+                       Q_UNUSED(whichOne);
+                       //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
+                       // index is equal to the value of the BASS_DX8 enum
+                       // specialValue is equal to EnumsAndStructs.h value
+                       _selectedItem->setSFXEcho(static_cast<LIDL::SFX_ECHO_PARAM>(specialValue),newIndex);
+                   });
+
+               };
         dealChorus();
         dealDistortion();
+        dealEcho();
 
         // enabling the delete button
         _btnDelete->setEnabled(true);
@@ -843,3 +964,4 @@ void WrapperProperties::AddSoundFromUrl()
         }// end else
     }// end if ok and string isn't empty
 }
+

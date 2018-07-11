@@ -424,7 +424,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
          });
 
     // connect the clear button to the clear shortcut slot
-    connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
+   //  connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
     // needed for remotes files forsenE
     connect(modifiedSound, SoundWrapper::holdPTTProxy, [=] (int duration){
@@ -544,6 +544,27 @@ void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maxim
         this->refreshView();
         this->setEnabled(true);
         emit SaveSoundboardState();
+        for (auto &i: _sounds)
+        {
+            // need to connect the sounds to the correponding signals forsenD
+            connect(i,SoundWrapper::UnexistantFile,this, [=]{
+                    this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
+                });
+
+            // connecting the wrapper proxy signal for player NowPlaying
+            connect(i,SoundWrapper::NowPlaying,this,[=](QString name){
+                    this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
+                });
+
+            // connecting the wrapper proxy signal for player ErrorPlaying
+            connect(i,SoundWrapper::ErrorPlaying,this, [=](QString name){
+                    this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
+                 });
+           // needed for remotes files forsenE
+            connect(i, SoundWrapper::holdPTTProxy, [=] (int duration){
+                LIDL::SettingsController::GetInstance()->holdPTT(duration);
+            } );
+        }
 
     } );
 
@@ -961,6 +982,7 @@ void SoundboardMainUI::setUpMenu()
     _actions.append(new QAction(tr("Regenerate shortcuts"),this));  //11);
     toolMenu->addAction(_actions.at(11));
     connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
+
 
     _actions.at(10)->setToolTip( tr("Regenerate shortcuts in case they get glitched."));
     _actions.append(new QAction(tr("Clear sounds shortcuts"),this));  //12

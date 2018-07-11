@@ -37,7 +37,7 @@ private:
     unsigned long long _size;
     friend bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
     friend bool operator!=(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
-    // ajouter les putain de sound effect
+
 
     // sfx struct
     LIDL::SFX sfx;

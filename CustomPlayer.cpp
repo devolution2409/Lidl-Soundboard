@@ -199,6 +199,12 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::ECHO)
+        {
+            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_ECHO,253);
+            BASS_DX8_ECHO SoBayed = _soundList.at(index)->getSFX().echo;
+            BASS_FXSetParameters(LUL,&SoBayed);
+        }
     }
 
 
@@ -248,6 +254,12 @@ double CustomPlayer::PlayAt(int index)
             int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_CHORUS,254);
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
+        }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::ECHO)
+        {
+            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_ECHO,253);
+            BASS_DX8_ECHO eatTheCatOMEGALEE = _soundList.at(index)->getSFX().echo;
+            BASS_FXSetParameters(LUL,&eatTheCatOMEGALEE);
         }
 //        if (_PTTScanCode !=-1 )
 //            emit holdPTT(static_cast<int>(duration*1000) );

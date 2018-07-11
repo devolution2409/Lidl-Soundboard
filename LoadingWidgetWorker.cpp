@@ -21,9 +21,10 @@ void LoadingWidgetWorker::process()
             qDebug() <<  _ptrData->size() << "/" << _maximum;
         emit setValue(_ptrData->size());
     }while (_ptrData->size() != _maximum);
-
-    qDebug() << "finished";
-    emit finished();
+    emit setValue(100);
+    // 0.1 sec timer so we can see 100%.
+    // NOW I AM COMPLETE.
+    QTimer::singleShot(100,this,[=]{ emit finished();});
 
 }
 

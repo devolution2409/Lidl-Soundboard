@@ -56,6 +56,14 @@
 #include "SliderSpin.h"
 #include "SfxSettingsWidget.h"
 
+
+
+
+
+
+
+
+
 /*! \class WrapperProperties
   * \brief Inherits QWidget
   *
@@ -185,12 +193,14 @@ private:
         SfxSettingsWidget* _distortionWidget; /*!< The widget responsible of the Distortion tab construction*/
     // CHORUS
         SfxSettingsWidget* _chorusWidget; /*!< The widget responsible of the Chorus tab construction*/
-//    QCheckBox *_sfxChorusEnabled;
-//    QCheckBox *_sfxCompressorEnabled;
-//    QCheckBox *_sfxEchoEnabled;
-//    QCheckBox *_sfxFlangerEnabled;
-//    QCheckBox *_sfxGargleEnabled;
-//    QCheckBox *_sfxReverbEnabled;
+    // ECHO
+        SfxSettingsWidget* _echoWidget;  /*!< The widget responsible of the Echo tab construction*/
+    // COMPRESSOR
+        SfxSettingsWidget* _compressorWidget;  /*!< The widget responsible of the Compressor tab construction*/
+    // FLANGER
+        SfxSettingsWidget* _flangerWidget;  /*!< The widget responsible of the Flanger tab construction*/
+    // GARGLE
+        SfxSettingsWidget* _gargleWidget;  /*!< The widget responsible of the Gargle tab construction*/
 
 /*
  *

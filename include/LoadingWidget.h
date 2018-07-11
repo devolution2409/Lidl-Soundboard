@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include "ui_loadingJson.h"
+#include <cmath>
 
 class LoadingWidget : public QWidget
 {

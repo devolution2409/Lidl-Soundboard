@@ -14,8 +14,8 @@ SliderSpin::SliderSpin(QWidget *parent)
         emit valueChanged(value);
     });
 
-    _layout->addWidget(_slider,0,0,1,8);
-    _layout->addWidget(_spinbox,0,8,1,2);
+    _layout->addWidget(_slider,0,0,1,75);
+    _layout->addWidget(_spinbox,0,76,1,25);
     // following line is needed else each line will have margins BrokeBack Clap
     this->_layout->setMargin(0);
 }

@@ -11,6 +11,9 @@
 #include <QStringList>
 #include <QComboBox>
 #include <map>
+#include <QString>
+#include "EnumsAndStructs.h"
+#include <QLineEdit>
 class SfxSettingsWidget : public QScrollArea
 {
     Q_OBJECT
@@ -27,7 +30,7 @@ public:
      * \param sfxName The sfx name. Will add a label and a checkbox for enabling/disabling purposes.
      * \param parent eShrug.
      */
-    SfxSettingsWidget(QString sfxName, QWidget *parent = nullptr);
+    SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type = LIDL::SFX_TYPE::NONE, QWidget *parent = nullptr);
     /*!
      * \brief addSlider
      * \param label The label to be shown alongside the slider+spinbox.
@@ -80,6 +83,19 @@ public:
      */
     void deactivateAll();
 
+    /*!
+     * \brief addSpacer Add a spacer to the layout
+     */
+    void addSpacer();
+
+    /*!
+     * \brief sizeHint Reimplemented to account for the QScrollArea
+     * \return The size hint.
+     */
+    QSize sizeHint() const;
+
+//    void beautify();
+
 private:
     QWidget *_container; /*!< The container widget.*/
     QCheckBox *_checkbox; /*!< Enable/disable Checkbox*/
@@ -87,7 +103,7 @@ private:
     QVector<SliderSpin *> _sliders; /*!< Array of Sliders + Spinboxes */
     QVector<QComboBox *> _comboBox; /*!< Array of comboBox */
     std::map<int, QWidget* > _specialMap; /*!<Map linking which widgets deals with witch settings (enum)*/
-
+    QComboBox *_presetBox;
 
 
 

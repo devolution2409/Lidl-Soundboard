@@ -159,6 +159,23 @@ public:
      */
     unsigned long long getSize() const;
 
+    /*!
+     * \brief setSFXEcho
+     * \param param
+     * \param value
+     */
+    void setSFXEcho(LIDL::SFX_ECHO_PARAM param, int value);
+
+    int getSFXEcho(LIDL::SFX_ECHO_PARAM which) const;
+    /*!
+     * \brief setSFXCompressor
+     * \param value
+     */
+    void setSFXCompressor(LIDL::SFX_COMPRESSOR_PARAM param, int value);
+
+    void setSFXFlanger(LIDL::SFX_FLANGER_PARAM param, int value);
+    void setSFXGargle(LIDL::SFX_GARGLE_PARAM param, int value);
+
 private:
     /*!
      * \brief CustomListWidgetItem Default constructor, not used

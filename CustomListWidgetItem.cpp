@@ -152,6 +152,160 @@ void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
     }
 }
 
+
+void CustomListWidgetItem::setSFXEcho(LIDL::SFX_ECHO_PARAM param, int value)
+{
+    float fValue = static_cast<float>(value);
+
+    switch(param){
+
+    case LIDL::SFX_ECHO_PARAM::fFeedback:
+        _sfx.echo.fFeedback = fValue;
+        break;
+
+    case LIDL::SFX_ECHO_PARAM::fLeftDelay:
+        _sfx.echo.fLeftDelay = fValue;
+        break;
+
+    case LIDL::SFX_ECHO_PARAM::fRightDelay:
+        _sfx.echo.fRightDelay = fValue;
+        break;
+    case LIDL::SFX_ECHO_PARAM::fWetDryMix:
+        _sfx.echo.fWetDryMix = fValue;
+        break;
+    case LIDL::SFX_ECHO_PARAM::lPanDelay:
+        _sfx.echo.lPanDelay = static_cast<bool>(value);
+        break;
+    default:
+        qDebug() << "Wrong usage of setSFXEcho";
+        return;
+        break;
+    }
+}
+
+
+void CustomListWidgetItem::setSFXCompressor(LIDL::SFX_COMPRESSOR_PARAM param, int value)
+{
+    float fValue = static_cast<float>(value);
+
+    switch(param){
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fAttack:
+        _sfx.compressor.fAttack = fValue;
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fGain:
+        _sfx.compressor.fGain = fValue;
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fPredelay:
+        _sfx.compressor.fPredelay = fValue;
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fRatio:
+        _sfx.compressor.fRatio = fValue;
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fRelease:
+        _sfx.compressor.fRelease = fValue;
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fThreshold:
+        _sfx.compressor.fThreshold = fValue;
+        break;
+    default:
+        qDebug() << "Wrong usage of setSFXCompressor";
+        return;
+        break;
+    }
+}
+
+void CustomListWidgetItem::setSFXFlanger(LIDL::SFX_FLANGER_PARAM param, int value)
+{
+    float fValue = static_cast<float>(value);
+
+    switch(param){
+
+    case LIDL::SFX_FLANGER_PARAM::fDelay:
+        _sfx.flanger.fDelay = fValue;
+        break;
+
+    case LIDL::SFX_FLANGER_PARAM::fDepth:
+        _sfx.flanger.fDepth = fValue;
+        break;
+
+    case LIDL::SFX_FLANGER_PARAM::fFeedback:
+        _sfx.flanger.fFeedback = fValue;
+        break;
+
+    case LIDL::SFX_FLANGER_PARAM::fFrequency:
+        _sfx.flanger.fFrequency = fValue;
+        break;
+    case LIDL::SFX_FLANGER_PARAM::fWetDryMix:
+        _sfx.flanger.fWetDryMix = fValue;
+        break;
+    case LIDL::SFX_FLANGER_PARAM::lPhase:
+        _sfx.flanger.lPhase = value;
+        break;
+    case LIDL::SFX_FLANGER_PARAM::lWaveform:
+        _sfx.flanger.lWaveform = static_cast<bool>(value);
+        break;
+    default:
+        qDebug() << "Wrong usage of setSFXFlanger";
+        return;
+        break;
+    }
+}
+
+void CustomListWidgetItem::setSFXGargle(LIDL::SFX_GARGLE_PARAM param, int value)
+{
+    switch(param){
+
+    case LIDL::SFX_GARGLE_PARAM::dwRateHz:
+        _sfx.gargle.dwRateHz = value;
+        break;
+    case LIDL::SFX_GARGLE_PARAM::dwWaveShape:
+        _sfx.gargle.dwWaveShape = value;
+        break;
+    default:
+        qDebug() << "Wrong usage of setSFXGargle";
+        return;
+        break;
+
+    }
+}
+
+int CustomListWidgetItem::getSFXEcho(LIDL::SFX_ECHO_PARAM which) const
+{
+    switch(which){
+
+    case LIDL::SFX_ECHO_PARAM::fFeedback:
+        return static_cast<int>(_sfx.echo.fFeedback);
+        break;
+
+    case LIDL::SFX_ECHO_PARAM::fLeftDelay:
+        return static_cast<int>(_sfx.echo.fLeftDelay);
+        break;
+
+    case LIDL::SFX_ECHO_PARAM::fRightDelay:
+        return static_cast<int>(_sfx.echo.fRightDelay);
+        break;
+    case LIDL::SFX_ECHO_PARAM::fWetDryMix:
+        return static_cast<int>(_sfx.echo.fWetDryMix);
+        break;
+    case LIDL::SFX_ECHO_PARAM::lPanDelay:
+        return static_cast<int>(_sfx.echo.lPanDelay);
+        break;
+    default:
+        qDebug() << "Wrong usage of setSFXEcho";
+        return -1;
+        break;
+    }
+}
+
+
+
+
 //void CustomListWidgetItem::setSFXChorusDefault()
 //{
 //    _sfx.chorus.fDelay = 10;
