@@ -1482,12 +1482,30 @@ void SoundboardMainUI::Open(QString fileName)
                                         sfx.chorus.fFeedback = static_cast<float>(l.value().toInt());
                                     if (l.key() == "Frequency")
                                         sfx.chorus.fFrequency = static_cast<float>(l.value().toInt());
-                                    if (l.key() == "WetDryMix")
+                                    if (l.key() == "WetDryMix"  || l.key() == "Wet Dry Mix")
                                         sfx.chorus.fWetDryMix = static_cast<float>(l.value().toInt());
                                     if (l.key() == "Phase")
                                         sfx.chorus.lPhase = static_cast<int>(l.value().toInt());
                                     if (l.key() == "Waveform")
                                         sfx.chorus.lWaveform =  static_cast<int>(l.value().toInt());
+                                }
+
+                            }
+                            if (sfx_obj.contains("Echo"))
+                            {
+                                QJsonObject obj = sfx_obj.value("Echo").toObject();
+                                for (QJsonObject::iterator l = obj.begin(); l!= obj.end();l++)
+                                {
+                                    if (l.key() =="Feedback" )
+                                        sfx.echo.fFeedback = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Left Delay" )
+                                        sfx.echo.fLeftDelay = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Right Delay" )
+                                        sfx.echo.fRightDelay = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Wet Dry Mix" )
+                                        sfx.echo.fWetDryMix = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Swap" )
+                                        sfx.echo.lPanDelay = static_cast<bool>(l.value().toInt());
                                 }
 
                             }
@@ -1707,10 +1725,20 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
             chorus.insert("Depth",static_cast<int>(j->getSFX().chorus.fDepth));
             chorus.insert("Feedback",static_cast<int>(j->getSFX().chorus.fFeedback));
             chorus.insert("Frequency",static_cast<int>(j->getSFX().chorus.fFrequency));
-            chorus.insert("WetDryMix",static_cast<int>(j->getSFX().chorus.fWetDryMix));
+            chorus.insert("Wet Dry Mix",static_cast<int>(j->getSFX().chorus.fWetDryMix));
             chorus.insert("Phase",static_cast<int>(j->getSFX().chorus.lPhase));
             chorus.insert("Waveform",static_cast<int>(j->getSFX().chorus.lWaveform));
             soundEffects.insert("Chorus",chorus);
+
+            QJsonObject echo;
+
+            echo.insert("Feedback",static_cast<int>(j->getSFX().echo.fFeedback) );
+            echo.insert("Left Delay",static_cast<int>(j->getSFX().echo.fLeftDelay) );
+            echo.insert("Right Delay",static_cast<int>(j->getSFX().echo.fRightDelay) );
+            echo.insert("Wet Dry Mix",static_cast<int>(j->getSFX().echo.fWetDryMix) );
+            echo.insert("Swap",static_cast<int>(j->getSFX().echo.lPanDelay) );
+            soundEffects.insert("Echo",echo);
+
             //               }
 
             properties.insert("SFX",soundEffects);

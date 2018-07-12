@@ -76,7 +76,6 @@ void SfxSettingsWidget::addSlider(QString label,int min, int max, QString suffix
         });
     if (specialValue != -1)
         _specialMap.insert(std::pair<int,QWidget*>(specialValue,_sliders.last()));
-
 }
 
 
@@ -99,6 +98,7 @@ void SfxSettingsWidget::addComboBox(QString label,QStringList values, int enumVa
     if (enumValue != -1)
         _specialMap.insert(std::pair<int,QWidget*>(enumValue,_comboBox.last()));
 
+    _comboBox.last()->setCurrentIndex(0);
 }
 void SfxSettingsWidget::setSliderValue(int sliderIndex, int newValue)
 {
@@ -118,6 +118,7 @@ void SfxSettingsWidget::setComboBoxIndex(int comboIndex, int newItemIndex)
 
 void SfxSettingsWidget::setValueOfEnumParam(int enumValue, int newValue)
 {
+    qDebug() << "LUL?:" << enumValue << "test: " << newValue;
     if (enumValue == -1)
         return;
 
@@ -138,6 +139,7 @@ void SfxSettingsWidget::setValueOfEnumParam(int enumValue, int newValue)
     if (j !=nullptr)
     {
         j->setCurrentIndex(newValue);
+        return;
     }
 }
 

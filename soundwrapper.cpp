@@ -157,12 +157,10 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
             {
                  tempString.append(tr("Distortion, "));
             }
-//            if (i->getSFX().flags & LIDL::SFX_TYPE::ECHO)
-//            {
-
-//                 tempString.append(tr("ECHO"));
-//                 tempString.append("\n");
-//            }
+            if (i->getSFX().flags & LIDL::SFX_TYPE::ECHO)
+            {
+                 tempString.append(tr("Echo, "));
+            }
 
         }
 // !: <- my cat did this

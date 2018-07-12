@@ -84,12 +84,12 @@ public:
     void deactivateAll();
 
     /*!
-     * \brief addSpacer Add a spacer to the layout
+     * \brief addSpacer Add a spacer to the layout so that every one have the same line height.
      */
     void addSpacer();
 
     /*!
-     * \brief sizeHint Reimplemented to account for the QScrollArea
+     * \brief sizeHint Reimplemented to account for the QScrollArea so that the spoiler doesn't make a mess.
      * \return The size hint.
      */
     QSize sizeHint() const;
@@ -102,8 +102,8 @@ private:
     QGridLayout* _layout; /*!< The layout. */
     QVector<SliderSpin *> _sliders; /*!< Array of Sliders + Spinboxes */
     QVector<QComboBox *> _comboBox; /*!< Array of comboBox */
-    std::map<int, QWidget* > _specialMap; /*!<Map linking which widgets deals with witch settings (enum)*/
-    QComboBox *_presetBox;
+    std::map<int, QWidget* > _specialMap; /*!< Map linking which widgets deals with witch settings (enum)*/
+    QComboBox *_presetBox; /*!< Combox box displaying the differents presets available */
 
 
 
