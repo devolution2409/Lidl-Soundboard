@@ -174,9 +174,7 @@ double CustomPlayer::PlayAt(int index)
             _mainChannel.append(BASS_StreamCreateFile(false, wideString.c_str(), 0, 0, BASS_STREAM_AUTOFREE));
         }
 
-        if (duration == -1)
-            duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
-                                                        BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
+
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
 
@@ -205,8 +203,29 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_ECHO SoBayed = _soundList.at(index)->getSFX().echo;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
-    }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::COMPRESSOR)
+        {
+            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_COMPRESSOR,252);
+            BASS_DX8_COMPRESSOR cmonBruhDontThinkIt = _soundList.at(index)->getSFX().compressor ;
+            BASS_FXSetParameters(LUL,&cmonBruhDontThinkIt);
+        }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::FLANGER)
+        {
+            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_FLANGER,251);
+            BASS_DX8_FLANGER rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger = _soundList.at(index)->getSFX().flanger ;
+            BASS_FXSetParameters(LUL,&rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger);
+        }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::GARGLE)
+        {
+            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_GARGLE,251);
+            BASS_DX8_GARGLE gargleOnTheBallSack = _soundList.at(index)->getSFX().gargle ;
+            BASS_FXSetParameters(LUL,&gargleOnTheBallSack);
+        }
 
+        if (duration == -1)
+            duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
+                                                        BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
+    }
 
 
 
@@ -233,9 +252,7 @@ double CustomPlayer::PlayAt(int index)
             _vacChannel.append(BASS_StreamCreateFile(false, wideString.c_str(), 0, 0, BASS_STREAM_AUTOFREE));
         }
         // prevent the get channel length call twice (cause i think this is sending a request to the http server)
-        if (duration == -1)
-            duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
-                                                    BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
+
 
 
         BASS_ChannelSetDevice(_vacChannel.last(),_VACOutputDevice);
@@ -261,9 +278,31 @@ double CustomPlayer::PlayAt(int index)
             BASS_DX8_ECHO eatTheCatOMEGALEE = _soundList.at(index)->getSFX().echo;
             BASS_FXSetParameters(LUL,&eatTheCatOMEGALEE);
         }
-//        if (_PTTScanCode !=-1 )
-//            emit holdPTT(static_cast<int>(duration*1000) );
 
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::COMPRESSOR)
+        {
+            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_COMPRESSOR,252);
+            BASS_DX8_COMPRESSOR cmonBruhDontThinkIt = _soundList.at(index)->getSFX().compressor ;
+            BASS_FXSetParameters(LUL,&cmonBruhDontThinkIt);
+        }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::FLANGER)
+        {
+            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_FLANGER,251);
+            BASS_DX8_FLANGER rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger = _soundList.at(index)->getSFX().flanger ;
+            BASS_FXSetParameters(LUL,&rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger);
+        }
+        if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::GARGLE)
+        {
+            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_GARGLE,251);
+            BASS_DX8_GARGLE gargleOnTheBallSack = _soundList.at(index)->getSFX().gargle ;
+            BASS_FXSetParameters(LUL,&gargleOnTheBallSack);
+        }
+
+
+
+        if (duration == -1)
+            duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
+                                                    BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
     }
 
     // for some reason bass can't fetch the exact duration of ogg and a second is missing
@@ -277,6 +316,8 @@ double CustomPlayer::PlayAt(int index)
     BASS_ChannelPlay(_vacChannel.last(),false);
     // testing shit :monkaOMEGA:
     // working :feelsokay man
+    // Basically the thread will check for the state of the channel, when it is playing
+    // it will hold ptt.
     if (remote)
     {
 

@@ -27,7 +27,8 @@ SOURCES += \
     SliderSpin.cpp \
     SfxSettingsWidget.cpp \
     LoadingWidget.cpp \
-    LoadingWidgetWorker.cpp
+    LoadingWidgetWorker.cpp \
+    PresetController.cpp
 
 
 HEADERS += \
@@ -53,7 +54,8 @@ HEADERS += \
     include/SliderSpin.h \
     include/SfxSettingsWidget.h \
     include/LoadingWidget.h \
-    include/LoadingWidgetWorker.h
+    include/LoadingWidgetWorker.h \
+    include/PresetController.h
 
 
 

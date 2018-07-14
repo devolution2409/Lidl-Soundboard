@@ -150,17 +150,23 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
         {
 
             if (i->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
-            {
                 tempString.append(tr("Chorus, "));
-            }
+
             if (i->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
-            {
-                 tempString.append(tr("Distortion, "));
-            }
+                tempString.append(tr("Distortion, "));
+
             if (i->getSFX().flags & LIDL::SFX_TYPE::ECHO)
-            {
-                 tempString.append(tr("Echo, "));
-            }
+                tempString.append(tr("Echo, "));
+
+            if (i->getSFX().flags & LIDL::SFX_TYPE::COMPRESSOR)
+                 tempString.append(tr("Compressor, "));
+
+            if (i->getSFX().flags & LIDL::SFX_TYPE::FLANGER)
+                 tempString.append(tr("Flanger, "));
+
+            if (i->getSFX().flags & LIDL::SFX_TYPE::GARGLE)
+                 tempString.append(tr("Gargle, "));
+
 
         }
 // !: <- my cat did this

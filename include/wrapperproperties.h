@@ -202,6 +202,9 @@ private:
     // GARGLE
         SfxSettingsWidget* _gargleWidget;  /*!< The widget responsible of the Gargle tab construction*/
 
+
+template <LIDL::SFX_TYPE Type, class Param   >
+    void setUpConnection(SfxSettingsWidget* widget);
 /*
  *
 BASS_FX_DX8_CHORUS	DX8 Chorus. Use BASS_DX8_CHORUS structure to set/get parameters.
@@ -297,5 +300,81 @@ public slots:
 
   //  void Test(SoundWrapper*);
 };
+
+// wanna have both the type of the sfx and the parameters thinking
+template <LIDL::SFX_TYPE Type, class Param   >
+void WrapperProperties::setUpConnection(SfxSettingsWidget *widget)
+{
+    //selected item should be ok but we test it nonetheless
+    if (_selectedItem == nullptr)
+        return;
+
+    // we disable the widget if the flag isn't set, or check the box if its enabled
+    if (!(_selectedItem->getSFX().flags & Type))
+    {
+        widget->deactivateAll();
+        widget->setCheckboxState(false);
+    }
+    else
+        widget->setCheckboxState(true);
+
+
+    static QMetaObject::Connection *checkboxConn;
+    static QMetaObject::Connection *sliderConn;
+    static QMetaObject::Connection *comboConn;
+    // deleting and disconnecting the connection
+    if (checkboxConn != nullptr)
+    {
+        QObject::disconnect(*checkboxConn );
+        delete checkboxConn;
+        checkboxConn = nullptr;
+    }
+    checkboxConn = new QMetaObject::Connection;
+    *checkboxConn = connect(widget, &SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState)
+        {
+        _selectedItem->SetSFXEnabled(Type, newState);
+    });
+
+    // Populate the sliders with appropriate values :)
+    // Check limit in EnumsAndStruct
+    // starting at 0 this way we can change the order of the items in the enum
+    // Using the template of CustomListWidgetItem to get the sfx value :v: forsenE
+    for (int i= 0; i < static_cast<int>(Param::ITER_END); i++)
+        widget->setValueOfEnumParam(i, _selectedItem->getSFXValue<Param>(i) );
+
+    // Connecting the sliders to the setters of the objects
+    // we also need a template for this :v: forsenE
+    if (sliderConn != nullptr)
+    {
+        QObject::disconnect(*sliderConn);
+        delete sliderConn;
+        sliderConn = nullptr;
+    }
+    sliderConn = new QMetaObject::Connection;
+    *sliderConn = connect(widget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
+        Q_UNUSED(index);
+        //qDebug() << "Special value is:" << specialValue;
+        _selectedItem->setSFX<Param>(specialValue,value);
+    });
+
+    // Connecting the combo box changed signal
+    if (comboConn != nullptr)
+    {
+        QObject::disconnect(*comboConn);
+        delete comboConn;
+        comboConn = nullptr;
+    }
+    comboConn = new QMetaObject::Connection;
+    *comboConn = connect(widget,&SfxSettingsWidget::comboBoxValueChanged,this,[=](int whichOne,int newIndex, int specialValue){
+        Q_UNUSED(whichOne);
+        //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
+        // index is equal to the value of the BASS_DX8 enum
+        // specialValue is equal to EnumsAndStructs.h value
+        qDebug() << "nigger nigger ni " << specialValue;
+        _selectedItem->setSFX<Param>(specialValue,newIndex);
+    });
+
+
+}
 
 #endif // WRAPPERPROPERTIES_H

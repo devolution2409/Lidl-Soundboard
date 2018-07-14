@@ -165,7 +165,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     /*                  COMPRESSOR                   */
     /*****************************************************/
-    _compressorWidget = new SfxSettingsWidget(tr("Compressor"));
+    _compressorWidget = new SfxSettingsWidget(tr("Dynamic\nRange Compression"));
     _compressorWidget->addSlider(tr("Attack"),0,500," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fAttack) );
     _compressorWidget->addSlider(tr("Gain"),-60,60," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fGain) );
     _compressorWidget->addSlider(tr("Pre Delay"),0,4," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fPredelay) );
@@ -210,6 +210,9 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sfxTabWidget->addTab(_flangerWidget,tr("Flanger"));
     _sfxTabWidget->addTab(_gargleWidget,tr("Gargle"));
 
+//    conn.append(new QMetaObject::Connection());
+//    conn.append(new QMetaObject::Connection());
+//    conn.append(new QMetaObject::Connection());
     // this line needs be be last so that the spoiler isn't blank
     // (i think there's a copy constructor somewhere maybe)
 
@@ -597,16 +600,16 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 {
     // Dealing with static QMetaObject so we can delete previous connections weSmart
     // IT WORKS: FeelsAmazingMan
-    static QMetaObject::Connection *chorusChkConn;
-    static QMetaObject::Connection *chorusSliderConn;
-    static QMetaObject::Connection *chorusComboConn;
+//    static QMetaObject::Connection *chorusChkConn;
+//    static QMetaObject::Connection *chorusSliderConn;
+//    static QMetaObject::Connection *chorusComboConn;
 
-    static QMetaObject::Connection *distortChkConn;
-    static QMetaObject::Connection *distortSliderConn;
+//    static QMetaObject::Connection *distortChkConn;
+//    static QMetaObject::Connection *distortSliderConn;
 
-    static QMetaObject::Connection *echoChkConn;
-    static QMetaObject::Connection *echoSliderConn;
-    static QMetaObject::Connection *echoComboConn;
+//    static QMetaObject::Connection *echoChkConn;
+//    static QMetaObject::Connection *echoSliderConn;
+//    static QMetaObject::Connection *echoComboConn;
 
     // need to cast item to child class else it doesn't work
     if (item != nullptr)
@@ -614,6 +617,7 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
     // if cast was successfull
     if (_selectedItem != nullptr)
     {
+        /*
         auto dealChorus  = [=]{
             // deactivating every widget if the checkbox isn't checked.
             // However we must add a check because if it is checked already and we click
@@ -769,7 +773,14 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
                };
         dealChorus();
         dealDistortion();
-        dealEcho();
+        //dealEcho();
+*/
+        this->setUpConnection<LIDL::SFX_TYPE::DISTORTION,LIDL::SFX_DIST_PARAM>(_distortionWidget);
+        this->setUpConnection<LIDL::SFX_TYPE::CHORUS,LIDL::SFX_CHORUS_PARAM>(_chorusWidget);
+        this->setUpConnection<LIDL::SFX_TYPE::ECHO ,LIDL::SFX_ECHO_PARAM>(_echoWidget);
+        this->setUpConnection<LIDL::SFX_TYPE::COMPRESSOR,LIDL::SFX_COMPRESSOR_PARAM>(_compressorWidget);
+        this->setUpConnection<LIDL::SFX_TYPE::FLANGER,LIDL::SFX_FLANGER_PARAM>(_flangerWidget);
+        this->setUpConnection<LIDL::SFX_TYPE::GARGLE,LIDL::SFX_GARGLE_PARAM>(_gargleWidget);
 
         // enabling the delete button
         _btnDelete->setEnabled(true);

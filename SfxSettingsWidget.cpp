@@ -118,7 +118,6 @@ void SfxSettingsWidget::setComboBoxIndex(int comboIndex, int newItemIndex)
 
 void SfxSettingsWidget::setValueOfEnumParam(int enumValue, int newValue)
 {
-    qDebug() << "LUL?:" << enumValue << "test: " << newValue;
     if (enumValue == -1)
         return;
 

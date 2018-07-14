@@ -9,7 +9,7 @@
 #include "lib/bass.h"
 #include <QUrl>
 
-
+#include <type_traits> // is_same
 /*!
  * \file CustomListWidgetItem.h
  * \brief File describing the CustomListWidgetItem class.
@@ -172,9 +172,20 @@ public:
      * \param value
      */
     void setSFXCompressor(LIDL::SFX_COMPRESSOR_PARAM param, int value);
+    int getSFXCompressor(LIDL::SFX_COMPRESSOR_PARAM which);
 
     void setSFXFlanger(LIDL::SFX_FLANGER_PARAM param, int value);
+    int  getSFXFlanger(LIDL::SFX_FLANGER_PARAM param);
+
     void setSFXGargle(LIDL::SFX_GARGLE_PARAM param, int value);
+    int getSFXGargle(LIDL::SFX_GARGLE_PARAM param);
+
+    template <class ParamType>
+    void setSFX(int specialValue, int value);
+
+    template <class ParamType>
+    int getSFXValue(int which);
+
 
 private:
     /*!
@@ -190,5 +201,70 @@ private:
 
 
 };
+
+template <class ParamType>
+int CustomListWidgetItem::getSFXValue(int which)
+{
+    if (std::is_same<ParamType, LIDL::SFX_DIST_PARAM>::value)
+        return this->getSFXDistortion(static_cast<LIDL::SFX_DIST_PARAM>(which));
+
+    if (std::is_same<ParamType, LIDL::SFX_ECHO_PARAM>::value)
+        return this->getSFXEcho(static_cast<LIDL::SFX_ECHO_PARAM>(which));
+
+    if (std::is_same<ParamType, LIDL::SFX_CHORUS_PARAM >::value)
+        return this->getSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(which));
+
+    if (std::is_same<ParamType, LIDL::SFX_COMPRESSOR_PARAM >::value)
+        return this->getSFXCompressor(static_cast<LIDL::SFX_COMPRESSOR_PARAM>(which));
+
+    if (std::is_same<ParamType, LIDL::SFX_FLANGER_PARAM >::value)
+        return this->getSFXFlanger(static_cast<LIDL::SFX_FLANGER_PARAM>(which));
+
+    if (std::is_same<ParamType, LIDL::SFX_GARGLE_PARAM >::value)
+    {
+        qDebug() << "oihgeroihgrtoie";
+        return this->getSFXGargle(static_cast<LIDL::SFX_GARGLE_PARAM>(which));
+    }
+    return -1;
+}
+
+template <class ParamType>
+void CustomListWidgetItem::setSFX(int specialValue, int value)
+{
+    // If param is distortion param:
+    if (std::is_same<ParamType, LIDL::SFX_DIST_PARAM>::value){
+        this->setSFXDistortion(static_cast< LIDL::SFX_DIST_PARAM>(specialValue),value);
+        return;
+    }
+
+    if (std::is_same<ParamType, LIDL::SFX_ECHO_PARAM>::value){
+        this->setSFXEcho(static_cast< LIDL::SFX_ECHO_PARAM>(specialValue),value);
+
+        return;
+    }
+
+    if (std::is_same<ParamType, LIDL::SFX_COMPRESSOR_PARAM>::value){
+        this->setSFXCompressor(static_cast<LIDL::SFX_COMPRESSOR_PARAM>(specialValue),value);
+        return;
+    }
+
+    if (std::is_same<ParamType, LIDL::SFX_CHORUS_PARAM >::value){
+        this->setSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(specialValue),value);
+        return;
+    }
+
+    if (std::is_same<ParamType, LIDL::SFX_FLANGER_PARAM >::value){
+        this->setSFXFlanger(static_cast<LIDL::SFX_FLANGER_PARAM>(specialValue),value);
+        return;
+    }
+
+    if (std::is_same<ParamType, LIDL::SFX_GARGLE_PARAM >::value){
+        this->setSFXGargle(static_cast<LIDL::SFX_GARGLE_PARAM>(specialValue),value);
+        return;
+    }
+
+
+    return;
+}
 
 #endif // CUSTOMLISTWIDGETITEM_H

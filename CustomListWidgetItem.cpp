@@ -60,6 +60,7 @@ float CustomListWidgetItem::getVacVolume()
 
 void CustomListWidgetItem::setSFXDistortion(LIDL::SFX_DIST_PARAM param, int value)
 {
+     //   qDebug() << "What the fuck is this" << static_cast<int>(param);
     float fValue = static_cast<float>(value);
     switch(param){
 
@@ -155,6 +156,7 @@ void CustomListWidgetItem::setSFXChorus(LIDL::SFX_CHORUS_PARAM param, int value)
 
 void CustomListWidgetItem::setSFXEcho(LIDL::SFX_ECHO_PARAM param, int value)
 {
+
     float fValue = static_cast<float>(value);
 
     switch(param){
@@ -183,34 +185,66 @@ void CustomListWidgetItem::setSFXEcho(LIDL::SFX_ECHO_PARAM param, int value)
     }
 }
 
+int CustomListWidgetItem::getSFXCompressor(LIDL::SFX_COMPRESSOR_PARAM which)
+{
+    switch(which){
 
+    case LIDL::SFX_COMPRESSOR_PARAM::fAttack:
+        return static_cast<int>(_sfx.compressor.fAttack);
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fGain:
+        return static_cast<int>(_sfx.compressor.fGain);
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fPredelay:
+        return static_cast<int>(_sfx.compressor.fPredelay);
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fRatio:
+        return static_cast<int>(_sfx.compressor.fRatio);
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fRelease:
+        return static_cast<int>(_sfx.compressor.fRelease);
+        break;
+
+    case LIDL::SFX_COMPRESSOR_PARAM::fThreshold:
+        return static_cast<int>(_sfx.compressor.fThreshold);
+        break;
+    default:
+        qDebug() << "Wrong usage of setSFXCompressor";
+        return -1;
+        break;
+    }
+}
 void CustomListWidgetItem::setSFXCompressor(LIDL::SFX_COMPRESSOR_PARAM param, int value)
 {
     float fValue = static_cast<float>(value);
 
     switch(param){
 
-    case LIDL::SFX_COMPRESSOR_PARAM::fAttack:
+    case LIDL::SFX_COMPRESSOR_PARAM::fAttack: //0
         _sfx.compressor.fAttack = fValue;
         break;
 
-    case LIDL::SFX_COMPRESSOR_PARAM::fGain:
+    case LIDL::SFX_COMPRESSOR_PARAM::fGain: // 1
         _sfx.compressor.fGain = fValue;
         break;
 
-    case LIDL::SFX_COMPRESSOR_PARAM::fPredelay:
+    case LIDL::SFX_COMPRESSOR_PARAM::fPredelay: //2
         _sfx.compressor.fPredelay = fValue;
         break;
 
-    case LIDL::SFX_COMPRESSOR_PARAM::fRatio:
+    case LIDL::SFX_COMPRESSOR_PARAM::fRatio: //3
         _sfx.compressor.fRatio = fValue;
         break;
 
-    case LIDL::SFX_COMPRESSOR_PARAM::fRelease:
+    case LIDL::SFX_COMPRESSOR_PARAM::fRelease: //4
         _sfx.compressor.fRelease = fValue;
         break;
 
-    case LIDL::SFX_COMPRESSOR_PARAM::fThreshold:
+    case LIDL::SFX_COMPRESSOR_PARAM::fThreshold: //5
         _sfx.compressor.fThreshold = fValue;
         break;
     default:
@@ -257,6 +291,40 @@ void CustomListWidgetItem::setSFXFlanger(LIDL::SFX_FLANGER_PARAM param, int valu
     }
 }
 
+int CustomListWidgetItem::getSFXFlanger(LIDL::SFX_FLANGER_PARAM param)
+{
+    switch(param){
+
+    case LIDL::SFX_FLANGER_PARAM::fDelay:
+        return static_cast<int>(_sfx.flanger.fDelay);
+        break;
+
+    case LIDL::SFX_FLANGER_PARAM::fDepth:
+        return static_cast<int>(_sfx.flanger.fDepth);
+        break;
+
+    case LIDL::SFX_FLANGER_PARAM::fFeedback:
+        return static_cast<int>(_sfx.flanger.fFeedback);
+        break;
+
+    case LIDL::SFX_FLANGER_PARAM::fFrequency:
+        return static_cast<int>(_sfx.flanger.fFrequency);
+        break;
+    case LIDL::SFX_FLANGER_PARAM::fWetDryMix:
+        return static_cast<int>(_sfx.flanger.fWetDryMix);
+        break;
+    case LIDL::SFX_FLANGER_PARAM::lPhase:
+        return static_cast<int>(_sfx.flanger.lPhase);
+        break;
+    case LIDL::SFX_FLANGER_PARAM::lWaveform:
+        return static_cast<int>(_sfx.flanger.lWaveform);
+        break;
+    default:
+        qDebug() << "Wrong usage of getSFXFlanger";
+        return -1;
+        break;
+    }
+}
 void CustomListWidgetItem::setSFXGargle(LIDL::SFX_GARGLE_PARAM param, int value)
 {
     switch(param){
@@ -270,6 +338,25 @@ void CustomListWidgetItem::setSFXGargle(LIDL::SFX_GARGLE_PARAM param, int value)
     default:
         qDebug() << "Wrong usage of setSFXGargle";
         return;
+        break;
+
+    }
+}
+
+int CustomListWidgetItem::getSFXGargle(LIDL::SFX_GARGLE_PARAM param)
+{
+    qDebug() << "tesqt";
+    switch(param){
+
+    case LIDL::SFX_GARGLE_PARAM::dwRateHz:
+        return static_cast<int>(_sfx.gargle.dwRateHz);
+        break;
+    case LIDL::SFX_GARGLE_PARAM::dwWaveShape:
+        return static_cast<int>(_sfx.gargle.dwWaveShape);
+        break;
+    default:
+        qDebug() << "Wrong usage of getSFXGargle";
+        return -1;
         break;
 
     }
@@ -297,7 +384,7 @@ int CustomListWidgetItem::getSFXEcho(LIDL::SFX_ECHO_PARAM which) const
         return static_cast<int>(_sfx.echo.lPanDelay);
         break;
     default:
-        qDebug() << "Wrong usage of setSFXEcho";
+        qDebug() << "Wrong usage of getSFXEcho";
         return -1;
         break;
     }

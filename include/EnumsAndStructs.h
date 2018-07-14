@@ -157,7 +157,7 @@ namespace LIDL{
         fWetDryMix    = 4, /*!< Ratio of wet (processed) signal to dry (unprocessed) signal. Must be in the range from 0 (default) through 100 (all wet). */
         lPhase        = 5, /*!< Phase differential between left and right LFOs, one of the BASSFXPhase values. Default (int)BASSFXPhase.BASS_FX_PHASE_ZERO.*/
         lWaveform     = 6, /*!< Waveform of the LFO... 0 = triangle, 1 = sine. By default, the waveform is a sine.*/
-        IRER_END      = 7
+        ITER_END      = 7  /*!< Used in for loop as the stop condition */
     };
 
    /*!
