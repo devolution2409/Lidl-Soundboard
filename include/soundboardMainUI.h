@@ -77,8 +77,8 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.7.0
-#define VER_STRING "1.7.0"
+#define VER 1.8.0
+#define VER_STRING "1.8.0"
 
 //#include "QSimpleUpdater.h"
 #include <QMainWindow>
@@ -102,9 +102,6 @@
 #include <QFontMetrics>
 #include <QHeaderView>
 #include <QStyleFactory>
-
-
-
 #include <QRegExp>
 #include <QMimeData>
 #include <QMimeDatabase>
@@ -118,7 +115,7 @@
  * \brief Code of the mainUI.
  *
  * \author Devolution
- * \version 1.7.0
+ * \version 1.8.0
  * \since 0.3
  *
  */

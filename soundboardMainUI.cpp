@@ -1509,17 +1509,59 @@ void SoundboardMainUI::Open(QString fileName)
                                 }
 
                             }
+
+                            if (sfx_obj.contains("Flanger"))
+                            {
+                                QJsonObject obj = sfx_obj.value("Flanger").toObject();
+                                for (QJsonObject::iterator l = obj.begin(); l!= obj.end();l++)
+                                {
+                                    if (l.key() =="Delay")
+                                        sfx.flanger.fDelay = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Depth")
+                                        sfx.flanger.fDepth = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Feedback" )
+                                        sfx.flanger.fFeedback = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Frequency" )
+                                        sfx.flanger.fFrequency = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Phase" )
+                                        sfx.flanger.lPhase = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Waveform" )
+                                        sfx.flanger.lWaveform = static_cast<bool>(l.value().toInt());
+                                }
+                            }
+                            if (sfx_obj.contains("Compressor"))
+                            {
+                                QJsonObject obj = sfx_obj.value("Compressor").toObject();
+                                for (QJsonObject::iterator l = obj.begin(); l!= obj.end();l++)
+                                {
+                                    if (l.key() =="Attack")
+                                        sfx.compressor.fAttack = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Gain")
+                                        sfx.compressor.fGain = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Predelay")
+                                        sfx.compressor.fPredelay = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Ratio")
+                                        sfx.compressor.fRatio = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Release")
+                                        sfx.compressor.fRelease = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Threshold")
+                                        sfx.compressor.fThreshold = static_cast<float>(l.value().toInt());
+                                }
+                            }
+
+                            if (sfx_obj.contains("Gargle"))
+                            {
+                                QJsonObject obj = sfx_obj.value("Gargle").toObject();
+                                for (QJsonObject::iterator l = obj.begin(); l!= obj.end();l++)
+                                {
+                                    if (l.key() =="Rate")
+                                        sfx.gargle.dwRateHz = static_cast<float>(l.value().toInt());
+                                    if (l.key() =="Waveform")
+                                        sfx.gargle.dwWaveShape = static_cast<bool>(l.value().toBool());
+                                }
+                            }
                         }
-                        else
-                        {
-                            // set default values here
-                            //sfx.distortionEnabled = false;
-                            sfx.distortion.fGain =  -18;
-                            sfx.distortion.fEdge = 15;
-                            sfx.distortion.fPostEQCenterFrequency = 2400;
-                            sfx.distortion.fPostEQBandwidth = 2400;
-                            sfx.distortion.fPreLowpassCutoff = 8000;
-                        }
+
                         fileArray.append(new LIDL::SoundFile(fileName,
                                                              mainVolume,
                                                              vacVolume,sfx));
@@ -1698,28 +1740,16 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
             properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
             properties.insert("SFX Flags", static_cast<int>(j->getSFX().flags));
             QJsonObject soundEffects;
-
             //             if (j->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
             //             {
             QJsonObject distortion;
-            BASS_DX8_DISTORTION tempDist;
-            // check for trash values
-            tempDist.fGain = static_cast<int>(j->getSFX().distortion.fGain);
-            tempDist.fEdge = static_cast<int>(j->getSFX().distortion.fEdge);
-            tempDist.fPostEQCenterFrequency =static_cast<int>(j->getSFX().distortion.fPostEQCenterFrequency);
-
-            tempDist.fPostEQBandwidth = static_cast<int>(j->getSFX().distortion.fPostEQBandwidth);
-            tempDist.fPreLowpassCutoff = static_cast<int>(j->getSFX().distortion.fPreLowpassCutoff);
-
-            distortion.insert("Gain", tempDist.fGain     );
-            distortion.insert("Edge",tempDist.fEdge);
-            distortion.insert("EQCenterFrequency",tempDist.fPostEQCenterFrequency);
-            distortion.insert("EQBandwidth",tempDist.fPostEQBandwidth);
-            distortion.insert("Cutoff",tempDist.fPreLowpassCutoff);
+            distortion.insert("Gain", static_cast<int>(j->getSFX().distortion.fGain));
+            distortion.insert("Edge", static_cast<int>(j->getSFX().distortion.fEdge));
+            distortion.insert("EQCenterFrequency",static_cast<int>(j->getSFX().distortion.fPostEQCenterFrequency));
+            distortion.insert("EQBandwidth",static_cast<int>(j->getSFX().distortion.fPostEQBandwidth));
+            distortion.insert("Cutoff",static_cast<int>(j->getSFX().distortion.fPreLowpassCutoff));
             soundEffects.insert("Distortion",distortion);
-            //               }
-            //               if (j->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
-            //               {
+
             QJsonObject chorus;
             chorus.insert("Delay",static_cast<int>(j->getSFX().chorus.fDelay));
             chorus.insert("Depth",static_cast<int>(j->getSFX().chorus.fDepth));
@@ -1739,13 +1769,38 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
             echo.insert("Swap",static_cast<int>(j->getSFX().echo.lPanDelay) );
             soundEffects.insert("Echo",echo);
 
-            //               }
+            QJsonObject flanger;
+            flanger.insert("Delay",static_cast<int>(j->getSFX().flanger.fDelay));
+            flanger.insert("Depth",static_cast<int>(j->getSFX().flanger.fDepth));
+            flanger.insert("Feedback",static_cast<int>(j->getSFX().flanger.fFeedback));
+            flanger.insert("Frequency",static_cast<int>(j->getSFX().flanger.fFrequency));
+            flanger.insert("Phase",static_cast<int>(j->getSFX().flanger.lPhase));
+            flanger.insert("Waveform",static_cast<bool>(j->getSFX().flanger.lWaveform));
+            soundEffects.insert("Flanger",flanger);
 
-            properties.insert("SFX",soundEffects);
+
+            QJsonObject compressor;
+            compressor.insert("Attack",static_cast<int>(j->getSFX().compressor.fAttack));
+            compressor.insert("Gain"  ,static_cast<int>(j->getSFX().compressor.fGain));
+            compressor.insert("Predelay",static_cast<int>(j->getSFX().compressor.fPredelay));
+            compressor.insert("Ratio",static_cast<int>(j->getSFX().compressor.fRatio));
+            compressor.insert("Release",static_cast<int>(j->getSFX().compressor.fRelease));
+            compressor.insert("Threshold",static_cast<int>(j->getSFX().compressor.fThreshold));
+            soundEffects.insert("Compressor",compressor);
+
+            QJsonObject gargle;
+            gargle.insert("Rate",static_cast<int>(j->getSFX().gargle.dwRateHz));
+            gargle.insert("Waveform",static_cast<bool>(j->getSFX().gargle.dwWaveShape));
+            soundEffects.insert("Gargle",compressor);
+
+
+
             //soundCollection.insert(  j->url(), properties); // old wey
             // new way: (VER > 1.7.0.)
             QJsonObject numberedSound;
+            properties.insert("SFX",soundEffects);
             numberedSound.insert( j->url(), properties);
+
             soundCollection.insert( QString::number(jIndex++), numberedSound );
 
         }
@@ -2534,7 +2589,7 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
     foreach (const QUrl &url, e->mimeData()->urls())
     {
         //QString fileName = url.toLocalFile();
-        qDebug() << "Dropped file:" << url.toString();
+        //qDebug() << "Dropped file:" << url.toString();
         if (url.toString().contains(".lidljson"))
             this->Open(url.path().remove(0,1));
         else
