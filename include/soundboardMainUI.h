@@ -92,7 +92,7 @@
 #include "wrapperproperties.h"
 #include <QFileInfo>
 #include <deque>
-#include "updater.h"
+//#include "updater.h"
 
 #include <QProcess>
 #include <ui_guideUI.h>
@@ -109,6 +109,7 @@
 #include <QThread>
 #include "LoadingWidget.h"
 #include "LoadingWidgetWorker.h"
+#include "PresetWizard.h"
 
 /*!
  * \file soundboardMainUI.h

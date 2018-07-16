@@ -12,18 +12,30 @@ SfxSettingsWidget::SfxSettingsWidget(QWidget *parent) : QScrollArea(parent)
 
 }
 
-SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type, QWidget *parent)
+SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type, bool showCheckmarkAndPresets, QWidget *parent)
     :SfxSettingsWidget(parent)
 {
     // adding checkbox
-    _checkbox = new QCheckBox(QString(tr("Enable %1")).arg(sfxName));
-    _checkbox->setCheckable(true);
-    _layout->addWidget( _checkbox, 0,0,1,2);
+    if (showCheckmarkAndPresets)
+    {
+        _checkbox = new QCheckBox(QString(tr("Enable %1")).arg(sfxName));
+        _checkbox->setCheckable(true);
+        _layout->addWidget( _checkbox, 0,0,1,2);
+    }
+    else
+    {
+        _layout->addWidget( new QLabel(tr("%1 settings").arg(sfxName)) ,0,0,1,2);
+    }
+    if (showCheckmarkAndPresets)
+    {
     _presetBox = new QComboBox();
     // preset will be read from LIDL::setting controller
     // todo: add the structure of the sound effect in the constructor so that
     // we know where to get the info from :)
-    _presetBox->addItem(tr("<No preset selected>"));
+
+        _presetBox->addItem(tr("<No preset selected>"));
+        if (type != LIDL::SFX_TYPE::NONE)
+            _presetBox->addItems(LIDL::PresetController::GetInstance()->GetExistingPresetsList(type));
 
 
     _layout->addWidget( _presetBox,0,2,1,6);
@@ -32,13 +44,16 @@ SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type, QWidg
     // surchage every type like this an return the corresponding thing :)
     //QVector<BASS_DX8_DISTORTION>  LIDL::PresetController::GetPreset(type)
 
-    connect(_checkbox,&QCheckBox::toggled, this, [=](bool state){
+        connect(_checkbox,&QCheckBox::toggled, this, [=](bool state){
         for (auto &i: _sliders)
             i->setEnabled(state);
         for (auto &i: _comboBox)
             i->setEnabled(state);
+        _presetBox->setEnabled(state);
         emit checkBoxStateChanged(state);
     });
+
+    }
     _layout->setColumnStretch(3,100);
 }
 
@@ -52,6 +67,7 @@ void SfxSettingsWidget::deactivateAll()
         i->setEnabled(false);
     for (auto &i: _comboBox)
         i->setEnabled(false);
+    _presetBox->setEnabled(false);
 }
 
 void SfxSettingsWidget::addSpacer()
@@ -137,10 +153,36 @@ void SfxSettingsWidget::setValueOfEnumParam(int enumValue, int newValue)
     auto* j = dynamic_cast<QComboBox*>(_specialMap.at(enumValue));
     if (j !=nullptr)
     {
-        j->setCurrentIndex(newValue);
+        if (newValue > j->count() || newValue < 0)
+            j->setCurrentIndex(0);
+        else
+            j->setCurrentIndex(newValue);
         return;
     }
 }
+
+int SfxSettingsWidget::getValueOfEnumParam(int enumValue)
+{
+    if (enumValue == -1)
+        return -3154;
+
+    if (_specialMap.find(enumValue) == _specialMap.end() )
+    {
+        qDebug() << "Map isn't mapped correctly.";
+        return -3154;
+    }
+    auto* i = dynamic_cast<SliderSpin*>(_specialMap.at(enumValue));
+
+    if ( i != nullptr)
+        return i->value();
+
+    auto* j = dynamic_cast<QComboBox*>(_specialMap.at(enumValue));
+    if (j !=nullptr)
+        return j->currentIndex();
+}
+
+
+
 
 void SfxSettingsWidget::setCheckboxState(bool state)
 {

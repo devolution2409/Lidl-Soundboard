@@ -3,8 +3,9 @@ QT += widgets \
       core \
       gui \
       multimedia \
-      autoupdatergui \
       network
+#      autoupdatergui \
+
 SOURCES += \
     main.cpp \
     wrapperproperties.cpp \
@@ -28,7 +29,9 @@ SOURCES += \
     SfxSettingsWidget.cpp \
     LoadingWidget.cpp \
     LoadingWidgetWorker.cpp \
-    PresetController.cpp
+    PresetController.cpp \
+    PresetWizard.cpp \
+    PresetWizardIntroPage.cpp
 
 
 HEADERS += \
@@ -55,7 +58,9 @@ HEADERS += \
     include/SfxSettingsWidget.h \
     include/LoadingWidget.h \
     include/LoadingWidgetWorker.h \
-    include/PresetController.h
+    include/PresetController.h \
+    include/PresetWizard.h \
+    include/PresetWizardIntroPage.h
 
 
 

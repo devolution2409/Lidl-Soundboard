@@ -10,6 +10,7 @@
         <file>resources/down_arrow_disabled.png</file>
         <file>resources/up_arrow_disabled.png</file>
         <file>resources/checkmark.png</file>
+        <file>resources/pastorLUL.jpg</file>
     </qresource>
     <qresource prefix="/css">
         <file>resources/darkorange.css</file>

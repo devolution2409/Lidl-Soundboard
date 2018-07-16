@@ -39,7 +39,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _btnAdd = new QPushButton("Add local file");
     _btnAddFromURL = new QPushButton("Add from URL");
     // connecting to show the modal
-    connect(this->_btnAddFromURL, QPushButton::clicked,this, AddSoundFromUrl);
+    connect(this->_btnAddFromURL, &QPushButton::clicked,this, &WrapperProperties::AddSoundFromUrl);
 
     _btnDelete= new QPushButton("Delete");
     _btnDelete->setEnabled(false);
@@ -120,7 +120,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*              REVAMPED  DISTORTION                 */
     /*****************************************************/
 
-    _distortionWidget = new SfxSettingsWidget(tr("Distortion"));
+    _distortionWidget = new SfxSettingsWidget(tr("Distortion"),LIDL::SFX_TYPE::DISTORTION);
     _distortionWidget->addSlider(tr("Gain"),0,60, " dB",static_cast<int>(LIDL::SFX_DIST_PARAM::fGain)," -");
     _distortionWidget->addSlider(tr("Edge"),0 ,100 ," %",static_cast<int>(LIDL::SFX_DIST_PARAM::fEdge));
     _distortionWidget->addSlider(tr("Center Frequency"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQCenterFrequency));
@@ -132,7 +132,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     /*              REVAMPED  CHORUS                     */
     /*****************************************************/
-    _chorusWidget = new SfxSettingsWidget(tr("Chorus"));
+    _chorusWidget = new SfxSettingsWidget(tr("Chorus"),LIDL::SFX_TYPE::CHORUS);
     // check EnumsAndStructs.h for special value
     _chorusWidget->addSlider(tr("Delay"),0,20," ms", static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay));
     _chorusWidget->addSlider(tr("Depth"),0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDepth));
@@ -153,7 +153,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     /*                     ECHO                          */
     /*****************************************************/
-    _echoWidget = new SfxSettingsWidget(tr("Echo"));
+    _echoWidget = new SfxSettingsWidget(tr("Echo"),LIDL::SFX_TYPE::ECHO);
     _echoWidget->addSlider(tr("Feedback"),0,100," %", static_cast<int>(LIDL::SFX_ECHO_PARAM::fFeedback) );
     _echoWidget->addSlider(tr("Left Delay"),1,2000," ms", static_cast<int>(LIDL::SFX_ECHO_PARAM::fLeftDelay) );
     _echoWidget->addSlider(tr("Right Delay"),1,2000," ms", static_cast<int>(LIDL::SFX_ECHO_PARAM::fRightDelay) );
@@ -165,7 +165,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     /*                  COMPRESSOR                   */
     /*****************************************************/
-    _compressorWidget = new SfxSettingsWidget(tr("Dynamic\nRange Compression"));
+    _compressorWidget = new SfxSettingsWidget(tr("Dynamic\nRange Compression"),LIDL::SFX_TYPE::COMPRESSOR);
     _compressorWidget->addSlider(tr("Attack"),0,500," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fAttack) );
     _compressorWidget->addSlider(tr("Gain"),-60,60," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fGain) );
     _compressorWidget->addSlider(tr("Pre Delay"),0,4," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fPredelay) );
@@ -177,7 +177,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     /*                     FLANGER                       */
     /*****************************************************/
-    _flangerWidget = new SfxSettingsWidget(tr("Flanger"));
+    _flangerWidget = new SfxSettingsWidget(tr("Flanger"),LIDL::SFX_TYPE::FLANGER);
     _flangerWidget->addSlider(tr("Delay"),0,4," ms", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fDelay) );
     _flangerWidget->addSlider(tr("Depth"),0,100," ‱", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fDepth) );
     _flangerWidget->addSlider(tr("Feedback"),-99,99," %", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fFeedback) );
@@ -197,7 +197,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     /*****************************************************/
     /*    GARGLE (the cum like a bitch boi gachiBASS     */
     /*****************************************************/
-    _gargleWidget = new SfxSettingsWidget(tr("Gargle"));
+    _gargleWidget = new SfxSettingsWidget(tr("Gargle"),LIDL::SFX_TYPE::GARGLE);
     _gargleWidget->addSlider(tr("Modulation rate"),1,1000,"Hz",static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwRateHz));
     _gargleWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
                                               <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwWaveShape));
@@ -598,183 +598,13 @@ void WrapperProperties::SetKeySequence(QKeySequence shortcut)
 
 void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
 {
-    // Dealing with static QMetaObject so we can delete previous connections weSmart
-    // IT WORKS: FeelsAmazingMan
-//    static QMetaObject::Connection *chorusChkConn;
-//    static QMetaObject::Connection *chorusSliderConn;
-//    static QMetaObject::Connection *chorusComboConn;
-
-//    static QMetaObject::Connection *distortChkConn;
-//    static QMetaObject::Connection *distortSliderConn;
-
-//    static QMetaObject::Connection *echoChkConn;
-//    static QMetaObject::Connection *echoSliderConn;
-//    static QMetaObject::Connection *echoComboConn;
-
     // need to cast item to child class else it doesn't work
     if (item != nullptr)
         _selectedItem = dynamic_cast<CustomListWidgetItem*> (item);
     // if cast was successfull
     if (_selectedItem != nullptr)
     {
-        /*
-        auto dealChorus  = [=]{
-            // deactivating every widget if the checkbox isn't checked.
-            // However we must add a check because if it is checked already and we click
-            // on an item where it is checked aswell, the state of the button will not change.
-            if(!( _selectedItem->getSFX().flags & LIDL::SFX_TYPE::CHORUS))
-                _chorusWidget->deactivateAll();
-            // now we are sure every settings widget is disabled.
-            // connecting the checkbox realquick :wrench: forsenE
-            if ( chorusChkConn != nullptr)
-            {
-                delete chorusChkConn;
-                chorusChkConn = nullptr;
-            }
-            chorusChkConn = new QMetaObject::Connection;
-            *chorusChkConn = connect(_chorusWidget,&SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState){
-                _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::CHORUS ,newState);
-            } );
-            // checking the SFX flag and setting the checkbox accordingly
-            _chorusWidget->setCheckboxState(_selectedItem->getSFX().flags & LIDL::SFX_TYPE::CHORUS);
-
-
-            // Construct the appropriates sliders :)
-            // Check limit in EnumsAndStruct
-            // starting at 0 this way we can change the order of the items in the enum
-            for (int i= 0; i < static_cast<int>(LIDL::SFX_CHORUS_PARAM::ITER_END); i++)
-                _chorusWidget->setValueOfEnumParam(i, _selectedItem->getSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(i) )   );
-
-
-            // if the connection already exists we delete it
-            if ( chorusSliderConn != nullptr)
-            {
-                disconnect(*chorusSliderConn);
-                delete chorusSliderConn;
-            }
-            chorusSliderConn = new QMetaObject::Connection;
-            //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
-            *chorusSliderConn = connect(_chorusWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
-                Q_UNUSED(index);
-                _selectedItem->setSFXChorus( static_cast<LIDL::SFX_CHORUS_PARAM>(specialValue),value);
-            });
-
-            if (chorusComboConn != nullptr)
-            {
-                disconnect(*chorusComboConn);
-                delete chorusComboConn;
-            }
-            chorusComboConn = new QMetaObject::Connection;
-            *chorusComboConn = connect(_chorusWidget,&SfxSettingsWidget::comboBoxValueChanged,this,[=](int whichOne,int newIndex, int specialValue){
-                Q_UNUSED(whichOne);
-                //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
-                // index is equal to the value of the BASS_DX8 enum
-                // specialValue is equal to EnumsAndStructs.h value
-                _selectedItem->setSFXChorus(static_cast<LIDL::SFX_CHORUS_PARAM>(specialValue),newIndex);
-            });
-
-        };
-
-        //same logic as chorus (not the same comments so it's worth looking into aswell
-        auto dealDistortion = [=]{
-            // deactivating every widget if the checkbox isn't checked.
-            // However we must add a check because if it is checked already and we click
-            // on an item where it is checked aswell, the state of the button will not change.
-            if (! (_selectedItem->getSFX().flags & LIDL::SFX_TYPE::DISTORTION))
-                _distortionWidget->deactivateAll();
-            if (distortChkConn != nullptr)
-            {
-                delete distortChkConn;
-                distortChkConn = nullptr;
-            }
-            // connecting checkbox to set the flag (or remove it)
-            distortChkConn = new QMetaObject::Connection;
-            *distortChkConn = connect(_distortionWidget,&SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState){
-                _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::DISTORTION ,newState);
-            } );
-            // checking the SFX flag and setting the checkbox accordingly
-            _distortionWidget->setCheckboxState(_selectedItem->getSFX().flags & LIDL::SFX_TYPE::DISTORTION);
-            // Construct the sliders when the values that were there before.
-            // Overflow should be dealt as the min value and max value are capped.
-            // Check limit in EnumsAndStruct
-            // Works as long as the parameters are contiguous.
-            for (int i = 0;i < static_cast<int>(LIDL::SFX_DIST_PARAM::ITER_END);i++)
-                _distortionWidget->setValueOfEnumParam(i, _selectedItem->getSFXDistortion(static_cast<LIDL::SFX_DIST_PARAM>(i) )   );
-
-            // if the connection already exists we delete it
-            if ( distortSliderConn != nullptr)
-            {
-                disconnect(*distortSliderConn);
-                delete distortSliderConn;
-            }
-            distortSliderConn = new QMetaObject::Connection;
-            //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
-            *distortSliderConn = connect(_distortionWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
-                Q_UNUSED(index);
-                _selectedItem->setSFXDistortion(static_cast<LIDL::SFX_DIST_PARAM>(specialValue),value);
-            });
-        };
-
-        auto dealEcho = [=]{
-                   // deactivating every widget if the checkbox isn't checked.
-                   // However we must add a check because if it is checked already and we click
-                   // on an item where it is checked aswell, the state of the button will not change.
-                   if(!( _selectedItem->getSFX().flags & LIDL::SFX_TYPE::ECHO ))
-                       _echoWidget->deactivateAll();
-                   // now we are sure every settings widget is disabled.
-                   // connecting the checkbox realquick :wrench: forsenE
-                   if ( echoChkConn != nullptr)
-                   {
-                       delete echoChkConn;
-                       echoChkConn = nullptr;
-                   }
-                   echoChkConn = new QMetaObject::Connection;
-                   *echoChkConn = connect(_echoWidget,&SfxSettingsWidget::checkBoxStateChanged, this,[=](bool newState){
-                       _selectedItem->SetSFXEnabled(LIDL::SFX_TYPE::ECHO ,newState);
-                   } );
-                   // checking the SFX flag and setting the checkbox accordingly
-                   _echoWidget->setCheckboxState(_selectedItem->getSFX().flags & LIDL::SFX_TYPE::ECHO);
-
-
-                   // Construct the appropriates sliders :)
-                   // Check limit in EnumsAndStruct
-                   // starting at 0 this way we can change the order of the items in the enum
-                   for (int i= 0; i < static_cast<int>(LIDL::SFX_ECHO_PARAM::ITER_END); i++)
-                       _echoWidget->setValueOfEnumParam(i, _selectedItem->getSFXEcho(static_cast<LIDL::SFX_ECHO_PARAM>(i) )   );
-
-
-                   // if the connection already exists we delete it
-                   if ( echoSliderConn != nullptr)
-                   {
-                       disconnect(*echoSliderConn);
-                       delete echoSliderConn;
-                   }
-                   echoSliderConn = new QMetaObject::Connection;
-                   //ONE connection for everything instead of BAZILIONS :FeelsAmazingMan:
-                   *echoSliderConn = connect(_echoWidget,&SfxSettingsWidget::sliderValueChanged,this,[=](int index, int value, int specialValue){
-                       Q_UNUSED(index);
-                       _selectedItem->setSFXEcho( static_cast<LIDL::SFX_ECHO_PARAM>(specialValue),value);
-                   });
-
-                   if (echoComboConn != nullptr)
-                   {
-                       disconnect(*echoComboConn);
-                       delete echoComboConn;
-                   }
-                   echoComboConn = new QMetaObject::Connection;
-                   *echoComboConn = connect(_echoWidget,&SfxSettingsWidget::comboBoxValueChanged,this,[=](int whichOne,int newIndex, int specialValue){
-                       Q_UNUSED(whichOne);
-                       //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
-                       // index is equal to the value of the BASS_DX8 enum
-                       // specialValue is equal to EnumsAndStructs.h value
-                       _selectedItem->setSFXEcho(static_cast<LIDL::SFX_ECHO_PARAM>(specialValue),newIndex);
-                   });
-
-               };
-        dealChorus();
-        dealDistortion();
-        //dealEcho();
-*/
+        // TEMPLATES FeelsAmazingMan
         this->setUpConnection<LIDL::SFX_TYPE::DISTORTION,LIDL::SFX_DIST_PARAM>(_distortionWidget);
         this->setUpConnection<LIDL::SFX_TYPE::CHORUS,LIDL::SFX_CHORUS_PARAM>(_chorusWidget);
         this->setUpConnection<LIDL::SFX_TYPE::ECHO ,LIDL::SFX_ECHO_PARAM>(_echoWidget);

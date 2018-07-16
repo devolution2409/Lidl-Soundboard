@@ -43,10 +43,12 @@ void SliderSpin::setValue(int value)
     this->_spinbox->setValue(value);
 }
 
+
 void SliderSpin::setSuffix(const QString &suffix)
 {
     this->_spinbox->setSuffix(suffix);
 }
+
 
 void SliderSpin::setPrefix(const QString &prefix)
 {

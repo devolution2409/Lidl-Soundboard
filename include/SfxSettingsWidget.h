@@ -14,6 +14,7 @@
 #include <QString>
 #include "EnumsAndStructs.h"
 #include <QLineEdit>
+#include "PresetController.h"
 class SfxSettingsWidget : public QScrollArea
 {
     Q_OBJECT
@@ -28,9 +29,11 @@ public:
     /*!
      * \brief SfxSettingsWidget Overloaded constructor to account for SFX name.
      * \param sfxName The sfx name. Will add a label and a checkbox for enabling/disabling purposes.
+     * \pztzm type LIDL Sfx type, used for the presets.
      * \param parent eShrug.
      */
-    SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type = LIDL::SFX_TYPE::NONE, QWidget *parent = nullptr);
+    SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type = LIDL::SFX_TYPE::NONE, bool showCheckmarkAndPresets = true , QWidget *parent = nullptr);
+
     /*!
      * \brief addSlider
      * \param label The label to be shown alongside the slider+spinbox.
@@ -73,6 +76,12 @@ public:
     void setValueOfEnumParam(int enumValue, int newValue);
 
     /*!
+     * \brief getValueOfEnumParam Get the value of a widget item settings.
+     * \param enumValue The int representing the enum value (EnumsAndStructs.h)
+     * \return
+     */
+    int getValueOfEnumParam(int enumValue);
+    /*!
      * \brief setCheckboxState Set this widget checkbox checked state.
      * \param state The new state of the check box (checked is true, unchecked is false).
      */
@@ -94,6 +103,9 @@ public:
      */
     QSize sizeHint() const;
 
+//    template<>
+//    auto getSFXParameters();
+
 //    void beautify();
 
 private:
@@ -104,7 +116,7 @@ private:
     QVector<QComboBox *> _comboBox; /*!< Array of comboBox */
     std::map<int, QWidget* > _specialMap; /*!< Map linking which widgets deals with witch settings (enum)*/
     QComboBox *_presetBox; /*!< Combox box displaying the differents presets available */
-
+    LIDL::SFX_TYPE _type; /*!< The lidl sfx type this widget is displaying. */
 
 
 
@@ -116,6 +128,7 @@ signals:
      * \param specialValue The index of the settings in the enumeration (EnumsAndStruct.h).
      */
     void sliderValueChanged(int sliderIndex, int newValue, int specialValue);
+
     /*!
      * \brief comboBoxValueChanged Emitted when a combo box text has changed.
      * \param comboBoxIndex The index of the combobox in the _comboBox array.
@@ -132,5 +145,35 @@ signals:
     void checkBoxStateChanged(bool newState);
 public slots:
 };
+
+//template<>
+//auto SfxSettingsWidget::getSFXParameters()
+//{
+//    switch (_type)
+//    {
+//        case LIDL::SFX_TYPE::CHORUS:
+//            LIDL::SFX_CHORUS_PARAM temp;
+//            temp
+
+//            break;
+//        case LIDL::SFX_TYPE::COMPRESSOR:
+
+//            break;
+//        case LIDL::SFX_TYPE::DISTORTION:
+
+//            break;
+//        case LIDL::SFX_TYPE::ECHO:
+
+//        break;
+
+//        case LIDL::SFX_TYPE::FLANGER:
+//            break;
+
+//        case LIDL::SFX_TYPE::GARGLE:
+//            break;
+
+//    }
+//}
+
 
 #endif // SFXSETTINGSWIDGET_H

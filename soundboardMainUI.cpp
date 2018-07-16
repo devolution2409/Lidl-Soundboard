@@ -979,15 +979,23 @@ void SoundboardMainUI::setUpMenu()
     /***************************************************
                             Tools
     ****************************************************/
+    _actions.append(new QAction(tr("Preset editor wizard.."),this));
+    connect(this->_actions.last(),&QAction::triggered,this, [=]{
+       PresetWizard * lul = new PresetWizard();
+       lul->show();
+    });
+    toolMenu->addAction(_actions.last());
+    toolMenu->addSeparator();
+
     _actions.append(new QAction(tr("Regenerate shortcuts"),this));  //11);
-    toolMenu->addAction(_actions.at(11));
-    connect(this->_actions.at(11),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
+    toolMenu->addAction(_actions.last());
+    connect(this->_actions.last(),SIGNAL(triggered()),this,SLOT(GenerateGlobalShortcuts()));
 
 
     _actions.at(10)->setToolTip( tr("Regenerate shortcuts in case they get glitched."));
     _actions.append(new QAction(tr("Clear sounds shortcuts"),this));  //12
-    toolMenu->addAction(_actions.at(12));
-    connect(this->_actions.at(12),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
+    toolMenu->addAction(_actions.last());
+    connect(this->_actions.last(),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
 
     _actions.append(new QAction(tr("Refresh sound devices"),this)); // 13
     connect(_actions.last(), QAction::triggered, [=]{
@@ -1005,8 +1013,9 @@ void SoundboardMainUI::setUpMenu()
     toolMenu->addSeparator();
 
     _actions.append(new QAction(tr("Settings"),this)); //14
-    toolMenu->addAction(_actions.at(14));
-    connect(this->_actions.at(14),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
+    toolMenu->addAction(_actions.last());
+    connect(this->_actions.last(),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
+    _actions.last()->setIcon(QIcon(""));
     toolMenu->addSeparator();
 
 
@@ -1019,25 +1028,28 @@ void SoundboardMainUI::setUpMenu()
 
     _actions.append(new QAction(tr("Show SFX"))); // 15
 
+    // needed else the lambda will go rogue when calling _actions.last()
+    QAction* temp = _actions.last();
     // SFX
     connect(_actions.last(),QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
-
         if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
         {
             LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
-            this->_actions.at(16)->setIcon(QIcon(""));
+            temp->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
             LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
-            this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+            temp->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
     });
     scMenu->addAction(_actions.last());
+
     _actions.append(new QAction(tr("Wrap sound list"))); //17
+    QAction *temp2 = _actions.last();
     // SHOW FULL LIST OF SOUNDS OR (n)
     connect(_actions.last(),QAction::triggered, [=]{
         // if the show flag is already there we invert it
@@ -1045,12 +1057,12 @@ void SoundboardMainUI::setUpMenu()
         if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
         {
             LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
-            this->_actions.last()->setIcon(QIcon(""));
+            temp2->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
             LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
-            this->_actions.last()->setIcon(QIcon(":/icon/resources/checkmark.png"));
+            temp2->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
     });
@@ -1310,11 +1322,11 @@ void SoundboardMainUI::Open(QString fileName)
             if (flags & LIDL::SHOW_SETTINGS::SHOW_SFX){
 
                 LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
-                this->_actions.at(15)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+                this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
             }
             if (flags &  LIDL::SHOW_SETTINGS::WRAP_SONG_LIST){
                 LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
-                this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
+                this->_actions.at(17)->setIcon(QIcon(":/icon/resources/checkmark.png"));
             }
         }
     }// end if it contains settings
@@ -1802,7 +1814,6 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
             numberedSound.insert( j->url(), properties);
 
             soundCollection.insert( QString::number(jIndex++), numberedSound );
-
         }
 
         tempSound.insert("Sound Collection",soundCollection);

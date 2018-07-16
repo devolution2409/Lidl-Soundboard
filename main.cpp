@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QString>
 #include <QCoreApplication>
-#include "updater.h"
+//#include "updater.h"
 #include <QDebug>
 #include <QStyleFactory>
 

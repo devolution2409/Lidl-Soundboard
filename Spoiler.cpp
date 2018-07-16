@@ -72,3 +72,15 @@ void Spoiler::Close()
     if (contentArea.height() >0)
         toggleButton.click();
 }
+
+void Spoiler::Open()
+{
+    if (contentArea.height() == 0)
+        toggleButton.click();
+}
+
+void Spoiler::setTitle(const QString &title)
+{
+    toggleButton.setText(title);
+}
+

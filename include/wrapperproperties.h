@@ -202,9 +202,14 @@ private:
     // GARGLE
         SfxSettingsWidget* _gargleWidget;  /*!< The widget responsible of the Gargle tab construction*/
 
-
+/*!
+* \brief Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget.
+* \tparam Type The type of the SFX.
+* \tparam Param The enum class containing the SFX settings, used to iterate.
+* \param widget The widget being connected.
+*/
 template <LIDL::SFX_TYPE Type, class Param   >
-    void setUpConnection(SfxSettingsWidget* widget);
+void setUpConnection(SfxSettingsWidget* widget);
 /*
  *
 BASS_FX_DX8_CHORUS	DX8 Chorus. Use BASS_DX8_CHORUS structure to set/get parameters.
@@ -226,8 +231,8 @@ signals:
      * This signal is connected to a lambda function in the mainUI when the New Wrapper button is clicked.
      * \param sound The new soundwrapper to add.
      */
-
     void signalAddDone(SoundWrapper *sound);
+
     /*!
      * \brief The signal that is sent after editing an existing wrapper.
      *
@@ -235,6 +240,7 @@ signals:
      * \param sound The edited wrapper that will replace the old one.
      */
     void signalEditDone(SoundWrapper *sound);
+
     /*!
      * \brief This signal is emitted whenever the Sound Entry Editor window is closed.
      */
@@ -247,6 +253,7 @@ public slots:
      * Connected to the add button, it will open a prompt to select a file to add to the wrapper.
      */
     void AddSound();
+
     /*!
      * \brief AddSoundFromUrl method.
      *
@@ -254,6 +261,7 @@ public slots:
      * If the file has a valid MIME type, we add it to the soundboard.
      */
     void AddSoundFromUrl();
+
     /*!
      * \brief AddSoundFromDrop
      *
@@ -268,40 +276,41 @@ public slots:
      */
     void ItemWasClicked(QListWidgetItem* item);
 
-
-
-
     /*!
      * \brief RadioPressed sets the wrapper playback mode whenever radio is pressed.
      * \param id The ID of the pressed button.
      */
     void RadioPressed(int id);
 
-
+    /*!
+     * \brief SetKeySequence Sets the key sequence of the line edit.
+     */
     void SetKeySequence(QKeySequence);
 
-    // Communicating with main ui slots: CreateWrapper and Edited wrapper
-    // void CreateWrapper();
+
 
 
     /*!
      * \brief SetItemMainVolume Sets a sound item main volume.
      *
-     * (CustomListWidgetItem isn't a Q_OBJECT and can't have slots of its own).
+     * \param newValue The new main volume.
+     *  (CustomListWidgetItem isn't a Q_OBJECT and can't have slots of its own).
      */
-    void SetItemMainVolume(int);
+    void SetItemMainVolume(int newValue);
+
     /*!
      * \brief SetItemVACVolume Sets a sound item VAC volume.
      *
+     * \param newValue The new VAC volume.
      * (CustomListWidgetItem isn't a Q_OBJECT and can't have slots of its own).
      */
-    void SetItemVACVolume(int);
+    void SetItemVACVolume(int newValue);
 
 
-  //  void Test(SoundWrapper*);
 };
 
 // wanna have both the type of the sfx and the parameters thinking
+
 template <LIDL::SFX_TYPE Type, class Param   >
 void WrapperProperties::setUpConnection(SfxSettingsWidget *widget)
 {

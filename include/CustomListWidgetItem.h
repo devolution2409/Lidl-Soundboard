@@ -221,10 +221,8 @@ int CustomListWidgetItem::getSFXValue(int which)
         return this->getSFXFlanger(static_cast<LIDL::SFX_FLANGER_PARAM>(which));
 
     if (std::is_same<ParamType, LIDL::SFX_GARGLE_PARAM >::value)
-    {
-        qDebug() << "oihgeroihgrtoie";
         return this->getSFXGargle(static_cast<LIDL::SFX_GARGLE_PARAM>(which));
-    }
+
     return -1;
 }
 
