@@ -5,9 +5,13 @@ PresetWizard::PresetWizard(QWidget *parent) : QWizard(parent)
     this->setWizardStyle(QWizard::ModernStyle);
     this->setOption(QWizard::NoBackButtonOnStartPage, true);
     this->setOption(QWizard::HaveHelpButton, false);
+    this->setOption(QWizard::NoDefaultButton,true);
     this->setFixedSize(620,660);
     this->setWindowTitle(tr("LIDL Preset Editor"));
     this->addPage(new PresetWizardIntroPage(this));
+
+    QList<QWizard::WizardButton> layout;
+        setButtonLayout(layout);
 }
 void PresetWizard::accept()
 {

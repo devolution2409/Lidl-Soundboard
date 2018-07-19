@@ -63,6 +63,16 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
     _settingsSpoiler->hide();
     this->addWidgets();
 
+    _finishButton = new QPushButton(tr("Finish !"));
+    _finishButton->setEnabled(false);
+    _cancelButton = new QPushButton(tr("Cancel"));
+    connect(_cancelButton,&QPushButton::clicked, parent,&QWizard::close);
+
+    _layout->addItem(new QSpacerItem(10,600),5,0,5,5);
+    _layout->addWidget(_finishButton,10,4,1,1);
+    _layout->addWidget(_cancelButton,10,5,1,1);
+
+
 
 }
 
@@ -150,6 +160,8 @@ void PresetWizardIntroPage::comboBoxIndexChanged(int index)
 
 void PresetWizardIntroPage::addWidgets()
 {
+    _presetName = new QLineEdit();
+    _settingsLayout->addWidget(_presetName,0,0,1,6);
     /*****************************************************/
     /*              REVAMPED  DISTORTION                 */
     /*****************************************************/
@@ -161,7 +173,7 @@ void PresetWizardIntroPage::addWidgets()
     _distortionWidget->addSlider(tr("Bandwidth"),100,8000, " Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQBandwidth));
     _distortionWidget->addSlider(tr("Lowpass Cutoff"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPreLowpassCutoff));
 //    _distortionWidget->addSpacer();
-     _settingsLayout->addWidget(_distortionWidget,0,0,1,6);
+     _settingsLayout->addWidget(_distortionWidget,1,0,1,6);
 
     /*****************************************************/
     /*              REVAMPED  CHORUS                     */
@@ -184,7 +196,7 @@ void PresetWizardIntroPage::addWidgets()
     _chorusWidget->addComboBox("Wave Form", (QStringList() <<tr("Triangular Wave")
                                                   <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
 
-     _settingsLayout->addWidget(_chorusWidget,0,0,1,6); // 1
+     _settingsLayout->addWidget(_chorusWidget,1,0,1,6); // 1
     /*****************************************************/
     /*                     ECHO                          */
     /*****************************************************/
@@ -197,7 +209,7 @@ void PresetWizardIntroPage::addWidgets()
                                 "delay after echo"),
                              (QStringList() << tr("No") << tr("Yes")),
                              static_cast<int>(LIDL::SFX_ECHO_PARAM::lPanDelay));
-     _settingsLayout->addWidget(_echoWidget,0,0,1,6); //2
+     _settingsLayout->addWidget(_echoWidget,1,0,1,6); //2
 
     /*****************************************************/
     /*                  COMPRESSOR                   */
@@ -211,7 +223,7 @@ void PresetWizardIntroPage::addWidgets()
     _compressorWidget->addSlider(tr("Release"),50,3000," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fRelease) );
     _compressorWidget->addSlider(tr("Threshold"),-60,0," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fThreshold) );
 
-     _settingsLayout->addWidget(_compressorWidget,0,0,1,6);
+     _settingsLayout->addWidget(_compressorWidget,1,0,1,6);
     /*****************************************************/
     /*                     FLANGER                       */
     /*****************************************************/
@@ -231,7 +243,7 @@ void PresetWizardIntroPage::addWidgets()
 
     _flangerWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
                                               <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_FLANGER_PARAM::lWaveform));
-     _settingsLayout->addWidget(_flangerWidget,0,0,1,6);
+     _settingsLayout->addWidget(_flangerWidget,1,0,1,6);
     /*****************************************************/
     /*    GARGLE (the cum like a bitch boi gachiBASS     */
     /*****************************************************/
@@ -240,7 +252,8 @@ void PresetWizardIntroPage::addWidgets()
     _gargleWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
                                               <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwWaveShape));
     _gargleWidget->addSpacer();
-     _settingsLayout->addWidget(_gargleWidget,0,0,1,6);
+     _settingsLayout->addWidget(_gargleWidget,1,0,1,6);
+
 
      _settingsSpoiler->setContentLayout(_settingsLayout);
 }

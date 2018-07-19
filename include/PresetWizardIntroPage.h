@@ -11,6 +11,7 @@
 #include "Spoiler.h"
 #include "PresetController.h"
 #include "SfxSettingsWidget.h"
+#include <QPushButton>
 class PresetWizardIntroPage : public QWizardPage
 {
     Q_OBJECT
@@ -49,6 +50,10 @@ private:
         SfxSettingsWidget* _flangerWidget;  /*!< The widget responsible of the Flanger tab construction*/
     // GARGLE
         SfxSettingsWidget* _gargleWidget;  /*!< The widget responsible of the Gargle tab construction*/
+        QLineEdit * _presetName; /*!< The preset name line edit, only shown when creating new preset */
+
+    QPushButton* _finishButton; /*!< The finish button*/
+    QPushButton* _cancelButton; /*!< The cancel button*/
 };
 
 #endif // PRESETWIZARDINTROPAGE_H
