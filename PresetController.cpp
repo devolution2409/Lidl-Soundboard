@@ -7,9 +7,9 @@ PresetController* PresetController::self = nullptr;
 
 PresetController::PresetController(QObject *parent) : QObject(parent)
 {
-//    SFX_DIST_PARAM test;
-//    _distortionPreset.insert("test",test);
-//    _distortionPreset.insert("test2",test);
+    //    SFX_DIST_PARAM test;
+    //    _distortionPreset.insert("test",test);
+    //    _distortionPreset.insert("test2",test);
 }
 
 
@@ -67,13 +67,56 @@ QStringList  PresetController::GetExistingPresetsList(LIDL::SFX_TYPE type) const
 QStringList PresetController::GetExistingSFXList() const
 {
     return ( QStringList()  << tr("Distortion")
-                            << tr("Chorus")
-                            << tr("Echo")
-                            << tr("Compressor")
-                            << tr("Flanger")
-                            << tr("Gargle")
+             << tr("Chorus")
+             << tr("Echo")
+             << tr("Compressor")
+             << tr("Flanger")
+             << tr("Gargle")
              );
 }
 
+
+
+
+
+void PresetController::AddPreset(QString name, BASS_DX8_DISTORTION preset)
+{
+    if (_distortionPreset.find(name) != _distortionPreset.end())
+        return; // key already exists
+    _distortionPreset.insert(name,preset);
+}
+
+
+
+void PresetController::AddPreset(QString name, BASS_DX8_CHORUS preset)
+{
+    if (_chorusPreset.find(name) != _chorusPreset.end())
+        return; // key already exists
+    _chorusPreset.insert(name,preset);
+}
+void PresetController::AddPreset(QString name, BASS_DX8_COMPRESSOR preset)
+{
+    if (_compressorPreset.find(name) != _compressorPreset.end())
+        return; // key already exists
+    _compressorPreset.insert(name,preset);
+}
+void PresetController::AddPreset(QString name, BASS_DX8_ECHO preset)
+{
+    if (_echoPreset.find(name) != _echoPreset.end())
+        return; // key already exists
+    _echoPreset.insert(name,preset);
+}
+void PresetController::AddPreset(QString name, BASS_DX8_FLANGER preset)
+{
+    if (_flangerPreset.find(name) != _flangerPreset.end())
+        return; // key already exists
+    _flangerPreset.insert(name,preset);
+}
+void PresetController::AddPreset(QString name, BASS_DX8_GARGLE preset)
+{
+    if (_garglePreset.find(name) != _garglePreset.end())
+        return; // key already exists
+    _garglePreset.insert(name,preset);
+}
 
 }//end namespace LIDL

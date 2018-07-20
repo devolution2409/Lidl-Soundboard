@@ -59,8 +59,8 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     int maxVolume = 100;
     _sliderMain->setRange(0,maxVolume);
     _sliderVAC->setRange(0,maxVolume);
-    _sliderLabelMain = new QLabel("Main Output Volume");
-    _sliderLabelVAC = new QLabel("VAC Output Volume");
+    _sliderLabelMain = new QLabel(tr("Main Output Volume"));
+    _sliderLabelVAC = new QLabel(tr("VAC Output Volume"));
     _sliderMainSpin = new QSpinBox(this);
     _sliderVACSpin  =   new QSpinBox(this);
 

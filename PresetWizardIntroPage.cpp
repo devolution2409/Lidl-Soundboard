@@ -48,6 +48,7 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
             this->radioWasClicked();
         });
 
+
     connect(_spoilerSFXcomboBox,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this               , &PresetWizardIntroPage::comboBoxIndexChanged);
 
@@ -64,13 +65,95 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
     this->addWidgets();
 
     _finishButton = new QPushButton(tr("Finish !"));
-    _finishButton->setEnabled(false);
+    // _finishButton->setEnabled(false);
+    connect(_finishButton, &QPushButton::clicked, this, [=]{this->finished();});
     _cancelButton = new QPushButton(tr("Cancel"));
     connect(_cancelButton,&QPushButton::clicked, parent,&QWizard::close);
 
     _layout->addItem(new QSpacerItem(10,600),5,0,5,5);
     _layout->addWidget(_finishButton,10,4,1,1);
     _layout->addWidget(_cancelButton,10,5,1,1);
+
+
+
+}
+
+void PresetWizardIntroPage::finished()
+{
+    using namespace LIDL;
+    // if an SFX is selected (regardless of add or edit mode)
+    if (_spoilerSFXcomboBox->currentIndex() != 0)
+    {
+        // if add mode we don't have to check an existing sfx is selected
+        if (_radioAdd->isChecked())
+        {
+           if (_spoilerSFXcomboBox->currentIndex() == 1) // Distortion (0 is no sfx selected)
+           {
+                BASS_DX8_DISTORTION temp;
+
+                using LIDL::SFX_DIST_PARAM;
+                std::map<int,int> values = _distortionWidget->getSFXAsMap();
+                if (values.find(static_cast<int>(SFX_DIST_PARAM::fGain)) != values.end())
+                        temp.fGain = values.at(static_cast<int>(SFX_DIST_PARAM::fGain));
+
+                if (values.find(static_cast<int>(SFX_DIST_PARAM::fEdge))!= values.end())
+                        temp.fEdge = values.at(static_cast<int>(SFX_DIST_PARAM::fEdge));
+
+                if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth))!= values.end())
+                        temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth));
+
+                if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency))!= values.end())
+                        temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency));
+
+                if (values.find(static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff))!= values.end())
+                        temp.fPreLowpassCutoff = values.at(static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff));
+
+                //QString sadNigMountain = QString("Values of enum: distortion: \nGain: %1,\nEdge: %2,\nBandwidth %3,\nCenterFreq: %4,\nLowpassCutoff: %5").arg(temp.fGain).arg(temp.fEdge).arg(temp.fPostEQBandwidth).arg(temp.fPostEQCenterFrequency).arg(temp.fPreLowpassCutoff);
+
+                bool ok;
+                QString name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                                     tr("Please input new preset name:"), QLineEdit::Normal,
+                                                     "Don't google largest island of the Philippines TriHard", &ok);
+                if (ok && !name.isEmpty())
+                {
+
+                    PresetController::GetInstance()->AddPreset(name,temp);
+
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    okBox.exec();
+//                        okBox.setText(("Successfully 'added %1' preset !").arg(name));
+
+                    this->_cancelButton->click(); // close forsenE
+                }
+                else if (name.isEmpty() && ok)
+                {
+
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                                   tr("Please input a name !")),
+                                                   QMessageBox::Ok;
+
+                }
+           }
+           else if (_spoilerSFXcomboBox->currentIndex() == 2) // Chorus (0 is no sfx selected)
+           {}
+           else if (_spoilerSFXcomboBox->currentIndex() == 3) // Echo (0 is no sfx selected)
+           {}
+           else if (_spoilerSFXcomboBox->currentIndex() == 4) // Compressor (0 is no sfx selected)
+           {}
+           else if (_spoilerSFXcomboBox->currentIndex() == 5) // Flanger (0 is no sfx selected)
+           {}
+           else if (_spoilerSFXcomboBox->currentIndex() == 6) // Gargle (0 is no sfx selected)
+           {}
+
+
+        }
+        else if (_radioEdit->isChecked())
+        {
+
+        }
+
+        // if edit mode we have to check a valid SFX is selected
+    }
 
 
 
@@ -160,8 +243,6 @@ void PresetWizardIntroPage::comboBoxIndexChanged(int index)
 
 void PresetWizardIntroPage::addWidgets()
 {
-    _presetName = new QLineEdit();
-    _settingsLayout->addWidget(_presetName,0,0,1,6);
     /*****************************************************/
     /*              REVAMPED  DISTORTION                 */
     /*****************************************************/
@@ -173,7 +254,7 @@ void PresetWizardIntroPage::addWidgets()
     _distortionWidget->addSlider(tr("Bandwidth"),100,8000, " Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQBandwidth));
     _distortionWidget->addSlider(tr("Lowpass Cutoff"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPreLowpassCutoff));
 //    _distortionWidget->addSpacer();
-     _settingsLayout->addWidget(_distortionWidget,1,0,1,6);
+     _settingsLayout->addWidget(_distortionWidget,0,0,1,6);
 
     /*****************************************************/
     /*              REVAMPED  CHORUS                     */
@@ -196,7 +277,7 @@ void PresetWizardIntroPage::addWidgets()
     _chorusWidget->addComboBox("Wave Form", (QStringList() <<tr("Triangular Wave")
                                                   <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
 
-     _settingsLayout->addWidget(_chorusWidget,1,0,1,6); // 1
+     _settingsLayout->addWidget(_chorusWidget,0,0,1,6); // 1
     /*****************************************************/
     /*                     ECHO                          */
     /*****************************************************/
@@ -209,7 +290,7 @@ void PresetWizardIntroPage::addWidgets()
                                 "delay after echo"),
                              (QStringList() << tr("No") << tr("Yes")),
                              static_cast<int>(LIDL::SFX_ECHO_PARAM::lPanDelay));
-     _settingsLayout->addWidget(_echoWidget,1,0,1,6); //2
+     _settingsLayout->addWidget(_echoWidget,0,0,1,6); //2
 
     /*****************************************************/
     /*                  COMPRESSOR                   */
@@ -223,7 +304,7 @@ void PresetWizardIntroPage::addWidgets()
     _compressorWidget->addSlider(tr("Release"),50,3000," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fRelease) );
     _compressorWidget->addSlider(tr("Threshold"),-60,0," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fThreshold) );
 
-     _settingsLayout->addWidget(_compressorWidget,1,0,1,6);
+     _settingsLayout->addWidget(_compressorWidget,0,0,1,6);
     /*****************************************************/
     /*                     FLANGER                       */
     /*****************************************************/
@@ -243,7 +324,7 @@ void PresetWizardIntroPage::addWidgets()
 
     _flangerWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
                                               <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_FLANGER_PARAM::lWaveform));
-     _settingsLayout->addWidget(_flangerWidget,1,0,1,6);
+     _settingsLayout->addWidget(_flangerWidget,0,0,1,6);
     /*****************************************************/
     /*    GARGLE (the cum like a bitch boi gachiBASS     */
     /*****************************************************/
@@ -252,9 +333,11 @@ void PresetWizardIntroPage::addWidgets()
     _gargleWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
                                               <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwWaveShape));
     _gargleWidget->addSpacer();
-     _settingsLayout->addWidget(_gargleWidget,1,0,1,6);
+     _settingsLayout->addWidget(_gargleWidget,0,0,1,6);
 
 
      _settingsSpoiler->setContentLayout(_settingsLayout);
 }
+
+
 

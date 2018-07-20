@@ -80,7 +80,7 @@ public:
      * \param enumValue The int representing the enum value (EnumsAndStructs.h)
      * \return
      */
-    int getValueOfEnumParam(int enumValue);
+    int getValueOfEnumParam(int enumValue) const;
     /*!
      * \brief setCheckboxState Set this widget checkbox checked state.
      * \param state The new state of the check box (checked is true, unchecked is false).
@@ -103,8 +103,17 @@ public:
      */
     QSize sizeHint() const;
 
-//    template<>
-//    auto getSFXParameters();
+
+//    /*!
+//     * \brief getSFXAsStructure Returns the SFX structure associated with the widget
+//     */
+//    auto getSFXAsStructure() const;
+
+    /*!
+     * \brief getSFXAsMap.
+     * \return The sfx enumeration along side the value of the parameter.
+     */
+    std::map<int, int> getSFXAsMap() const;
 
 //    void beautify();
 
@@ -146,34 +155,8 @@ signals:
 public slots:
 };
 
-//template<>
-//auto SfxSettingsWidget::getSFXParameters()
-//{
-//    switch (_type)
-//    {
-//        case LIDL::SFX_TYPE::CHORUS:
-//            LIDL::SFX_CHORUS_PARAM temp;
-//            temp
 
-//            break;
-//        case LIDL::SFX_TYPE::COMPRESSOR:
 
-//            break;
-//        case LIDL::SFX_TYPE::DISTORTION:
-
-//            break;
-//        case LIDL::SFX_TYPE::ECHO:
-
-//        break;
-
-//        case LIDL::SFX_TYPE::FLANGER:
-//            break;
-
-//        case LIDL::SFX_TYPE::GARGLE:
-//            break;
-
-//    }
-//}
 
 
 #endif // SFXSETTINGSWIDGET_H

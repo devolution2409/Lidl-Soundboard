@@ -12,6 +12,8 @@
 #include "PresetController.h"
 #include "SfxSettingsWidget.h"
 #include <QPushButton>
+#include <QMessageBox>
+#include <QInputDialog>
 class PresetWizardIntroPage : public QWizardPage
 {
     Q_OBJECT
@@ -35,7 +37,7 @@ private:
     void radioWasClicked();
     void comboBoxIndexChanged(int index);
     void addWidgets();
-
+    void finished();
     Spoiler *_settingsSpoiler;
     QGridLayout *_settingsLayout;
     // DISTORTION
@@ -54,6 +56,7 @@ private:
 
     QPushButton* _finishButton; /*!< The finish button*/
     QPushButton* _cancelButton; /*!< The cancel button*/
+
 };
 
 #endif // PRESETWIZARDINTROPAGE_H

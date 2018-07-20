@@ -2,7 +2,7 @@
 
 SfxSettingsWidget::SfxSettingsWidget(QWidget *parent) : QScrollArea(parent)
 {
-  //  this->setLineWidth(20);
+    //  this->setLineWidth(20);
     _container = new QWidget();
     _layout = new QGridLayout(_container);
     _layout->setSizeConstraint(QLayout::SetMinimumSize);
@@ -15,6 +15,7 @@ SfxSettingsWidget::SfxSettingsWidget(QWidget *parent) : QScrollArea(parent)
 SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type, bool showCheckmarkAndPresets, QWidget *parent)
     :SfxSettingsWidget(parent)
 {
+    this->_type = type;
     // adding checkbox
     if (showCheckmarkAndPresets)
     {
@@ -28,30 +29,30 @@ SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type, bool 
     }
     if (showCheckmarkAndPresets)
     {
-    _presetBox = new QComboBox();
-    // preset will be read from LIDL::setting controller
-    // todo: add the structure of the sound effect in the constructor so that
-    // we know where to get the info from :)
+        _presetBox = new QComboBox();
+        // preset will be read from LIDL::setting controller
+        // todo: add the structure of the sound effect in the constructor so that
+        // we know where to get the info from :)
 
         _presetBox->addItem(tr("<No preset selected>"));
         if (type != LIDL::SFX_TYPE::NONE)
             _presetBox->addItems(LIDL::PresetController::GetInstance()->GetExistingPresetsList(type));
 
 
-    _layout->addWidget( _presetBox,0,2,1,6);
+        _layout->addWidget( _presetBox,0,2,1,6);
 
 
-    // surchage every type like this an return the corresponding thing :)
-    //QVector<BASS_DX8_DISTORTION>  LIDL::PresetController::GetPreset(type)
+        // surchage every type like this an return the corresponding thing :)
+        //QVector<BASS_DX8_DISTORTION>  LIDL::PresetController::GetPreset(type)
 
         connect(_checkbox,&QCheckBox::toggled, this, [=](bool state){
-        for (auto &i: _sliders)
-            i->setEnabled(state);
-        for (auto &i: _comboBox)
-            i->setEnabled(state);
-        _presetBox->setEnabled(state);
-        emit checkBoxStateChanged(state);
-    });
+            for (auto &i: _sliders)
+                i->setEnabled(state);
+            for (auto &i: _comboBox)
+                i->setEnabled(state);
+            _presetBox->setEnabled(state);
+            emit checkBoxStateChanged(state);
+        });
 
     }
     _layout->setColumnStretch(3,100);
@@ -88,8 +89,8 @@ void SfxSettingsWidget::addSlider(QString label,int min, int max, QString suffix
     // need to have this outside the lambda else _slider.size() will return the current size
     int index = _sliders.size() -1;
     connect(_sliders.last(),&SliderSpin::valueChanged,this,[=](int newValue){
-            emit sliderValueChanged(index, newValue,specialValue);
-        });
+        emit sliderValueChanged(index, newValue,specialValue);
+    });
     if (specialValue != -1)
         _specialMap.insert(std::pair<int,QWidget*>(specialValue,_sliders.last()));
 }
@@ -161,7 +162,7 @@ void SfxSettingsWidget::setValueOfEnumParam(int enumValue, int newValue)
     }
 }
 
-int SfxSettingsWidget::getValueOfEnumParam(int enumValue)
+int SfxSettingsWidget::getValueOfEnumParam(int enumValue) const
 {
     if (enumValue == -1)
         return -3154;
@@ -179,6 +180,8 @@ int SfxSettingsWidget::getValueOfEnumParam(int enumValue)
     auto* j = dynamic_cast<QComboBox*>(_specialMap.at(enumValue));
     if (j !=nullptr)
         return j->currentIndex();
+
+    return -3154;
 }
 
 
@@ -189,14 +192,87 @@ void SfxSettingsWidget::setCheckboxState(bool state)
     this->_checkbox->setChecked(state);
 }
 
-//void SfxSettingsWidget::beautify()
+std::map<int, int> SfxSettingsWidget::getSFXAsMap() const
+{
+    std::map<int,int> temp;
+
+    for(std::map<int,QWidget*>::const_iterator it = _specialMap.begin(); it != _specialMap.end(); ++it)
+    {
+        auto* i = dynamic_cast<SliderSpin*>(it->second);
+        if ( i != nullptr)
+            temp.insert(std::pair<int,int>(it->first, i->value()));
+
+
+        auto* j = dynamic_cast<QComboBox*>(it->second);
+        if (j !=nullptr)
+            temp.insert(std::pair<int,int>(it->first,j->currentIndex() ));
+
+    }
+    return temp;
+}
+
+
+//auto SfxSettingsWidget::getSFXAsStructure() const
 //{
-//    // centering the list
-//    for (auto &i: _comboBox)
-//    {
-//        for (int j = 0 ; j < i->count() ; ++j)
+//        // not using switch because of jump to case label
+//        // https://stackoverflow.com/a/5685578
+//        if (_type == LIDL::SFX_TYPE::CHORUS)
 //        {
-//           i->setItemData(j, Qt::AlignCenter, Qt::TextAlignmentRole);
+//            BASS_DX8_CHORUS temp;
+
+
+//            auto * i = dynamic_cast<SliderSpin*>(_specialMap.at(static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDelay)));
+//            if ( i != nullptr)
+//                temp.fDelay = i->value();
+
+//            i = dynamic_cast<SliderSpin*>(_specialMap.at(static_cast<int>(LIDL::SFX_CHORUS_PARAM::fDepth)));
+//            if ( i != nullptr)
+//                temp.fDepth = i->value();
+
+//            i = dynamic_cast<SliderSpin*>(_specialMap.at(static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFeedback)));
+//            if ( i != nullptr)
+//                temp.fFeedback = i->value();
+
+//            i = dynamic_cast<SliderSpin*>(_specialMap.at(static_cast<int>(LIDL::SFX_CHORUS_PARAM::fFrequency)));
+//            if ( i != nullptr)
+//                temp.fFrequency = i->value();
+
+//            i = dynamic_cast<SliderSpin*>(_specialMap.at(static_cast<int>(LIDL::SFX_CHORUS_PARAM::fWetDryMix)));
+
+//            if ( i != nullptr)
+//                temp.fWetDryMix = i->value();
+
+//            auto* j = dynamic_cast<QComboBox*>(_specialMap.at( static_cast<int>(LIDL::SFX_CHORUS_PARAM::lPhase)));
+//            if (j !=nullptr)
+//                temp.lPhase = j->currentIndex();
+
+//            j = dynamic_cast<QComboBox*>(_specialMap.at(static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform)));
+//            if (j !=nullptr)
+//                temp.lWaveform = j->currentIndex();
+
+//            return temp;
 //        }
-//    }
+//        else if (_type == LIDL::SFX_TYPE::COMPRESSOR)
+//        {
+
+
+//        }
+//        else if (_type == LIDL::SFX_TYPE::DISTORTION)
+//        {
+
+//        }
+//        else if (_type == LIDL::SFX_TYPE::ECHO)
+//        {
+
+//        }
+//        else if (_type == LIDL::SFX_TYPE::FLANGER)
+//        {
+
+//        }
+//        else if (_type == LIDL::SFX_TYPE::GARGLE)
+//        {
+
+//        }
+
+//    return -1;
 //}

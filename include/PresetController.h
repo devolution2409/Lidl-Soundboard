@@ -12,6 +12,7 @@
 #include "EnumsAndStructs.h"
 #include <QDebug>
 #include <QMap>
+#include <type_traits> // is same
 
 namespace LIDL {
 
@@ -42,9 +43,13 @@ public:
 
     QStringList GetExistingSFXList() const;
 
-    template<LIDL::SFX_TYPE, class Param>
-    int AddPreset(QString name, Param preset);
 
+    void AddPreset(QString name, BASS_DX8_CHORUS preset);
+    void AddPreset(QString name, BASS_DX8_DISTORTION preset);
+    void AddPreset(QString name, BASS_DX8_COMPRESSOR preset);
+    void AddPreset(QString name, BASS_DX8_ECHO preset);
+    void AddPreset(QString name, BASS_DX8_FLANGER preset);
+    void AddPreset(QString name, BASS_DX8_GARGLE preset);
 
 private:
     /*!
@@ -56,12 +61,12 @@ private:
     static PresetController * self; /*!< A pointer to the only existing PresetController.*/
 
 
-    QMap<QString , SFX_DIST_PARAM       > _distortionPreset;
-    QMap<QString , SFX_ECHO_PARAM       > _echoPreset;
-    QMap<QString , SFX_CHORUS_PARAM     > _chorusPreset;
-    QMap<QString , SFX_COMPRESSOR_PARAM > _compressorPreset;
-    QMap<QString , SFX_FLANGER_PARAM    > _flangerPreset;
-    QMap<QString , SFX_GARGLE_PARAM     > _garglePreset;
+    QMap<QString , BASS_DX8_DISTORTION  > _distortionPreset;
+    QMap<QString , BASS_DX8_ECHO        > _echoPreset;
+    QMap<QString , BASS_DX8_CHORUS      > _chorusPreset;
+    QMap<QString , BASS_DX8_COMPRESSOR  > _compressorPreset;
+    QMap<QString , BASS_DX8_FLANGER     > _flangerPreset;
+    QMap<QString , BASS_DX8_GARGLE      > _garglePreset;
 
 
 signals:
@@ -72,49 +77,7 @@ public slots:
 
 }; // end class
 }// end namespace lidl
-// Template :feelsokayman:
-template<LIDL::SFX_TYPE Type, class Param>
-int LIDL::PresetController::AddPreset(QString name, Param preset)
-{
-    switch (Type){
-        case LIDL::SFX_TYPE::DISTORTION:
-                if (_distortionPreset.find(name) != _distortionPreset.constEnd())
-                    return 1; // key already exists
-                _distortionPreset.insert(name,preset);
-                return 0;
-                break;
-    case LIDL::SFX_TYPE::ECHO:
-            if (_echoPreset.find(name) != _echoPreset.constEnd())
-                return 1; // key already exists
-            _echoPreset.insert(name,preset);
-            return 0;
-            break;
-    case LIDL::SFX_TYPE::CHORUS:
-            if (_chorusPreset.find(name) != _chorusPreset.constEnd())
-                return 1; // key already exists
-            _chorusPreset.insert(name,preset);
-            return 0;
-            break;
-    case LIDL::SFX_TYPE::COMPRESSOR:
-            if (_compressorPreset.find(name) != _compressorPreset.constEnd())
-                return 1; // key already exists
-            _compressorPreset.insert(name,preset);
-            return 0;
-            break;
-    case LIDL::SFX_TYPE::FLANGER:
-            if (_flangerPreset.find(name) != _flangerPreset.constEnd())
-                return 1; // key already exists
-            _flangerPreset.insert(name,preset);
-            return 0;
-            break;
-    case LIDL::SFX_TYPE::GARGLE:
-            if (_garglePreset.find(name) != _garglePreset.constEnd())
-                return 1; // key already exists
-            _garglePreset.insert(name,preset);
-            return 0;
-            break;
-    }
-}
+
 
 
 

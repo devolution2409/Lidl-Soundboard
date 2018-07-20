@@ -89,7 +89,7 @@ RESOURCES +=  \
 #VERSION = 1.4.0
 
 RC_FILE = lidlsoundboard.rc
-
+CONFIG += c++14
 
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
