@@ -7,13 +7,13 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
     this->setSubTitle(tr("Specify if you wanna add or edit a preset"));
     _layout = new QGridLayout(this);
     _radioAdd = new QRadioButton(tr("Add new preset")),
-    _radioEdit = new QRadioButton(tr("Edit existing preset"));
+            _radioEdit = new QRadioButton(tr("Edit existing preset"));
     _pastorLUL = new QLabel;
-   // _pastorLUL->setPixmap(QPixmap(":/icon/resources/pastorLUL.jpg"));
-   // _pastorLUL->setMaximumSize(300,500);
-   // _pastorLUL->setScaledContents(true);
+    // _pastorLUL->setPixmap(QPixmap(":/icon/resources/pastorLUL.jpg"));
+    // _pastorLUL->setMaximumSize(300,500);
+    // _pastorLUL->setScaledContents(true);
 
-   // _layout->addWidget(_pastorLUL,0,0,8,3);
+    // _layout->addWidget(_pastorLUL,0,0,8,3);
 
 
     _layout->addWidget(_radioAdd,0,0,1,6);
@@ -41,12 +41,12 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
     _layout->addWidget(_presetSFXSpoiler,3,0,1,6);
     _presetSFXSpoiler->hide();
     connect(_radioAdd,&QRadioButton::clicked, this , [=]{
-            this->radioWasClicked();
-        });
+        this->radioWasClicked();
+    });
 
     connect(_radioEdit,&QRadioButton::clicked, this, [=]{
-            this->radioWasClicked();
-        });
+        this->radioWasClicked();
+    });
 
 
     connect(_spoilerSFXcomboBox,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
@@ -84,76 +84,281 @@ void PresetWizardIntroPage::finished()
     // if an SFX is selected (regardless of add or edit mode)
     if (_spoilerSFXcomboBox->currentIndex() != 0)
     {
-        // if add mode we don't have to check an existing sfx is selected
-        if (_radioAdd->isChecked())
+        QString name;
+        bool override = false;
+        // if edit mode we read the name from the combo box. Else we ask for it
+        if (_radioEdit->isChecked())
         {
-           if (_spoilerSFXcomboBox->currentIndex() == 1) // Distortion (0 is no sfx selected)
-           {
-                BASS_DX8_DISTORTION temp;
+            name = _presetSFXcomboBox->currentText();
+            override = true;
+        }
+        if (_spoilerSFXcomboBox->currentIndex() == 1) // Distortion (0 is no sfx selected)
+        {
+            BASS_DX8_DISTORTION temp;
 
-                using LIDL::SFX_DIST_PARAM;
-                std::map<int,int> values = _distortionWidget->getSFXAsMap();
-                if (values.find(static_cast<int>(SFX_DIST_PARAM::fGain)) != values.end())
-                        temp.fGain = values.at(static_cast<int>(SFX_DIST_PARAM::fGain));
+            using LIDL::SFX_DIST_PARAM;
+            std::map<int,int> values = _distortionWidget->getSFXAsMap();
+            if (values.find(static_cast<int>(SFX_DIST_PARAM::fGain)) != values.end())
+                temp.fGain = values.at(static_cast<int>(SFX_DIST_PARAM::fGain));
 
-                if (values.find(static_cast<int>(SFX_DIST_PARAM::fEdge))!= values.end())
-                        temp.fEdge = values.at(static_cast<int>(SFX_DIST_PARAM::fEdge));
+            if (values.find(static_cast<int>(SFX_DIST_PARAM::fEdge))!= values.end())
+                temp.fEdge = values.at(static_cast<int>(SFX_DIST_PARAM::fEdge));
 
-                if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth))!= values.end())
-                        temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth));
+            if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth))!= values.end())
+                temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth));
 
-                if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency))!= values.end())
-                        temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency));
+            if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency))!= values.end())
+                temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency));
 
-                if (values.find(static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff))!= values.end())
-                        temp.fPreLowpassCutoff = values.at(static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff));
+            if (values.find(static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff))!= values.end())
+                temp.fPreLowpassCutoff = values.at(static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff));
 
-                //QString sadNigMountain = QString("Values of enum: distortion: \nGain: %1,\nEdge: %2,\nBandwidth %3,\nCenterFreq: %4,\nLowpassCutoff: %5").arg(temp.fGain).arg(temp.fEdge).arg(temp.fPostEQBandwidth).arg(temp.fPostEQCenterFrequency).arg(temp.fPreLowpassCutoff);
 
-                bool ok;
-                QString name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
-                                                     tr("Please input new preset name:"), QLineEdit::Normal,
-                                                     "Don't google largest island of the Philippines TriHard", &ok);
-                if (ok && !name.isEmpty())
-                {
+            // We initialize ok to true, so that even if name is already set (edition mode), the next if will be executed.
+            // the bool is modified to false anyway if the user click cancel on add mode :)
+            bool ok = true;
+            if (name.isEmpty())
+                name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                             tr("Please input new preset name:"), QLineEdit::Normal,
+                                             "Don't google largest island of the Philippines TriHard", &ok);
+            if (ok && !name.isEmpty())
+            {
 
-                    PresetController::GetInstance()->AddPreset(name,temp);
+                PresetController::GetInstance()->AddPreset(name,temp,override);
+                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                if (override)
+                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                    okBox.exec();
-//                        okBox.setText(("Successfully 'added %1' preset !").arg(name));
-
-                    this->_cancelButton->click(); // close forsenE
-                }
-                else if (name.isEmpty() && ok)
-                {
-
-                    QMessageBox::warning(this, tr("LIDL Preset Editor"),
-                                                   tr("Please input a name !")),
-                                                   QMessageBox::Ok;
-
-                }
-           }
-           else if (_spoilerSFXcomboBox->currentIndex() == 2) // Chorus (0 is no sfx selected)
-           {}
-           else if (_spoilerSFXcomboBox->currentIndex() == 3) // Echo (0 is no sfx selected)
-           {}
-           else if (_spoilerSFXcomboBox->currentIndex() == 4) // Compressor (0 is no sfx selected)
-           {}
-           else if (_spoilerSFXcomboBox->currentIndex() == 5) // Flanger (0 is no sfx selected)
-           {}
-           else if (_spoilerSFXcomboBox->currentIndex() == 6) // Gargle (0 is no sfx selected)
-           {}
+                okBox.exec();
+                this->_cancelButton->click(); // close forsenE
+            }
+            else if (name.isEmpty() && ok)
+                QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                     tr("Please input a name !"));
 
 
         }
-        else if (_radioEdit->isChecked())
+        else if (_spoilerSFXcomboBox->currentIndex() == 2) // Chorus (0 is no sfx selected)
         {
+            BASS_DX8_CHORUS temp;
+            using namespace LIDL;
+            std::map<int,int> values = _chorusWidget->getSFXAsMap();
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::fDelay)) != values.end())
+                temp.fDelay = values.at(static_cast<int>(SFX_CHORUS_PARAM::fDelay));
+
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::fDepth))!= values.end())
+                temp.fDepth = values.at(static_cast <int>(SFX_CHORUS_PARAM::fDepth));
+
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::fFeedback))!= values.end())
+                temp.fFeedback = values.at(static_cast<int>(SFX_CHORUS_PARAM::fFeedback));
+
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::fFrequency))!= values.end())
+                temp.fFrequency = values.at(static_cast<int>(SFX_CHORUS_PARAM::fFrequency));
+
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::fWetDryMix))!= values.end())
+                temp.fWetDryMix = values.at(static_cast<int>(SFX_CHORUS_PARAM::fWetDryMix));
+
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::lPhase))!= values.end())
+                temp.lPhase = values.at(static_cast<int>(SFX_CHORUS_PARAM::lPhase));
+
+            if (values.find(static_cast<int>(SFX_CHORUS_PARAM::lWaveform))!= values.end())
+                temp.lWaveform = values.at(static_cast<int>(SFX_CHORUS_PARAM::lWaveform));
+
+
+
+            bool ok = true;
+            if (name.isEmpty())
+                name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                             tr("Please input new preset name:"), QLineEdit::Normal,
+                                             "Don't google GNAA TriHardW", &ok);
+            if (ok && !name.isEmpty())
+            {
+
+                PresetController::GetInstance()->AddPreset(name,temp,override);
+                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                if (override)
+                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+
+                okBox.exec();
+                this->_cancelButton->click(); // close forsenE
+            }
+            else if (name.isEmpty() && ok)
+                QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                     tr("Please input a name !"));
+
+        }
+        else if (_spoilerSFXcomboBox->currentIndex() == 3) // Echo (0 is no sfx selected)
+        {
+            BASS_DX8_ECHO temp;
+            using namespace LIDL;
+            std::map<int,int> values = _echoWidget->getSFXAsMap();
+            if (values.find(static_cast<int>(SFX_ECHO_PARAM::fWetDryMix)) != values.end())
+                temp.fWetDryMix = values.at(static_cast<int>(SFX_ECHO_PARAM::fWetDryMix));
+
+            if (values.find(static_cast<int>(SFX_ECHO_PARAM::fFeedback))!= values.end())
+                temp.fFeedback= values.at(static_cast<int>(SFX_ECHO_PARAM::fFeedback));
+
+            if (values.find(static_cast<int>(SFX_ECHO_PARAM::fLeftDelay))!= values.end())
+                temp.fLeftDelay = values.at(static_cast<int>(SFX_ECHO_PARAM::fLeftDelay));
+
+            if (values.find(static_cast<int>(SFX_ECHO_PARAM::fRightDelay))!= values.end())
+                temp.fRightDelay = values.at(static_cast<int>(SFX_ECHO_PARAM::fRightDelay));
+
+            if (values.find(static_cast<int>(SFX_ECHO_PARAM:: lPanDelay))!= values.end())
+                temp. lPanDelay = values.at(static_cast<int>(SFX_ECHO_PARAM:: lPanDelay));
+
+            bool ok = true;
+            if (name.isEmpty())
+                name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                             tr("Please input new preset name:"), QLineEdit::Normal,
+                                             "Don't google Asteroid 8766 cmonBruh", &ok);
+            if (ok && !name.isEmpty())
+            {
+
+                PresetController::GetInstance()->AddPreset(name,temp,override);
+                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                if (override)
+                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+
+                okBox.exec();
+                this->_cancelButton->click(); // close forsenE
+            }
+            else if (name.isEmpty() && ok)
+                QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                     tr("Please input a name !"));
+
+
+
+        }
+        else if (_spoilerSFXcomboBox->currentIndex() == 4) // Compressor (0 is no sfx selected)
+        {
+            BASS_DX8_COMPRESSOR temp;
+            using namespace LIDL;
+            std::map<int,int> values = _compressorWidget->getSFXAsMap();
+            if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM::fAttack)) != values.end())
+                temp.fAttack = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fAttack));
+
+            if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM::fGain))!= values.end())
+                temp.fGain= values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fGain));
+
+            if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM::fPredelay))!= values.end())
+                temp.fPredelay = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fPredelay));
+
+            if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM::fRatio))!= values.end())
+                temp.fRatio = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fRatio));
+
+            if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM:: fThreshold))!= values.end())
+                temp. fThreshold = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fThreshold));
+
+            if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM:: fThreshold))!= values.end())
+                temp. fThreshold = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fThreshold));
+
+            bool ok = true;
+            if (name.isEmpty())
+                name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                             tr("Please input new preset name:"), QLineEdit::Normal,
+                                             "Book in russian cmonBruh", &ok);
+            if (ok && !name.isEmpty())
+            {
+
+                PresetController::GetInstance()->AddPreset(name,temp,override);
+                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                if (override)
+                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+
+                okBox.exec();
+                this->_cancelButton->click(); // close forsenE
+            }
+            else if (name.isEmpty() && ok)
+                QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                     tr("Please input a name !"));
+
+
+        }
+        else if (_spoilerSFXcomboBox->currentIndex() == 5) // Flanger (0 is no sfx selected)
+        {
+            BASS_DX8_FLANGER temp;
+            using namespace LIDL;
+            std::map<int,int> values = _flangerWidget->getSFXAsMap();
+            if (values.find(static_cast<int>(SFX_FLANGER_PARAM::fDelay )) != values.end())
+                temp.fDelay = values.at(static_cast<int>(SFX_FLANGER_PARAM::fDelay));
+
+            if (values.find(static_cast<int>(SFX_FLANGER_PARAM::fDepth)) != values.end())
+                temp.fDepth = values.at(static_cast<int>(SFX_FLANGER_PARAM::fDepth));
+
+            if (values.find(static_cast<int>(SFX_FLANGER_PARAM::fFeedback)) != values.end())
+                temp.fFeedback = values.at(static_cast<int>(SFX_FLANGER_PARAM::fFeedback));
+
+            if (values.find(static_cast<int>(SFX_FLANGER_PARAM::fFrequency)) != values.end())
+                temp.fFrequency = values.at(static_cast<int>(SFX_FLANGER_PARAM::fFrequency));
+
+            if (values.find(static_cast<int>(SFX_FLANGER_PARAM::lPhase)) != values.end())
+                temp.lPhase = values.at(static_cast<int>(SFX_FLANGER_PARAM::lPhase));
+
+            if (values.find(static_cast<int>(SFX_FLANGER_PARAM::lWaveform)) != values.end())
+                temp.lWaveform = values.at(static_cast<int>(SFX_FLANGER_PARAM::lWaveform));
+
+            bool ok = true;
+            if (name.isEmpty())
+                name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                             tr("Please input new preset name:"), QLineEdit::Normal,
+                                             "Book in russian cmonBruh", &ok);
+            if (ok && !name.isEmpty())
+            {
+
+                PresetController::GetInstance()->AddPreset(name,temp,override);
+                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                if (override)
+                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+
+                okBox.exec();
+                this->_cancelButton->click(); // close forsenE
+            }
+            else if (name.isEmpty() && ok)
+                QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                     tr("Please input a name !"));
+
+
+        }
+        else if (_spoilerSFXcomboBox->currentIndex() == 6) // Gargle (0 is no sfx selected)
+        {
+            BASS_DX8_GARGLE temp;
+            using namespace LIDL;
+            std::map<int,int> values = _gargleWidget->getSFXAsMap();
+
+            if (values.find(static_cast<int>(SFX_GARGLE_PARAM::dwRateHz )) != values.end())
+                temp.dwRateHz = values.at(static_cast<int>(SFX_GARGLE_PARAM::dwRateHz));
+
+            if (values.find(static_cast<int>(SFX_GARGLE_PARAM::dwWaveShape )) != values.end())
+                temp.dwWaveShape = values.at(static_cast<int>(SFX_GARGLE_PARAM::dwWaveShape));
+            bool ok = true;
+            if (name.isEmpty())
+                name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
+                                             tr("Please input new preset name:"), QLineEdit::Normal,
+                                             "DONT GOOGLE \"Meanly small; scanty or meager\" (with quotes) HYPERBRUH HYPERCLAP'", &ok);
+            if (ok && !name.isEmpty())
+            {
+
+                PresetController::GetInstance()->AddPreset(name,temp,override);
+                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                if (override)
+                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+
+                okBox.exec();
+                this->_cancelButton->click(); // close forsenE
+            }
+            else if (name.isEmpty() && ok)
+                QMessageBox::warning(this, tr("LIDL Preset Editor"),
+                                     tr("Please input a name !"));
+
 
         }
 
-        // if edit mode we have to check a valid SFX is selected
+
     }
+
+    // if edit mode we have to check a valid SFX is selected
+
 
 
 
@@ -184,7 +389,7 @@ void PresetWizardIntroPage::radioWasClicked()
 
 void PresetWizardIntroPage::comboBoxIndexChanged(int index)
 {
-     //_settingsSpoiler->setContentLayout(_settingsLayout);
+    //_settingsSpoiler->setContentLayout(_settingsLayout);
     // hiding every widget
     _distortionWidget->hide();
     _chorusWidget->hide();
@@ -237,7 +442,7 @@ void PresetWizardIntroPage::comboBoxIndexChanged(int index)
             type = LIDL::SFX_TYPE::GARGLE;
         this->_presetSFXcomboBox->clear();
         this->_presetSFXcomboBox->addItems(
-                LIDL::PresetController::GetInstance()->GetExistingPresetsList(type));
+                    LIDL::PresetController::GetInstance()->GetExistingPresetsList(type));
     }
 }
 
@@ -253,8 +458,8 @@ void PresetWizardIntroPage::addWidgets()
     _distortionWidget->addSlider(tr("Center Frequency"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQCenterFrequency));
     _distortionWidget->addSlider(tr("Bandwidth"),100,8000, " Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPostEQBandwidth));
     _distortionWidget->addSlider(tr("Lowpass Cutoff"),100,8000," Hz",static_cast<int>(LIDL::SFX_DIST_PARAM::fPreLowpassCutoff));
-//    _distortionWidget->addSpacer();
-     _settingsLayout->addWidget(_distortionWidget,0,0,1,6);
+    //    _distortionWidget->addSpacer();
+    _settingsLayout->addWidget(_distortionWidget,0,0,1,6);
 
     /*****************************************************/
     /*              REVAMPED  CHORUS                     */
@@ -268,16 +473,16 @@ void PresetWizardIntroPage::addWidgets()
     _chorusWidget->addSlider(tr("Wet Dry Mix"),0,100," %",static_cast<int>(LIDL::SFX_CHORUS_PARAM::fWetDryMix));
     _chorusWidget->addComboBox(tr("Phase Differential"),
                                (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
-                                               << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
-                                               <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
-                                               <<"90° (π rad)"       //BASS_FX_PHASE_90
-                                               <<"180° (π/2 rad)"),
+                                << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
+                                <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
+                                <<"90° (π rad)"       //BASS_FX_PHASE_90
+                                <<"180° (π/2 rad)"),
                                static_cast<int>(LIDL::SFX_CHORUS_PARAM::lPhase)); //BASS_FX_PHASE_180
 
     _chorusWidget->addComboBox("Wave Form", (QStringList() <<tr("Triangular Wave")
-                                                  <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
+                                             <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_CHORUS_PARAM::lWaveform));
 
-     _settingsLayout->addWidget(_chorusWidget,0,0,1,6); // 1
+    _settingsLayout->addWidget(_chorusWidget,0,0,1,6); // 1
     /*****************************************************/
     /*                     ECHO                          */
     /*****************************************************/
@@ -290,7 +495,7 @@ void PresetWizardIntroPage::addWidgets()
                                 "delay after echo"),
                              (QStringList() << tr("No") << tr("Yes")),
                              static_cast<int>(LIDL::SFX_ECHO_PARAM::lPanDelay));
-     _settingsLayout->addWidget(_echoWidget,0,0,1,6); //2
+    _settingsLayout->addWidget(_echoWidget,0,0,1,6); //2
 
     /*****************************************************/
     /*                  COMPRESSOR                   */
@@ -304,7 +509,7 @@ void PresetWizardIntroPage::addWidgets()
     _compressorWidget->addSlider(tr("Release"),50,3000," ms", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fRelease) );
     _compressorWidget->addSlider(tr("Threshold"),-60,0," dB", static_cast<int>(LIDL::SFX_COMPRESSOR_PARAM::fThreshold) );
 
-     _settingsLayout->addWidget(_compressorWidget,0,0,1,6);
+    _settingsLayout->addWidget(_compressorWidget,0,0,1,6);
     /*****************************************************/
     /*                     FLANGER                       */
     /*****************************************************/
@@ -315,28 +520,28 @@ void PresetWizardIntroPage::addWidgets()
     _flangerWidget->addSlider(tr("Frequency"),0,10," Hz", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fFrequency) );
     _flangerWidget->addSlider(tr("Wet Dry Mix"),0,100," %", static_cast<int>(LIDL::SFX_FLANGER_PARAM::fWetDryMix) );
     _flangerWidget->addComboBox(tr("Phase Differential"),
-                               (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
-                                               << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
-                                               <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
-                                               <<"90° (π rad)"       //BASS_FX_PHASE_90
-                                               <<"180° (π/2 rad)"),
-                               static_cast<int>(LIDL::SFX_FLANGER_PARAM::lPhase)); //BASS_FX_PHASE_180
+                                (QStringList()  << "-180° (-π rad)"   //    BASS_FX_PHASE_NEG_180
+                                 << "-90° (-π/2 rad)"  //    BASS_FX_PHASE_NEG_90
+                                 <<"0° (0 rad)"        //    BASS_FX_PHASE_ZERO
+                                 <<"90° (π rad)"       //BASS_FX_PHASE_90
+                                 <<"180° (π/2 rad)"),
+                                static_cast<int>(LIDL::SFX_FLANGER_PARAM::lPhase)); //BASS_FX_PHASE_180
 
     _flangerWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
-                                              <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_FLANGER_PARAM::lWaveform));
-     _settingsLayout->addWidget(_flangerWidget,0,0,1,6);
+                                                  <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_FLANGER_PARAM::lWaveform));
+    _settingsLayout->addWidget(_flangerWidget,0,0,1,6);
     /*****************************************************/
     /*    GARGLE (the cum like a bitch boi gachiBASS     */
     /*****************************************************/
     _gargleWidget = new SfxSettingsWidget(tr("Gargle"),LIDL::SFX_TYPE::GARGLE,false);
     _gargleWidget->addSlider(tr("Modulation rate"),1,1000,"Hz",static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwRateHz));
     _gargleWidget->addComboBox(tr("Wave Form"), (QStringList() <<tr("Triangular Wave")
-                                              <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwWaveShape));
+                                                 <<  tr("Sinusoidal Wave")),static_cast<int>(LIDL::SFX_GARGLE_PARAM::dwWaveShape));
     _gargleWidget->addSpacer();
-     _settingsLayout->addWidget(_gargleWidget,0,0,1,6);
+    _settingsLayout->addWidget(_gargleWidget,0,0,1,6);
 
 
-     _settingsSpoiler->setContentLayout(_settingsLayout);
+    _settingsSpoiler->setContentLayout(_settingsLayout);
 }
 
 

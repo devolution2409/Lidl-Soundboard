@@ -44,12 +44,12 @@ public:
     QStringList GetExistingSFXList() const;
 
 
-    void AddPreset(QString name, BASS_DX8_CHORUS preset);
-    void AddPreset(QString name, BASS_DX8_DISTORTION preset);
-    void AddPreset(QString name, BASS_DX8_COMPRESSOR preset);
-    void AddPreset(QString name, BASS_DX8_ECHO preset);
-    void AddPreset(QString name, BASS_DX8_FLANGER preset);
-    void AddPreset(QString name, BASS_DX8_GARGLE preset);
+    void AddPreset(QString name, BASS_DX8_CHORUS preset, bool overwrite = false);
+    void AddPreset(QString name, BASS_DX8_DISTORTION preset, bool overwrite = false);
+    void AddPreset(QString name, BASS_DX8_COMPRESSOR preset, bool overwrite = false);
+    void AddPreset(QString name, BASS_DX8_ECHO preset, bool overwrite = false);
+    void AddPreset(QString name, BASS_DX8_FLANGER preset, bool overwrite = false);
+    void AddPreset(QString name, BASS_DX8_GARGLE preset, bool overwrite = false);
 
 private:
     /*!

@@ -76,47 +76,45 @@ QStringList PresetController::GetExistingSFXList() const
 }
 
 
-
-
-
-void PresetController::AddPreset(QString name, BASS_DX8_DISTORTION preset)
+void PresetController::AddPreset(QString name, BASS_DX8_DISTORTION preset, bool override)
 {
-    if (_distortionPreset.find(name) != _distortionPreset.end())
-        return; // key already exists
+    if (_distortionPreset.find(name) != _distortionPreset.end() && !override)
+        return; // key already exists we return if we don't want to overried
     _distortionPreset.insert(name,preset);
 }
 
 
 
-void PresetController::AddPreset(QString name, BASS_DX8_CHORUS preset)
+void PresetController::AddPreset(QString name, BASS_DX8_CHORUS preset, bool override)
 {
-    if (_chorusPreset.find(name) != _chorusPreset.end())
+    if (_chorusPreset.find(name) != _chorusPreset.end() && !override)
         return; // key already exists
     _chorusPreset.insert(name,preset);
 }
-void PresetController::AddPreset(QString name, BASS_DX8_COMPRESSOR preset)
+void PresetController::AddPreset(QString name, BASS_DX8_COMPRESSOR preset, bool override)
 {
-    if (_compressorPreset.find(name) != _compressorPreset.end())
+    if (_compressorPreset.find(name) != _compressorPreset.end()&& !override)
         return; // key already exists
     _compressorPreset.insert(name,preset);
 }
-void PresetController::AddPreset(QString name, BASS_DX8_ECHO preset)
+void PresetController::AddPreset(QString name, BASS_DX8_ECHO preset, bool override)
 {
-    if (_echoPreset.find(name) != _echoPreset.end())
+    if (_echoPreset.find(name) != _echoPreset.end() && !override)
         return; // key already exists
     _echoPreset.insert(name,preset);
 }
-void PresetController::AddPreset(QString name, BASS_DX8_FLANGER preset)
+void PresetController::AddPreset(QString name, BASS_DX8_FLANGER preset, bool override)
 {
-    if (_flangerPreset.find(name) != _flangerPreset.end())
+    if (_flangerPreset.find(name) != _flangerPreset.end() && !override)
         return; // key already exists
     _flangerPreset.insert(name,preset);
 }
-void PresetController::AddPreset(QString name, BASS_DX8_GARGLE preset)
+void PresetController::AddPreset(QString name, BASS_DX8_GARGLE preset, bool override)
 {
-    if (_garglePreset.find(name) != _garglePreset.end())
+    if (_garglePreset.find(name) != _garglePreset.end() && !override)
         return; // key already exists
     _garglePreset.insert(name,preset);
 }
+
 
 }//end namespace LIDL

@@ -312,8 +312,11 @@ double CustomPlayer::PlayAt(int index)
 
     qDebug() << "duration: " << duration;
 
-    BASS_ChannelPlay(_mainChannel.last(),false);
-    BASS_ChannelPlay(_vacChannel.last(),false);
+    if (_mainOutputDevice != 0)
+        BASS_ChannelPlay(_mainChannel.last(),false);
+    // apparentely this crash on linux if this test isn't present? :WutFace:
+    if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
+        BASS_ChannelPlay(_vacChannel.last(),false);
     // testing shit :monkaOMEGA:
     // working :feelsokay man
     // Basically the thread will check for the state of the channel, when it is playing
