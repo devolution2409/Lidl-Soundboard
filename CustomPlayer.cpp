@@ -87,23 +87,30 @@ void CustomPlayer::PlayNext()
             /***********************************
              *       SEQUENTIAL AUTO           *
              ***********************************/
-            else if  ((_playMode == LIDL::Playback::Auto && _shouldPlay))
+            else if  (((_playMode == LIDL::Playback::Auto || _playMode == LIDL::Playback::AutoLoop )&& _shouldPlay))
             {
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
-                     _timerShouldPlay->start(duration);
+                _timerShouldPlay->start(duration);
                     // If the new index is OOB, it means we need to stop playing
-                    // else we continue
-                     //qDebug() << _index << "soundlist size:" << _soundList.size();
-                    if (_index < _soundList.size()  )
+                    // unless it's autoloop :)
+                    if (_index < _soundList.size() || _playMode == LIDL::Playback::AutoLoop )
                         _timerSequentialAutoPlay->start(duration+100);
+
             }
             // We don't even test should play here since we want the ear rape to happen
             else if ((_playMode == LIDL::Playback::Cancer))
             {
                 this->PlayAt(_index++);
-
             }
+            // If playback is autoplay, we need to check sound has finished
+//            else if ((_playMode == LIDL::Playback::Singleton))
+//            {
+//                this->PlayAt(_index++);
+//            }
+
+
+
 
         }
     }

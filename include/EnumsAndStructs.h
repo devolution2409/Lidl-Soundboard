@@ -28,7 +28,8 @@ namespace LIDL{
         Singleton = 1, /*!< The wrapper can contain 1 or less sounds, that can't be played several times at once. */
         Sequential = 2, /*!< The wrapper can contain several sounds, that will cycle every time the play button is called, and the previous one finished playing. */
         Auto =  3, /*!< The wrapper can contain several sounds. Once the PlayNext signal is received, it will play the first sound and the next one after it ended, until all sounds are played. */
-        Cancer = 4 /*!< The wrappper can contain 1 or less sounds. It can be spammed, hence the name, cancer. */
+        Cancer = 4, /*!< The wrappper can contain 1 or less sounds. It can be spammed, hence the name, cancer. */
+        AutoLoop = 5 /*!< Like auto, but will loop until canceled */
     };
 
     /*!

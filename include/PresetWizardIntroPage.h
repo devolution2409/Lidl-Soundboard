@@ -32,10 +32,11 @@ private:
     Spoiler * _presetSFXSpoiler;
     QGridLayout * _presetSFXLayout;
     QComboBox * _presetSFXcomboBox;
-    QMetaObject::Connection *conn;
+ //   QMetaObject::Connection *conn;
 
     void radioWasClicked();
-    void comboBoxIndexChanged(int index);
+    void sfxBoxIndexChanged(int index);
+    void presetBoxIndexChanged(const QString& name);
     void addWidgets();
     void finished();
     Spoiler *_settingsSpoiler;

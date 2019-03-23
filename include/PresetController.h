@@ -51,6 +51,15 @@ public:
     void AddPreset(QString name, BASS_DX8_FLANGER preset, bool overwrite = false);
     void AddPreset(QString name, BASS_DX8_GARGLE preset, bool overwrite = false);
 
+    /*!
+     * \brief Declares the template we are going to specialize
+     *
+     * Used as syntax flavor, to call only GetPreset<PresetName> instead of GetPresetName weSmart
+     */
+    template<typename BASS_SFX_STRUCT>
+    std::map<int,int> GetPreset(QString name);
+
+
 private:
     /*!
      * \brief PresetController default constructor.
@@ -72,10 +81,11 @@ private:
 signals:
 
 public slots:
-
-
-
 }; // end class
+
+
+
+
 }// end namespace lidl
 
 

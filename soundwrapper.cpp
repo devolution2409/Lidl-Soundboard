@@ -188,6 +188,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
        case LIDL::Playback::Sequential: tmpMode.append("Sequential"); break;
        case LIDL::Playback::Auto: tmpMode.append("Sequential (Auto)"); break;
        case LIDL::Playback::Cancer: tmpMode.append("Singleton (Cancer)");break;
+       case LIDL::Playback::AutoLoop: tmpMode.append("Sequential (Auto Loop)");break;
     }
     tempItem.append(new QStandardItem(tmpMode));
 

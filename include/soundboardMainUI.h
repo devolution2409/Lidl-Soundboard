@@ -294,6 +294,7 @@ public slots:
      * It is used by both the EDIT button and the DoubleClicked signal in the view.
      */
     void editSoundDialog();
+
     /*!
      * \brief Function to deal with Shortcut being pressed.
      *

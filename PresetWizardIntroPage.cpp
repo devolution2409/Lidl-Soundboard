@@ -50,9 +50,11 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
 
 
     connect(_spoilerSFXcomboBox,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            this               , &PresetWizardIntroPage::comboBoxIndexChanged);
+            this               , &PresetWizardIntroPage::sfxBoxIndexChanged);
 
 
+    connect(_presetSFXcomboBox, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), this,
+                                                                      &PresetWizardIntroPage::presetBoxIndexChanged );
 
 
 
@@ -67,7 +69,7 @@ PresetWizardIntroPage::PresetWizardIntroPage(QWidget *parent)
     _finishButton = new QPushButton(tr("Finish !"));
     // _finishButton->setEnabled(false);
     connect(_finishButton, &QPushButton::clicked, this, [=]{this->finished();});
-    _cancelButton = new QPushButton(tr("Cancel"));
+    _cancelButton = new QPushButton(tr("Close"));
     connect(_cancelButton,&QPushButton::clicked, parent,&QWizard::close);
 
     _layout->addItem(new QSpacerItem(10,600),5,0,5,5);
@@ -105,7 +107,7 @@ void PresetWizardIntroPage::finished()
                 temp.fEdge = values.at(static_cast<int>(SFX_DIST_PARAM::fEdge));
 
             if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth))!= values.end())
-                temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth));
+                temp.fPostEQBandwidth = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth));
 
             if (values.find(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency))!= values.end())
                 temp.fPostEQCenterFrequency = values.at(static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency));
@@ -121,20 +123,24 @@ void PresetWizardIntroPage::finished()
                 name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
                                              tr("Please input new preset name:"), QLineEdit::Normal,
                                              "Don't google largest island of the Philippines TriHard", &ok);
+            QStringList presets = PresetController::GetInstance()->GetExistingPresetsList(SFX_TYPE::DISTORTION);
             if (ok && !name.isEmpty())
             {
+                if (!override && presets.contains(name))
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("A preset with the name '%1' already exists!").arg(name));
+                else
+                {
+                    PresetController::GetInstance()->AddPreset(name,temp,override);
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    if (override)
+                        okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                PresetController::GetInstance()->AddPreset(name,temp,override);
-                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                if (override)
-                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+                    okBox.exec();
 
-                okBox.exec();
-                this->_cancelButton->click(); // close forsenE
+                }
             }
             else if (name.isEmpty() && ok)
-                QMessageBox::warning(this, tr("LIDL Preset Editor"),
-                                     tr("Please input a name !"));
+                QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("Please input a name !"));
 
 
         }
@@ -171,16 +177,22 @@ void PresetWizardIntroPage::finished()
                 name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
                                              tr("Please input new preset name:"), QLineEdit::Normal,
                                              "Don't google GNAA TriHardW", &ok);
+
+            QStringList presets = PresetController::GetInstance()->GetExistingPresetsList(SFX_TYPE::CHORUS);
             if (ok && !name.isEmpty())
             {
+                if (!override && presets.contains(name))
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("A preset with the name '%1' already exists!").arg(name));
+                else
+                {
+                    PresetController::GetInstance()->AddPreset(name,temp,override);
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    if (override)
+                        okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                PresetController::GetInstance()->AddPreset(name,temp,override);
-                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                if (override)
-                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+                    okBox.exec();
 
-                okBox.exec();
-                this->_cancelButton->click(); // close forsenE
+                }
             }
             else if (name.isEmpty() && ok)
                 QMessageBox::warning(this, tr("LIDL Preset Editor"),
@@ -212,16 +224,21 @@ void PresetWizardIntroPage::finished()
                 name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
                                              tr("Please input new preset name:"), QLineEdit::Normal,
                                              "Don't google Asteroid 8766 cmonBruh", &ok);
+            QStringList presets = PresetController::GetInstance()->GetExistingPresetsList(SFX_TYPE::ECHO);
             if (ok && !name.isEmpty())
             {
+                if (!override && presets.contains(name))
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("A preset with the name '%1' already exists!").arg(name));
+                else
+                {
+                    PresetController::GetInstance()->AddPreset(name,temp,override);
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    if (override)
+                        okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                PresetController::GetInstance()->AddPreset(name,temp,override);
-                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                if (override)
-                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+                    okBox.exec();
 
-                okBox.exec();
-                this->_cancelButton->click(); // close forsenE
+                }
             }
             else if (name.isEmpty() && ok)
                 QMessageBox::warning(this, tr("LIDL Preset Editor"),
@@ -248,7 +265,7 @@ void PresetWizardIntroPage::finished()
                 temp.fRatio = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fRatio));
 
             if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM:: fThreshold))!= values.end())
-                temp. fThreshold = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fThreshold));
+                temp.fRelease = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fRelease));
 
             if (values.find(static_cast<int>(SFX_COMPRESSOR_PARAM:: fThreshold))!= values.end())
                 temp. fThreshold = values.at(static_cast<int>(SFX_COMPRESSOR_PARAM::fThreshold));
@@ -258,16 +275,21 @@ void PresetWizardIntroPage::finished()
                 name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
                                              tr("Please input new preset name:"), QLineEdit::Normal,
                                              "Book in russian cmonBruh", &ok);
+            QStringList presets = PresetController::GetInstance()->GetExistingPresetsList(SFX_TYPE::COMPRESSOR);
             if (ok && !name.isEmpty())
             {
+                if (!override && presets.contains(name))
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("A preset with the name '%1' already exists!").arg(name));
+                else
+                {
+                    PresetController::GetInstance()->AddPreset(name,temp,override);
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    if (override)
+                        okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                PresetController::GetInstance()->AddPreset(name,temp,override);
-                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                if (override)
-                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+                    okBox.exec();
 
-                okBox.exec();
-                this->_cancelButton->click(); // close forsenE
+                }
             }
             else if (name.isEmpty() && ok)
                 QMessageBox::warning(this, tr("LIDL Preset Editor"),
@@ -303,16 +325,21 @@ void PresetWizardIntroPage::finished()
                 name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
                                              tr("Please input new preset name:"), QLineEdit::Normal,
                                              "Book in russian cmonBruh", &ok);
+            QStringList presets = PresetController::GetInstance()->GetExistingPresetsList(SFX_TYPE::FLANGER);
             if (ok && !name.isEmpty())
             {
+                if (!override && presets.contains(name))
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("A preset with the name '%1' already exists!").arg(name));
+                else
+                {
+                    PresetController::GetInstance()->AddPreset(name,temp,override);
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    if (override)
+                        okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                PresetController::GetInstance()->AddPreset(name,temp,override);
-                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                if (override)
-                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+                    okBox.exec();
 
-                okBox.exec();
-                this->_cancelButton->click(); // close forsenE
+                }
             }
             else if (name.isEmpty() && ok)
                 QMessageBox::warning(this, tr("LIDL Preset Editor"),
@@ -336,33 +363,29 @@ void PresetWizardIntroPage::finished()
                 name = QInputDialog::getText(this, tr("LIDL Preset Editor"),
                                              tr("Please input new preset name:"), QLineEdit::Normal,
                                              "DONT GOOGLE \"Meanly small; scanty or meager\" (with quotes) HYPERBRUH HYPERCLAP'", &ok);
+            QStringList presets = PresetController::GetInstance()->GetExistingPresetsList(SFX_TYPE::GARGLE);
             if (ok && !name.isEmpty())
             {
+                if (!override && presets.contains(name))
+                    QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("A preset with the name '%1' already exists!").arg(name));
+                else
+                {
+                    PresetController::GetInstance()->AddPreset(name,temp,override);
+                    QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
+                    if (override)
+                        okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
 
-                PresetController::GetInstance()->AddPreset(name,temp,override);
-                QMessageBox okBox(QMessageBox::NoIcon,tr("LIDL Preset Editor"),QString( tr("Successfully added '%1' preset !")).arg(name));
-                if (override)
-                    okBox.setText(QString( tr("Successfully edited '%1' preset !")).arg(name));
+                    okBox.exec();
 
-                okBox.exec();
-                this->_cancelButton->click(); // close forsenE
+                }
             }
             else if (name.isEmpty() && ok)
-                QMessageBox::warning(this, tr("LIDL Preset Editor"),
-                                     tr("Please input a name !"));
-
+                QMessageBox::warning(this, tr("LIDL Preset Editor"), tr("Please input a name !"));
 
         }
-
-
     }
-
-    // if edit mode we have to check a valid SFX is selected
-
-
-
-
 }
+
 
 void PresetWizardIntroPage::radioWasClicked()
 {
@@ -384,10 +407,10 @@ void PresetWizardIntroPage::radioWasClicked()
             return;
         }
     }
-    this->comboBoxIndexChanged(_spoilerSFXcomboBox->currentIndex());
+    this->sfxBoxIndexChanged(_spoilerSFXcomboBox->currentIndex());
 }
 
-void PresetWizardIntroPage::comboBoxIndexChanged(int index)
+void PresetWizardIntroPage::sfxBoxIndexChanged(int index)
 {
     //_settingsSpoiler->setContentLayout(_settingsLayout);
     // hiding every widget
@@ -544,5 +567,88 @@ void PresetWizardIntroPage::addWidgets()
     _settingsSpoiler->setContentLayout(_settingsLayout);
 }
 
+void PresetWizardIntroPage::presetBoxIndexChanged(const QString &name)
+{
+    using namespace LIDL;
+    // hiding everything TriHard
+    _distortionWidget->hide();
+    _chorusWidget->hide();
+    _echoWidget->hide();
+    _compressorWidget->hide();
+    _flangerWidget->hide();
+    _gargleWidget->hide();
+    _settingsSpoiler->close();
+    _settingsSpoiler->hide();
+    // 0 is either no existing preset or no preset selected
+    if (_presetSFXcomboBox->currentIndex() == 0 )
+        return;
 
+
+
+
+    int type = _spoilerSFXcomboBox->currentIndex();
+
+    if (type == 1) //dist
+    {
+        _settingsSpoiler->show();
+        _settingsSpoiler->Open();
+        _distortionWidget->show();
+        std::map<int,int> settings = PresetController::GetInstance()->GetPreset<BASS_DX8_DISTORTION>(name);
+        for (int i= 0; i < static_cast<int>(SFX_DIST_PARAM::ITER_END); i++)
+            _distortionWidget->setValueOfEnumParam(i, settings.at(i));
+
+    }
+    if (type == 2) // chorus
+    {
+        _settingsSpoiler->show();
+        _settingsSpoiler->Open();
+        _chorusWidget->show();
+        std::map<int,int> settings = PresetController::GetInstance()->GetPreset<BASS_DX8_CHORUS>(name);
+        for (int i= 0; i < static_cast<int>(SFX_CHORUS_PARAM::ITER_END); i++)
+            _chorusWidget->setValueOfEnumParam(i, settings.at(i));
+    }
+    if (type == 3) // echo
+    {
+        _settingsSpoiler->show();
+        _settingsSpoiler->Open();
+        _echoWidget->show();
+        std::map<int,int> settings = PresetController::GetInstance()->GetPreset<BASS_DX8_ECHO>(name);
+        for (int i= 0; i < static_cast<int>(SFX_ECHO_PARAM::ITER_END); i++)
+            _echoWidget->setValueOfEnumParam(i, settings.at(i));
+
+    }
+    if (type == 4) // compressor
+    {
+        _settingsSpoiler->show();
+        _settingsSpoiler->Open();
+        _compressorWidget->show();
+        std::map<int,int> settings = PresetController::GetInstance()->GetPreset<BASS_DX8_COMPRESSOR>(name);
+        for (int i= 0; i < static_cast<int>(SFX_COMPRESSOR_PARAM::ITER_END); i++)
+            _compressorWidget->setValueOfEnumParam(i, settings.at(i));
+
+    }
+    if (type == 5) // flanger
+    {
+        _settingsSpoiler->show();
+        _settingsSpoiler->Open();
+        _flangerWidget->show();
+
+        std::map<int,int> settings = PresetController::GetInstance()->GetPreset<BASS_DX8_FLANGER>(name);
+        for (int i= 0; i < static_cast<int>(SFX_FLANGER_PARAM::ITER_END); i++)
+            _flangerWidget->setValueOfEnumParam(i, settings.at(i));
+
+
+    }
+    if (type == 6) // gargle
+    {
+        _settingsSpoiler->show();
+        _settingsSpoiler->Open();
+        _gargleWidget->show();
+
+        std::map<int,int> settings = PresetController::GetInstance()->GetPreset<BASS_DX8_GARGLE>(name);
+        for (int i= 0; i < static_cast<int>(SFX_COMPRESSOR_PARAM::ITER_END); i++)
+            _gargleWidget->setValueOfEnumParam(i, settings.at(i));
+    }
+
+}
 

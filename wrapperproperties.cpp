@@ -231,24 +231,28 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     // Creating buttons
     _radioSingleton  = new QRadioButton("Singleton",this);
     _radioSequential = new QRadioButton("Sequential",this);
-    _radioAuto       = new QRadioButton("Sequential (auto)",this);
+    _radioAuto       = new QRadioButton("Sequential (Auto)",this);
     _radioCancer     = new QRadioButton("Singleton (Cancer)",this);
-
+    _radioAutoLoop     = new QRadioButton("Sequential (Auto Loop)",this);
     // setting 1 has default value for playblack
     _playBackMode    = LIDL::Playback::Singleton;
 
     // Adding them to layout, and setting singleton checked by default
-    _radioLayout->addWidget(_radioSingleton);
-    _radioLayout->addWidget(_radioCancer);
+    _radioLayout->insertWidget(0,_radioSingleton);
+    _radioLayout->insertWidget(1,_radioCancer);
+    _radioLayout->insertWidget(4,_radioAutoLoop);
+    _radioLayout->insertWidget(2,_radioSequential);
+    _radioLayout->insertWidget(3,_radioAuto);
+
+
     _radioSingleton->setChecked(true);
-    _radioLayout->addWidget(_radioSequential);
-    _radioLayout->addWidget(_radioAuto);
     //_radioLayout->addWidget(_radioToolTip);
-    // Adding them to the group
+    // Adding them to the group.
     _radioGroup->addButton(_radioSingleton,1);
+    _radioGroup->addButton(_radioCancer,4);
     _radioGroup->addButton(_radioSequential,2);
     _radioGroup->addButton(_radioAuto,3);
-    _radioGroup->addButton(_radioCancer,4);
+    _radioGroup->addButton(_radioAutoLoop,5);
 
 
     /*******************************************************
@@ -417,6 +421,7 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
         case LIDL::Playback::Sequential :_radioSequential->setChecked(true); break;
         case LIDL::Playback::Auto: _radioAuto->setChecked(true); break;
         case LIDL::Playback::Cancer: _radioCancer->setChecked(true); break;
+        case LIDL::Playback::AutoLoop: _radioAutoLoop->setChecked(true); break;
         }
         // set the shortcut
         this->_shortcutEdit->setKeySequence(sound->getKeySequence());
@@ -424,7 +429,8 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
         this->_shortcutEdit->setVirtualKey(sound->getShortcutVirtualKey());
 
         connect(_btnDone,&QPushButton::clicked,this, [=]{
-            if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
+            if( (this->_playBackMode == LIDL::Playback::Singleton)
+                    && (this->_soundListDisplay->count()  >1))
             {
                 QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
                 return;
@@ -628,7 +634,6 @@ void WrapperProperties::ItemWasClicked(QListWidgetItem *item)
         connect(_sliderVAC,SIGNAL(valueChanged(int)),this,SLOT(SetItemVACVolume(int)));
         connect(_sliderMain,SIGNAL(valueChanged(int)),this,SLOT(SetItemMainVolume(int)));
     }
-
 
 
 }

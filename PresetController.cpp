@@ -27,37 +27,37 @@ QStringList  PresetController::GetExistingPresetsList(LIDL::SFX_TYPE type) const
     if (type == LIDL::SFX_TYPE::DISTORTION)
     {
         if ( ! _distortionPreset.keys().isEmpty())
-            return QStringList( _distortionPreset.keys());
+            return (QStringList() << tr("No preset selected") << (_distortionPreset.keys()));
         return QStringList() << tr("No presets for distortion SFX !");
     }
     if (type == LIDL::SFX_TYPE::ECHO)
     {
         if ( ! _echoPreset.keys().isEmpty())
-            return QStringList( _echoPreset.keys());
+            return (QStringList() << tr("No preset selected") << _echoPreset.keys());
         return QStringList() << tr("No presets for echo SFX !");
     }
     if (type == LIDL::SFX_TYPE::CHORUS)
     {
         if ( ! _chorusPreset.keys().isEmpty())
-            return QStringList( _chorusPreset.keys());
+            return (QStringList() << tr("No preset selected") << _chorusPreset.keys());
         return QStringList() << tr("No presets for chorus SFX !");
     }
     if (type == LIDL::SFX_TYPE::COMPRESSOR)
     {
         if ( ! _compressorPreset.keys().isEmpty())
-            return QStringList( _compressorPreset.keys());
+            return (QStringList() << tr("No preset selected") << _compressorPreset.keys());
         return QStringList() << tr("No presets for compressor SFX !");
     }
     if (type == LIDL::SFX_TYPE::FLANGER)
     {
         if ( ! _flangerPreset.keys().isEmpty())
-            return QStringList( _flangerPreset.keys());
+            return (QStringList() << tr("No preset selected") << _flangerPreset.keys());
         return QStringList() << tr("No presets for flanger SFX !");
     }
     if (type == LIDL::SFX_TYPE::GARGLE)
     {
         if ( ! _garglePreset.keys().isEmpty())
-            return QStringList( _garglePreset.keys());
+            return (QStringList() << tr("No preset selected") << _garglePreset.keys());
         return QStringList() << tr("No presets for gargle SFX !");
     }
     // none:
@@ -115,6 +115,106 @@ void PresetController::AddPreset(QString name, BASS_DX8_GARGLE preset, bool over
         return; // key already exists
     _garglePreset.insert(name,preset);
 }
+
+// implementing specialization here to not fuck the ODR.
+template<>
+std::map<int,int> PresetController::GetPreset<BASS_DX8_DISTORTION>(QString name)
+{
+    BASS_DX8_DISTORTION preset = _distortionPreset.value(name);
+    std::map<int,int> enumMap;
+
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_DIST_PARAM::fGain),  preset.fGain  ));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_DIST_PARAM::fEdge),  preset.fEdge  ));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_DIST_PARAM::fPostEQBandwidth), preset.fPostEQBandwidth));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_DIST_PARAM::fPostEQCenterFrequency), preset.fPostEQCenterFrequency ));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_DIST_PARAM::fPreLowpassCutoff), preset.fPreLowpassCutoff ));
+
+    return enumMap;
+}
+
+template<>
+std::map<int,int> PresetController::GetPreset<BASS_DX8_CHORUS>(QString name)
+{
+    BASS_DX8_CHORUS preset = _chorusPreset.value(name);
+    std::map<int,int> enumMap;
+
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::fDelay), preset.fDelay));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::fDepth), preset.fDepth));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::fFeedback),preset.fFeedback));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::fFrequency), preset.fFrequency));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::fWetDryMix), preset.fWetDryMix));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::lPhase), preset.lPhase));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_CHORUS_PARAM::lWaveform),preset.lWaveform));
+
+    return enumMap;
+}
+
+
+template<>
+std::map<int,int> PresetController::GetPreset<BASS_DX8_ECHO>(QString name)
+{
+    BASS_DX8_ECHO preset = _echoPreset.value(name);
+    std::map<int,int> enumMap;
+
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_ECHO_PARAM::fFeedback ), preset.fFeedback));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_ECHO_PARAM::fLeftDelay ), preset.fLeftDelay));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_ECHO_PARAM::fRightDelay ), preset.fRightDelay));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_ECHO_PARAM::fWetDryMix ), preset.fWetDryMix));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_ECHO_PARAM::lPanDelay ), preset.lPanDelay));
+
+    return enumMap;
+}
+
+template<>
+std::map<int,int> PresetController::GetPreset<BASS_DX8_COMPRESSOR>(QString name)
+{
+    BASS_DX8_COMPRESSOR preset = _compressorPreset.value(name);
+    std::map<int,int> enumMap;
+
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_COMPRESSOR_PARAM::fAttack ), preset.fAttack));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_COMPRESSOR_PARAM::fGain), preset.fGain));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_COMPRESSOR_PARAM::fPredelay ), preset.fPredelay));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_COMPRESSOR_PARAM::fRatio ), preset.fRatio));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_COMPRESSOR_PARAM::fRelease ), preset.fRelease));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_COMPRESSOR_PARAM::fThreshold), preset.fThreshold));
+
+    return enumMap;
+}
+
+template<>
+std::map<int,int> PresetController::GetPreset<BASS_DX8_FLANGER>(QString name)
+{
+    BASS_DX8_FLANGER preset = _flangerPreset.value(name);
+    std::map<int,int> enumMap;
+
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::fDelay ), preset.fDelay));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::fDepth ), preset.fDepth));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::fFeedback ), preset.fFeedback));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::fFrequency ), preset.fFrequency));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::fWetDryMix ), preset.fWetDryMix));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::lPhase ), preset.lPhase));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_FLANGER_PARAM::lWaveform ), preset.lWaveform));
+
+
+    return enumMap;
+}
+
+
+template<>
+std::map<int,int> PresetController::GetPreset<BASS_DX8_GARGLE>(QString name)
+{
+    BASS_DX8_GARGLE preset = _garglePreset.value(name);
+    std::map<int,int> enumMap;
+
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_GARGLE_PARAM::dwRateHz), preset.dwRateHz));
+    enumMap.insert(std::pair<int,int>( static_cast<int>(SFX_GARGLE_PARAM::dwWaveShape), preset.dwWaveShape));
+
+
+    return enumMap;
+}
+
+
+
 
 
 }//end namespace LIDL

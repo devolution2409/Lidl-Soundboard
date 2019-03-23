@@ -137,6 +137,7 @@ private:
     QRadioButton *_radioSequential; /*!< The Sequential radio button.*/
     QRadioButton *_radioAuto; /*!< The Sequential (auto) radio button.*/
     QRadioButton *_radioCancer; /*!< The Singleton (cancer) radio button.*/
+    QRadioButton *_radioAutoLoop; /*!< The Singleton Autoplay radio button.*/
 
     // Hotkey
     QGroupBox   *_shortcutGroup; /*!< The groupbox for the shortcut settings.*/
