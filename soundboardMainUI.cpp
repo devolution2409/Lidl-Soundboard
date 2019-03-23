@@ -1406,8 +1406,12 @@ void SoundboardMainUI::Open(QString fileName)
             // don't mind me just avoiding the may be unitialized warnings ppHop
             playbackmode = LIDL::Playback::Singleton;
             if (item.contains("Playback Mode"))
+            {
                 playbackmode = static_cast<LIDL::Playback>(item.value("Playback Mode").toInt());
+                if (playbackmode == LIDL::Playback::Singleton)
+                    playbackmode = LIDL::Playback::Sequential;
 
+            }
             // Shortcut info
             // don't mind me just avoiding the may be unitialized warnings ppHop
             shortcutVirtualKey = -1;
@@ -1681,7 +1685,8 @@ void SoundboardMainUI::OpenEXPSounboard()
                 fileList.append(fileName);
                 // Calling the constructor designed for exp jsons (V)
                 this->addSound(new SoundWrapper(fileList,
-                                                LIDL::Playback::Singleton,
+                                                LIDL::Playback::Sequential,
+                                                //LIDL::Playback::Singleton // not a singleton anymore cause it's redundant with sequential with only one sound
                                                 LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
                                                 LIDL::SettingsController::GetInstance()->GetDefaultVacVolume(),
                                                 this->_deviceListOutput->currentIndex(),

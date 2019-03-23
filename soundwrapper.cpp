@@ -184,11 +184,14 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     QString tmpMode;
     switch(this->getPlayMode())
     {
-       case LIDL::Playback::Singleton: tmpMode.append("Singleton"); break;
+
        case LIDL::Playback::Sequential: tmpMode.append("Sequential"); break;
        case LIDL::Playback::Auto: tmpMode.append("Sequential (Auto)"); break;
        case LIDL::Playback::Cancer: tmpMode.append("Singleton (Cancer)");break;
        case LIDL::Playback::AutoLoop: tmpMode.append("Sequential (Auto Loop)");break;
+
+       // legacy, should never be called
+       case LIDL::Playback::Singleton: tmpMode.append("Singleton"); break;
     }
     tempItem.append(new QStandardItem(tmpMode));
 

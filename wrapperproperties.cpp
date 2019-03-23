@@ -229,7 +229,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _radioLayout     = new QHBoxLayout(_radioGroupBox);
 
     // Creating buttons
-    _radioSingleton  = new QRadioButton("Singleton",this);
+    //_radioSingleton  = new QRadioButton("Singleton",this);
     _radioSequential = new QRadioButton("Sequential",this);
     _radioAuto       = new QRadioButton("Sequential (Auto)",this);
     _radioCancer     = new QRadioButton("Singleton (Cancer)",this);
@@ -238,17 +238,17 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _playBackMode    = LIDL::Playback::Singleton;
 
     // Adding them to layout, and setting singleton checked by default
-    _radioLayout->insertWidget(0,_radioSingleton);
-    _radioLayout->insertWidget(1,_radioCancer);
-    _radioLayout->insertWidget(4,_radioAutoLoop);
-    _radioLayout->insertWidget(2,_radioSequential);
-    _radioLayout->insertWidget(3,_radioAuto);
+   // _radioLayout->insertWidget(0,_radioSingleton);
+    _radioLayout->insertWidget(0,_radioCancer);
+    _radioLayout->insertWidget(3,_radioAutoLoop);
+    _radioLayout->insertWidget(1,_radioSequential);
+    _radioLayout->insertWidget(2,_radioAuto);
 
-
-    _radioSingleton->setChecked(true);
+    _radioSequential->setChecked(true);
+   // _radioSingleton->setChecked(true);
     //_radioLayout->addWidget(_radioToolTip);
     // Adding them to the group.
-    _radioGroup->addButton(_radioSingleton,1);
+//    _radioGroup->addButton(_radioSingleton,1);
     _radioGroup->addButton(_radioCancer,4);
     _radioGroup->addButton(_radioSequential,2);
     _radioGroup->addButton(_radioAuto,3);
@@ -324,12 +324,12 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
         this->_sliderSpoiler ->setEnabled(false);
         this->_sfxSpoiler->setEnabled(false);
 
-        // need to renable add button if we are in singleton song and this was the last sound
-        if (_soundListDisplay->count() == 0)
-        {
-            this->_radioSingleton->setEnabled(true);
-            this->_btnAdd->setEnabled(true);
-        }
+//        // need to renable add button if we are in singleton song and this was the last sound
+//        if (_soundListDisplay->count() == 0)
+//        {
+//            //this->_radioSingleton->setEnabled(true);
+//            this->_btnAdd->setEnabled(true);
+//        }
         // we clear selection
         _soundListDisplay->clearSelection();
 
@@ -417,11 +417,14 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
         _playBackMode = sound->getPlayMode();
         switch(_playBackMode)
         {
-        case LIDL::Playback::Singleton : this->_radioSingleton->setChecked(true); ; break;
+        //case LIDL::Playback::Singleton : this->_radioSingleton->setChecked(true); ; break;
         case LIDL::Playback::Sequential :_radioSequential->setChecked(true); break;
         case LIDL::Playback::Auto: _radioAuto->setChecked(true); break;
         case LIDL::Playback::Cancer: _radioCancer->setChecked(true); break;
         case LIDL::Playback::AutoLoop: _radioAutoLoop->setChecked(true); break;
+        // retrocompatiblity, shouldn't even ever be called but eh
+        case LIDL::Playback::Singleton: _radioSequential->setChecked(true); break;
+
         }
         // set the shortcut
         this->_shortcutEdit->setKeySequence(sound->getKeySequence());
@@ -537,8 +540,8 @@ void WrapperProperties::AddSound()
         if (_soundListDisplay->count()>1)
         {
 
-            _radioSingleton->setEnabled(false);
-            if (_radioGroup->checkedId() == 1)
+            _radioCancer->setEnabled(false);
+            if (_radioGroup->checkedId() == 4)
             {
                 _radioSequential->setChecked(true);
                 _playBackMode = LIDL::Playback::Sequential;
@@ -553,8 +556,8 @@ void WrapperProperties::AddSoundFromDrop(QString file)
     if (_soundListDisplay->count()>1)
     {
 
-        _radioSingleton->setEnabled(false);
-        if (_radioGroup->checkedId() == 1)
+        _radioCancer->setEnabled(false);
+        if (_radioGroup->checkedId() == 4)
         {
             _radioSequential->setChecked(true);
             _playBackMode = LIDL::Playback::Sequential;

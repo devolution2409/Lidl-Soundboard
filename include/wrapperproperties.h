@@ -133,7 +133,7 @@ private:
     QGroupBox    *_radioGroupBox; /*!< The groupbox for playback mode.*/
     QButtonGroup *_radioGroup; /*!< The button holding together each radio button.*/
     QHBoxLayout  *_radioLayout; /*!< The horizontal layout containing the radio buttons.*/
-    QRadioButton *_radioSingleton; /*!< The Singleton radio button.*/
+    //QRadioButton *_radioSingleton; /*!< The Singleton radio button.*/
     QRadioButton *_radioSequential; /*!< The Sequential radio button.*/
     QRadioButton *_radioAuto; /*!< The Sequential (auto) radio button.*/
     QRadioButton *_radioCancer; /*!< The Singleton (cancer) radio button.*/

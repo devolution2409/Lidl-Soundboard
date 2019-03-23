@@ -111,6 +111,7 @@
 #include "LoadingWidgetWorker.h"
 #include "PresetWizard.h"
 
+#include <QDebug>
 /*!
  * \file soundboardMainUI.h
  * \brief Code of the mainUI.
