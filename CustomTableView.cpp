@@ -5,7 +5,7 @@ CustomTableView::CustomTableView(QWidget *parent) : QTableView(parent)
 {
     //_mainWindow = parent;
     this->setAttribute(Qt::WA_TransparentForMouseEvents,false);
-
+    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
     /* If its value is true, the selected data will overwrite the existing item data when dropped,
      * while moving the data will clear the item.
      * If its value is false, the selected data will be inserted as a new item when the data is dropped.
