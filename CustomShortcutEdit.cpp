@@ -35,6 +35,7 @@ void CustomShortcutEdit::keyPressEvent(QKeyEvent *e)
         _virtualKey =  e->nativeVirtualKey();
         _scanCode    = e->nativeScanCode();
     }
+    qDebug() << "new scancode:" << _scanCode << " new virtual key" << _virtualKey;
 
 }
 
@@ -58,6 +59,7 @@ void CustomShortcutEdit::setScanCode(int sc)
 {
     this->_scanCode = sc;
    emit scanCodeChanged(_scanCode);
+
 }
 
 
@@ -69,7 +71,41 @@ void CustomShortcutEdit::sendSignal()
    emit scanCodeChanged(_scanCode);
 }
 
+
+//used in wrapper properties to actually check if a modifier was used or not
 QString CustomShortcutEdit::getText()
 {
+    // trying to accoutn for numpads
+    if (this->_virtualKey <= 0x69 && this->_virtualKey >= 0x60)
+    {
+        //the number stored here is, in fact, from numpad. Thanks qt for not telling forsenD
+        // splitting over + in case there is modifiers, using string stream
+        /*
+        std::istringstream ss(this->keySequence().toString().toStdString());
+        std::string token;
+
+        while(std::getline(ss, token, '+')) {
+            qDebug() << token.c_str() << '\n';
+        }
+        */
+
+        // or more simply, just use reverse find to find the last + and add the text there
+        std::string text = this->keySequence().toString().toStdString();
+        std::size_t found = text.rfind("+");
+        // if it has at least one modifier, we insert right after it
+         if (found!=std::string::npos)
+         {
+            // qDebug() << "string: " << text.c_str() << " pos:" << found;
+            text.insert(found+1,"Numpad ");
+         }
+         else // we prepend
+         {
+             text = "Numpad " + text;
+         }
+         qDebug() << text.c_str();
+         return QString::fromStdString(text);
+
+
+    }
     return this->keySequence().toString();
 }

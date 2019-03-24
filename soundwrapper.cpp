@@ -86,6 +86,14 @@ QKeySequence SoundWrapper::getKeySequence()
     return this->_keySequence;
 }
 
+// Key sequence as string, including numpads, mb
+
+//QString SoundWrapper::getKeySequenceText()
+//{
+
+//}
+
+
 // playmode
 LIDL::Playback SoundWrapper::getPlayMode()
 {
@@ -180,6 +188,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     if (this->getKeySequence().isEmpty())
         tempItem.append(new QStandardItem("No Shortcut!"));
     else
+        //tempItem.append(new QStandardItem();
         tempItem.append(new QStandardItem(this->getKeySequence().toString()));
     QString tmpMode;
     switch(this->getPlayMode())

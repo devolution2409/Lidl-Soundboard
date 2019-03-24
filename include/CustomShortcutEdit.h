@@ -8,6 +8,8 @@
 #include <QKeyEvent>
 
 #include <QDebug>
+#include <iostream>
+#include <sstream>
 
 
 /*! Custom KeySequenceEdit so we are able to fetch the virtualKey and scancode integers from the event.
