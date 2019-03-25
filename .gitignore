@@ -13,3 +13,5 @@ images/
 doxygen.exe
 Doxyfile
 *.autosave
+*.pro.user*
+*.pro.user
