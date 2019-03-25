@@ -157,7 +157,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         _shortcutEditStop->clear();
     });
 
-    connect(this->_shortcutEditStop,SIGNAL(virtualKeyChanged(int)),this,SLOT(setStopShortcut(int)));
+    connect(this->_shortcutEditStop, &CustomShortcutEdit::virtualKeyChanged,this,&SoundboardMainUI::setStopShortcut);
     // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
     /***************************************************
