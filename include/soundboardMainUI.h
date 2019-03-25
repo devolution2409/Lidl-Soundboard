@@ -139,7 +139,7 @@ private:
 
 
     QVector<QKeySequence> _keySequence; /*!< keySequence array: contains the shortcuts to the sounds (mostly for displaying).*/
-    QVector<int>          _keyVirtualKey; /*!< keyVirtualKey array: contains virtual code of the shortcuts to play (to register them).*/
+    QVector<unsigned int>          _keyVirtualKey; /*!< keyVirtualKey array: contains virtual code of the shortcuts to play (to register them).*/
     // Windows Shorcut HANDLE for the sound shortcuts
     QVector<int> _winShorcutHandle; /*!< Handles to the registered shortcuts.*/
 

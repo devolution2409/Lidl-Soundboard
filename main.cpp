@@ -10,8 +10,8 @@
 #include <QStyleFactory>
 
 //#include <winuser.h>
-#include "framelesswindow.h"
-#include "DarkStyle.h"
+//#include "framelesswindow.h"
+//#include "DarkStyle.h"
 #include "windows.h"
 //#define _WIN32_DCOM
 //#include <comdef.h>
@@ -20,13 +20,13 @@
 
 int main(int argc, char *argv[])
 {
-
+qDebug() << "gneeeee";
     QApplication app(argc, argv);
-
+qDebug() << "gneeeee";
      qDebug() << QApplication::libraryPaths();
-
+   qDebug() << "gneeeee";
     SoundboardMainUI container;
-
+   qDebug() << "gneeeee";
     container.show();
 
 //r    app.setStyle(new DarkStyle);
@@ -74,5 +74,6 @@ int main(int argc, char *argv[])
 
     // Re-send post quit message or the app runs as a daemon for some reason forsenT
     PostQuitMessage(0);
+
     return app.exec();
 }

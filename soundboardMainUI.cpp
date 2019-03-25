@@ -113,7 +113,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _btnMicInjection = new QPushButton("Open sound configuration",this);
     _gLayout->addWidget(_btnMicInjection,7,0,1,6);
 
-    connect(this->_btnMicInjection,QPushButton::clicked,this, [=]{
+    connect(this->_btnMicInjection,&QPushButton::clicked,this, [=]{
         WinExec("control mmsys.cpl sounds",8);
         });
 
@@ -135,7 +135,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _gLayout->addWidget(_shortcutEditPTT,8,4,1,1);
     _gLayout->addWidget(_btnClearPTT,8,5,1,1);
 
-    connect(this->_btnClearPTT,QPushButton::clicked,this,[=]{
+    connect(this->_btnClearPTT,&QPushButton::clicked,this,[=]{
             // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
             _shortcutEditPTT->clear();
             LIDL::SettingsController::GetInstance()->SetPTTScanCode(-1);
@@ -152,8 +152,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _gLayout->addWidget(_shortcutEditStop,9,4,1,1);
     _gLayout->addWidget(_btnClearStop,9,5,1,1);
 
-    connect(this->_btnClearStop,QPushButton::clicked,this,[=]{
-        UnregisterHotKey(NULL,2147483647);
+    connect(this->_btnClearStop,&QPushButton::clicked,this,[=]{
+        UnregisterHotKey(nullptr,2147483647);
         _shortcutEditStop->clear();
     });
 
@@ -186,7 +186,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
       ****************************************************/
 
     // Lamnda _btnAdd
-    connect(this->_btnAdd, QPushButton::clicked, this, [=]{
+    connect(this->_btnAdd, &QPushButton::clicked, this, [=]{
         this->setEnabled(false);
 
         _propertiesWindow = new WrapperProperties(
@@ -207,7 +207,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // Lambda
     //connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
 
-    connect(this->resultView, CustomTableView::clicked, this, [=](QModelIndex index){
+    connect(this->resultView, &CustomTableView::clicked, this, [=](QModelIndex index){
         // disconnect the play button
         disconnect(_btnPlay,0,0,0);
         lastSelectedRow = index.row();
@@ -224,7 +224,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     });
 
     // Lambda
-    connect(this->resultView, CustomTableView::doubleClicked,this, [=](QModelIndex index){
+    connect(this->resultView, &CustomTableView::doubleClicked,this, [=](QModelIndex index){
         // but we update it regardless
         disconnect(_btnPlay,0,0,0);
         lastSelectedRow = index.row();
@@ -238,7 +238,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     });
 
     connect(this->_btnEdit, SIGNAL(clicked()), this, SLOT(editSoundDialog()));
-    connect(this->_btnDelete, QPushButton::clicked, this, [=]{    // check if selected sound is inside the array
+    connect(this->_btnDelete, &QPushButton::clicked, this, [=]{    // check if selected sound is inside the array
         if (this->lastSelectedRow <= this->_sounds.size())
         {
             this->SetStatusTextEditText("Deleted selected sound");
@@ -251,7 +251,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             this->_data.removeAt(lastSelectedRow);
             this->_model->removeRow(lastSelectedRow);
             // Unregistering the hotkey
-            UnregisterHotKey(NULL,_winShorcutHandle.at(lastSelectedRow));
+            UnregisterHotKey(nullptr,_winShorcutHandle.at(lastSelectedRow));
             /* Deleting the associated handle and keysquence
              *  (we don't really need keysequence since
              * we use virtual keys now but oh well) */
@@ -276,10 +276,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         resultView->clearSelection();});
 
 
-    connect(this->resultView, CustomTableView::enableButtons  ,this, [=]{
+    connect(this->resultView, &CustomTableView::enableButtons  ,this, [=]{
         _btnEdit->setEnabled(true);
         _btnDelete->setEnabled(true);});
-    connect(this->resultView,CustomTableView::disableButtons,this, [=]{
+    connect(this->resultView,&CustomTableView::disableButtons,this, [=]{
         _btnEdit->setEnabled(false);
         _btnDelete->setEnabled(false);
     });
@@ -315,15 +315,15 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             Qt::QueuedConnection
             );
     connect(this,
-            SoundboardMainUI::SaveSoundboardState,
+            &SoundboardMainUI::SaveSoundboardState,
             [=]
     {
 
         LIDL::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
     });
     connect(LIDL::SettingsController::GetInstance(),
-            LIDL::SettingsController::SettingsChanged,
-            this, SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
+            &LIDL::SettingsController::SettingsChanged,
+            this, &SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
 
     // connected modified soundboard with a lambda to call the savestate function
     // that way we can know if soundboard was modified or not Pog
@@ -334,7 +334,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
             LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
-    connect(this->_btnStop,QPushButton::clicked, [=]{
+    connect(this->_btnStop,&QPushButton::clicked, [=]{
         for (auto &i: _sounds)
             i->Stop();
         LIDL::SettingsController::GetInstance()->unHoldPTT();
@@ -379,7 +379,7 @@ void SoundboardMainUI::PostConstruction()
 
 void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 {
-    // Adding null device
+    // Adding nullptr device
     comboBox->addItem("<No device selected>",Qt::DisplayRole);
 
     //    for (auto &deviceInfo: QAudioDeviceInfo::availableDevices(mode))
@@ -409,17 +409,17 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, bool generateShortcuts, bool refreshView)
 {
     // connecting the status bar signal for unexistant files (reading json)
-    connect(modifiedSound,SoundWrapper::UnexistantFile,this, [=]{
+    connect(modifiedSound,&SoundWrapper::UnexistantFile,this, [=]{
             this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
         });
 
     // connecting the wrapper proxy signal for player NowPlaying
-    connect(modifiedSound,SoundWrapper::NowPlaying,this,[=](QString name){
+    connect(modifiedSound,&SoundWrapper::NowPlaying,this,[=](QString name){
             this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
         });
 
     // connecting the wrapper proxy signal for player ErrorPlaying
-    connect(modifiedSound,SoundWrapper::ErrorPlaying,this, [=](QString name){
+    connect(modifiedSound,&SoundWrapper::ErrorPlaying,this, [=](QString name){
             this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
          });
 
@@ -427,7 +427,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
    //  connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
     // needed for remotes files forsenE
-    connect(modifiedSound, SoundWrapper::holdPTTProxy, [=] (int duration){
+    connect(modifiedSound, &SoundWrapper::holdPTTProxy, [=] (int duration){
         LIDL::SettingsController::GetInstance()->holdPTT(duration);
     } );
 
@@ -547,21 +547,21 @@ void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maxim
         for (auto &i: _sounds)
         {
             // need to connect the sounds to the correponding signals forsenD
-            connect(i,SoundWrapper::UnexistantFile,this, [=]{
+            connect(i,&SoundWrapper::UnexistantFile,this, [=]{
                     this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
                 });
 
             // connecting the wrapper proxy signal for player NowPlaying
-            connect(i,SoundWrapper::NowPlaying,this,[=](QString name){
+            connect(i,&SoundWrapper::NowPlaying,this,[=](QString name){
                     this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
                 });
 
             // connecting the wrapper proxy signal for player ErrorPlaying
-            connect(i,SoundWrapper::ErrorPlaying,this, [=](QString name){
+            connect(i,&SoundWrapper::ErrorPlaying,this, [=](QString name){
                     this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
                  });
            // needed for remotes files forsenE
-            connect(i, SoundWrapper::holdPTTProxy, [=] (int duration){
+            connect(i, &SoundWrapper::holdPTTProxy, [=] (int duration){
                 LIDL::SettingsController::GetInstance()->holdPTT(duration);
             } );
         }
@@ -801,7 +801,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
     //https://msdn.microsoft.com/fr-fr/library/windows/desktop/ms646327(v=vs.85).aspx
     // qDebug() << "Unregistering all hotkeys";
     for (auto i: _winShorcutHandle)
-        UnregisterHotKey(NULL,i);
+        UnregisterHotKey(nullptr,i);
 
 
     // now we register the hotkeys
@@ -817,7 +817,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
             //    qDebug() << i.toString();
 
             // Looking for the flags and setting no repeat as default. to check for spamming sound forsenT
-            int tempFlags = 0;//
+            unsigned int tempFlags = 0;//
             //int tempFlags = MOD_NOREPEAT;
             for (auto j: i.toString().split("+"))
             {
@@ -832,7 +832,7 @@ void SoundboardMainUI::GenerateGlobalShortcuts()
 
             // Testing the new stuff
 
-            RegisterHotKey(NULL, count,tempFlags, _keyVirtualKey.at(count) );
+            RegisterHotKey(nullptr, count,tempFlags, _keyVirtualKey.at(count) );
             //     qDebug() << "Registering hotkey handle number:" << count;
             //     qDebug() << _sounds.at(0)->getSoundListAsQString();
         }
@@ -884,7 +884,7 @@ void SoundboardMainUI::setUpMenu()
 
     //menuBar = new QMenuBar(this);
     QMenuBar * menuBar= this->menuBar();
-    menuBar->setFixedHeight(20);
+    menuBar->setMinimumHeight(30);
     //vLayout->addWidget(menuBar);
     QMenu * fileMenu = menuBar->addMenu(tr("File"));
     _actions.append(   new QAction(tr("New"),this)); //0
@@ -892,7 +892,7 @@ void SoundboardMainUI::setUpMenu()
     // to call it if it is done through the new button to avoid calling it two times when
     // opening a soundboard weSmart
     //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
-    connect(this->_actions.last(),QAction::triggered,
+    connect(this->_actions.last(),&QAction::triggered,
             [=]{
         switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
         {
@@ -910,19 +910,19 @@ void SoundboardMainUI::setUpMenu()
     });
 
     _actions.append(   new QAction(tr("Open"),this)); //1
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::OpenSlot);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::OpenSlot);
 
     _actions.append(   new QAction(tr("Open EXP soundboard file"),this)); //2
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::OpenEXPSounboard);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::OpenEXPSounboard);
 
     _actions.append(   new QAction(tr("Save"),this)); //3
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::Save);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::Save);
 
     _actions.append(   new QAction(tr("Save as.."),this)); //4
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::SaveAs);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::SaveAs);
 
     _actions.append(   new QAction(tr("Exit"),this)); // 5
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::close);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::close);
 
     fileMenu->addSeparator();
     fileMenu->addAction(_actions.at(0)); // new
@@ -949,22 +949,22 @@ void SoundboardMainUI::setUpMenu()
     ****************************************************/
     QMenu * helpMenu = menuBar->addMenu(tr("Help"));
     _actions.append(   new QAction(tr("Guide"),this));                                              //6
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::HelpGuide);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::HelpGuide);
 
     _actions.append(   new QAction(tr("Check for updates.."),this));                                //7
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::CheckForUpdates);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::CheckForUpdates);
 
     _actions.append(   new QAction(tr("Report a bug or request a feature"),this));                  //8
-    connect(this->_actions.last(),QAction::triggered,this,SoundboardMainUI::HelpAbout);
+    connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::HelpAbout);
 
 
     _actions.append(   new QAction(tr("About LIDL Soundboard"),this));                              //9
-    connect(this->_actions.last(),QAction::triggered,this,[=]{
+    connect(this->_actions.last(),&QAction::triggered,this,[=]{
          QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
     });
 
     _actions.append(   new QAction(tr("First user message"),this));                                 //10
-    connect(this->_actions.last(),QAction::triggered,this, SoundboardMainUI::HelpShowFirstUserDialog);
+    connect(this->_actions.last(),&QAction::triggered,this, &SoundboardMainUI::HelpShowFirstUserDialog);
 
 
     helpMenu->addAction(_actions.at(6));
@@ -998,7 +998,7 @@ void SoundboardMainUI::setUpMenu()
     connect(this->_actions.last(),SIGNAL(triggered()),this,SLOT(ToolClearShortcut()));
 
     _actions.append(new QAction(tr("Refresh sound devices"),this)); // 13
-    connect(_actions.last(), QAction::triggered, [=]{
+    connect(_actions.last(), &QAction::triggered, [=]{
         // clearing the view
         this->_deviceListOutput->clear();
         this->_deviceListVAC->clear();
@@ -1031,7 +1031,7 @@ void SoundboardMainUI::setUpMenu()
     // needed else the lambda will go rogue when calling _actions.last()
     QAction* temp = _actions.last();
     // SFX
-    connect(_actions.last(),QAction::triggered, [=]{
+    connect(_actions.last(),&QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
         if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
@@ -1051,7 +1051,7 @@ void SoundboardMainUI::setUpMenu()
     _actions.append(new QAction(tr("Wrap sound list"))); //17
     QAction *temp2 = _actions.last();
     // SHOW FULL LIST OF SOUNDS OR (n)
-    connect(_actions.last(),QAction::triggered, [=]{
+    connect(_actions.last(),&QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
         if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
@@ -1094,7 +1094,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 
     for (auto i: _winShorcutHandle)
-        UnregisterHotKey(NULL,i);
+        UnregisterHotKey(nullptr,i);
 
     if (_updateScheduled)
     {
@@ -1122,8 +1122,8 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 void SoundboardMainUI::setStopShortcut(int virtualKey)
 {
     //qDebug() << "virtual key" << virtualKey;
-    UnregisterHotKey(NULL,2147483647);
-    RegisterHotKey(NULL,2147483647,0, virtualKey);
+    UnregisterHotKey(nullptr,2147483647);
+    RegisterHotKey(nullptr,2147483647,0, virtualKey);
 
 }
 
@@ -1156,14 +1156,14 @@ void SoundboardMainUI::ClearAll()
 
     // Unregistering shortcuts
     for (auto i: _winShorcutHandle)
-        UnregisterHotKey(NULL,i);
+        UnregisterHotKey(nullptr,i);
     // clearing the table
     _winShorcutHandle.clear();
 
     this->_shortcutEditPTT->clear();
     this->_shortcutEditStop->clear();
     // Unregistering stop hotkey
-    UnregisterHotKey(NULL,2147483647);
+    UnregisterHotKey(nullptr,2147483647);
 
     /***************************************************
                           MODEL
@@ -2082,18 +2082,18 @@ void SoundboardMainUI::HelpGuide()
     QString menuCSS = this->menuBar()->styleSheet();
     QString viewCSS = this->resultView->styleSheet();
     ui->mainTextLabel->setText(helpText.first());
-    connect(ui->btnNext, QPushButton::clicked, [=] {
+    connect(ui->btnNext, &QPushButton::clicked, [=] {
         if (ui->pageSlider->value() < 14)
             ui->pageSlider->setValue( ui->pageSlider->value() + 1  );
     });
-    connect(ui->btnPrevious, QPushButton::clicked, [=] {
+    connect(ui->btnPrevious, &QPushButton::clicked, [=] {
         if (ui->pageSlider->value() > 1)
             ui->pageSlider->setValue( ui->pageSlider->value() - 1  );
     });
 
 
     // The close button
-    connect(ui->okButton, QPushButton::clicked, [=] {
+    connect(ui->okButton, &QPushButton::clicked, [=] {
         _guideWidget->close();
         _gLayout->removeWidget(_guideWidget);
         delete _guideWidget;
@@ -2138,7 +2138,7 @@ void SoundboardMainUI::HelpGuide()
     });
 
     // the lambda we connect the slider to forsenE
-    connect(ui->pageSlider,QSlider::valueChanged, [=] (int value){
+    connect(ui->pageSlider,&QSlider::valueChanged, [=] (int value){
         if (value == 14)
         {
             ui->btnNext->setEnabled(false);
@@ -2353,7 +2353,7 @@ void SoundboardMainUI::ToolClearShortcut()
     // Clearing KeySequence, else GenerateGlobalShortcut() will be able to pull info from there
     _keySequence.clear();
     for (auto i: _winShorcutHandle)
-        UnregisterHotKey(NULL,i);
+        UnregisterHotKey(nullptr,i);
     // Clearing it too, else size  of keysequence and winshortcut handle wont match forsenE
     _winShorcutHandle.clear();
     QKeySequence emptySeq;
@@ -2471,7 +2471,7 @@ void SoundboardMainUI::SetUpRecentMenu()
         actions.append(new QAction( i.fileName()));
         // using lambdas forsenE
         connect( actions.last(),
-                 QAction::triggered,
+                 &QAction::triggered,
                  [=] {
             this->Open( i.filePath() );
         });
