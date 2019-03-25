@@ -954,11 +954,11 @@ void SoundboardMainUI::setUpMenu()
     _actions.append(   new QAction(tr("Check for updates.."),this));                                //7
     connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::CheckForUpdates);
 
-    _actions.append(   new QAction(tr("Report a bug or request a feature"),this));                  //8
+    _actions.append(   new QAction(tr("About LIDL Soundboard"),this));                  //8
     connect(this->_actions.last(),&QAction::triggered,this,&SoundboardMainUI::HelpAbout);
 
 
-    _actions.append(   new QAction(tr("About LIDL Soundboard"),this));                              //9
+    _actions.append(   new QAction(tr("Report a bug or request a feature"),this));                              //9
     connect(this->_actions.last(),&QAction::triggered,this,[=]{
          QDesktopServices::openUrl(QUrl(QString("https://github.com/devolution2409/Lidl-Soundboard/issues")));
     });

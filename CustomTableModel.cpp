@@ -59,7 +59,7 @@ bool CustomTableModel::dropMimeData(const QMimeData *data,
     Q_UNUSED(column);
     Q_UNUSED(row);
     emit draggedOnRow(parent.row());
-
+    return true;
 }
 
 

@@ -100,13 +100,13 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 
     _sfxSpoiler->setEnabled(false);
     // connecting the two spoilers together
-    connect(_sfxSpoiler,Spoiler::Opened, [=]{
+    connect(_sfxSpoiler,&Spoiler::Opened, [=]{
         _sliderSpoiler->Close();
         //_vLayout->setStretch(1,100);
         //_gLayout->setRowStretch(4,100);
         //->addWidget(_sfxSpoiler,4,0,3,4);
     });
-    connect(_sliderSpoiler,Spoiler::Opened,[=] {
+    connect(_sliderSpoiler,&Spoiler::Opened,[=] {
         _sfxSpoiler->Close();
         //_vLayout->setStretch(0,100);
 
@@ -754,8 +754,7 @@ void WrapperProperties::AddSoundFromUrl()
                         QByteArray bytes = socket.readAll();
                        // qDebug() << bytes;
                         // If the server answer is ok
-                        if (bytes.contains("200 OK"))
-                            if  (! mimeSupported(bytes))  // and if the mime type is NOT supported
+                        if (bytes.contains("200 OK") &&  (! mimeSupported(bytes)))  // and if the mime type is NOT supported
                             {
                                 QMessageBox::critical(this, tr("LIDL Soundboard Entry Editor"),
                                                       tr("MIME Type for specified URL is invalid !\n"

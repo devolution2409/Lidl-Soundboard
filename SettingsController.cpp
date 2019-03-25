@@ -259,6 +259,7 @@ bool SettingsController::OpenSettings()
         return false;
     }
     emit RecentFilesChanged();
+    return true;
 }
 
 void SettingsController::SaveSettings()
