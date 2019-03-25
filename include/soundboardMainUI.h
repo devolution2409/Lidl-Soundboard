@@ -321,7 +321,7 @@ public slots:
      * \brief Function to register the Stop ALL Shortcut.
      * It is used by the associated CustomShortcutEdit and the Open soundboard function.
      */
-    void setStopShortcut(int);
+    void setStopShortcut(unsigned int);
 
 
 

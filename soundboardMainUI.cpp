@@ -209,7 +209,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     connect(this->resultView, &CustomTableView::clicked, this, [=](QModelIndex index){
         // disconnect the play button
-        disconnect(_btnPlay,0,0,0);
+        disconnect(_btnPlay,nullptr,nullptr,nullptr);
         lastSelectedRow = index.row();
         this->_btnEdit->setEnabled(true);
         this->_btnDelete->setEnabled(true);
@@ -226,7 +226,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // Lambda
     connect(this->resultView, &CustomTableView::doubleClicked,this, [=](QModelIndex index){
         // but we update it regardless
-        disconnect(_btnPlay,0,0,0);
+        disconnect(_btnPlay,nullptr,nullptr,nullptr);
         lastSelectedRow = index.row();
         this->_btnEdit->setEnabled(true);
         this->_btnDelete->setEnabled(true);
@@ -391,14 +391,14 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
     if (mode == QAudio::AudioOutput)
     {
         BASS_DEVICEINFO info;
-        for (long i=1; BASS_GetDeviceInfo(i, &info); i++)
+        for (unsigned long i=1; BASS_GetDeviceInfo(i, &info); i++)
             if (info.flags&BASS_DEVICE_ENABLED) // device is enabled
                 comboBox->addItem(info.name, Qt::DisplayRole);
     }
     else if (mode == QAudio::AudioInput)
     {
         BASS_DEVICEINFO info;
-        for (int n=0; BASS_RecordGetDeviceInfo(n, &info); n++)
+        for (unsigned long n=0; BASS_RecordGetDeviceInfo(n, &info); n++)
             comboBox->addItem(info.name, Qt::DisplayRole);
 
     }
@@ -1119,7 +1119,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 
 
-void SoundboardMainUI::setStopShortcut(int virtualKey)
+void SoundboardMainUI::setStopShortcut(unsigned int virtualKey)
 {
     //qDebug() << "virtual key" << virtualKey;
     UnregisterHotKey(nullptr,2147483647);
@@ -1743,7 +1743,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
         // qDebug() << i->getPlayMode();
         QJsonObject key;
         key.insert("Key",i->getKeySequence().toString());
-        key.insert("VirtualKey", i->getShortcutVirtualKey());
+        key.insert("VirtualKey", static_cast<int>(i->getShortcutVirtualKey()));
         tempSound.insert("Shortcut",key);
         // The sound collection
         QJsonObject soundCollection;

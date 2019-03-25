@@ -45,7 +45,7 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
     this->_soundList = fileList;
     this->_playMode = playbackMode;
     this->_keySequence = shortcut;
-    this->_virtualKey = shortcutVirtualKey;
+    this->_virtualKey = static_cast<unsigned int>(shortcutVirtualKey);
     this->setPlayerMainOutput(mainOutput);
     this->setPlayerVACOutput(vacOutput);
     this->_player->SetPlaylist(this->getSoundList());
@@ -212,7 +212,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 
 
 
-int SoundWrapper::getShortcutVirtualKey()
+unsigned int SoundWrapper::getShortcutVirtualKey()
 {
     return _virtualKey;
 }

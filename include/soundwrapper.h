@@ -145,7 +145,7 @@ public:
     /*!
      * \return int The shortcut virtual key.
      */
-    int getShortcutVirtualKey();
+    unsigned int getShortcutVirtualKey();
 
 
 
@@ -157,7 +157,7 @@ private:
 
     // shortcut
     QKeySequence _keySequence; /*!< Key Sequence of the shortcut playing the sound. Can be empty. Used for displayed purposes. */
-    int _virtualKey; /*!< Virtual Key of the shortcut playing the sound. Needed to register it into windows API.*/
+    unsigned int _virtualKey; /*!< Virtual Key of the shortcut playing the sound. Needed to register it into windows API.*/
     // the player to play the sounds
     CustomPlayer * _player; /*!< Player that will play the sound according to their volume, SFX, and playback settings.*/
 
