@@ -31,7 +31,8 @@ SOURCES += \
     LoadingWidgetWorker.cpp \
     PresetController.cpp \
     PresetWizard.cpp \
-    PresetWizardIntroPage.cpp
+    PresetWizardIntroPage.cpp \
+    OverlayController.cpp
 
 
 HEADERS += \
@@ -60,7 +61,8 @@ HEADERS += \
     include/LoadingWidgetWorker.h \
     include/PresetController.h \
     include/PresetWizard.h \
-    include/PresetWizardIntroPage.h
+    include/PresetWizardIntroPage.h \
+    include/OverlayController.h
 
 
 
