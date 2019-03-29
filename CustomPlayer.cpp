@@ -99,7 +99,7 @@ void CustomPlayer::PlayNext()
 
             }
             // We don't even test should play here since we want the ear rape to happen
-            else if ((_playMode == LIDL::Playback::Cancer))
+            else if (_playMode == LIDL::Playback::Cancer)
             {
                 this->PlayAt(_index++);
             }
@@ -148,7 +148,7 @@ void CustomPlayer::Stop()
 double CustomPlayer::PlayAt(int index)
 {
 
-    double duration = -1;
+    double duration = std::numeric_limits<double>::quiet_NaN();
     bool remote = false;
     if (_soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp")
         remote = true;
@@ -194,42 +194,42 @@ double CustomPlayer::PlayAt(int index)
         // if distortion is enabled:
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::DISTORTION)
         {
-            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
+            unsigned long LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_DISTORTION,255);
             BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
             BASS_FXSetParameters(LUL, &wut );
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
         {
-            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_CHORUS,254);
+            unsigned long LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_CHORUS,254);
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::ECHO)
         {
-            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_ECHO,253);
+            unsigned long LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_ECHO,253);
             BASS_DX8_ECHO SoBayed = _soundList.at(index)->getSFX().echo;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::COMPRESSOR)
         {
-            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_COMPRESSOR,252);
+            unsigned long LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_COMPRESSOR,252);
             BASS_DX8_COMPRESSOR cmonBruhDontThinkIt = _soundList.at(index)->getSFX().compressor ;
             BASS_FXSetParameters(LUL,&cmonBruhDontThinkIt);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::FLANGER)
         {
-            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_FLANGER,251);
+            unsigned long LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_FLANGER,251);
             BASS_DX8_FLANGER rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger = _soundList.at(index)->getSFX().flanger ;
             BASS_FXSetParameters(LUL,&rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::GARGLE)
         {
-            int LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_GARGLE,251);
+            unsigned long LUL = BASS_ChannelSetFX(_mainChannel.last(),BASS_FX_DX8_GARGLE,251);
             BASS_DX8_GARGLE gargleOnTheBallSack = _soundList.at(index)->getSFX().gargle ;
             BASS_FXSetParameters(LUL,&gargleOnTheBallSack);
         }
 
-        if (duration == -1)
+        if (std::isnan(duration))
             duration = BASS_ChannelBytes2Seconds(_mainChannel.last(),
                                                         BASS_ChannelGetLength(_mainChannel.last(),BASS_POS_BYTE));
     }
@@ -268,46 +268,46 @@ double CustomPlayer::PlayAt(int index)
         //qDebug() << "Is distortion enabled here" << _soundList.at(index)->getSFX().distortionEnabled;
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::DISTORTION )
         {
-            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
+            unsigned long LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_DISTORTION,255);
             BASS_DX8_DISTORTION wut = _soundList.at(index)->getSFX().distortion;
             BASS_FXSetParameters(LUL, &wut );
 
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::CHORUS)
         {
-            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_CHORUS,254);
+            unsigned long LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_CHORUS,254);
             BASS_DX8_CHORUS SoBayed = _soundList.at(index)->getSFX().chorus;
             BASS_FXSetParameters(LUL,&SoBayed);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::ECHO)
         {
-            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_ECHO,253);
+            unsigned long LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_ECHO,253);
             BASS_DX8_ECHO eatTheCatOMEGALEE = _soundList.at(index)->getSFX().echo;
             BASS_FXSetParameters(LUL,&eatTheCatOMEGALEE);
         }
 
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::COMPRESSOR)
         {
-            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_COMPRESSOR,252);
+            unsigned long LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_COMPRESSOR,252);
             BASS_DX8_COMPRESSOR cmonBruhDontThinkIt = _soundList.at(index)->getSFX().compressor ;
             BASS_FXSetParameters(LUL,&cmonBruhDontThinkIt);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::FLANGER)
         {
-            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_FLANGER,251);
+            unsigned long LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_FLANGER,251);
             BASS_DX8_FLANGER rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger = _soundList.at(index)->getSFX().flanger ;
             BASS_FXSetParameters(LUL,&rosesAreRedVioletsAreBlueCrossesABridgeWhatAFuckingFlanger);
         }
         if (_soundList.at(index)->getSFX().flags & LIDL::SFX_TYPE::GARGLE)
         {
-            int LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_GARGLE,251);
+            unsigned long LUL = BASS_ChannelSetFX(_vacChannel.last(),BASS_FX_DX8_GARGLE,251);
             BASS_DX8_GARGLE gargleOnTheBallSack = _soundList.at(index)->getSFX().gargle ;
             BASS_FXSetParameters(LUL,&gargleOnTheBallSack);
         }
 
 
 
-        if (duration == -1)
+        if (std::isnan(duration))
             duration = BASS_ChannelBytes2Seconds(_vacChannel.last(),
                                                     BASS_ChannelGetLength(_vacChannel.last(),BASS_POS_BYTE));
     }

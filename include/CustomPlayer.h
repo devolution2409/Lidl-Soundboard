@@ -37,6 +37,8 @@ typedef DWORD HPLUGIN;		// Plugin handle
 */
 #include "CustomSoundFile.h"
 #include <QThread>
+#include <limits> //quiet_NaN()
+#include <cmath> // std::isnan()
 
 
 /*!
@@ -193,8 +195,8 @@ private:
 
     // Channels
 
-    QVector<int> _mainChannel; /*!< The array containing the handles to the channels being played.*/
-    QVector<int> _vacChannel; /*!< */
+    QVector<unsigned long> _mainChannel; /*!< The array containing the handles to the channels being played.*/
+    QVector<unsigned long> _vacChannel; /*!< */
 
 
 

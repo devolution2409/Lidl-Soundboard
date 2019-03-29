@@ -237,7 +237,6 @@ void CustomListWidgetItem::setSFX(int specialValue, int value)
 
     if (std::is_same<ParamType, LIDL::SFX_ECHO_PARAM>::value){
         this->setSFXEcho(static_cast< LIDL::SFX_ECHO_PARAM>(specialValue),value);
-
         return;
     }
 
