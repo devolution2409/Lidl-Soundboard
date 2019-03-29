@@ -155,7 +155,8 @@ double CustomPlayer::PlayAt(int index)
 
     if (_mainOutputDevice != 0)
     {
-        BASS_Init(_mainOutputDevice, 44100, 0, 0, nullptr);
+        // using static_cast<int> to silence the warning about implicit conversion... forsenT
+        BASS_Init(static_cast<int>(_mainOutputDevice), 44100, 0, nullptr, nullptr);
 
         //qDebug() << "Attempting to play file index number:" << index << "\nFilename: " << _soundList.at(index)->fileName().toStdString().c_str();
 
@@ -167,7 +168,7 @@ double CustomPlayer::PlayAt(int index)
         // if it is a URL we use the StreamCreateURL
         if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
         {
-            _mainChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0,  BASS_STREAM_PRESCAN | BASS_STREAM_AUTOFREE,NULL,NULL  ));
+            _mainChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0,  BASS_STREAM_PRESCAN | BASS_STREAM_AUTOFREE,nullptr,nullptr  ));
 
         }
         else// its a local file, we need to remove file/// because bass is OMEGAZULIDL
@@ -239,7 +240,7 @@ double CustomPlayer::PlayAt(int index)
     // same for VAC output, and we check the two outputs aren't the same
     if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
     {
-        BASS_Init(_VACOutputDevice, 44100, 0, 0, nullptr);
+        BASS_Init(static_cast<int>(_VACOutputDevice), 44100, 0, nullptr, nullptr);
         // We check for scheme
         // if it is a URL we use the StreamCreateURL
         if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
@@ -332,7 +333,7 @@ double CustomPlayer::PlayAt(int index)
     {
 
         QThread *thread = QThread::create([=]{
-            int test = 0;
+            unsigned long test = 0;
             do{
                 test = BASS_ChannelIsActive( _vacChannel.last() );
             } while(test!=1);
@@ -371,13 +372,13 @@ void CustomPlayer::SetOutputDevice(int deviceIndex)
 {
     // if this function recieved 0 it means we passed the <no device selected> thingy
     // http://www.un4seen.com/doc/#bass/BASS_ChannelSetDevice.html
-    _mainOutputDevice = deviceIndex;
+    _mainOutputDevice = static_cast<unsigned long>(deviceIndex);
 
 }
 
 void CustomPlayer::SetVACDevice(int deviceIndex)
 {
-    _VACOutputDevice = deviceIndex;
+    _VACOutputDevice = static_cast<unsigned long>(deviceIndex);
 }
 
 
@@ -409,11 +410,11 @@ void CustomPlayer::SetPlaybackMode(LIDL::Playback playMode)
 
 int CustomPlayer::GetOutputDevice()
 {
-    return this->_mainOutputDevice;
+    return static_cast<int>(this->_mainOutputDevice);
 }
 int CustomPlayer::GetVACDevice()
 {
-    return this->_VACOutputDevice;
+    return static_cast<int>(this->_VACOutputDevice);
 }
 
 // we can use (this) as user data or this.soundfile or w/e

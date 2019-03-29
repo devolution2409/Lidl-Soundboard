@@ -201,8 +201,8 @@ private:
 
 
     // Devices numbers
-    int _mainOutputDevice; /*!< The index of the main output device.*/
-    int _VACOutputDevice; /*!< The index of the main output device.*/
+    unsigned long _mainOutputDevice; /*!< The index of the main output device.*/
+    unsigned long _VACOutputDevice; /*!< The index of the main output device.*/
 
 
 

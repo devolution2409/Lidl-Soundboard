@@ -852,12 +852,17 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     //(a.k.a. bug fix for shortcut playing themselves if
     // they have the same shortcut as modifier + autohold PTT key.
     //qDebug() << "var:" << LIDL::SettingsController::GetInstance()->_eventProcessing;
+    // should have commented this more thoroughly because i don't understand the logic now LULW
     if(!(LIDL::SettingsController::GetInstance()->getEventProcessing()))
     {
         qDebug() << "shouldn't process handle number:" << handle;
         return;
     }
     qDebug() << "Pressed hotkey handle: " << handle;
+
+
+    // We want to allow the stop hotkey to be pressed, but not the others that would maybe play a sound
+
 
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
@@ -870,7 +875,7 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     // else this a sound hotkey handle
     // We check if the soundwrapper at this location has one file else it will play nullptr and crash
 
-    else if ( ! _sounds.at(handle)->getSoundList().isEmpty() )
+    else if ( ! _sounds.at(handle)->getSoundList().isEmpty() && !LIDL::SettingsController::GetInstance()->isEditing())
         _sounds.at(handle)->Play();
 }
 

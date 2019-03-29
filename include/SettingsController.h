@@ -80,6 +80,12 @@ public:
       */
     bool getEventProcessing() const;
 
+    // Is editing basically serves to know whether we should process shortcuts being pressed and play the sound,
+    // or not because the user is editing a sound (or in another menu for instance)
+    // The boolean will be set in the constructor of the soundwrapper (wrapperproperties) edition window, and unset in the destructor
+    bool isEditing() const;
+    void setEditing(bool);
+
 private:
     QString fileName;
     // Singleton class
@@ -87,7 +93,7 @@ private:
     // the pointer will exist even if class isn't instancied yet
     // but we need to initalize it in the .cpp with a weird syntax
     static SettingsController * self;
-
+    bool _isEditing;
 
     // Default folder to open sounboard (lidljson) files
     QString defaultSoundboardFolder;

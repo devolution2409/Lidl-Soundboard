@@ -25,6 +25,8 @@ SettingsController::SettingsController()
         this->fileName = "lidlsettings.json";
         connect(&_activePttTimer,QTimer::timeout, [=]{
                 this->unHoldPTT();});
+
+        _isEditing = false;
 }
 
 
@@ -492,6 +494,16 @@ int SettingsController::CompareSaves(QJsonObject newObject)
 bool SettingsController::GetDragAndDropSeveralWrappers() const
 {
     return this->dragAndDropSeveralWrappers;
+}
+
+bool SettingsController::isEditing() const
+{
+    return this->_isEditing;
+}
+
+void SettingsController::setEditing(bool newState)
+{
+    this->_isEditing = newState;
 }
 
 } // end namespace

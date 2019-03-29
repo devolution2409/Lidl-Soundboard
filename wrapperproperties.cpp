@@ -10,6 +10,9 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     this->setMinimumSize(419,687);
     //w*h
 
+    // setting boolean to prevent a sound from being played
+    LIDL::SettingsController::GetInstance()->setEditing(true);
+
   //  this->_mainWidget = parent;
     // Ajout d'un layout vertical pour afficher les sons
     this->setWindowTitle("Lidl Sounboard Entry Editor");
@@ -512,8 +515,8 @@ void WrapperProperties::closeEvent(QCloseEvent *event)
     emit closed();
     this->QWidget::close();
     event->accept();
-
-    //         qDebug() << "forsenRope FeelsBadMan";
+    LIDL::SettingsController::GetInstance()->setEditing(false);
+    qDebug() << "forsenRope FeelsBadMan";
 }
 
 /*******************************************************
