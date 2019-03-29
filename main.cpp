@@ -128,6 +128,12 @@ int main(int argc, char *argv[])
             WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS); // Flags.
 
 
+
+      //TODO:
+//      add event processing for maximizing (same as the previous two)
+//      and also for minimizing (then we search for topmost window)
+
+
       MSG msg;
       // Proccess the system events
       QApplication::processEvents();

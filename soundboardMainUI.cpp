@@ -160,6 +160,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(this->_shortcutEditStop, &CustomShortcutEdit::virtualKeyChanged,this,&SoundboardMainUI::setStopShortcut);
     // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
+     _btnRadialSettings = new QPushButton("Open Radial Menu Settings");
+     _gLayout->addWidget(_btnClearStop,10,0,1,6);
+
     /***************************************************
                          STATUS BAR
       ****************************************************/
@@ -1080,7 +1083,10 @@ void SoundboardMainUI::setUpMenu()
 //Reimplementing to kill all shortcuts
 void SoundboardMainUI::closeEvent (QCloseEvent *event)
 {
-
+    //Silenced the QApplication missing for style
+    // now we have a QPixmap must construuct a QGuiApplication error :feelsWeirdMan:
+    //apparentely thats because of static QWidget
+    LIDL::OverlayController::GetInstance()->close();
     // Compare saved soundboard state with the one we have now
     switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {

@@ -112,6 +112,7 @@
 #include "PresetWizard.h"
 
 #include <QDebug>
+#include "OverlayController.h"
 /*!
  * \file soundboardMainUI.h
  * \brief Code of the mainUI.
@@ -185,6 +186,11 @@ private:
     QLabel      * _label5; /*!<Label for the stop all feature.*/
     CustomShortcutEdit *_shortcutEditStop; /*!<CustomShortcutEdit field to set the stop all hotkey.*/
     QPushButton *_btnClearStop; /*!<Button to unregister and clear the Stop All hotkey.*/
+
+    // Radial menu button
+   // QLabel * _label6;
+    QPushButton *_btnRadialSettings;
+
     // The property window
     WrapperProperties *_propertiesWindow; /*!<Window that handle wrapper edition.*/
 
