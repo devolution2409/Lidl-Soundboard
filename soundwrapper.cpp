@@ -50,6 +50,8 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
     this->setPlayerVACOutput(vacOutput);
     this->_player->SetPlaylist(this->getSoundList());
     this->_player->SetPlaybackMode(this->getPlayMode());
+
+   // qDebug() << "Virtual Key here:" << _virtualKey;
 }
 
 
@@ -188,8 +190,49 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
     if (this->getKeySequence().isEmpty())
         tempItem.append(new QStandardItem("No Shortcut!"));
     else
+    {
+
+        // trying to accoutn for numpads
+        if (this->_virtualKey <= 0x69 && this->_virtualKey >= 0x60)
+        {
+            //the number stored here is, in fact, from numpad. Thanks qt for not telling forsenD
+            // splitting over + in case there is modifiers, using string stream
+            /*
+            std::istringstream ss(this->keySequence().toString().toStdString());
+            std::string token;
+
+            while(std::getline(ss, token, '+')) {
+                qDebug() << token.c_str() << '\n';
+            }
+            */
+
+            // or more simply, just use reverse find to find the last + and add the text there
+            std::string text = this->getKeySequence().toString().toStdString();
+            std::size_t found = text.rfind("+");
+             // if it has at least one modifier, we insert right after it
+             if (found!=std::string::npos)
+             {
+                // qDebug() << "string: " << text.c_str() << " pos:" << found;
+                text.insert(found+1,"Numpad ");
+             }
+             else // we prepend
+             {
+                 text = "Numpad " + text;
+             }
+
+             tempItem.append( new QStandardItem( QString::fromStdString(text)));
+
+
+        }
+        else
+        {
+             tempItem.append(new QStandardItem(this->getKeySequence().toString()));
+        }
+
+    }
         //tempItem.append(new QStandardItem();
-        tempItem.append(new QStandardItem(this->getKeySequence().toString()));
+
+      //
     QString tmpMode;
     switch(this->getPlayMode())
     {
