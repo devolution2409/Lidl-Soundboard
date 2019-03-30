@@ -8,6 +8,9 @@
 #include <QDebug>
 #include "qt_windows.h"
 #include "winuser.h"
+#include <QTimer>
+#include <QGridLayout>
+#include <QSpacerItem>
 namespace LIDL{
 
 class OverlayController : public QWidget
@@ -22,6 +25,11 @@ public:
      * \param hwnd a handler to a window
      */
     void ResizeToWindow(HWND hwnd);
+    /*!
+     * \brief Show the smol overlay when topmost window (game) changes.
+     * \param hwnd a handler to a window
+     */
+    void ShowGameOverlay(HWND hwnd);
 
 
 
@@ -34,7 +42,8 @@ private:
 
     static OverlayController * self; /*!< A pointer to the only existing OverlayController.*/
 
-
+    QWidget * _gameOverlay;
+    QGridLayout * _layout;
 
 signals:
 

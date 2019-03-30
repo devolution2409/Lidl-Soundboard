@@ -37,6 +37,7 @@ void CALLBACK TopMostWindowChanged(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 //    std::wstring stxt = &buf[0];
 //    qDebug() << stxt;
     LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
+    LIDL::OverlayController::GetInstance()->ShowGameOverlay(hwnd);
 
 }
 

@@ -32,7 +32,8 @@ SOURCES += \
     PresetController.cpp \
     PresetWizard.cpp \
     PresetWizardIntroPage.cpp \
-    OverlayController.cpp
+    OverlayController.cpp \
+    GameNameOverlay.cpp
 
 
 HEADERS += \
@@ -62,7 +63,8 @@ HEADERS += \
     include/PresetController.h \
     include/PresetWizard.h \
     include/PresetWizardIntroPage.h \
-    include/OverlayController.h
+    include/OverlayController.h \
+    include/GameNameOverlay.h
 
 
 
