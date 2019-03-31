@@ -11,6 +11,8 @@
 #include <QTimer>
 #include <QGridLayout>
 #include <QSpacerItem>
+#include "GameNameOverlay.h"
+
 namespace LIDL{
 
 class OverlayController : public QWidget
@@ -41,8 +43,8 @@ private:
     explicit OverlayController(QWidget *parent = nullptr);
 
     static OverlayController * self; /*!< A pointer to the only existing OverlayController.*/
-
-    QWidget * _gameOverlay;
+    QTimer * _timerFade;
+    GameNameOverlay * _gameOverlay;
     QGridLayout * _layout;
 
 signals:

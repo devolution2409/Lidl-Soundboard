@@ -84,23 +84,6 @@ int main(int argc, char *argv[])
 
 
 
-//    HRESULT hres;
-
-//      // Step 1: --------------------------------------------------
-//      // Initialize COM. ------------------------------------------
-
-//      hres =  CoInitializeEx(0, COINIT_MULTITHREADED);
-//      if (FAILED(hres))
-//      {
-//          qDebug() << "Failed to initialize COM library. Error code = 0x"
-//               <<  hres;
-
-//      }
-//      else
-//      {
-//        qDebug() << "COM object initialized correctly.";
-//      }
-
     //EVENT_OBJECT_CREATE
     //EVENT_OBJECT_DESTROY
     //EVENT_OBJECT_FOCUS ??

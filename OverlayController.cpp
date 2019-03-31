@@ -20,13 +20,10 @@ OverlayController::OverlayController(QWidget *parent) : QWidget(parent)
    // _layout = new QGridLayout(this);
 
 
+    _gameOverlay = new GameNameOverlay(this);
 
-    _gameOverlay = new QWidget(this, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::SplashScreen);
-
-   // _layout->addItem(new QSpacerItem(100,100, QSizePolicy::Expanding, QSizePolicy::Expanding),0,0 );
- //   _layout->addWidget(_gameOverlay,0,0);
-
-   _gameOverlay->resize(200,100);
+    _timerFade = new QTimer(this);
+    _timerFade->setInterval(5000);
 }
 
 
@@ -34,6 +31,8 @@ void OverlayController::ResizeToWindow(HWND hwnd)
 {
     qDebug() << "I should be resized!";
     this->show();
+
+
 
 
 
@@ -60,12 +59,25 @@ OverlayController * OverlayController::GetInstance()
 
 void OverlayController::ShowGameOverlay(HWND hwnd)
 {
+    //If the timer is already running, it will be stopped and restarted.
+        _timerFade->start(5000);
+        connect(_timerFade, &QTimer::timeout, this,  [=]{
+            _gameOverlay->FadeOut(1000);
+        });
+
+
+        unsigned int len = static_cast<unsigned int>(GetWindowTextLength(hwnd) + 1);
+        std::vector<wchar_t> buf(len);
+        GetWindowText(hwnd, &buf[0], len);
+        std::wstring stxt = &buf[0];
+
+         _gameOverlay->SetText(QString::fromStdWString(stxt));
 
         _gameOverlay->show();
 
         _gameOverlay->move(this->x(),this->y());
 
-        QTimer::singleShot(5000, _gameOverlay, &QWidget::close);
+
 }
 
 
