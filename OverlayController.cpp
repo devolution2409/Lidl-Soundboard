@@ -24,6 +24,9 @@ OverlayController::OverlayController(QWidget *parent) : QWidget(parent)
 
     _timerFade = new QTimer(this);
     _timerFade->setInterval(5000);
+
+    _radialVirtualKey = -1;
+    _radialScanCode = -1;
 }
 
 
@@ -78,7 +81,17 @@ void OverlayController::ShowGameOverlay(HWND hwnd)
         _gameOverlay->move(this->x(),this->y());
 
 
+
 }
 
+void OverlayController::SetRadialScanCode(int sc)
+{
+    this->_radialScanCode = sc;
+}
+
+void OverlayController::SetRadialVirtualKey(int vk)
+{
+    this->_radialVirtualKey = vk;
+}
 
 } // end namespace

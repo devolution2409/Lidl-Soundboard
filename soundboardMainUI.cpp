@@ -161,7 +161,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
      _btnRadialSettings = new QPushButton("Open Radial Menu Settings");
-     _gLayout->addWidget(_btnClearStop,10,0,1,6);
+     _gLayout->addWidget(_btnRadialSettings,10,0,1,6);
 
     /***************************************************
                          STATUS BAR
@@ -192,7 +192,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(this->_btnAdd, &QPushButton::clicked, this, [=]{
         this->setEnabled(false);
 
-        _propertiesWindow = new WrapperProperties(
+            _propertiesWindow = new WrapperProperties(
                     this->_deviceListOutput->currentIndex(),
                     this->_deviceListVAC->currentIndex(),
                     nullptr,
@@ -2260,7 +2260,7 @@ void SoundboardMainUI::HelpAbout()
     QLabel *imageLabel = new QLabel();
     imageLabel->setPixmap(image);
 
-    QLabel *text2 = new QLabel("Based on Qt 5.10.1 (https://www.qt.io/) compiled with MinGW 5.3.0 32bit");
+    QLabel *text2 = new QLabel("Based on Qt " + QString(QT_VERSION) + "5.12.1 (https://www.qt.io/) compiled with MinGW 5.3.0 32bit");
     QLabel *text3= new QLabel("With BASS 2.4.13.8 (http://www.un4seen.com/)" );
     QLabel *text4 = new QLabel("Built on: " + QString(__DATE__) + "at: " + QString(__TIME__));
     QLabel *gachiBASS = new QLabel();

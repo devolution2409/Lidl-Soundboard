@@ -33,6 +33,16 @@ public:
      */
     void ShowGameOverlay(HWND hwnd);
 
+    /*!
+     * \brief SetRadialScanCode
+     * \param sc
+     */
+    void SetRadialScanCode(int sc);
+    /*!
+     * \brief SetRadialVirtualKey
+     * \param vk
+     */
+    void SetRadialVirtualKey(int vk);
 
 
 private:
@@ -43,9 +53,12 @@ private:
     explicit OverlayController(QWidget *parent = nullptr);
 
     static OverlayController * self; /*!< A pointer to the only existing OverlayController.*/
-    QTimer * _timerFade;
-    GameNameOverlay * _gameOverlay;
-    QGridLayout * _layout;
+    QTimer * _timerFade; /*!< Timer that controls the fade in/out*/
+    GameNameOverlay * _gameOverlay; /*!< Main overlay*/
+    QGridLayout * _layout ;/*!< The layout */
+
+    int _radialScanCode;
+    int _radialVirtualKey;
 
 signals:
 

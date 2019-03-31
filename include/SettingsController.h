@@ -138,6 +138,7 @@ private:
     bool dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
 
 
+
 signals:
     /*!
      * \brief RecentFilesChanged Signal is caught by the main UI to changes the Open Recent Menu.
@@ -153,6 +154,8 @@ public slots:
 
     void SetPTTScanCode(int sc);
     void SetPTTVirtualKey(int vk);
+
+
 
     // slots for button in the ui
     void buttonBrowseLidl();
