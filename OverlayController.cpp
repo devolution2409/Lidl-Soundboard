@@ -35,10 +35,6 @@ void OverlayController::ResizeToWindow(HWND hwnd)
     qDebug() << "I should be resized!";
     this->show();
 
-
-
-
-
     RECT rect;
     GetWindowRect(hwnd, &rect);
     //this->setGeometry(rect.left, rect.top, rect.right - rect.left,rect.bottom - rect.top - 100);
@@ -71,7 +67,7 @@ void OverlayController::ShowGameOverlay(HWND hwnd)
 
         unsigned int len = static_cast<unsigned int>(GetWindowTextLength(hwnd) + 1);
         std::vector<wchar_t> buf(len);
-        GetWindowText(hwnd, &buf[0], len);
+        GetWindowText(hwnd, &buf[0], static_cast<int>(len));
         std::wstring stxt = &buf[0];
 
          _gameOverlay->SetText(QString::fromStdWString(stxt));

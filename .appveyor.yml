@@ -6,7 +6,8 @@ platform:
 
 skip_commits:
   files:
-    - README.md
+    - *.md
+    - appveyor.yml
 
 init:
         #- ps: $blockRdp=$true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
@@ -29,6 +30,7 @@ after_build:
   - rm release/*.o
   - rm release/*.cpp
   - rm release/*.h
+  - cmd: cp lib/*.dll release/
 artifacts:
   - path: Output\Lidl_soundboard-*.exe
   - path: release
