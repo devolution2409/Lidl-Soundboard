@@ -37,7 +37,7 @@ Blabla, some licence shit that says this is open source and free to fork. But pl
 ## Build Status
 [https://ci.appveyor.com/api/projects/status/github/devolution2409/lidl-soundboard?svg=true](https://ci.appveyor.com/api/projects/status/github/devolution2409/lidl-soundboard?svg=true)
 
-Click [here](http://github.com) for nightly build.
+Click [here](https://ci.appveyor.com/project/devolution2409/lidl-soundboard/build/artifacts) for nightly build.
 
 Warning, it may contains some weird features or behavior. Do this at your own risk.
 HE DOESN'T KNOW forsenKek
