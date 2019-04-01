@@ -17,7 +17,7 @@ after_build:
   - rm release/*.cpp
 
 artifacts:
-  - path: Output\YOUR-APP-*.exe
+  - path: Output\Lidl_soundboard-*.exe
   - path: release
     type: zip
 
