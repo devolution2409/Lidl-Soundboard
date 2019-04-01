@@ -28,7 +28,7 @@ after_build:
     #  - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
-
+  - rm release/*.h
 artifacts:
   - path: Output\Lidl_soundboard-*.exe
   - path: release
