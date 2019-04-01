@@ -20,7 +20,7 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt release/Lidl_soundboard.exe
-  - cmd: cp LICENSE.md release/LICENSE.txt"
+    #  - cmd: cp LICENSE.md release/LICENSE.txt"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
