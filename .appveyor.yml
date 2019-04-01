@@ -3,14 +3,16 @@ branches:
     - master
 
 init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - ps: $blockRdp=$true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - set PATH=C:\Qt\Tools\mingw730_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+  - set PATH=C:\Qt\%QT_VERSION%\bin;C:\Qt\Tools\QtCreator\bin;%PATH%
+  - set PATH=C:\Qt\5.12.2\mingw73_32\bin;C:\Qt\5.12.1\mingw73_64;%PATH%
 install:
   - choco install -y InnoSetup
   - set QT_VERSION=5.12.2
   - set PATH=C:\Qt\Tools\mingw730_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
   - set PATH=C:\Qt\%QT_VERSION%\bin;C:\Qt\Tools\QtCreator\bin;%PATH%
   - set PATH=C:\Qt\5.12.2\mingw73_32\bin;C:\Qt\5.12.1\mingw73_64;%PATH%
-  - ps: $blockRdp = $true; 
 build_script:
   - qmake Lidl_Soundboard.pro
   - mingw32-make
