@@ -6,7 +6,7 @@ platform:
 
 skip_commits:
   files:
-    - *.md
+    - readme.md
     - appveyor.yml
 
 init:
