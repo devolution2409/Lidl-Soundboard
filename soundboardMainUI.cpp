@@ -2551,6 +2551,7 @@ void SoundboardMainUI::CheckForUpdates()
             {
 #ifdef QT_DEBUG
                 bool success = QProcess::startDetached("C:/Program Files (x86)/LIDL Soundboard/SDKMaintenanceTool.exe", args);
+                Q_UNUSED(success);
                 qDebug() << "path is set to Program Files SDK";
 #endif
 #ifndef QT_DEBUG

@@ -52,7 +52,7 @@ HEADERS += \
     include/StyledDelegate.h \
     include/SettingsController.h \
     include/Spoiler.h \
-    include/bitmask_operators.h \
+   # include/bitmask_operators.h \
 #    include/framelesswindow.h \
 #    include/windowdragger.h \
 #    include/DarkStyle.h
@@ -66,6 +66,9 @@ HEADERS += \
     include/OverlayController.h \
     include/GameNameOverlay.h
 
+# Use Precompiled headers (PCH)
+PRECOMPILED_HEADER  +=  \
+    include/bitmask_operators.h  \
 
 
 #HEADERS+= \
@@ -97,7 +100,7 @@ CONFIG += c++14
 
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
-QMAKE_CXXFLAGS += -static-libgcc
+QMAKE_CXXFLAGS += -static-libgcc -Wno-error=date-time
 
 #win32:CONFIG(release, debug|release):
 # LIBS += -L$$PWD/lib/ -lbass -lbassflac -lole32    #-lbassmix
