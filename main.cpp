@@ -61,6 +61,9 @@ void CALLBACK WindowResized(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 
 }
 
+// cant move callbacks to a class because KKona C functions
+// https://docs.microsoft.com/en-us/windows/desktop/ProcThread/thread-local-storage
+// ppHopper
 
 
 int main(int argc, char *argv[])
