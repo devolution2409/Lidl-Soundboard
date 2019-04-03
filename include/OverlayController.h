@@ -12,8 +12,18 @@
 #include <QGridLayout>
 #include <QSpacerItem>
 #include "GameNameOverlay.h"
+#include <QVector>
 
 namespace LIDL{
+
+namespace Callback{
+    void CALLBACK ResizeToWindow(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
+                             LONG idObject, LONG idChild,
+                             DWORD dwEventThread, DWORD dwmsEventTime);
+    void CALLBACK ShowOverlay(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
+                                 LONG idObject, LONG idChild,
+                                 DWORD dwEventThread, DWORD dwmsEventTime);
+}
 
 class OverlayController : public QWidget
 {
@@ -44,7 +54,19 @@ public:
      */
     void SetRadialVirtualKey(int vk);
 
+    /*!
+     * \brief SetHooks
+     * Sets up the hook needed by the overlay
+     */
+    void SetHooks();
 
+    /*!
+     * \brief UnSetHooks
+     * Unregister the hooks (before closing app, because if you don't unregister them
+     * close the app, and switch to another window fast it will trigger a
+     * Must construct QApplication before QPixMap error and crash
+     */
+    void UnSetHooks();
 private:
     /*!
      * \brief OverlayController default constructor.
@@ -59,6 +81,8 @@ private:
 
     int _radialScanCode;
     int _radialVirtualKey;
+
+    QVector<HWINEVENTHOOK> _hookHandles;
 
 signals:
 

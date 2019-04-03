@@ -27,6 +27,12 @@ OverlayController::OverlayController(QWidget *parent) : QWidget(parent)
 
     _radialVirtualKey = -1;
     _radialScanCode = -1;
+
+
+
+      //TODO:
+//      add event processing for maximizing (same as the previous two)
+//      and also for minimizing (then we search for topmost window)
 }
 
 
@@ -90,4 +96,84 @@ void OverlayController::SetRadialVirtualKey(int vk)
     this->_radialVirtualKey = vk;
 }
 
-} // end namespace
+void OverlayController::SetHooks()
+{
+    qDebug() << "Settings hooks";
+    //settings hooks for the overlay to properly show, or resize
+    _hookHandles.append(
+        SetWinEventHook(
+          EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,  // Range of events
+          nullptr,                                          // Handle to DLL.
+          LIDL::Callback::ShowOverlay,                                // The callback.
+          0, 0,              // Process and thread IDs of interest (0 = all)
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+    _hookHandles.append(
+        SetWinEventHook(
+                EVENT_SYSTEM_MOVESIZEEND, EVENT_SYSTEM_MOVESIZEEND,  // Range of events
+          nullptr,                                          // Handle to DLL.
+          LIDL::Callback::ShowOverlay,                                // The callback.
+          0, 0,              // Process and thread IDs of interest (0 = all)
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+}
+
+void OverlayController::UnSetHooks()
+{
+    qDebug() << "Unhooking events";
+    for (auto i: _hookHandles)
+    {
+        UnhookWinEvent(i);
+    }
+
+}
+
+//stashing those here because it KINDA respect seperation of concerns.. forsenT
+namespace Callback{
+
+void CALLBACK ResizeToWindow(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
+                             LONG idObject, LONG idChild,
+                             DWORD dwEventThread, DWORD dwmsEventTime)
+{
+    //silence those warning forsenE
+    Q_UNUSED(hook);
+    Q_UNUSED(event);
+    Q_UNUSED(idObject);
+    Q_UNUSED(idChild);
+    Q_UNUSED(dwEventThread);
+    Q_UNUSED(dwmsEventTime);
+//    int len = GetWindowTextLength(hwnd) + 1;
+//    std::vector<wchar_t> buf(len);
+//    GetWindowText(hwnd, &buf[0], len);
+//    std::wstring stxt = &buf[0];
+//    qDebug() << stxt;
+    LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
+
+}
+
+
+void CALLBACK ShowOverlay(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
+                             LONG idObject, LONG idChild,
+                             DWORD dwEventThread, DWORD dwmsEventTime)
+{
+    //silence those warning forsenE
+    Q_UNUSED(hook);
+    Q_UNUSED(event);
+    Q_UNUSED(idObject);
+    Q_UNUSED(idChild);
+    Q_UNUSED(dwEventThread);
+    Q_UNUSED(dwmsEventTime);
+//    int len = GetWindowTextLength(hwnd) + 1;
+//    std::vector<wchar_t> buf(len);
+//    GetWindowText(hwnd, &buf[0], len);
+//    std::wstring stxt = &buf[0];
+//    qDebug() << stxt;
+    LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
+    LIDL::OverlayController::GetInstance()->ShowGameOverlay(hwnd);
+
+}
+// cant move callbacks to a class because KKona C functions, so we use namespace instead
+// https://docs.microsoft.com/en-us/windows/desktop/ProcThread/thread-local-storage
+// ppHopper
+
+} //end namespace callback
+
+} // end namespace LIDL

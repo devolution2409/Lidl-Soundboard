@@ -2,6 +2,9 @@
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
+    //set up hooks
+    LIDL::OverlayController::GetInstance()->SetHooks();
+
     //    QFile css_dark(":/css/resources/darkorange.css");
     //    css_dark.open(QFile::ReadOnly);
     //    this->setStyleSheet(css_dark.readAll());
@@ -1086,7 +1089,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     //Silenced the QApplication missing for style
     // now we have a QPixmap must construuct a QGuiApplication error :feelsWeirdMan:
     //apparentely thats because of static QWidget
-    LIDL::OverlayController::GetInstance()->close();
+    LIDL::OverlayController::GetInstance()->UnSetHooks();
     // Compare saved soundboard state with the one we have now
     switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {

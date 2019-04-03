@@ -20,50 +20,9 @@
 #include <vector>
 #include "OverlayController.h"
 
-void CALLBACK TopMostWindowChanged(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
-                             LONG idObject, LONG idChild,
-                             DWORD dwEventThread, DWORD dwmsEventTime)
-{
-    //silence those warning forsenE
-    Q_UNUSED(hook);
-    Q_UNUSED(event);
-    Q_UNUSED(idObject);
-    Q_UNUSED(idChild);
-    Q_UNUSED(dwEventThread);
-    Q_UNUSED(dwmsEventTime);
-//    int len = GetWindowTextLength(hwnd) + 1;
-//    std::vector<wchar_t> buf(len);
-//    GetWindowText(hwnd, &buf[0], len);
-//    std::wstring stxt = &buf[0];
-//    qDebug() << stxt;
-    LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
-    LIDL::OverlayController::GetInstance()->ShowGameOverlay(hwnd);
 
-}
 
-void CALLBACK WindowResized(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
-                             LONG idObject, LONG idChild,
-                             DWORD dwEventThread, DWORD dwmsEventTime)
-{
-    //silence those warning forsenE
-    Q_UNUSED(hook);
-    Q_UNUSED(event);
-    Q_UNUSED(idObject);
-    Q_UNUSED(idChild);
-    Q_UNUSED(dwEventThread);
-    Q_UNUSED(dwmsEventTime);
-//    int len = GetWindowTextLength(hwnd) + 1;
-//    std::vector<wchar_t> buf(len);
-//    GetWindowText(hwnd, &buf[0], len);
-//    std::wstring stxt = &buf[0];
-//    qDebug() << stxt;
-    LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
 
-}
-
-// cant move callbacks to a class because KKona C functions
-// https://docs.microsoft.com/en-us/windows/desktop/ProcThread/thread-local-storage
-// ppHopper
 
 
 int main(int argc, char *argv[])
@@ -96,30 +55,6 @@ int main(int argc, char *argv[])
     //EVENT_SYSTEM_CAPTURESTART PogU?
     //EVENT_SYSTEM_DESKTOPSWITCH
     //EVENT_SYSTEM_FOREGROUND OMEGAPOGCHAMP?
-
-    //probably don't need a variable to access those hooks as we will never unhook them?
-      //HWINEVENTHOOK g_hook;
-      //g_hook =
-      SetWinEventHook(
-            EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,  // Range of events
-            nullptr,                                          // Handle to DLL.
-            TopMostWindowChanged,                                // The callback.
-            0, 0,              // Process and thread IDs of interest (0 = all)
-            WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS); // Flags.
-
-      SetWinEventHook(
-                  EVENT_SYSTEM_MOVESIZEEND, EVENT_SYSTEM_MOVESIZEEND,  // Range of events
-            nullptr,                                          // Handle to DLL.
-            TopMostWindowChanged,                                // The callback.
-            0, 0,              // Process and thread IDs of interest (0 = all)
-            WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS); // Flags.
-
-
-
-      //TODO:
-//      add event processing for maximizing (same as the previous two)
-//      and also for minimizing (then we search for topmost window)
-
 
       MSG msg;
       // Proccess the system events
