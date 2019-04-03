@@ -45,9 +45,14 @@ void OverlayController::ResizeToWindow(HWND hwnd)
     GetWindowRect(hwnd, &rect);
     //this->setGeometry(rect.left, rect.top, rect.right - rect.left,rect.bottom - rect.top - 100);
     this->setGeometry(rect.left, rect.top, rect.right - rect.left,rect.bottom - rect.top);
+
+    // if the overlay showing game is opened we need to move it smileyface
+
+    _gameOverlay->move(this->x(),this->y());
+
 // old cast because somehow static_cast doesnt work
 // HWND id = (HWND) this->winId();
-//    ShowWindow(id, SW_HIDE);
+//    ShowWindow(id, SW_HIDE);R
 //    SetWindowLong(id, GWL_EXSTYLE, GetWindowLong(id, GWL_EXSTYLE) | ~WS_EX_APPWINDOW);
 //    ShowWindow(id, SW_SHOW);
     //_gameOverlay->setGeometry(rect.right - 200, rect.bottom - 100, rect.right, rect.bottom);
@@ -99,14 +104,22 @@ void OverlayController::SetRadialVirtualKey(int vk)
 void OverlayController::SetHooks()
 {
     qDebug() << "Settings hooks";
-    //when a window becomes the foreground window (think popup)
+
+    // WINEVENT_OUTOFCONTEXT:
+    // The callback function is not mapped
+    // into the address space of the process that generates the event
+    // Because the hook function is called across process boundaries, the system must queue events.
+    // Although this method is asynchronous, events are guaranteed to be in sequential order.
+    // For more information, see Out-of-Context Hook Functions.
+
+     //when a window becomes the foreground window (think popup)
     _hookHandles.append(
         SetWinEventHook(
           EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,  // Range of events
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+          WINEVENT_OUTOFCONTEXT )); // Flags.
 
     // when moving we don't need to showthe overlay
     _hookHandles.append(
@@ -115,7 +128,7 @@ void OverlayController::SetHooks()
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ResizeToWindow,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+          WINEVENT_OUTOFCONTEXT )); // Flags.
 
     // when maximizing
     _hookHandles.append(
@@ -124,7 +137,17 @@ void OverlayController::SetHooks()
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+          WINEVENT_OUTOFCONTEXT )); // Flags.
+
+
+    // when maximizing
+    _hookHandles.append(
+        SetWinEventHook(
+                  EVENT_SYSTEM_MINIMIZESTART,   EVENT_SYSTEM_MINIMIZESTART,  // Range of events
+          nullptr,                                          // Handle to DLL.
+          LIDL::Callback::ShowOverlay,                                // The callback.
+          0, 0,              // Process and thread IDs of interest (0 = all)
+          WINEVENT_OUTOFCONTEXT )); // Flags.
 
 
 }
@@ -153,12 +176,13 @@ void CALLBACK ResizeToWindow(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
     Q_UNUSED(idChild);
     Q_UNUSED(dwEventThread);
     Q_UNUSED(dwmsEventTime);
+    Q_UNUSED(hwnd);
 //    int len = GetWindowTextLength(hwnd) + 1;
 //    std::vector<wchar_t> buf(len);
 //    GetWindowText(hwnd, &buf[0], len);
 //    std::wstring stxt = &buf[0];
 //    qDebug() << stxt;
-    LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
+    LIDL::OverlayController::GetInstance()->ResizeToWindow(GetForegroundWindow());
 
 }
 
@@ -174,13 +198,13 @@ void CALLBACK ShowOverlay(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
     Q_UNUSED(idChild);
     Q_UNUSED(dwEventThread);
     Q_UNUSED(dwmsEventTime);
-//    int len = GetWindowTextLength(hwnd) + 1;
-//    std::vector<wchar_t> buf(len);
-//    GetWindowText(hwnd, &buf[0], len);
-//    std::wstring stxt = &buf[0];
-//    qDebug() << stxt;
-    LIDL::OverlayController::GetInstance()->ResizeToWindow(hwnd);
-    LIDL::OverlayController::GetInstance()->ShowGameOverlay(hwnd);
+    Q_UNUSED(hwnd);
+    //actually sending this:
+    //HWND GetForegroundWindow()
+    // which get the ACTIVE window
+
+    LIDL::OverlayController::GetInstance()->ResizeToWindow(GetForegroundWindow());
+    LIDL::OverlayController::GetInstance()->ShowGameOverlay(GetForegroundWindow());
 
 }
 // cant move callbacks to a class because KKona C functions, so we use namespace instead
