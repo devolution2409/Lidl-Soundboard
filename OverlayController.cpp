@@ -99,7 +99,7 @@ void OverlayController::SetRadialVirtualKey(int vk)
 void OverlayController::SetHooks()
 {
     qDebug() << "Settings hooks";
-    //settings hooks for the overlay to properly show, or resize
+    //when a window becomes the foreground window (think popup)
     _hookHandles.append(
         SetWinEventHook(
           EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,  // Range of events
@@ -107,13 +107,26 @@ void OverlayController::SetHooks()
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
           WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+
+    // when moving we don't need to showthe overlay
     _hookHandles.append(
         SetWinEventHook(
                 EVENT_SYSTEM_MOVESIZEEND, EVENT_SYSTEM_MOVESIZEEND,  // Range of events
           nullptr,                                          // Handle to DLL.
+          LIDL::Callback::ResizeToWindow,                                // The callback.
+          0, 0,              // Process and thread IDs of interest (0 = all)
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+
+    // when maximizing
+    _hookHandles.append(
+        SetWinEventHook(
+                  EVENT_SYSTEM_MINIMIZEEND,   EVENT_SYSTEM_MINIMIZEEND,  // Range of events
+          nullptr,                                          // Handle to DLL.
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
           WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
+
+
 }
 
 void OverlayController::UnSetHooks()

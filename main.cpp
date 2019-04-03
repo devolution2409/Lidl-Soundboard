@@ -17,7 +17,7 @@
 //#include <comdef.h>
 //#include <Wbemidl.h>
 //#pragma comment(lib, "wbemuuid.lib")
-#include <vector>
+//#include <vector>
 #include "OverlayController.h"
 
 
