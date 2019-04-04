@@ -160,6 +160,14 @@ private:
     QVector<QAction*> _actions; /*!< List of the actions in the MenuBar.*/
     CustomTableView *resultView; /*!< Custom table view (inherists from QTableView) to display the data in the model.*/
 
+    //Game detection selection
+    QLabel *_label0;
+    QComboBox *_gameList;
+    QToolButton *_gameListBtnPlus;
+    QToolButton *_gameListBtnMinus;
+
+
+
     // buttons
     QPushButton  * _btnAdd; /*!< Add SoundWrapper button.*/
     QPushButton  * _btnDelete; /*!< Delete SoundWrapper button.*/

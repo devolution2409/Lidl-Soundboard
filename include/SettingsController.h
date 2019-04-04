@@ -167,6 +167,9 @@ public slots:
     QMap<QString, QString> GetGameList() const;
 
 
+
+
+
     void SetDefaultMainVolume(int);
     void SetDefaultVacVolume(int);
     void SetRecentFileCount(int);
