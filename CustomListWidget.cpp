@@ -20,7 +20,7 @@ void CustomListWidget::dragEnterEvent(QDragEnterEvent *event)
         {
           QMimeType type = db.mimeTypeForFile(i.path());
           qDebug() << type.name();
-          if (!( LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
+          if (!( LIDL::Controller::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
           {
             accept = false;
             break;

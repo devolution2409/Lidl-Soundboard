@@ -141,8 +141,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(this->_btnClearPTT,&QPushButton::clicked,this,[=]{
             // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
             _shortcutEditPTT->clear();
-            LIDL::SettingsController::GetInstance()->SetPTTScanCode(-1);
-            LIDL::SettingsController::GetInstance()->SetPTTVirtualKey(-1);
+            LIDL::Controller::SettingsController::GetInstance()->SetPTTScanCode(-1);
+            LIDL::Controller::SettingsController::GetInstance()->SetPTTVirtualKey(-1);
         });
     /***************************************************
                          STOP SOUND BIND
@@ -297,10 +297,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
        * If the settings file was found, this function will return true
        * => we can automatically open last opened file */
 
-    // Ensure LIDL::SettingsController exist so we can connect it
-    if (LIDL::SettingsController::GetInstance() != nullptr)
+    // Ensure LIDL::Controller::SettingsController exist so we can connect it
+    if (LIDL::Controller::SettingsController::GetInstance() != nullptr)
         connect(this,&SoundboardMainUI::lidlJsonDetected,
-                LIDL::SettingsController::GetInstance(),&LIDL::SettingsController::addFileToRecent);
+                LIDL::Controller::SettingsController::GetInstance(),&LIDL::Controller::SettingsController::addFileToRecent);
 
     // We are required to do this trick else
     // the window isn't existing when the AddSound method attempts to resize columns
@@ -314,8 +314,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
 
 
-    connect(LIDL::SettingsController::GetInstance(),
-            &LIDL::SettingsController::RecentFilesChanged,
+    connect(LIDL::Controller::SettingsController::GetInstance(),
+            &LIDL::Controller::SettingsController::RecentFilesChanged,
             this,
             &SoundboardMainUI::SetUpRecentMenu,
             Qt::QueuedConnection
@@ -325,10 +325,10 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             [=]
     {
 
-        LIDL::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
+        LIDL::Controller::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
     });
-    connect(LIDL::SettingsController::GetInstance(),
-            &LIDL::SettingsController::SettingsChanged,
+    connect(LIDL::Controller::SettingsController::GetInstance(),
+            &LIDL::Controller::SettingsController::SettingsChanged,
             this, &SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
 
     // connected modified soundboard with a lambda to call the savestate function
@@ -336,14 +336,14 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
     connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
-            LIDL::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
+            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
 
     connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
-            LIDL::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
+            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
     connect(this->_btnStop,&QPushButton::clicked, [=]{
         for (auto &i: _sounds)
             i->Stop();
-        LIDL::SettingsController::GetInstance()->unHoldPTT();
+        LIDL::Controller::SettingsController::GetInstance()->unHoldPTT();
     });
 
     //connecting the wrappper to the combo box for devices
@@ -368,17 +368,17 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 void SoundboardMainUI::PostConstruction()
 {
     // Take a snapshot right now to avoid lidl errors when loading soundboard automatically
-    LIDL::SettingsController::GetInstance()->SaveState(*this->GenerateSaveFile() );
+    LIDL::Controller::SettingsController::GetInstance()->SaveState(*this->GenerateSaveFile() );
     // Open the soundboard post-construction
-    if (LIDL::SettingsController::GetInstance()->OpenSettings())
+    if (LIDL::Controller::SettingsController::GetInstance()->OpenSettings())
     {
-        if(!(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
-            QTimer::singleShot(0, [=]{   this->Open(LIDL::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
+        if(!(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
+            QTimer::singleShot(0, [=]{   this->Open(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
         else // show firt use dialog
             this->ClearAll();
     }
     // If this is the first time the user uses soundboard
-    if (LIDL::SettingsController::GetInstance()->IsThisFirstTimeUser())
+    if (LIDL::Controller::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
 }
 
@@ -434,7 +434,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
 
     // needed for remotes files forsenE
     connect(modifiedSound, &SoundWrapper::holdPTTProxy, [=] (int duration){
-        LIDL::SettingsController::GetInstance()->holdPTT(duration);
+        LIDL::Controller::SettingsController::GetInstance()->holdPTT(duration);
     } );
 
     QList<QStandardItem*> tempList;
@@ -568,7 +568,7 @@ void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maxim
                  });
            // needed for remotes files forsenE
             connect(i, &SoundWrapper::holdPTTProxy, [=] (int duration){
-                LIDL::SettingsController::GetInstance()->holdPTT(duration);
+                LIDL::Controller::SettingsController::GetInstance()->holdPTT(duration);
             } );
         }
 
@@ -613,7 +613,7 @@ void SoundboardMainUI::refreshView()
 
             // If we DONT wanna show the full list
             // we wrap the stuff
-            if ( LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
+            if ( LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
             {
                 QStringList tmpText = tempText.split("\n");
                 QString tempAgain = tmpText.at(0);
@@ -671,7 +671,7 @@ void SoundboardMainUI::refreshView()
 
         // If we do not want SFX to be shown we remove the entry from the list
         // i.e. if the flag isn't set:
-        if (! LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
+        if (! LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
             item.removeAt(2);
         /* Else: we deal with multiline SFX. Which will always be the case if we have more than 1 sound
          * This else won't be called if the SFX are set to none for all the sounds in a collection
@@ -716,7 +716,7 @@ void SoundboardMainUI::refreshView()
     QStringList tempZulul;
     tempZulul << tr("Sound Collections");
     tempZulul << tr("Remotes");
-    if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
+    if (LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
         tempZulul << tr("SFX");
 
     tempZulul  << tr("Shortcut") << tr("Mode");
@@ -730,7 +730,7 @@ void SoundboardMainUI::refreshView()
         _model->appendRow(i);
     }
     // if we don't want to show the full list, we force the size to be 22px
-    if ( LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
+    if ( LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
         for (int i = 0; i < _displayedData.size(); ++i)
             resultView->setRowHeight(i,22);
     // else we resize
@@ -738,7 +738,7 @@ void SoundboardMainUI::refreshView()
         resultView->resizeRowsToContents();
 
     // We resize the SFX row if it exists
-    if (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
+    if (LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
     {
         //  resultView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
         resultView->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
@@ -857,9 +857,9 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     // If we shouldn't process event, we return.
     //(a.k.a. bug fix for shortcut playing themselves if
     // they have the same shortcut as modifier + autohold PTT key.
-    //qDebug() << "var:" << LIDL::SettingsController::GetInstance()->_eventProcessing;
+    //qDebug() << "var:" << LIDL::Controller::SettingsController::GetInstance()->_eventProcessing;
     // should have commented this more thoroughly because i don't understand the logic now LULW
-    if(!(LIDL::SettingsController::GetInstance()->getEventProcessing()))
+    if(!(LIDL::Controller::SettingsController::GetInstance()->getEventProcessing()))
     {
         qDebug() << "shouldn't process handle number:" << handle;
         return;
@@ -873,7 +873,7 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     // If this is the STOP hotkey then we stop all sounds
     if (handle == 2147483647)
     {
-        LIDL::SettingsController::GetInstance()->unHoldPTT();
+        LIDL::Controller::SettingsController::GetInstance()->unHoldPTT();
         // unHoldPTT also stops the timer :wave: forsenE
         for (auto &i: _sounds)
             i->Stop();
@@ -881,7 +881,7 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     // else this a sound hotkey handle
     // We check if the soundwrapper at this location has one file else it will play nullptr and crash
 
-    else if ( ! _sounds.at(handle)->getSoundList().isEmpty() && !LIDL::SettingsController::GetInstance()->isEditing())
+    else if ( ! _sounds.at(handle)->getSoundList().isEmpty() && !LIDL::Controller::SettingsController::GetInstance()->isEditing())
         _sounds.at(handle)->Play();
 }
 
@@ -905,7 +905,7 @@ void SoundboardMainUI::setUpMenu()
     //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
     connect(this->_actions.last(),&QAction::triggered,
             [=]{
-        switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+        switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
         {
             case 0: this->Save(); break; // yes
             case 1: break; // no
@@ -917,7 +917,7 @@ void SoundboardMainUI::setUpMenu()
         this->ClearAll();
         //emit SaveSoundboardState();
         this->SetStatusTextEditText(QString(tr("Creating new empty soundboard")));
-        emit SaveSoundboardState(); // == LIDL::SettingsController::GetInstance()->SaveSoundboardState(QJsonObject save);
+        emit SaveSoundboardState(); // == LIDL::Controller::SettingsController::GetInstance()->SaveSoundboardState(QJsonObject save);
     });
 
     _actions.append(   new QAction(tr("Open"),this)); //1
@@ -1025,7 +1025,7 @@ void SoundboardMainUI::setUpMenu()
 
     _actions.append(new QAction(tr("Settings"),this)); //14
     toolMenu->addAction(_actions.last());
-    connect(this->_actions.last(),SIGNAL(triggered()),LIDL::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
+    connect(this->_actions.last(),SIGNAL(triggered()),LIDL::Controller::SettingsController::GetInstance(),SLOT(ShowSettingsWindow()));
     _actions.last()->setIcon(QIcon(""));
     toolMenu->addSeparator();
 
@@ -1045,14 +1045,14 @@ void SoundboardMainUI::setUpMenu()
     connect(_actions.last(),&QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
-        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
+        if  (LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::SHOW_SFX))
         {
-            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
+            LIDL::Controller::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
             temp->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
-            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
+            LIDL::Controller::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
             temp->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
@@ -1065,14 +1065,14 @@ void SoundboardMainUI::setUpMenu()
     connect(_actions.last(),&QAction::triggered, [=]{
         // if the show flag is already there we invert it
         // and show the checkmark
-        if  (LIDL::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
+        if  (LIDL::Controller::SettingsController::GetInstance()->checkShowFlags(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST))
         {
-            LIDL::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
+            LIDL::Controller::SettingsController::GetInstance()->removeShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
             temp2->setIcon(QIcon(""));
         }
         else // if it's not present we set it
         {
-            LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
+            LIDL::Controller::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
             temp2->setIcon(QIcon(":/icon/resources/checkmark.png"));
         }
         this->refreshView();
@@ -1091,7 +1091,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     //apparentely thats because of static QWidget
     LIDL::OverlayController::GetInstance()->UnSetHooks();
     // Compare saved soundboard state with the one we have now
-    switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
         case 0: this->Save(); break; // yes
         case 1:
@@ -1104,7 +1104,7 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
         case -1: break; // file up to date
     }
 
-    LIDL::SettingsController::GetInstance()->SaveSettings();
+    LIDL::Controller::SettingsController::GetInstance()->SaveSettings();
 
 
     for (auto i: _winShorcutHandle)
@@ -1206,7 +1206,7 @@ void SoundboardMainUI::ClearAll()
 // Open slot
 void SoundboardMainUI::OpenSlot()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"), LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,tr("LIDL JSON file(*.lidljson)"));
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"), LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,tr("LIDL JSON file(*.lidljson)"));
     if ((fileName).isEmpty())
             return;
     this->Open(fileName);
@@ -1215,7 +1215,7 @@ void SoundboardMainUI::OpenSlot()
 
 void SoundboardMainUI::Open(QString fileName)
 {
-    switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
     case 0: this->Save(); break; // yes
     case 1: break; // no
@@ -1335,11 +1335,11 @@ void SoundboardMainUI::Open(QString fileName)
 
             if (flags & LIDL::SHOW_SETTINGS::SHOW_SFX){
 
-                LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
+                LIDL::Controller::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::SHOW_SFX);
                 this->_actions.at(16)->setIcon(QIcon(":/icon/resources/checkmark.png"));
             }
             if (flags &  LIDL::SHOW_SETTINGS::WRAP_SONG_LIST){
-                LIDL::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
+                LIDL::Controller::SettingsController::GetInstance()->addShowFlag(LIDL::SHOW_SETTINGS::WRAP_SONG_LIST);
                 this->_actions.at(17)->setIcon(QIcon(":/icon/resources/checkmark.png"));
             }
         }
@@ -1607,7 +1607,7 @@ void SoundboardMainUI::Open(QString fileName)
                     // (default volume is 100%).
                     for (auto j: soundArray)
                     {
-                        fileArray.append(new LIDL::SoundFile(j.toString(),LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),LIDL::SettingsController::GetInstance()->GetDefaultVacVolume())  );
+                        fileArray.append(new LIDL::SoundFile(j.toString(),LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume(),LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume())  );
                     }
                 }
 
@@ -1656,7 +1656,7 @@ void SoundboardMainUI::Open(QString fileName)
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
-    switch(LIDL::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
     case 0: this->Save(); break; // yes
     case 1: break; // no
@@ -1701,8 +1701,8 @@ void SoundboardMainUI::OpenEXPSounboard()
                 this->addSound(new SoundWrapper(fileList,
                                                 LIDL::Playback::Sequential,
                                                 //LIDL::Playback::Singleton // not a singleton anymore cause it's redundant with sequential with only one sound
-                                                LIDL::SettingsController::GetInstance()->GetDefaultMainVolume(),
-                                                LIDL::SettingsController::GetInstance()->GetDefaultVacVolume(),
+                                                LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume(),
+                                                LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume(),
                                                 this->_deviceListOutput->currentIndex(),
                                                 this->_deviceListVAC->currentIndex()));
 
@@ -1730,7 +1730,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
     QJsonObject  settings;
     settings.insert("Main Output Device", this->_deviceListOutput->currentText());
     settings.insert("VAC Output Device",  this->_deviceListVAC->currentText());
-    settings.insert("Show Flags", static_cast<int>(LIDL::SettingsController::GetInstance()->getShowFlags()));
+    settings.insert("Show Flags", static_cast<int>(LIDL::Controller::SettingsController::GetInstance()->getShowFlags()));
 
 
     QJsonObject pttKey;
@@ -1892,7 +1892,7 @@ void SoundboardMainUI::SaveAs()
 */
     QString fileName  = QFileDialog::getSaveFileName(this,
                                                      tr("Save Soundboard As.."),
-                                                     LIDL::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
+                                                     LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
                                                      tr("LIDL JSON file(*.lidljson)"));
     //  fileName.append(".lidljson");
     QJsonObject *save = GenerateSaveFile();
@@ -2457,7 +2457,7 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
         QTimer::singleShot(1500, [=]
         {
             // if snapshot now is different from stored one
-            if ( LIDL::SettingsController::GetInstance()->SaveIsDifferentFrom(*(this->GenerateSaveFile())))
+            if ( LIDL::Controller::SettingsController::GetInstance()->SaveIsDifferentFrom(*(this->GenerateSaveFile())))
             {
                 if (_saveName.isEmpty() || _saveName.size() == 0)
                     _statusEdit->setText("Soundboard file not saved.");
@@ -2480,7 +2480,7 @@ void SoundboardMainUI::SetUpRecentMenu()
     QVector<QAction *> actions;
     // Creating actions (ie the names)
     int count = 0;
-    for (auto i: LIDL::SettingsController::GetInstance()->GetRecentFiles() )
+    for (auto i: LIDL::Controller::SettingsController::GetInstance()->GetRecentFiles() )
     {
         actions.append(new QAction( i.fileName()));
         // using lambdas forsenE
@@ -2491,7 +2491,7 @@ void SoundboardMainUI::SetUpRecentMenu()
         });
         _openRecentMenu->addAction(actions.last());
 
-        if (++count == LIDL::SettingsController::GetInstance()->GetRecentFilesCount())
+        if (++count == LIDL::Controller::SettingsController::GetInstance()->GetRecentFilesCount())
             break;
     }
 }
@@ -2594,7 +2594,7 @@ void SoundboardMainUI::dragEnterEvent(QDragEnterEvent *e)
         {
           QMimeType type = db.mimeTypeForFile(i.path());
           qDebug() << type.name();
-          if (!( LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
+          if (!( LIDL::Controller::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name())))
           {
             accept = false;
             break;
@@ -2628,19 +2628,19 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
                 // check anyway but it shouldn't be possible
               QMimeDatabase db;
               QMimeType type = db.mimeTypeForFile(url.toString());
-              if (LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name()))
+              if (LIDL::Controller::SettingsController::GetInstance()->GetSupportedMimeTypes().contains(type.name()))
               {
                     // if the behaviour is to add one wrapper per sound
                     // OR we only have one sound
                     LIDL::SFX tempSfx;
                     tempSfx.flags = LIDL::SFX_TYPE::NONE;
-                    if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() ||  e->mimeData()->urls().size() == 1)
+                    if (LIDL::Controller::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() ||  e->mimeData()->urls().size() == 1)
                     {
                         file.clear();
                         file.append(
                             new LIDL::SoundFile(url.toString(),
-                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                        static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                        static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
                                         tempSfx));
                         QKeySequence emptySeq;
                         // adding sound with empty shortcut and defaulting to singleton
@@ -2650,18 +2650,18 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
                                                                  this->_deviceListVAC->currentIndex()));
                     }
                     // if we have more than 1 sound and we want to add them  all in one thing
-                    else if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
+                    else if (LIDL::Controller::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
                               &&  e->mimeData()->urls().size() > 1)
                     {
                         file.append(new LIDL::SoundFile(url.toString(),
-                                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                        static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                        static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                        static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
                                                         tempSfx));
                     }
               }
         }
     }
-    if (LIDL::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
+    if (LIDL::Controller::SettingsController::GetInstance()->GetDragAndDropSeveralWrappers() == false
             &&  e->mimeData()->urls().size() > 1){
     QKeySequence emptySeq;
     // adding sound with empty shortcut and defaulting to sequential

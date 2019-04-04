@@ -11,7 +11,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     //w*h
 
     // setting boolean to prevent a sound from being played
-    LIDL::SettingsController::GetInstance()->setEditing(true);
+    LIDL::Controller::SettingsController::GetInstance()->setEditing(true);
 
   //  this->_mainWidget = parent;
     // Ajout d'un layout vertical pour afficher les sons
@@ -515,7 +515,7 @@ void WrapperProperties::closeEvent(QCloseEvent *event)
     emit closed();
     this->QWidget::close();
     event->accept();
-    LIDL::SettingsController::GetInstance()->setEditing(false);
+    LIDL::Controller::SettingsController::GetInstance()->setEditing(false);
     qDebug() << "forsenRope FeelsBadMan";
 }
 
@@ -530,15 +530,15 @@ void WrapperProperties::AddSound()
     //if we already have more than one s²ound we set the mode to sequential (default)
 
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3 *.ogg *.flac)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3 *.ogg *.flac)"));
     // if the fileName isn't empty, the user selected a file, so we add it.
     if (!fileName.isEmpty())
     {
         //QListWidgetItem * tempItem = new QListWidgetItem(fileName);
         //qDebug() << _soundListDisplay->row(item);
         _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(fileName,
-                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                                                             static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                             static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                             static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
                                                                                              0,_soundListDisplay)) ;
         if (_soundListDisplay->count()>1)
         {
@@ -571,8 +571,8 @@ void WrapperProperties::AddSoundFromDrop(QString file)
     // if the fileName isn't empty, the user selected a file, so we add it.
     if (!fileName.isEmpty())
         _soundListDisplay->insertItem(_soundListDisplay->count() ,new CustomListWidgetItem(fileName,
-                                                                                           static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                                                           static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                           static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                           static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
                                                                                            0,_soundListDisplay)) ;
 }
 
@@ -703,7 +703,7 @@ void WrapperProperties::AddSoundFromUrl()
                 if (answer.contains("Content-Type"))
                 {
                     // Supported Mimes types
-                    QStringList supportedMimes = LIDL::SettingsController::GetInstance()->GetSupportedMimeTypes();
+                    QStringList supportedMimes = LIDL::Controller::SettingsController::GetInstance()->GetSupportedMimeTypes();
                     /* https://shugo.developpez.com/tutoriels/regexqt/
                          * \w is any letter/number or _, + is "once or more"
                          * slash needs to be escaped
@@ -807,8 +807,8 @@ void WrapperProperties::AddSoundFromUrl()
             } // end if http
             // If everything is good we can add the sound, FeelsOkayMan
             _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
-                                                                                                 static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
-                                                                                                 static_cast<float>(LIDL::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                                 static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                                 static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
                                                                                                  size, _soundListDisplay)) ;
 
         }// end else

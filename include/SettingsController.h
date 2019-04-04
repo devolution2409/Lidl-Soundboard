@@ -31,6 +31,8 @@
 #include <QJsonObject>
 #include <QMessageBox>
 namespace LIDL{
+namespace Controller {
+
 
 
 class SettingsController : public QObject
@@ -80,10 +82,19 @@ public:
       */
     bool getEventProcessing() const;
 
-    // Is editing basically serves to know whether we should process shortcuts being pressed and play the sound,
-    // or not because the user is editing a sound (or in another menu for instance)
-    // The boolean will be set in the constructor of the soundwrapper (wrapperproperties) edition window, and unset in the destructor
+
+    /*!
+     * \brief isEditing
+     * Is editing basically serves to know whether we should process shortcuts being pressed and play the sound,
+     * or not because the user is editing a sound (or in another menu for instance)
+     * The boolean will be set in the constructor of the soundwrapper (wrapperproperties) edition window, and unset in the destructor
+     * \return boolean
+     */
     bool isEditing() const;
+
+    /*!
+     * \brief setEditing
+     */
     void setEditing(bool);
 
 private:
@@ -138,6 +149,7 @@ private:
     bool dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
 
 
+    QMap<QString, QString> _gameList; /*!< A Map between executable and "nice name" to be displayed in various part of the UI */
 
 signals:
     /*!
@@ -147,6 +159,14 @@ signals:
     void SettingsChanged();
 
 public slots:
+
+    /*!
+     * \brief GetGameList
+     * \return The QMap of the Game list
+     */
+    QMap<QString, QString> GetGameList() const;
+
+
     void SetDefaultMainVolume(int);
     void SetDefaultVacVolume(int);
     void SetRecentFileCount(int);
@@ -164,5 +184,6 @@ public slots:
     void addFileToRecent(QFileInfo fileInfo);
 
 };
-}
+} //end namespace Controller
+} //end namespace LIDL
 //#endif // INCLUDESETTINGSCONTROLLER_H

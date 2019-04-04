@@ -3,6 +3,7 @@
 
 // Need to initialize the static to nullptr here.
 namespace LIDL{
+namespace Controller{
 SettingsController* SettingsController::self = nullptr;
 
 SettingsController::SettingsController()
@@ -23,7 +24,7 @@ SettingsController::SettingsController()
         // we must process events except when a auto-hold ptt command has just been issued.
         _eventProcessing = true;
         this->fileName = "lidlsettings.json";
-        connect(&_activePttTimer,QTimer::timeout, [=]{
+        connect(&_activePttTimer,&QTimer::timeout, [=]{
                 this->unHoldPTT();});
 
         _isEditing = false;
@@ -106,7 +107,7 @@ void SettingsController::ShowSettingsWindow()
     /* connect(ui->fileCount,static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             [=](int newValue){this->recentFileNumber = newValue;} ); */
     connect(ui->fileCount, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            this, SettingsController::SetRecentFileCount);
+            this, &SettingsController::SetRecentFileCount);
 
     // Settings all the value to which we already have stored
     ui->folderLidlEdit ->setText(defaultSoundboardFolder);
@@ -128,7 +129,7 @@ void SettingsController::ShowSettingsWindow()
 
 
 
-    connect(ui->buttonBox,QDialogButtonBox::accepted,
+    connect(ui->buttonBox,&QDialogButtonBox::accepted,
             [=]{
                     defaultSoundboardFolder = ui->folderLidlEdit->text();
                     defaultSoundsFolder     = ui->folderSoundEdit->text();
@@ -141,7 +142,7 @@ void SettingsController::ShowSettingsWindow()
                     emit SettingsChanged();
                     });
 
-    connect(ui->buttonBox,QDialogButtonBox::rejected,widget,QDialog::close);
+    connect(ui->buttonBox,&QDialogButtonBox::rejected,widget,&QDialog::close);
 
     widget->show();
 }
@@ -258,10 +259,9 @@ bool SettingsController::OpenSettings()
     {
         this->SaveSettings();
         fileAlreadyExisted = false;
+        emit RecentFilesChanged();
         return false;
     }
-    emit RecentFilesChanged();
-    return true;
 }
 
 void SettingsController::SaveSettings()
@@ -506,5 +506,10 @@ void SettingsController::setEditing(bool newState)
     this->_isEditing = newState;
 }
 
-} // end namespace
+QMap<QString, QString> SettingsController::GetGameList() const
+{
+    return this->_gameList;
+}
 
+} // end namespace controller
+} // end namespace lidl
