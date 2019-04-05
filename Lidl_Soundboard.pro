@@ -83,7 +83,8 @@ PRECOMPILED_HEADER  +=  \
 FORMS += \
     Settings.ui \
     guideUI.ui \
-    loadingJson.ui
+    loadingJson.ui \
+    GameSelector.ui
    # framelesswindow.ui \
 
 

@@ -113,6 +113,8 @@
 
 #include <QDebug>
 #include "OverlayController.h"
+#include <ui_GameSelector.h>
+
 /*!
  * \file soundboardMainUI.h
  * \brief Code of the mainUI.
@@ -161,12 +163,9 @@ private:
     CustomTableView *resultView; /*!< Custom table view (inherists from QTableView) to display the data in the model.*/
 
     //Game detection selection
-    QLabel *_label0;
-    QComboBox *_gameList;
-    QToolButton *_gameListBtnPlus;
-    QToolButton *_gameListBtnMinus;
 
 
+    QWidget * _gameSelector;
 
     // buttons
     QPushButton  * _btnAdd; /*!< Add SoundWrapper button.*/

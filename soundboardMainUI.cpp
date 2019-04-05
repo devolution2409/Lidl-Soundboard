@@ -47,17 +47,31 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // _model->setHeaderData(0,Qt::Horizontal, QString("Sound File"));
     // _model->setHeaderData(1,Qt::Horizontal, tr("Shortcut"));
 
+    // Creating the combox box and buttons for game detection
+
 
     //Creating the Viewer
     resultView = new CustomTableView(this);
 
     //Applying the 1 line 2 column _model
     resultView->setModel(_model);
+    _gameSelector = new QWidget();
+
+
+    Ui::GameSelector gameSelectorUi;
+    gameSelectorUi.setupUi(_gameSelector);
+    gameSelectorUi.comboBox->addItem("LUL");
+    gameSelectorUi.comboBox->addItem("Jebaited");
+
+    connect(gameSelectorUi.comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::SettingsController::GetInstance(), &LIDL::Controller::SettingsController::ManualGameConfigurationChanged);
+    _gLayout->addWidget(_gameSelector,1,0,1,6);
+
+    //connect(gameSelectorUi.comboBox,&QComboBox:);
 
     connect(_model,SIGNAL(draggedOnRow(int)),this,SLOT(DealDragAndDrop(int)));
-    _gLayout->addWidget(resultView,0,0,1,6);
-    _gLayout->setRowStretch(0,90);
-    _gLayout->setColumnStretch(0,100);
+    _gLayout->addWidget(resultView,2,0,1,6);
+    _gLayout->setRowStretch(2,90);
+    _gLayout->setColumnStretch(2,100);
     //QStandardItem item;
     // Adding the viewer to the layout
     //     vLayout->addWidget(resultView);
@@ -86,35 +100,35 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     this->_btnEdit->setEnabled(false);
 
     // Adding them to grid layout
-    _gLayout->addWidget(_btnAdd,1,0,1,1);
-    _gLayout->addWidget(_btnDelete,1,1,1,1);
-    _gLayout->addWidget(_btnEdit,1,2,1,1);
-    _gLayout->addWidget(_btnPlay,1,4,1,1);
-    _gLayout->addWidget(_btnStop,1,5,1,1);
+    _gLayout->addWidget(_btnAdd,3,0,1,1);
+    _gLayout->addWidget(_btnDelete,3,1,1,1);
+    _gLayout->addWidget(_btnEdit,3,2,1,1);
+    _gLayout->addWidget(_btnPlay,3,4,1,1);
+    _gLayout->addWidget(_btnStop,3,5,1,1);
 
     // Adding label to vlayout
     _label1 = new QLabel("1st Output (e.g. your speakers)",this);
-    _gLayout->addWidget(_label1,2,0,1,6);
+    _gLayout->addWidget(_label1,4,0,1,6);
 
     // Adding output list
     _deviceListOutput = new QComboBox(this);
-    _gLayout->addWidget(_deviceListOutput,3,0,1,6 );
+    _gLayout->addWidget(_deviceListOutput,5,0,1,6 );
     // Second label
     _label2 = new QLabel("Virtual Audio Cable output (optional)",this);
-    _gLayout->addWidget(_label2,4,0,1,6);
+    _gLayout->addWidget(_label2,6,0,1,6);
 
     // Combo box to select VAC
     _deviceListVAC = new QComboBox(this);
-    _gLayout->addWidget(_deviceListVAC,5,0,1,6);
+    _gLayout->addWidget(_deviceListVAC,7,0,1,6);
 
     /***************************************************
                         MIC INJECTION SECTION
       ****************************************************/
     _label3 = new QLabel("Setup microphone injection (optional)",this);
-    _gLayout->addWidget(_label3,6,0,1,6);
+    _gLayout->addWidget(_label3,8,0,1,6);
     //_deviceListInjector = new QComboBox(this);
     _btnMicInjection = new QPushButton("Open sound configuration",this);
-    _gLayout->addWidget(_btnMicInjection,7,0,1,6);
+    _gLayout->addWidget(_btnMicInjection,9,0,1,6);
 
     connect(this->_btnMicInjection,&QPushButton::clicked,this, [=]{
         WinExec("control mmsys.cpl sounds",8);
@@ -134,9 +148,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _shortcutEditPTT = new CustomShortcutEdit();
     _btnClearPTT = new QPushButton("Clear");
 
-    _gLayout->addWidget(_label4,8,0,1,3);
-    _gLayout->addWidget(_shortcutEditPTT,8,4,1,1);
-    _gLayout->addWidget(_btnClearPTT,8,5,1,1);
+    _gLayout->addWidget(_label4,10,0,1,3);
+    _gLayout->addWidget(_shortcutEditPTT,10,4,1,1);
+    _gLayout->addWidget(_btnClearPTT,10,5,1,1);
 
     connect(this->_btnClearPTT,&QPushButton::clicked,this,[=]{
             // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
@@ -151,9 +165,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     _shortcutEditStop= new CustomShortcutEdit();
     _btnClearStop = new QPushButton("Clear");
 
-    _gLayout->addWidget(_label5,9,0,1,3);
-    _gLayout->addWidget(_shortcutEditStop,9,4,1,1);
-    _gLayout->addWidget(_btnClearStop,9,5,1,1);
+    _gLayout->addWidget(_label5,11,0,1,3);
+    _gLayout->addWidget(_shortcutEditStop,11,4,1,1);
+    _gLayout->addWidget(_btnClearStop,11,5,1,1);
 
     connect(this->_btnClearStop,&QPushButton::clicked,this,[=]{
         UnregisterHotKey(nullptr,2147483647);
@@ -164,7 +178,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // WE ALSO NEED THOSE BUTTONS TO SEND -1 when reset forsenT
 
      _btnRadialSettings = new QPushButton("Open Radial Menu Settings");
-     _gLayout->addWidget(_btnRadialSettings,10,0,1,6);
+     _gLayout->addWidget(_btnRadialSettings,12,0,1,6);
 
     /***************************************************
                          STATUS BAR

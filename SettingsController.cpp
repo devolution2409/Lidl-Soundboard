@@ -510,6 +510,9 @@ QMap<QString, QString> SettingsController::GetGameList() const
 {
     return this->_gameList;
 }
-
+void  SettingsController::ManualGameConfigurationChanged(const QString &name)
+{
+    qDebug() << "LUL" << name;
+}
 } // end namespace controller
 } // end namespace lidl

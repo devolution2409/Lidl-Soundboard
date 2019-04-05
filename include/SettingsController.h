@@ -166,9 +166,21 @@ public slots:
      */
     QMap<QString, QString> GetGameList() const;
 
+    /*!
+     * \brief AutoGameConfigurationChange
+     * \param executable
+     *
+     * Changes the PTT and loaded sound based on the autodetected game
+     */
+ //   void AutoGameConfigurationChange(QString executable);
 
-
-
+    /*!
+     * \brief ManualGameConfigurationChanged
+     * \param name
+     *
+     * Changes the same stuff but based on the selected thing by the user in the combobox
+     */
+    void ManualGameConfigurationChanged(const QString &name);
 
     void SetDefaultMainVolume(int);
     void SetDefaultVacVolume(int);

@@ -119,7 +119,7 @@ void OverlayController::SetHooks()
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT )); // Flags.
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
 
     // when moving we don't need to showthe overlay
     _hookHandles.append(
@@ -128,7 +128,7 @@ void OverlayController::SetHooks()
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ResizeToWindow,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT )); // Flags.
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
 
     // when maximizing
     _hookHandles.append(
@@ -137,7 +137,7 @@ void OverlayController::SetHooks()
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT )); // Flags.
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS )); // Flags.
 
 
     // when maximizing
@@ -147,7 +147,7 @@ void OverlayController::SetHooks()
           nullptr,                                          // Handle to DLL.
           LIDL::Callback::ShowOverlay,                                // The callback.
           0, 0,              // Process and thread IDs of interest (0 = all)
-          WINEVENT_OUTOFCONTEXT )); // Flags.
+          WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS)); // Flags.
 
 
 }
