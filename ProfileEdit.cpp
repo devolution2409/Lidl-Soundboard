@@ -2,11 +2,11 @@
 
 ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 {
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
     ui = new Ui::ProfilEdit();
     ui->setupUi(this);
     this->setWindowTitle(tr("Profile Edition"));
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
     connect(ui->nameEdit, &QLineEdit::editingFinished, this, [=]{
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
