@@ -5,6 +5,8 @@
 #include <QDialog>
 #include <QWidget>
 #include <ui_ProfileEdit.h>
+#include <QFileDialog>
+#include <QPushButton>
 
 class ProfileEdit : public QDialog
 {
@@ -14,6 +16,9 @@ public:
 
 private:
     Ui::ProfilEdit * ui;
+
+    bool IsFormOk();
+
 signals:
 
 public slots:
