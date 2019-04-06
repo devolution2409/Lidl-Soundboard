@@ -35,7 +35,8 @@ SOURCES += \
     OverlayController.cpp \
     GameNameOverlay.cpp \
     Profile.cpp \
-    ProfileEdit.cpp
+    ProfileEdit.cpp \
+    GameSelector.cpp
 
 
 HEADERS += \
@@ -68,7 +69,8 @@ HEADERS += \
     include/OverlayController.h \
     include/GameNameOverlay.h \
     include/Profile.h \
-    include/ProfileEdit.h
+    include/ProfileEdit.h \
+    include/GameSelector.h
 
 
 # Use Precompiled headers (PCH)

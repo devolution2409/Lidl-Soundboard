@@ -55,15 +55,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     //Applying the 1 line 2 column _model
     resultView->setModel(_model);
-    _gameSelector = new QWidget();
-
-
-    Ui::GameSelector gameSelectorUi;
-    gameSelectorUi.setupUi(_gameSelector);
-    gameSelectorUi.comboBox->addItem(tr("Default"));
-
-    connect(gameSelectorUi.comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::SettingsController::GetInstance(), &LIDL::Controller::SettingsController::ManualGameConfigurationChanged);
-
+    _gameSelector = new GameSelector();
 
 
     _gLayout->addWidget(_gameSelector,1,0,1,6);

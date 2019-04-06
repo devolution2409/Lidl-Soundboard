@@ -113,7 +113,7 @@
 
 #include <QDebug>
 #include "OverlayController.h"
-#include <ui_GameSelector.h>
+#include "GameSelector.h"
 
 /*!
  * \file soundboardMainUI.h
@@ -165,7 +165,7 @@ private:
     //Game detection selection
 
 
-    QWidget * _gameSelector;
+    GameSelector * _gameSelector;
 
     // buttons
     QPushButton  * _btnAdd; /*!< Add SoundWrapper button.*/
