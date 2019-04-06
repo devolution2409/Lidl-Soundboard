@@ -7,11 +7,14 @@
 #include <ui_ProfileEdit.h>
 #include <QFileDialog>
 #include <QPushButton>
+#include "Profile.h"
+#include "SettingsController.h"
 
 class ProfileEdit : public QDialog
 {
     Q_OBJECT
 public:
+
     explicit ProfileEdit(QWidget *parent = nullptr);
 
 private:

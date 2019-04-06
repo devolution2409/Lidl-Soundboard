@@ -28,6 +28,10 @@ SettingsController::SettingsController()
                 this->unHoldPTT();});
 
         _isEditing = false;
+
+        //adding default profile here, will add soundwrapper to default later i guess
+        _profiles.push_back( Profile::Builder().Build());
+
 }
 
 
@@ -506,13 +510,13 @@ void SettingsController::setEditing(bool newState)
     this->_isEditing = newState;
 }
 
-QMap<QString, QString> SettingsController::GetGameList() const
+std::vector<Profile> SettingsController::GetProfiles() const
 {
-    return this->_gameList;
+    return this->_profiles;
 }
 void  SettingsController::ManualGameConfigurationChanged(const QString &name)
 {
-    qDebug() << "LUL" << name;
+    qDebug() << "Please implement me in SettingsController" << name;
 }
 } // end namespace controller
 } // end namespace lidl

@@ -48,7 +48,11 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
     });
 
-
+    //adding them to the list HYPERBRUH
+    for(auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
+    {
+        ui->comboBoxProfiles->addItem(i.GetName());
+    }
 
 }
 

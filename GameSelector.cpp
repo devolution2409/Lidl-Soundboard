@@ -8,7 +8,7 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
     _gameSelectorUi->setupUi(this);
 
 
-    _gameSelectorUi->comboBox->addItem(tr("Default"));
+  //  _gameSelectorUi->comboBox->addItem(tr("Default"));
 
     connect(_gameSelectorUi->comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::SettingsController::GetInstance(), &LIDL::Controller::SettingsController::ManualGameConfigurationChanged);
 

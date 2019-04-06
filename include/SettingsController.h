@@ -30,6 +30,9 @@
 #include "windows.h"
 #include <QJsonObject>
 #include <QMessageBox>
+#include "Profile.h"
+#include <vector>
+
 namespace LIDL{
 namespace Controller {
 
@@ -149,7 +152,7 @@ private:
     bool dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
 
 
-    QMap<QString, QString> _gameList; /*!< A Map between executable and "nice name" to be displayed in various part of the UI */
+    std::vector<Profile> _profiles; /*!< Array of available profile, not a QVector because it doesnt work kek*/
 
 signals:
     /*!
@@ -158,13 +161,15 @@ signals:
     void RecentFilesChanged();
     void SettingsChanged();
 
+    //void ProfileConfigurationChanged();
+
 public slots:
 
     /*!
-     * \brief GetGameList
-     * \return The QMap of the Game list
+     * \brief GetProfiles
+     * \return
      */
-    QMap<QString, QString> GetGameList() const;
+    std::vector<Profile> GetProfiles() const;
 
     /*!
      * \brief AutoGameConfigurationChange
