@@ -61,9 +61,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     Ui::GameSelector gameSelectorUi;
     gameSelectorUi.setupUi(_gameSelector);
     gameSelectorUi.comboBox->addItem(tr("Default"));
-    gameSelectorUi.comboBox->addItem(tr("Add a game"));
 
     connect(gameSelectorUi.comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::SettingsController::GetInstance(), &LIDL::Controller::SettingsController::ManualGameConfigurationChanged);
+
+
+
     _gLayout->addWidget(_gameSelector,1,0,1,6);
 
     //connect(gameSelectorUi.comboBox,&QComboBox:);

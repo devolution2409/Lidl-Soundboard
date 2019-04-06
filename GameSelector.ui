@@ -36,9 +36,16 @@
     <widget class="QComboBox" name="comboBox"/>
    </item>
    <item>
-    <widget class="QToolButton" name="toolButton_2">
+    <widget class="QToolButton" name="deleteBtn">
      <property name="text">
       <string>🗑️</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolButton" name="addBtn">
+     <property name="text">
+      <string>+</string>
      </property>
     </widget>
    </item>

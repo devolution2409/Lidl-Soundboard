@@ -33,7 +33,9 @@ SOURCES += \
     PresetWizard.cpp \
     PresetWizardIntroPage.cpp \
     OverlayController.cpp \
-    GameNameOverlay.cpp
+    GameNameOverlay.cpp \
+    Profile.cpp \
+    ProfileEdit.cpp
 
 
 HEADERS += \
@@ -64,7 +66,10 @@ HEADERS += \
     include/PresetWizard.h \
     include/PresetWizardIntroPage.h \
     include/OverlayController.h \
-    include/GameNameOverlay.h
+    include/GameNameOverlay.h \
+    include/Profile.h \
+    include/ProfileEdit.h
+
 
 # Use Precompiled headers (PCH)
 PRECOMPILED_HEADER  +=  \
@@ -84,8 +89,9 @@ FORMS += \
     Settings.ui \
     guideUI.ui \
     loadingJson.ui \
-    GameSelector.ui
-   # framelesswindow.ui \
+    GameSelector.ui \
+    ProfileEdit.ui
+   # framelesswindow.ui \e
 
 
 RESOURCES +=  \
