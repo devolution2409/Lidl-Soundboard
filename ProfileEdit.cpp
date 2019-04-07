@@ -66,6 +66,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
         LIDL::Controller::SettingsController::GetInstance()->AddProfile( builder.Build());
 
+
     });
 
 }

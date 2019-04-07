@@ -12,9 +12,14 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
     connect(_gameSelectorUi->comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::SettingsController::GetInstance(), &LIDL::Controller::SettingsController::ManualGameConfigurationChanged);
 
-    _profileEdit = new ProfileEdit();
 
-    connect(_gameSelectorUi->addBtn, &QToolButton::clicked,  _profileEdit, &ProfileEdit::exec);
+
+
+    connect(_gameSelectorUi->addBtn, &QToolButton::clicked, this, [=]{
+             _profileEdit = new ProfileEdit();
+
+             _profileEdit->exec();
+    });
 
     connect(LIDL::Controller::SettingsController::GetInstance(),&LIDL::Controller::SettingsController::ProfileConfigurationChanged,
             this, &GameSelector::RefreshProfiles);
