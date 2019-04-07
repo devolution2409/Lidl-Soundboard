@@ -2,7 +2,7 @@
 
 ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 {
-
+    this->setAttribute(Qt::WA_DeleteOnClose);
     ui = new Ui::ProfilEdit();
     ui->setupUi(this);
     this->setWindowTitle(tr("Profile Edition"));
@@ -65,6 +65,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         }
 
         LIDL::Controller::SettingsController::GetInstance()->AddProfile( builder.Build());
+
 
 
     });
