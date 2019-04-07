@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['paint',['paint',['../class_styled_delegate.html#a172c83d8672c5ffd82cf8c5f6477d9e8',1,'StyledDelegate']]],
-  ['play',['Play',['../class_sound_wrapper.html#a7d0d74d9cf548fbf59adf930f9acf2a9',1,'SoundWrapper']]],
-  ['playnext',['PlayNext',['../class_custom_player.html#a497e85ac7db0a32dccfa33c3a9f3cf09',1,'CustomPlayer']]],
-  ['postconstruction',['PostConstruction',['../class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5',1,'SoundboardMainUI']]]
+  ['openexpsounboard',['OpenEXPSounboard',['../class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b',1,'SoundboardMainUI']]],
+  ['opensettings',['OpenSettings',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aa34611824f14fd2788ccc0ab1ff0d703',1,'LIDL::Controller::SettingsController']]],
+  ['openslot',['OpenSlot',['../class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b',1,'SoundboardMainUI']]],
+  ['outputdevicechanged',['OutputDeviceChanged',['../class_sound_wrapper.html#a78c2ea2698eeccd51b1d5f32be198baa',1,'SoundWrapper']]]
 ];

@@ -16,3 +16,4 @@ Doxyfile
 *.pro.user*
 *.pro.user
 Lidl_Soundboard.pro.user
+doxygen/

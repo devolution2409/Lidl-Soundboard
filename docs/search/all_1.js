@@ -19,5 +19,7 @@ var searchData=
   ['bass_5fplugininfo',['BASS_PLUGININFO',['../struct_b_a_s_s___p_l_u_g_i_n_i_n_f_o.html',1,'']]],
   ['bass_5frecordinfo',['BASS_RECORDINFO',['../struct_b_a_s_s___r_e_c_o_r_d_i_n_f_o.html',1,'']]],
   ['bass_5fsample',['BASS_SAMPLE',['../struct_b_a_s_s___s_a_m_p_l_e.html',1,'']]],
-  ['builder',['Builder',['../class_profile_1_1_builder.html',1,'Profile']]]
+  ['builder',['Builder',['../class_profile_1_1_builder.html',1,'Profile']]],
+  ['buttonbrowselidl',['buttonBrowseLidl',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a8ef687216c265baee312ae8a9924817f',1,'LIDL::Controller::SettingsController']]],
+  ['buttonbrowsesound',['buttonBrowseSound',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ab1af3ea2a82e4ed0abd0815e65620584',1,'LIDL::Controller::SettingsController']]]
 ];

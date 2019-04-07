@@ -46,41 +46,161 @@ public:
 
     static SettingsController * GetInstance();
 
-    // getters
+    /*!
+     * \brief GetDefaultMainVolume
+     * \return The default main volume (either 100 or defined by the opened json)
+     */
     int GetDefaultMainVolume() const;
+
+    /*!
+     * \brief GetDefaultVacVolume
+     * \return The default VAC volume (either 100 or defined by the opened json)
+     */
     int GetDefaultVacVolume() const;
+
+    /*!
+     * \brief GetDefaultSoundboardFolder
+     * \return The default soundboard folder (either the folder where lidl soundboard is installed, or set by the opened json)
+     */
     QString GetDefaultSoundboardFolder() const;
+
+    /*!
+     * \brief GetDefaultSoundFolder
+     * \return The default soundboard folder (either the folder where lidl soundboard is installed, or set by the opened json)
+     */
     QString GetDefaultSoundFolder() const;
-    // Public methods
+
+    /*!
+     * \brief OpenSettings
+     *
+     * Used to open the lidlsettings.json file, that contain several stuff such as default locations, default volumes, and recent files. Will probably contain profiles later on :)
+     *
+     * \return true if it was opened, false otherwise
+     */
     bool OpenSettings();
-    // Can still use constructor to set default valuues
-    // Because it should be called before any other methods
-    //void SetDefaultValues();
+
+    /*!
+     * \brief SaveSettings
+     *
+     * Will save settings to lidlsettings.json
+     *
+     */
     void SaveSettings();
 
+    /*!
+     * \brief GetLastOpenedSoundboard
+     * \return The most recent opened soundboard, so we can open it automatically for the user
+     *
+     * TODO: probably add an option to toggle this off
+     *
+     */
     QString GetLastOpenedSoundboard();
+
+    /*!
+     * \brief GetRecentFiles
+     * \return A deck of the recently opened files
+     */
     std::deque<QFileInfo> GetRecentFiles();
 
+    /*!
+     * \brief GetRecentFilesCount
+     * \return The count of recent files stored inside lidlsettings
+     */
     int GetRecentFilesCount() const;
 
     // Literally a snapshot whenever we open or save
     //             Sounds to be compared (including shorcuts) pointer to pttKeySequenceEdit and stop KeySequenceEdit
+
+    /*!
+     * \brief SaveState
+     * \param object A json "snapshot" from the soundboard
+     * TODO: account for profiles
+     */
     void SaveState( QJsonObject object);
+
+    /*!
+     * \brief SaveIsDifferentFrom
+     * \param newObject A json "snapshot" from the soundboard
+     * \return Result of comparison between "old" snapshot and this one
+     * TODO: account for profiles
+     */
     bool SaveIsDifferentFrom( QJsonObject  newObject);
 
+    /*!
+     * \brief IsThisFirstTimeUser
+     * \return true if first time user, so we show the welcome message
+     */
     bool IsThisFirstTimeUser();
+
+    /*!
+     * \brief unHoldPTT
+     *
+     * Will unhold the push to talk (when using auto hold ptt)
+     */
     void unHoldPTT();
+
+    /*!
+     * \brief holdPTT
+     *
+     * Will hold push to talk key for given duration.
+     * If several sounds are played, it will hold it for the longest duration.
+     * Interally this uses a timer that will be reset if (new duration > old duration)
+     * \param duration The duration to hold the PTT for
+     */
     void holdPTT(int duration);
 
+    /*!
+     * \brief CompareSaves
+     * Will comparse old and new save and prompt user if a change was detected.
+     * Seems a litle bit redundant with SaveIsDifferentFrom( QJsonObject  newObject);
+     * TODO: is it tho?
+     * \param newObject
+     * \return eShrug
+     */
     int CompareSaves(QJsonObject newObject);
-    // showSFX, showNumber, showFullSoundList;
 
+    /*!
+     * \brief addShowFlag
+     * Will add a flag to the list of things to be displayed (stored as flags)
+     * \param addedFlag
+     */
     void addShowFlag(LIDL::SHOW_SETTINGS addedFlag);
+
+    /*!
+     * \brief removeShowFlag
+     * Will remove a flag to the list of things to be displayed (stored as flags)
+     * \param removedFlag
+     */
     void removeShowFlag(LIDL::SHOW_SETTINGS removedFlag);
+
+    /*!
+     * \brief checkShowFlags
+     * \param checkedFlag$
+     * Will check if a flag is activated (using &)
+     * \return
+     */
     bool checkShowFlags(LIDL::SHOW_SETTINGS checkedFlag) const;
+
+    /*!
+     * \brief getShowFlags
+     * Get the flags
+     * \return the flags :)
+     */
     LIDL::SHOW_SETTINGS getShowFlags() const;
+
+    /*!
+     * \brief GetSupportedMimeTypes
+     * \return The list of supported MIME types for the player as a QStringList (QList<QString>)
+     */
     QStringList GetSupportedMimeTypes() const;
+
+
+    /*!
+     * \brief GetDragAndDropSeveralWrappers
+     * \return The behavior of the drag and drop
+     */
     bool GetDragAndDropSeveralWrappers() const;
+
     /*!
       * \return bool
       */
@@ -98,6 +218,7 @@ public:
 
     /*!
      * \brief setEditing
+     * Allows shortcut to be dismissed if they are pressed while a user is editing a wrapper (see isEditing())
      */
     void setEditing(bool);
 
@@ -168,18 +289,21 @@ public slots:
 
     /*!
      * \brief GetProfiles
-     * \return
+     * \return An array of profile (see Profile.h)
      */
     std::vector<Profile> GetProfiles() const;
 
     /*!
      * \brief AddProfile
+     * Add a profile to the profiles array.
+     * Copy mode is either nothing, copy sounds from another profile, or mirror sounds from another profile
      * \param profile
      */
     void AddProfile(Profile profile, LIDL::PROFILE_COPY_MODE copyMode = LIDL::PROFILE_COPY_MODE::NO_COPY);
 
     /*!
-     * \brief AddProfiles
+     * \brief ReplaceProfiles
+     * Empty this
      * \param profiles
      */
     void ReplaceProfiles(std::vector<Profile> profiles);
@@ -202,20 +326,55 @@ public slots:
      */
     void ManualGameConfigurationChanged(const QString &name);
 
+    /*!
+     * \brief SetDefaultMainVolume
+     * Sets the default main volume inside the controller, to be used when creating wrappers, and saved in the lidlsettings.
+     */
     void SetDefaultMainVolume(int);
+
+    /*!
+     * \brief SetDefaultVacVolume
+     * Sets the default VAC volume inside the controller, to be used when creating wrappers, and saved in the lidlsettings.
+     */
     void SetDefaultVacVolume(int);
+
     void SetRecentFileCount(int);
+
     void ShowSettingsWindow();
 
+    /*!
+     * \brief SetPTTScanCode
+     * Register the key to be auto-held while playing a sound
+     * \param sc The key scan code
+     */
     void SetPTTScanCode(int sc);
+
+    /*!
+     * \brief SetPTTVirtualKey
+     * Register the key to be auto-held while playing a sound
+     * \param vk The key virtual key
+     */
     void SetPTTVirtualKey(int vk);
 
 
 
-    // slots for button in the ui
+    /*!
+     * \brief buttonBrowseLidl
+     * Slot connected to a file browser button
+     * TODO: refactor as a lambda
+     */
     void buttonBrowseLidl();
+    /*!
+     * \brief buttonBrowseSound
+     * Slot connected to a file browser button
+     * TODO: refactor as a lambda
+     */
     void buttonBrowseSound();
-  //  void setPTTtimer(int duration);
+
+    /*!
+     * \brief addFileToRecent
+     * \param fileInfo
+     */
     void addFileToRecent(QFileInfo fileInfo);
 
 };

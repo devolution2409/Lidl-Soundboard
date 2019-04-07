@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['manualgameconfigurationchanged',['ManualGameConfigurationChanged',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aa48c0b2fd871fb7ed08af28572eedc49',1,'LIDL::Controller::SettingsController']]]
+  ['lidljsondetected',['lidlJsonDetected',['../class_soundboard_main_u_i.html#a5d08f50e1d4a3162fd0fb2f7432f0f1b',1,'SoundboardMainUI']]]
 ];
