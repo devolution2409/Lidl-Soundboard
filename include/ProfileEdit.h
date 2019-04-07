@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include "Profile.h"
 #include "SettingsController.h"
+#include <QMessageBox>
 
 
 class ProfileEdit : public QDialog

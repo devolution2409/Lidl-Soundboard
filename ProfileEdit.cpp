@@ -20,6 +20,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
         if (!fileName.isEmpty())
         {
+            //forbidding adding the same exe twice
             for(int i = 0; i < ui->listWidget->count(); ++i)
             {
                 QListWidgetItem* item = ui->listWidget->item(i);
@@ -27,7 +28,20 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
                 {
                     return;
                 }
+
             }
+            // forbidding adding an exe that is already in another profile
+            for (auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
+            {
+                // if we find a game somewhere
+                if ( i.GetGameList().contains(fileName) )
+                {
+                       QMessageBox::critical(this,"LIDL Error !","This executable is already set in another profile, please remove it before adding it in another profile.");
+                       return;
+                }
+
+            }
+
             ui->listWidget->addItem(fileName);
         }
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
