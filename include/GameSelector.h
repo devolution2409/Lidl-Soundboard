@@ -16,6 +16,9 @@ public:
     Ui::GameSelector * _gameSelectorUi;
     ProfileEdit * _profileEdit;
 
+public slots:
+    void RefreshProfiles();
+
 };
 
 #endif // GAMESELECTOR_H

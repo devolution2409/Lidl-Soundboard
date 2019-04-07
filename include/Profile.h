@@ -21,6 +21,7 @@ class Profile
         void RemoveGame(QString exe);
         void AddGame(QString exe);
 
+        QString GetConfig() const;
 
     private:
 

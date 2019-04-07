@@ -183,6 +183,14 @@ namespace LIDL{
         WRAP_SONG_LIST  = 1<<1, //2
     };
 
+    enum PROFILE_COPY_MODE : unsigned int
+    {
+        NO_COPY = 0,
+        COPY = 1,
+        MIRROR = 2
+
+    };
+
 
 }
 

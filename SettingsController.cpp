@@ -29,9 +29,6 @@ SettingsController::SettingsController()
 
         _isEditing = false;
 
-        //adding default profile here, will add soundwrapper to default later i guess
-        _profiles.push_back( Profile::Builder().Build());
-
 }
 
 
@@ -516,7 +513,42 @@ std::vector<Profile> SettingsController::GetProfiles() const
 }
 void  SettingsController::ManualGameConfigurationChanged(const QString &name)
 {
-    qDebug() << "Please implement me in SettingsController" << name;
+    qDebug() << "Please implement ManualGameConfiguraitonChanged me in SettingsController" << name;
 }
+
+void SettingsController::AddProfile(Profile profile,LIDL::PROFILE_COPY_MODE copyMode)
+{
+    // pushing the profile in the array
+    _profiles.push_back(profile);
+
+    if (copyMode == LIDL::PROFILE_COPY_MODE::NO_COPY)
+    {
+        // do nothing
+    }
+    else if (copyMode == LIDL::PROFILE_COPY_MODE::COPY)
+    {
+        qDebug() << "TODO: implement copy wrappers from another profile ";
+    }
+    else if (copyMode == LIDL::PROFILE_COPY_MODE::MIRROR)
+    {
+        qDebug() << "TODO: Add mirroring wrappers from another profile. Maybe be connecting the sound added signal ?"
+                    " or by holding a list of profile that are mirrored  in the profile? IDK KEV PepeS";
+    }
+
+
+    emit ProfileConfigurationChanged();
+    qDebug().noquote() << profile.GetConfig();
+
+
+}
+
+void SettingsController::ReplaceProfiles(std::vector<Profile> profiles)
+{
+    _profiles.clear();
+    _profiles = profiles;
+}
+
+
+
 } // end namespace controller
 } // end namespace lidl

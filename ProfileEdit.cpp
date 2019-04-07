@@ -54,6 +54,20 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         ui->comboBoxProfiles->addItem(i.GetName());
     }
 
+    connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, [=]{
+
+        Profile::Builder builder = Profile::Builder().setName(ui->nameEdit->text());
+
+        for(int i = 0; i < ui->listWidget->count(); ++i)
+        {
+            QListWidgetItem* item = ui->listWidget->item(i);
+            builder.addExe(item->text());
+        }
+
+        LIDL::Controller::SettingsController::GetInstance()->AddProfile( builder.Build());
+
+    });
+
 }
 
 bool ProfileEdit::IsFormOk()
@@ -63,6 +77,6 @@ bool ProfileEdit::IsFormOk()
         return true;
     }
     return false;
-
-
 }
+
+

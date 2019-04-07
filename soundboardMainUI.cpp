@@ -1658,6 +1658,10 @@ void SoundboardMainUI::Open(QString fileName)
 
     // Saving Soundboard state in the SettingsController object
         emit SaveSoundboardState();
+
+    //adding default profile here, will add soundwrapper to default later i guess
+    LIDL::Controller::SettingsController::GetInstance()->AddProfile( Profile::Builder().Build());
+
 //    delete _loadingWidget;
 //    _loadingWidget = nullptr;
 }

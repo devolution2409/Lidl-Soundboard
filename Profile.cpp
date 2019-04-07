@@ -28,3 +28,15 @@ void Profile::AddGame(QString exe)
     //TODO IMPLEMENT
 }
 
+QString Profile::GetConfig() const
+{
+    QString temp = "Profile name: " + this->_name + "\nList of exe:";
+    for (auto i: _exeList)
+    {
+        temp += "\n\t" + i;
+    }
+
+    return temp;
+
+}
+

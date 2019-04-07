@@ -10,6 +10,7 @@
 #include "Profile.h"
 #include "SettingsController.h"
 
+
 class ProfileEdit : public QDialog
 {
     Q_OBJECT

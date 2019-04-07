@@ -31,6 +31,7 @@
 #include <QJsonObject>
 #include <QMessageBox>
 #include "Profile.h"
+#include "EnumsAndStructs.h"
 #include <vector>
 
 namespace LIDL{
@@ -161,7 +162,7 @@ signals:
     void RecentFilesChanged();
     void SettingsChanged();
 
-    //void ProfileConfigurationChanged();
+    void ProfileConfigurationChanged();
 
 public slots:
 
@@ -170,6 +171,20 @@ public slots:
      * \return
      */
     std::vector<Profile> GetProfiles() const;
+
+    /*!
+     * \brief AddProfile
+     * \param profile
+     */
+    void AddProfile(Profile profile, LIDL::PROFILE_COPY_MODE copyMode = LIDL::PROFILE_COPY_MODE::NO_COPY);
+
+    /*!
+     * \brief AddProfiles
+     * \param profiles
+     */
+    void ReplaceProfiles(std::vector<Profile> profiles);
+
+
 
     /*!
      * \brief AutoGameConfigurationChange
