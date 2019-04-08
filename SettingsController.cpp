@@ -467,7 +467,7 @@ QStringList SettingsController::GetSupportedMimeTypes() const
                            << "audio/flac"; // flac
     return mimes;
 }
-/*
+
 
 int SettingsController::CompareSaves(QJsonObject newObject)
 {
@@ -491,7 +491,7 @@ int SettingsController::CompareSaves(QJsonObject newObject)
     }
     return -1; // file up-to-date
 }
-*/
+
 bool SettingsController::GetDragAndDropSeveralWrappers() const
 {
     return this->dragAndDropSeveralWrappers;

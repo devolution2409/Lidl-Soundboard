@@ -25,6 +25,15 @@ namespace Callback{
                                  DWORD dwEventThread, DWORD dwmsEventTime);
 }
 
+/*!
+  * \brief The OverlayController singleton.
+  *
+  * smth here
+  * \author Devolution
+  * \version 1.8.0
+  *
+  * \since 1.8.0
+  */
 class OverlayController : public QWidget
 {
     Q_OBJECT
