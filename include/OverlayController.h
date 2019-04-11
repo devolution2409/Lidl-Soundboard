@@ -13,6 +13,7 @@
 #include <QSpacerItem>
 #include "GameNameOverlay.h"
 #include <QVector>
+#include "Profile.h"
 
 namespace LIDL{
 
@@ -42,8 +43,17 @@ public:
     /*!
      * \brief Show the smol overlay when topmost window (game) changes.
      * \param hwnd a handler to a window
+     * Will get the name of the window from hwnd.
+     * \deprecated
      */
     void ShowGameOverlay(HWND hwnd);
+
+    /*!
+     * \brief ShowGameOverlay \brief Show the smol overlay when topmost window (game) changes.
+     * \param profile
+     * Will display profile->name();
+     */
+    void ShowGameOverlay(Profile * profile);
 
     /*!
      * \brief SetRadialScanCode

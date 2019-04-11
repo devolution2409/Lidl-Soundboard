@@ -23,7 +23,7 @@ GameNameOverlay::GameNameOverlay(QWidget *parent) : QWidget(parent)
 
 GameNameOverlay::GameNameOverlay(QString text,QWidget *parent) : GameNameOverlay(parent)
 {
-         _labelGame->setText(text);
+         _labelGame->setText("Loaded'" + text + "' profile !");
 
 }
 

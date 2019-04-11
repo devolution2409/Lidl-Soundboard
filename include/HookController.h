@@ -6,6 +6,13 @@
 #include <QVector>
 #include <QDebug>
 #include "OverlayController.h"
+#include "Profile.h"
+#include "windows.h"
+#include <vector>
+#include "psapi.h" // GetModuleFileNameExA or whatever
+#include "string"
+#include <QFileInfo>
+#include "SettingsController.h"
 
 /*!
  * \file HookController.h
@@ -13,7 +20,7 @@
  *
  * \author Devolution
  * \version 1.0.0
- * \since 1.8.0
+ * \since 1.9.0
  *
  */
 
@@ -53,6 +60,17 @@ public:
      * because of the overlay still trying to show
      */
     void UnSetHooks();
+
+    /*!
+     * \brief GetProfileForExe
+     * \return A pointer to the correct profile, or nullptr if no profile was found !
+     *
+     * Basically will: Get the full path to the executable linked to the window
+     * Transform it to linux style path with forward slash
+     * Search for it in the array of profile using the designated method in SettingsController
+     */
+    static Profile * GetProfileForExe(HWND handle);
+
 
 private:
     static HookController * self;

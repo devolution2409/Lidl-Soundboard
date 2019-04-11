@@ -91,6 +91,23 @@ void OverlayController::ShowGameOverlay(HWND hwnd)
 
 }
 
+void OverlayController::ShowGameOverlay(Profile *profile)
+{
+    //If the timer is already running, it will be stopped and restarted.
+        _timerFade->start(5000);
+        connect(_timerFade, &QTimer::timeout, this,  [=]{
+            _gameOverlay->FadeOut(1000);
+        });
+
+        _gameOverlay->SetText(profile->GetName());
+
+        _gameOverlay->show();
+
+        _gameOverlay->move(this->x(),this->y());
+
+
+}
+
 void OverlayController::SetRadialScanCode(int sc)
 {
     this->_radialScanCode = sc;
