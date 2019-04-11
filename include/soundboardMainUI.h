@@ -114,6 +114,7 @@
 #include <QDebug>
 #include "OverlayController.h"
 #include "GameSelector.h"
+#include "HookController.h"
 
 /*!
  * \file soundboardMainUI.h

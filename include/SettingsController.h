@@ -377,6 +377,12 @@ public slots:
      */
     void addFileToRecent(QFileInfo fileInfo);
 
+    /*!
+     * \brief searchProfileForExe
+     * \param exe
+     */
+    QString searchProfileForExe(QString exe);
+
 };
 } //end namespace Controller
 } //end namespace LIDL

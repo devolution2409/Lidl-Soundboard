@@ -28,7 +28,7 @@ void Profile::AddGame(QString exe)
     //TODO IMPLEMENT
 }
 
-QString Profile::GetConfig() const
+QString Profile::GetConfigAsString() const
 {
     QString temp = "Profile name: " + this->_name + "\nList of exe:";
     for (auto i: _exeList)
@@ -38,5 +38,10 @@ QString Profile::GetConfig() const
 
     return temp;
 
+}
+
+bool Profile::IsProfileContainingExe(QString exe) const
+{
+    return _exeList.contains(exe);
 }
 

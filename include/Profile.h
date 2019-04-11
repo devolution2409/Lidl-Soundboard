@@ -14,18 +14,47 @@ class Profile
         // use this class to buuld our profiles
         class Builder;
 
-
+        /*!
+         * \brief GetName
+         * \return Profile name as a QString
+         */
         QString GetName() const;
-        //QVector<std::pair<QString,QString>> GetGameList() const;
+
+        /*!
+         * \brief GetGameList
+         * \return The game list as a QSet<QString>
+         */
         QSet<QString> GetGameList() const;
+        /*!
+         * \brief RemoveGame
+         * \param exe
+         * Removes a game from the list
+         */
         void RemoveGame(QString exe);
+
+        /*!
+         * \brief AddGame
+         * \param exe
+         * Add a game to the list HYPERBRUH
+         */
         void AddGame(QString exe);
 
-        QString GetConfig() const;
+        /*!
+         * \brief GetConfig
+         * \return The config as a string, mostly used for debug
+         */
+        QString GetConfigAsString() const;
+
+        /*!
+         * \brief IsExeHere
+         * Search for an executable in _exeList.
+         * \return true is found, false otherwise
+         */
+        bool IsProfileContainingExe(QString exe) const;
 
     private:
 
-         Profile(QString name, QSet<QString> exe);
+        Profile(QString name, QSet<QString> exe);
 
         QString _name;
        // QVector<std::pair<QString,QString>> _gameList; /*!< Array of <executable name, nice name> */
