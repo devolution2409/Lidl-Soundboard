@@ -10,9 +10,26 @@
 #include <QVector>
 #include <QSet>
 
-//forward declaration instead of including because somehow it fucks everything up
+/*!
+ * \file Profile.h
+ * \brief Class describe a profile, which its associated sound, and PTT key
+ *
+ * \author Devolution
+ * \version 1.0
+ * \since 1.9.0
+ *
+ */
 
-//class SoundWrapper;
+/*! \class SoundboardMainUI
+  * \brief Inherits QMainWindow.
+  *
+  *  Deals with displaying sounds (main UUI) and intercepting shortcuts.
+  *
+  */
+
+
+//forward declaration instead of including because somehow it fucks everything up
+class SoundWrapper;
 
 // TODO: add a QVector<SoundWrapper*> array here
 
@@ -64,14 +81,30 @@ class Profile
          */
         bool IsContainingExe(QString exe) const;
 
+        /*!
+         * \brief GetSounds
+         * \return The sounds associated with this profile
+         */
+        QVector<SoundWrapper*> GetSounds() const;
+
+        /*!
+         * \brief AddSound
+         * \param The wrapper to append to _sounds
+         */
+        void AddSound(SoundWrapper * wrapper);
+
+
+        ~Profile();
+
     private:
-        //QVector<SoundWrapper*> _sounds;
+        QVector<SoundWrapper*> _sounds;
 
         Profile(QString name, QSet<QString> exe);
 
         QString _name;
        // QVector<std::pair<QString,QString>> _gameList; /*!< Array of <executable name, nice name> */
         QSet<QString> _exeList; /*!< Array of executables */
+
 
 };
 
