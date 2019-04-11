@@ -10,6 +10,7 @@
 #include <QVector>
 #include <QSet>
 
+
 /*!
  * \file Profile.h
  * \brief Class describe a profile, which its associated sound, and PTT key

@@ -1098,6 +1098,8 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
     // now we have a QPixmap must construuct a QGuiApplication error :feelsWeirdMan:
     //apparentely thats because of static QWidget
     LIDL::Controller::HookController::GetInstance()->UnSetHooks();
+
+
     // Compare saved soundboard state with the one we have now
     switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
@@ -1117,6 +1119,12 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
     for (auto i: _winShorcutHandle)
         UnregisterHotKey(nullptr,i);
+
+    // now deleting sounds from profile
+    for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
+    {
+        delete i;
+    }
 
     if (_updateScheduled)
     {
