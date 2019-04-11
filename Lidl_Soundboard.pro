@@ -80,6 +80,7 @@ PRECOMPILED_HEADER  +=  \
     include/bitmask_operators.h  \
 
 
+
 #HEADERS+= \
 # include/flags/allow_flags.hpp \
 #          include/flags/flags.hpp \
@@ -117,7 +118,7 @@ QMAKE_CXXFLAGS += -static-libgcc -Wno-error=date-time
 # LIBS += -L$$PWD/lib/ -lbass -lbassflac -lole32    #-lbassmix
 #else:win32:CONFIG(debug, debug|release):
 
-LIBS += -L$$PWD/lib/ -lbass -lbassflac   -lole32 -loleaut32 -limm32 -lwinmm #-lbassmix
+LIBS += -L$$PWD/lib/ -lbass -lbassflac   -lole32 -loleaut32 -limm32 -lwinmm -lpsapi#-lbassmix
 
 #else:unix:
 #LIBS += -L$$PWD/lib/ -lbass
