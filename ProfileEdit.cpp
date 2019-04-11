@@ -34,7 +34,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
             for (auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
             {
                 // if we find a game somewhere
-                if ( i.GetGameList().contains(fileName) )
+                if ( i->GetGameList().contains(fileName) )
                 {
                        QMessageBox::critical(this,"LIDL Error !","This executable is already set in another profile, please remove it before adding it in another profile.");
                        return;
@@ -65,7 +65,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
     //adding them to the list HYPERBRUH
     for(auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
     {
-        ui->comboBoxProfiles->addItem(i.GetName());
+        ui->comboBoxProfiles->addItem(i->GetName());
     }
 
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, [=]{

@@ -40,7 +40,7 @@ QString Profile::GetConfigAsString() const
 
 }
 
-bool Profile::IsProfileContainingExe(QString exe) const
+bool Profile::IsContainingExe(QString exe) const
 {
     return _exeList.contains(exe);
 }

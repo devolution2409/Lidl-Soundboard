@@ -50,7 +50,7 @@ class Profile
          * Search for an executable in _exeList.
          * \return true is found, false otherwise
          */
-        bool IsProfileContainingExe(QString exe) const;
+        bool IsContainingExe(QString exe) const;
 
     private:
 
@@ -96,11 +96,11 @@ class Profile::Builder{
 
 
         // produce desired Product
-        Profile Build(){
+        Profile* Build(){
             // Here, optionaly check variable consistency
             // and also if Product is buildable from given information
 
-            return Profile(_name,_exeList);
+            return new Profile(_name,_exeList);
         }
 };
 

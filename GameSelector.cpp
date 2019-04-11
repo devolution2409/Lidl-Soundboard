@@ -35,7 +35,7 @@ void GameSelector::RefreshProfiles()
     _gameSelectorUi->comboBox->clear();
     for (auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
     {
-        _gameSelectorUi->comboBox->addItem(i.GetName());
+        _gameSelectorUi->comboBox->addItem(i->GetName());
     }
     for (int i = 0; i < _gameSelectorUi->comboBox->count(); i++)
     {

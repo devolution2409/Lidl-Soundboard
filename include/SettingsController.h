@@ -274,7 +274,7 @@ private:
     bool dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
 
 
-    std::vector<Profile> _profiles; /*!< Array of available profile, not a QVector because it doesnt work kek*/
+    std::vector<Profile*> _profiles; /*!< Array of available profile, not a QVector because it doesnt work kek*/
 
 signals:
     /*!
@@ -291,7 +291,7 @@ public slots:
      * \brief GetProfiles
      * \return An array of profile (see Profile.h)
      */
-    std::vector<Profile> GetProfiles() const;
+    std::vector<Profile*> GetProfiles() const;
 
     /*!
      * \brief AddProfile
@@ -299,14 +299,14 @@ public slots:
      * Copy mode is either nothing, copy sounds from another profile, or mirror sounds from another profile
      * \param profile
      */
-    void AddProfile(Profile profile, LIDL::PROFILE_COPY_MODE copyMode = LIDL::PROFILE_COPY_MODE::NO_COPY);
+    void AddProfile(Profile* profile, LIDL::PROFILE_COPY_MODE copyMode = LIDL::PROFILE_COPY_MODE::NO_COPY);
 
     /*!
      * \brief ReplaceProfiles
      * Empty this
      * \param profiles
      */
-    void ReplaceProfiles(std::vector<Profile> profiles);
+    void ReplaceProfiles(std::vector<Profile*> profiles);
 
 
 
@@ -378,10 +378,11 @@ public slots:
     void addFileToRecent(QFileInfo fileInfo);
 
     /*!
-     * \brief searchProfileForExe
+     * \brief GetForExe
      * \param exe
+     * \return A pointer to the profile if it was found, nullptr otherwise.
      */
-    QString searchProfileForExe(QString exe);
+    Profile * GetProfileForExe(QString exe);
 
 };
 } //end namespace Controller

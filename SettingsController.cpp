@@ -359,6 +359,7 @@ void SettingsController::addFileToRecent(QFileInfo fileInfo)
     emit RecentFilesChanged();
 }
 
+
 QString SettingsController::GetLastOpenedSoundboard()
 {
     // need to access the element BEFORE end one.
@@ -507,16 +508,17 @@ void SettingsController::setEditing(bool newState)
     this->_isEditing = newState;
 }
 
-std::vector<Profile> SettingsController::GetProfiles() const
+std::vector<Profile *> SettingsController::GetProfiles() const
 {
     return this->_profiles;
 }
+
 void  SettingsController::ManualGameConfigurationChanged(const QString &name)
 {
     qDebug() << "Please implement ManualGameConfiguraitonChanged me in SettingsController" << name;
 }
 
-void SettingsController::AddProfile(Profile profile,LIDL::PROFILE_COPY_MODE copyMode)
+void SettingsController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copyMode)
 {
     // pushing the profile in the array
     _profiles.push_back(profile);
@@ -537,15 +539,35 @@ void SettingsController::AddProfile(Profile profile,LIDL::PROFILE_COPY_MODE copy
 
 
     emit ProfileConfigurationChanged();
-    qDebug().noquote() << profile.GetConfig();
+    qDebug().noquote() << profile->GetConfigAsString();
 
 
 }
 
-void SettingsController::ReplaceProfiles(std::vector<Profile> profiles)
+void SettingsController::ReplaceProfiles(std::vector<Profile*> profiles)
 {
+    for (auto &i: _profiles)
+    {
+        delete i;
+    }
+
     _profiles.clear();
     _profiles = profiles;
+}
+
+
+Profile *SettingsController::GetProfileForExe(QString exe)
+{
+    // if we find a corresponding profile we return a pointer to it
+    for (auto &i: _profiles)
+    {
+        if (i->IsContainingExe(exe))
+                return i;
+
+    }
+    // else we return nullptr
+     return nullptr;
+
 }
 
 
