@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['soundboardmainui_2eh',['soundboardMainUI.h',['../soundboard_main_u_i_8h.html',1,'']]]
+  ['hookcontroller_2eh',['HookController.h',['../_hook_controller_8h.html',1,'']]]
 ];

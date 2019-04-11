@@ -1,0 +1,14 @@
+digraph "SoundboardMainUI::SoundboardMainUI"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="SoundboardMainUI::Soundboard\lMainUI",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="SoundboardMainUI Default constructor."];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="LIDL::Controller::HookController\l::GetInstance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a0746497d6c0a85b033744524b25e30b3",tooltip="GetInstace."];
+  Node0 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="LIDL::Controller::HookController\l::SetHooks",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974",tooltip="SetHooks Sets up the hooks."];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="LIDL::Controller::HookController\l::UnSetHooks",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a4a77cc144d711bfbabcd2a3479c493c0",tooltip="UnSetHooks Unregister the hooks (before closing app, because if you don't unregister them close the a..."];
+}

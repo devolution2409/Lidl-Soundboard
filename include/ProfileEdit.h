@@ -10,6 +10,7 @@
 #include "Profile.h"
 #include "SettingsController.h"
 #include <QMessageBox>
+#include "ProfileController.h"
 
 
 class ProfileEdit : public QDialog

@@ -1,0 +1,26 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node22 [label="QWidget",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node22 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="FramelessWindow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_frameless_window.html",tooltip=" "];
+  Node22 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="GameNameOverlay",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_game_name_overlay.html",tooltip=" "];
+  Node22 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="GameSelector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_game_selector.html",tooltip=" "];
+  Node22 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="LIDL::OverlayController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_overlay_controller.html",tooltip="The OverlayController singleton."];
+  Node22 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="LoadingWidget",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_loading_widget.html",tooltip=" "];
+  Node22 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="SliderSpin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_slider_spin.html",tooltip=" "];
+  Node22 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="Spoiler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_spoiler.html",tooltip=" "];
+  Node22 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="WindowDragger",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_window_dragger.html",tooltip=" "];
+  Node22 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="WrapperProperties",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_wrapper_properties.html",tooltip="Inherits QWidget."];
+}

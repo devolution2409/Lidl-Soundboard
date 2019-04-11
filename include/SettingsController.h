@@ -274,7 +274,6 @@ private:
     bool dragAndDropSeveralWrappers; /*!<Boolean holding how drag and drop several files will be handled (several wrapper or one) */
 
 
-    std::vector<Profile*> _profiles; /*!< Array of available profile, not a QVector because it doesnt work kek*/
 
 signals:
     /*!
@@ -287,44 +286,8 @@ signals:
 
 public slots:
 
-    /*!
-     * \brief GetProfiles
-     * \return An array of profile (see Profile.h)
-     */
-    std::vector<Profile*> GetProfiles() const;
-
-    /*!
-     * \brief AddProfile
-     * Add a profile to the profiles array.
-     * Copy mode is either nothing, copy sounds from another profile, or mirror sounds from another profile
-     * \param profile
-     */
-    void AddProfile(Profile* profile, LIDL::PROFILE_COPY_MODE copyMode = LIDL::PROFILE_COPY_MODE::NO_COPY);
-
-    /*!
-     * \brief ReplaceProfiles
-     * Empty this
-     * \param profiles
-     */
-    void ReplaceProfiles(std::vector<Profile*> profiles);
 
 
-
-    /*!
-     * \brief AutoGameConfigurationChange
-     * \param executable
-     *
-     * Changes the PTT and loaded sound based on the autodetected game
-     */
- //   void AutoGameConfigurationChange(QString executable);
-
-    /*!
-     * \brief ManualGameConfigurationChanged
-     * \param name
-     *
-     * Changes the same stuff but based on the selected thing by the user in the combobox
-     */
-    void ManualGameConfigurationChanged(const QString &name);
 
     /*!
      * \brief SetDefaultMainVolume
@@ -377,12 +340,6 @@ public slots:
      */
     void addFileToRecent(QFileInfo fileInfo);
 
-    /*!
-     * \brief GetForExe
-     * \param exe
-     * \return A pointer to the profile if it was found, nullptr otherwise.
-     */
-    Profile * GetProfileForExe(QString exe);
 
 };
 } //end namespace Controller

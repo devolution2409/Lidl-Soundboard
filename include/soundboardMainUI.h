@@ -115,6 +115,7 @@
 #include "OverlayController.h"
 #include "GameSelector.h"
 #include "HookController.h"
+#include "ProfileController.h"
 
 /*!
  * \file soundboardMainUI.h

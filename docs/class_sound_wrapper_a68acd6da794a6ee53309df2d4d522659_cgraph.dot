@@ -1,0 +1,14 @@
+digraph "SoundWrapper::getSoundAsItem"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node27 [label="SoundWrapper::getSoundAsItem",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node27 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="SoundWrapper::getSoundList\lAsQString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a4625693047e0673eddac69af87ee1fa1",tooltip=" "];
+  Node27 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="SoundWrapper::getKeySequence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#ac73f84dba78c414521116ac89235edc8",tooltip=" "];
+  Node27 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="SoundWrapper::getPlayMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a16370de16e4df5a8f4fe32c71cddf183",tooltip=" "];
+}

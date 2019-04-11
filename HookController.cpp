@@ -118,7 +118,7 @@ Profile* HookController::GetProfileForExe(HWND handle)
 
         // Now we search for it
 
-        return LIDL::Controller::SettingsController::GetInstance()->GetProfileForExe(path);
+        return LIDL::Controller::ProfileController::GetInstance()->GetProfileForExe(path);
 
 
 

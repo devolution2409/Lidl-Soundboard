@@ -1,0 +1,12 @@
+digraph "WrapperProperties::WrapperProperties"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="WrapperProperties::\lWrapperProperties",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Constructor of the \"Sound Entry Editor\" UI."];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="SoundWrapper::getSoundList",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#ad6611190dfaf0f92f1edc87dea82f40f",tooltip=" "];
+  Node0 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="SoundWrapper::getPlayMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a16370de16e4df5a8f4fe32c71cddf183",tooltip=" "];
+}

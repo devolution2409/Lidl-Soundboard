@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['mousebuttonsignaler',['MouseButtonSignaler',['../class_mouse_button_signaler.html',1,'']]]
+  ['loadingwidget',['LoadingWidget',['../class_loading_widget.html',1,'']]],
+  ['loadingwidgetworker',['LoadingWidgetWorker',['../class_loading_widget_worker.html',1,'']]]
 ];

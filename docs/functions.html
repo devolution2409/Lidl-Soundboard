@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="forsenAim.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">LIDL Soundboard
-   &#160;<span id="projectnumber">1.8.0</span>
+   &#160;<span id="projectnumber">1.9.0</span>
    </div>
    <div id="projectbrief">A simple soundboard, yet better than EXP Soundboard forsenE</div>
   </td>
@@ -97,8 +97,11 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>addFileToRecent()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a6fd1befc01712f748c874747d2efa3f2">LIDL::Controller::SettingsController</a>
 </li>
+<li>AddGame()
+: <a class="el" href="class_profile.html#a2297fdd43d5c507340db0bf739a579a5">Profile</a>
+</li>
 <li>AddProfile()
-: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#afb721c7632f9f65771340e43acb14355">LIDL::Controller::SettingsController</a>
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ac3923cceb887a12d177829159888df0c">LIDL::Controller::SettingsController</a>
 </li>
 <li>addShowFlag()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae7b21591a7eaecaa394b4419a644e1c4">LIDL::Controller::SettingsController</a>
@@ -218,6 +221,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>GenerateSaveFile()
 : <a class="el" href="class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737">SoundboardMainUI</a>
 </li>
+<li>GetConfigAsString()
+: <a class="el" href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a">Profile</a>
+</li>
 <li>GetDefaultMainVolume()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2c2459a3d8dd3e46bb4e78e0a4aa154a">LIDL::Controller::SettingsController</a>
 </li>
@@ -239,8 +245,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>GetExistingPresetsList()
 : <a class="el" href="class_l_i_d_l_1_1_preset_controller.html#a63407dad213cd7dfe23d3ef2f4b6ad2c">LIDL::PresetController</a>
 </li>
+<li>GetGameList()
+: <a class="el" href="class_profile.html#a3d0f83c3208be24b337e110d90417bb7">Profile</a>
+</li>
 <li>GetInstance()
-: <a class="el" href="class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d">LIDL::PresetController</a>
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a0746497d6c0a85b033744524b25e30b3">LIDL::Controller::HookController</a>
+, <a class="el" href="class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d">LIDL::PresetController</a>
 </li>
 <li>getKeySequence()
 : <a class="el" href="class_sound_wrapper.html#ac73f84dba78c414521116ac89235edc8">SoundWrapper</a>
@@ -254,6 +264,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>getMainVolume()
 : <a class="el" href="class_custom_list_widget_item.html#ad8ae881dd7c947ff729c6e2cfdbb45b7">CustomListWidgetItem</a>
 </li>
+<li>GetName()
+: <a class="el" href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5">Profile</a>
+</li>
 <li>GetOutputDevice()
 : <a class="el" href="class_custom_player.html#a48abd34fd6092aff86316bc246571244">CustomPlayer</a>
 </li>
@@ -263,8 +276,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>GetPreset()
 : <a class="el" href="class_l_i_d_l_1_1_preset_controller.html#aeb7ef2d554f317932e39498d0d10cb7a">LIDL::PresetController</a>
 </li>
+<li>GetProfileForExe()
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35">LIDL::Controller::HookController</a>
+, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a725d08808a64dcb2f8edd1f0c4ae75f1">LIDL::Controller::SettingsController</a>
+</li>
 <li>GetProfiles()
-: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a570f83934b988ea0e9bff0428be053af">LIDL::Controller::SettingsController</a>
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a690c69e6d731accc6744eba8b3226dde">LIDL::Controller::SettingsController</a>
 </li>
 <li>GetRecentFiles()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a99b42bfb0518168d3a03adf9783a94bc">LIDL::Controller::SettingsController</a>
@@ -347,6 +364,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a id="index_i"></a>- i -</h3><ul>
+<li>IsContainingExe()
+: <a class="el" href="class_profile.html#aef728410935bb621752c7db92223d4c8">Profile</a>
+</li>
 <li>isEditing()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a902c29c3e63c6059a8ec1bdf40893187">LIDL::Controller::SettingsController</a>
 </li>
@@ -433,11 +453,14 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>RecentFilesChanged()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4bc0e378aaaa55752965c0544b906f86">LIDL::Controller::SettingsController</a>
 </li>
+<li>RemoveGame()
+: <a class="el" href="class_profile.html#a865a00741836e6c24693b5ebd298ee92">Profile</a>
+</li>
 <li>removeShowFlag()
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aff7c75553fbe7cbf7bb820c9d59dd353">LIDL::Controller::SettingsController</a>
 </li>
 <li>ReplaceProfiles()
-: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ada81632cea0ac6a765afc0f7a4046a7c">LIDL::Controller::SettingsController</a>
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a94a812b6f7d1ff7e5ee74fa74c47ef52">LIDL::Controller::SettingsController</a>
 </li>
 <li>resizeEvent()
 : <a class="el" href="class_soundboard_main_u_i.html#a4cd1a4f6794ae0b0c389bb57984bc2b8">SoundboardMainUI</a>
@@ -492,7 +515,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="class_slider_spin.html#aecb4aa597a3576a7f7c794ad5473e3fb">SliderSpin</a>
 </li>
 <li>SetHooks()
-: <a class="el" href="class_l_i_d_l_1_1_overlay_controller.html#aeed7924b0e23dc7e6e5d8e073208dabf">LIDL::OverlayController</a>
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974">LIDL::Controller::HookController</a>
 </li>
 <li>SetItemMainVolume()
 : <a class="el" href="class_wrapper_properties.html#aa550969821868e9e576fc0f7cc1b42b3">WrapperProperties</a>
@@ -642,7 +665,7 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216">LIDL::Controller::SettingsController</a>
 </li>
 <li>UnSetHooks()
-: <a class="el" href="class_l_i_d_l_1_1_overlay_controller.html#adc1f669778dd1cf39a9ef866911d1279">LIDL::OverlayController</a>
+: <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a4a77cc144d711bfbabcd2a3479c493c0">LIDL::Controller::HookController</a>
 </li>
 </ul>
 

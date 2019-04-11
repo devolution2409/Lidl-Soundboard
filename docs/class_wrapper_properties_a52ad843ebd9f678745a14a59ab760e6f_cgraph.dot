@@ -1,0 +1,20 @@
+digraph "WrapperProperties::ItemWasClicked"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node7 [label="WrapperProperties::\lItemWasClicked",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="ItemWasClicked deals with connecting every slider and spinbox to the selected sound."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="CustomListWidgetItem\l::getMainVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_list_widget_item.html#ad8ae881dd7c947ff729c6e2cfdbb45b7",tooltip="getMainVolume Used by WrapperProperties to retrieve the main volume associated to the sound before cr..."];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="CustomListWidgetItem\l::getVacVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_list_widget_item.html#af5ae65f2f3d317f689799080f6e0cd42",tooltip="getVacVolume Used by WrapperProperties to retrieve the VAC volume associated to the sound before crea..."];
+  Node7 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="WrapperProperties::\lSetItemVACVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_wrapper_properties.html#a451858ee4324fed752e023779fddbf97",tooltip="SetItemVACVolume Sets a sound item VAC volume."];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="CustomListWidgetItem\l::setVacVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_list_widget_item.html#af642ae593e2b969e10b65d184c9742b1",tooltip="setVacVolume Used to change the vac output volume with the sliders once a CustomListWidgetItem has be..."];
+  Node7 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="WrapperProperties::\lSetItemMainVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_wrapper_properties.html#aa550969821868e9e576fc0f7cc1b42b3",tooltip="SetItemMainVolume Sets a sound item main volume."];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="CustomListWidgetItem\l::setMainVolume",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_list_widget_item.html#a9705127eb4c5a1fd7eb1bc62837af408",tooltip="setMainVolume Used to change the main output volume with the sliders once a CustomListWidgetItem has ..."];
+}

@@ -12,7 +12,7 @@
 #include "psapi.h" // GetModuleFileNameExA or whatever
 #include "string"
 #include <QFileInfo>
-#include "SettingsController.h"
+#include "ProfileController.h"
 
 /*!
  * \file HookController.h

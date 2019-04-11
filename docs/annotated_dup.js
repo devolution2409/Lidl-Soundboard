@@ -2,6 +2,7 @@ var annotated_dup =
 [
     [ "LIDL", null, [
       [ "Controller", null, [
+        [ "HookController", "class_l_i_d_l_1_1_controller_1_1_hook_controller.html", "class_l_i_d_l_1_1_controller_1_1_hook_controller" ],
         [ "SettingsController", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html", "class_l_i_d_l_1_1_controller_1_1_settings_controller" ]
       ] ],
       [ "OverlayController", "class_l_i_d_l_1_1_overlay_controller.html", "class_l_i_d_l_1_1_overlay_controller" ],

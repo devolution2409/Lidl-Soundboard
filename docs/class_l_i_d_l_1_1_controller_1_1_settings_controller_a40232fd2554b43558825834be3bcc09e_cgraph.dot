@@ -1,0 +1,10 @@
+digraph "LIDL::Controller::SettingsController::CompareSaves"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node5 [label="LIDL::Controller::Settings\lController::CompareSaves",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="CompareSaves Will comparse old and new save and prompt user if a change was detected...."];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="LIDL::Controller::Settings\lController::SaveSettings",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#af37745d1bcfe18f411cee2aff16425df",tooltip="SaveSettings."];
+}

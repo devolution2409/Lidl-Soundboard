@@ -1,0 +1,12 @@
+digraph "SoundboardMainUI::CheckForUpdates"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node14 [label="SoundboardMainUI::CheckFor\lUpdates",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function check for updates."];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="SoundboardMainUI::SetStatus\lTextEditText",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_soundboard_main_u_i.html#ad1aaec3f9fca8bfdb6855888f7ac539b",tooltip="This function set the text of the permanent widget in the status bar."];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="SoundboardMainUI::Generate\lSaveFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737",tooltip="Function to generate the .lidljson save file."];
+}

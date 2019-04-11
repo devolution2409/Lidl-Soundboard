@@ -22,6 +22,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "framelesswindow.h", "framelesswindow_8h_source.html", null ],
     [ "GameNameOverlay.h", "_game_name_overlay_8h_source.html", null ],
     [ "GameSelector.h", "_game_selector_8h_source.html", null ],
+    [ "HookController.h", "_hook_controller_8h.html", "_hook_controller_8h" ],
     [ "LoadingWidget.h", "_loading_widget_8h_source.html", null ],
     [ "LoadingWidgetWorker.h", "_loading_widget_worker_8h_source.html", null ],
     [ "OverlayController.h", "_overlay_controller_8h_source.html", null ],

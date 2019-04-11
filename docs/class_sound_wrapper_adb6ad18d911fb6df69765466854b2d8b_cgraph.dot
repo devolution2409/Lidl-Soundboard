@@ -1,0 +1,10 @@
+digraph "SoundWrapper::setPlayerVACOutput"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node39 [label="SoundWrapper::setPlayerVACOutput",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Set the index of the VAC output device."];
+  Node39 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="CustomPlayer::SetVACDevice",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_player.html#af121c5c21d552b3eb39a0c7ac2cf4b9f",tooltip="SetVACDevice Sets the VAC output device of the player."];
+}

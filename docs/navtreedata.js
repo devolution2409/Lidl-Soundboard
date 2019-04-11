@@ -47,8 +47,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"class_sfx_settings_widget.html#a308699222a209e16875c9cb9d884a570",
-"struct_b_a_s_s___s_a_m_p_l_e.html"
+"class_profile_edit.html",
+"struct_b_a_s_s___p_l_u_g_i_n_i_n_f_o.html#a887355ebae589a33b61d5736699f12c2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

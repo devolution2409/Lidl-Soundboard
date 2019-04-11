@@ -1,0 +1,20 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node46 [label="QObject",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node46 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="CustomPlayer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_player.html",tooltip="The CustomPlayer class, inherits QObject to access signals and slots.*."];
+  Node46 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="LIDL::Controller::Settings\lController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html",tooltip=" "];
+  Node46 -> Node49 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="LIDL::PresetController",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_preset_controller.html",tooltip="The PresetController singleton."];
+  Node46 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="LoadingWidgetWorker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_loading_widget_worker.html",tooltip=" "];
+  Node46 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="MouseButtonSignaler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_mouse_button_signaler.html",tooltip=" "];
+  Node46 -> Node52 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="SoundWrapper",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html",tooltip="Inherits QObject."];
+}

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['loadingwidget',['LoadingWidget',['../class_loading_widget.html',1,'']]],
-  ['loadingwidgetworker',['LoadingWidgetWorker',['../class_loading_widget_worker.html',1,'']]]
+  ['hookcontroller',['HookController',['../class_l_i_d_l_1_1_controller_1_1_hook_controller.html',1,'LIDL::Controller']]]
 ];

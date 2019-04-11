@@ -31,7 +31,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
             }
             // forbidding adding an exe that is already in another profile
-            for (auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
+            for (auto i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
             {
                 // if we find a game somewhere
                 if ( i->GetGameList().contains(fileName) )
@@ -63,7 +63,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
     });
 
     //adding them to the list HYPERBRUH
-    for(auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
+    for(auto i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
         ui->comboBoxProfiles->addItem(i->GetName());
     }
@@ -78,7 +78,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
             builder.addExe(item->text());
         }
 
-        LIDL::Controller::SettingsController::GetInstance()->AddProfile( builder.Build());
+        LIDL::Controller::ProfileController::GetInstance()->AddProfile( builder.Build());
 
 
 

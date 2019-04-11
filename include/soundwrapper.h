@@ -1,5 +1,5 @@
-//#ifndef SOUNDWRAPPER_H
-//#define SOUNDWRAPPER_H
+#ifndef SOUNDWRAPPER_H
+#define SOUNDWRAPPER_H
 #pragma once
 //#include <QDebug>
 
@@ -242,4 +242,4 @@ public slots:
 
 };
 
-//#endif // SOUNDWRAPPER_H
+#endif // SOUNDWRAPPER_H

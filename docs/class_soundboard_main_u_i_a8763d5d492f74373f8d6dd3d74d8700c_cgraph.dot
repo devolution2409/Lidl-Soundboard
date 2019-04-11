@@ -1,0 +1,12 @@
+digraph "SoundboardMainUI::winHotKeyPressed"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node85 [label="SoundboardMainUI::winHot\lKeyPressed",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Function to deal with Shortcut being pressed."];
+  Node85 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node86 [label="LIDL::Controller::Settings\lController::unHoldPTT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216",tooltip="unHoldPTT"];
+  Node85 -> Node87 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 [label="LIDL::Controller::Settings\lController::isEditing",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a902c29c3e63c6059a8ec1bdf40893187",tooltip="isEditing Is editing basically serves to know whether we should process shortcuts being pressed and p..."];
+}

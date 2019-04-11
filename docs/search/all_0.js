@@ -2,7 +2,8 @@ var searchData=
 [
   ['addcombobox',['addComboBox',['../class_sfx_settings_widget.html#adb22b8c5ad033d11f9fbc2d169eb346e',1,'SfxSettingsWidget']]],
   ['addfiletorecent',['addFileToRecent',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a6fd1befc01712f748c874747d2efa3f2',1,'LIDL::Controller::SettingsController']]],
-  ['addprofile',['AddProfile',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#afb721c7632f9f65771340e43acb14355',1,'LIDL::Controller::SettingsController']]],
+  ['addgame',['AddGame',['../class_profile.html#a2297fdd43d5c507340db0bf739a579a5',1,'Profile']]],
+  ['addprofile',['AddProfile',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ac3923cceb887a12d177829159888df0c',1,'LIDL::Controller::SettingsController']]],
   ['addshowflag',['addShowFlag',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae7b21591a7eaecaa394b4419a644e1c4',1,'LIDL::Controller::SettingsController']]],
   ['addslider',['addSlider',['../class_sfx_settings_widget.html#a84a8a5eb9b62d4428a6727d56bab96f4',1,'SfxSettingsWidget']]],
   ['addsound',['addSound',['../class_soundboard_main_u_i.html#a5979153cc8aec552599f8ffff9cb0605',1,'SoundboardMainUI::addSound()'],['../class_sound_wrapper.html#a0e7c3c938c43af3dbabecbfcafdadcfd',1,'SoundWrapper::addSound()'],['../class_wrapper_properties.html#a9da30dd46e0fac1d24319c21adedcedf',1,'WrapperProperties::AddSound()']]],

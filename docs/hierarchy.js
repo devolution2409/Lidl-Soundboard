@@ -23,6 +23,7 @@ var hierarchy =
     [ "enable_bitmask_operators< E >", "structenable__bitmask__operators.html", null ],
     [ "enable_bitmask_operators< LIDL::SFX_TYPE >", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4.html", null ],
     [ "enable_bitmask_operators< LIDL::SHOW_SETTINGS >", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4.html", null ],
+    [ "LIDL::Controller::HookController", "class_l_i_d_l_1_1_controller_1_1_hook_controller.html", null ],
     [ "Profile", "class_profile.html", null ],
     [ "QDialog", null, [
       [ "ProfileEdit", "class_profile_edit.html", null ]

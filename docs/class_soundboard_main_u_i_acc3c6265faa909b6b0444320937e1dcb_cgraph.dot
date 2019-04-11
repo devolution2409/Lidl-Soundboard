@@ -1,0 +1,31 @@
+digraph "SoundboardMainUI::ToolClearShortcut"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node74 [label="SoundboardMainUI::ToolClear\lShortcut",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This function will clear all the shortcuts in the soundboard."];
+  Node74 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="SoundboardMainUI::addSound",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_soundboard_main_u_i.html#a5979153cc8aec552599f8ffff9cb0605",tooltip="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..."];
+  Node75 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="SoundboardMainUI::SetStatus\lTextEditText",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_soundboard_main_u_i.html#ad1aaec3f9fca8bfdb6855888f7ac539b",tooltip="This function set the text of the permanent widget in the status bar."];
+  Node76 -> Node77 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 [label="SoundboardMainUI::Generate\lSaveFile",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737",tooltip="Function to generate the .lidljson save file."];
+  Node75 -> Node78 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="LIDL::Controller::Settings\lController::holdPTT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a",tooltip="holdPTT"];
+  Node75 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="SoundWrapper::getSoundAsItem",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a68acd6da794a6ee53309df2d4d522659",tooltip=" "];
+  Node79 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="SoundWrapper::getSoundList\lAsQString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a4625693047e0673eddac69af87ee1fa1",tooltip=" "];
+  Node79 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="SoundWrapper::getKeySequence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#ac73f84dba78c414521116ac89235edc8",tooltip=" "];
+  Node79 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="SoundWrapper::getPlayMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a16370de16e4df5a8f4fe32c71cddf183",tooltip=" "];
+  Node75 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="SoundWrapper::getShortcut\lVirtualKey",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a6df0097f541aa721d450fb74af5db71a",tooltip=" "];
+  Node75 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="SoundboardMainUI::Generate\lGlobalShortcuts",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_soundboard_main_u_i.html#a6598a08d56d5efb3e330ef3d016ab963",tooltip="Function to register all the Shortcuts being used by the LIDL Soundboard."];
+  Node74 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

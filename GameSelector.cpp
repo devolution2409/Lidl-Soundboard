@@ -10,7 +10,7 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
   //  _gameSelectorUi->comboBox->addItem(tr("Default"));
 
-    connect(_gameSelectorUi->comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::SettingsController::GetInstance(), &LIDL::Controller::SettingsController::ManualGameConfigurationChanged);
+    connect(_gameSelectorUi->comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::ManualGameConfigurationChanged);
 
 
 
@@ -21,7 +21,7 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
              _profileEdit->exec();
     });
 
-    connect(LIDL::Controller::SettingsController::GetInstance(),&LIDL::Controller::SettingsController::ProfileConfigurationChanged,
+    connect(LIDL::Controller::ProfileController::GetInstance(),&LIDL::Controller::ProfileController::ProfileConfigurationChanged,
             this, &GameSelector::RefreshProfiles);
 
 
@@ -33,7 +33,7 @@ void GameSelector::RefreshProfiles()
 {
     QString previous = _gameSelectorUi->comboBox->currentText();
     _gameSelectorUi->comboBox->clear();
-    for (auto i: LIDL::Controller::SettingsController::GetInstance()->GetProfiles())
+    for (auto i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
         _gameSelectorUi->comboBox->addItem(i->GetName());
     }

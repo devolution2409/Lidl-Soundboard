@@ -1,0 +1,26 @@
+digraph "SoundWrapper::SoundWrapper"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node9 [label="SoundWrapper::SoundWrapper",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE."];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="SoundWrapper::addSound",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a0e7c3c938c43af3dbabecbfcafdadcfd",tooltip="Used by OpenEXPJson to add the revelant sound files."];
+  Node9 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="CustomPlayer::SetPlaylist",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_player.html#a1197c4d80afb2e9a89cf808cff11f5ef",tooltip="SetPlaylist Set the playlist of the CustomPlayer."];
+  Node9 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="SoundWrapper::getSoundList",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#ad6611190dfaf0f92f1edc87dea82f40f",tooltip=" "];
+  Node9 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="CustomPlayer::SetPlaybackMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_player.html#ac195f473029b4629683893721c2542bf",tooltip="SetPlaybackMode Sets the playback mode of the CustomPlayer."];
+  Node9 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="SoundWrapper::getPlayMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a16370de16e4df5a8f4fe32c71cddf183",tooltip=" "];
+  Node9 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="SoundWrapper::setPlayerMain\lOutput",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#a65f6270a42883c49952ddead9ab731a1",tooltip="Set the index of the main output device."];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="CustomPlayer::SetOutputDevice",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_player.html#a46d9ee558903757d2bd34a4d08bc5ca3",tooltip="SetOutputDevice Sets the main output device of the player."];
+  Node9 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="SoundWrapper::setPlayerVACOutput",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_sound_wrapper.html#adb6ad18d911fb6df69765466854b2d8b",tooltip="Set the index of the VAC output device."];
+  Node17 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="CustomPlayer::SetVACDevice",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_custom_player.html#af121c5c21d552b3eb39a0c7ac2cf4b9f",tooltip="SetVACDevice Sets the VAC output device of the player."];
+}

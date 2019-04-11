@@ -1,15 +1,27 @@
 #ifndef PROFILE_H
+
+
+
 #define PROFILE_H
 
+//#include "soundwrapper.h"
+#include <QObject>
 #include <QString>
 #include <QVector>
 #include <QSet>
+
+//forward declaration instead of including because somehow it fucks everything up
+
+//class SoundWrapper;
+
+// TODO: add a QVector<SoundWrapper*> array here
 
 //TODO is having a game "nice name" really necessary or not?
 // in the end, we will just display the profile i think
 
 class Profile
 {
+
     public:
         // use this class to buuld our profiles
         class Builder;
@@ -53,6 +65,7 @@ class Profile
         bool IsContainingExe(QString exe) const;
 
     private:
+        //QVector<SoundWrapper*> _sounds;
 
         Profile(QString name, QSet<QString> exe);
 
