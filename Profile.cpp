@@ -2,7 +2,7 @@
 
 #include "soundwrapper.h"
 
-Profile::Profile(QString name, QSet<QString> exe) : _name(name) , _exeList(exe)
+Profile::Profile(QString name, QSet<QString> exe,Profile* parent) : _name(name) , _exeList(exe), _parent(parent)
 {
 
 }

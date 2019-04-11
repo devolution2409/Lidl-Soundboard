@@ -100,8 +100,9 @@ class Profile
     private:
         QVector<SoundWrapper*> _sounds;
 
-        Profile(QString name, QSet<QString> exe);
+        Profile(QString name, QSet<QString> exe, Profile* parent);
 
+        Profile* _parent;
         QString _name;
        // QVector<std::pair<QString,QString>> _gameList; /*!< Array of <executable name, nice name> */
         QSet<QString> _exeList; /*!< Array of executables */
@@ -117,7 +118,7 @@ class Profile::Builder{
         QSet<QString> _exeList; /*!< Array of executables */
         QString _name  = "Default";
 
-
+        Profile* _parent = nullptr;
 
     public:
         // create Builder with default values assigned
@@ -141,13 +142,19 @@ class Profile::Builder{
             return *this;
         }
 
+        Builder& setParent(Profile * parent)
+        {
+            this->_parent = parent;
+            return *this;
+        }
+
 
         // produce desired Product
         Profile* Build(){
             // Here, optionaly check variable consistency
             // and also if Product is buildable from given information
 
-            return new Profile(_name,_exeList);
+            return new Profile(_name,_exeList, _parent);
         }
 };
 
