@@ -232,7 +232,7 @@ signals:
      * This signal is connected to a lambda function in the mainUI when the New Wrapper button is clicked.
      * \param sound The new soundwrapper to add.
      */
-    void signalAddDone(SoundWrapper *sound);
+    void signalAddDone(std::shared_ptr<SoundWrapper> sound);
 
     /*!
      * \brief The signal that is sent after editing an existing wrapper.
@@ -240,7 +240,7 @@ signals:
      * This signal is connected to a lambda function in the mainUI when the Edit Wrapper button is clicked.
      * \param sound The edited wrapper that will replace the old one.
      */
-    void signalEditDone(SoundWrapper *sound);
+    void signalEditDone(std::shared_ptr<SoundWrapper> sound);
 
     /*!
      * \brief This signal is emitted whenever the Sound Entry Editor window is closed.

@@ -454,15 +454,24 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
                     tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->getSFX(),item->getSize() ) );
             }
             // Calling constructor IV
-            SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
-                                                      this->_playBackMode,
-                                                      *(this->_shortcutSequence),
-                                                      _shortcutEdit->getVirtualKey(),
-                                                      _mainOutput,
-                                                      _VACOutput);
+//            SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
+//                                                      this->_playBackMode,
+//                                                      *(this->_shortcutSequence),
+//                                                      _shortcutEdit->getVirtualKey(),
+//                                                      _mainOutput,
+//                                                      _VACOutput);
+
+
+
             // we emit the signal so that the main window knows
             // IT KNOWS forsenKek */
-            emit signalEditDone(tmpSound);
+            emit signalEditDone(std::make_shared<SoundWrapper>(tempFiles,
+                                                               this->_playBackMode,
+                                                               *(this->_shortcutSequence),
+                                                               _shortcutEdit->getVirtualKey(),
+                                                               _mainOutput,
+                                                               _VACOutput));
+
             this->close();
 
         });
@@ -495,13 +504,17 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
                     tempFiles.append( new LIDL::SoundFile(item->text(),item->getMainVolume(),item->getVacVolume(), item->getSFX(), item->getSize()) );
             }
             // Calling constructor IV
-            SoundWrapper *tmpSound = new SoundWrapper(tempFiles,
-                                                      this->_playBackMode,
-                                                      *(this->_shortcutSequence),
-                                                      _shortcutEdit->getVirtualKey(), _mainOutput,_VACOutput);
+
+
+
             // we emit the signal so that the main window knows
             // IT KNOWS forsenKek
-            emit signalAddDone(tmpSound);
+            emit signalAddDone(std::make_shared<SoundWrapper>(tempFiles,
+                                                              this->_playBackMode,
+                                                              *(this->_shortcutSequence),
+                                                              _shortcutEdit->getVirtualKey(),
+                                                              _mainOutput,
+                                                              _VACOutput));
             this->close();
         });
     }
@@ -516,6 +529,10 @@ void WrapperProperties::closeEvent(QCloseEvent *event)
     this->QWidget::close();
     event->accept();
     LIDL::Controller::SettingsController::GetInstance()->setEditing(false);
+
+
+
+    this->deleteLater();
     qDebug() << "forsenRope FeelsBadMan";
 }
 

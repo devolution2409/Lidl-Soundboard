@@ -140,7 +140,7 @@ class SoundboardMainUI : public QMainWindow
 private:
     // All pointers will be deleted if their parents is killed. => parenting everything to this
 
-    QVector<SoundWrapper*> _sounds; /*!< SoundWrapper array: contains the sounds*/
+    QVector<std::shared_ptr<SoundWrapper>> _sounds; /*!< SoundWrapper array: contains the sounds*/
 
 
     QVector<QKeySequence> _keySequence; /*!< keySequence array: contains the shortcuts to the sounds (mostly for displaying).*/
@@ -302,7 +302,7 @@ public slots:
      * \param whereToInsert The spot where to insert the sound (only used when it's a sound being edited. Else if it's -1 we insert it at the bottom.
      * \param generationMode Should the shortcut be registered or not. Useful when adding a bunch of soundswrapper (opening a soundboard).
      */
-    void addSound(SoundWrapper * modifiedSound, int whereToInsert = -1, bool generateShortcuts = true, bool refreshView = true);
+    void addSound(std::shared_ptr<SoundWrapper> modifiedSound, int whereToInsert = -1, bool generateShortcuts = true, bool refreshView = true);
 
 
     /*!

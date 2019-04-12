@@ -75,6 +75,8 @@ public:
      */
     void ManualGameConfigurationChanged(const QString &name);
 
+   // void SetActiveProfile()
+
 
 private:
     ProfileController();

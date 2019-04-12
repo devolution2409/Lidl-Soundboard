@@ -2,6 +2,8 @@
 
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
+
+
     //set up hooks
     LIDL::Controller::HookController::GetInstance()->SetHooks();
 
@@ -211,9 +213,15 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         // Connection of the done button to mainUI slots is dealt in the contructor
         // to account for edit or add mode
         _propertiesWindow->show();
-        connect(_propertiesWindow, &WrapperProperties::signalAddDone, this, [=](SoundWrapper* sound){
+        connect(_propertiesWindow, &WrapperProperties::signalAddDone, this, [=](std::shared_ptr<SoundWrapper> sound){
+
+            // member those shared_ptr are only destroyed when going out of scope.
+            // the scope of the btnDone is still active so ref is +1
+            qDebug() << "[215] use count in the lambda: " << sound.use_count();
+            // lock() returns shared_ptr from weak ptr
             this->addSound(sound);
             this->setEnabled(true);
+             qDebug() << "[215] use count end of lambda: " << sound.use_count();
           });
         connect(_propertiesWindow,&WrapperProperties::closed, this,[=] { this->setEnabled(true);});
 
@@ -232,7 +240,13 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         // connect it to the selected cell
         // ONLY if soundlist isn't empty
         if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
-            connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+            connect(_btnPlay,&QPushButton::clicked,this,
+                    [=]{
+                qDebug() << "[255] Ref count before playing after connecting from simple click:" << _sounds.at(index.row()).use_count();
+                _sounds.at(index.row()).get()->Play();
+
+
+            });
 
 
     });
@@ -246,7 +260,14 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         this->_btnDelete->setEnabled(true);
         this->_btnPlay->setEnabled(true);
         if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
-            connect(_btnPlay,SIGNAL(clicked()),_sounds.at(index.row()),SLOT(Play()));
+            connect(_btnPlay,&QPushButton::clicked,this,
+                    [=]{
+                qDebug() << "[255] Ref count before playing after connecting from double click:" << _sounds.at(index.row()).use_count();
+                _sounds.at(index.row()).get()->Play();
+
+
+            });
+               //     SLOT(Play()));
         // And we call the edit sound dialog
         this->editSoundDialog();
     });
@@ -257,11 +278,14 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         {
             this->SetStatusTextEditText("Deleted selected sound");
             // disconnect anything connected to the sound
-            disconnect(_sounds.at(lastSelectedRow));
+            disconnect(_sounds.at(lastSelectedRow).get());
 
             //Schedule deletion just in case
+            auto lul = _sounds.at(lastSelectedRow);
+            qDebug() << "[263] use count before deletion of i.get():" << lul.use_count();
             this->_sounds.at(lastSelectedRow)->deleteLater();
             this->_sounds.removeAt(lastSelectedRow);
+             qDebug() << "[263] use count before deletion of i.get():" << lul.use_count();
             this->_data.removeAt(lastSelectedRow);
             this->_model->removeRow(lastSelectedRow);
             // Unregistering the hotkey
@@ -370,6 +394,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     // QueudConnection so that it doesn't fucks up the view
     connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
+
+    //adding default profile here, will add soundwrapper to default later i guess
+    LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
+
+
     emit OnConstructionDone();
 }
 
@@ -420,20 +449,23 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 }
 
 // Add a sound if whereToInsert isn't
-void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert, bool generateShortcuts, bool refreshView)
+void SoundboardMainUI::addSound(std::shared_ptr<SoundWrapper> modifiedSound, int whereToInsert, bool generateShortcuts, bool refreshView)
 {
+
+    qDebug() << "[429] AddSound: ref count for modified sound before anything:" << modifiedSound.use_count();
+
     // connecting the status bar signal for unexistant files (reading json)
-    connect(modifiedSound,&SoundWrapper::UnexistantFile,this, [=]{
+    connect(modifiedSound.get(),&SoundWrapper::UnexistantFile,this, [=]{
             this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
         });
 
     // connecting the wrapper proxy signal for player NowPlaying
-    connect(modifiedSound,&SoundWrapper::NowPlaying,this,[=](QString name){
+    connect(modifiedSound.get(),&SoundWrapper::NowPlaying,this,[=](QString name){
             this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
         });
 
     // connecting the wrapper proxy signal for player ErrorPlaying
-    connect(modifiedSound,&SoundWrapper::ErrorPlaying,this, [=](QString name){
+    connect(modifiedSound.get(),&SoundWrapper::ErrorPlaying,this, [=](QString name){
             this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
          });
 
@@ -441,7 +473,7 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
    //  connect(this->_actions.at(11),SIGNAL(triggered()),modifiedSound,SLOT(clearShorcut()));
 
     // needed for remotes files forsenE
-    connect(modifiedSound, &SoundWrapper::holdPTTProxy, [=] (int duration){
+    connect(modifiedSound.get(), &SoundWrapper::holdPTTProxy, [=] (int duration){
         LIDL::Controller::SettingsController::GetInstance()->holdPTT(duration);
     } );
 
@@ -501,11 +533,17 @@ void SoundboardMainUI::addSound(SoundWrapper * modifiedSound, int whereToInsert,
         this->refreshView();
     }
 
-
+      qDebug() << "[429] AddSound: ref count for modified sound after:" << modifiedSound.use_count();
 }
 
 void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maximum)
 {
+    // We set the default profile after opening tho
+    LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
+
+
+    qDebug() << "[542] Please reimplement AddSeveralSounds with shared_ptr !" ;
+    /*
     QSize previous = this->size();
     this->setEnabled(false);
     this->setMaximumSize(previous);
@@ -583,9 +621,10 @@ void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maxim
     } );
 
     updateUI->start();
-
+    */
 
 }
+
 
 // Sort of delegate. Re-implemented here cause i don't know how the fuck
 // to do it in the delegate.
@@ -773,6 +812,7 @@ void SoundboardMainUI::refreshView()
 // NO lambda cause we call it twice :slight_smile:
 void SoundboardMainUI::editSoundDialog()
 {
+    qDebug() << "mb make editSoundDialog constructor expected a shared_ptr instead of a wrapper pointer!";
     this->setEnabled(false);
     //if lastSelectedRow is valid (ie we didn't delete this entry)
     if (this->lastSelectedRow <= this->_sounds.size())
@@ -782,10 +822,10 @@ void SoundboardMainUI::editSoundDialog()
         _propertiesWindow= new WrapperProperties(
                     this->_deviceListOutput->currentIndex(),
                     this->_deviceListVAC->currentIndex(),
-                    this->_sounds.at(this->lastSelectedRow)  ,
+                    this->_sounds.at(this->lastSelectedRow).get()  ,
                     this);
         // Lambda to connect the edit signal to the addSound method
-        connect(_propertiesWindow,&WrapperProperties::signalEditDone,this,[=](SoundWrapper* modifiedSound){
+        connect(_propertiesWindow,&WrapperProperties::signalEditDone,this,[=](std::shared_ptr<SoundWrapper> modifiedSound){
             this->addSound(modifiedSound,lastSelectedRow);
 
         });
@@ -1172,8 +1212,10 @@ void SoundboardMainUI::ClearAll()
     ****************************************************/
     for (auto &i: this->_sounds)
     {
+        qDebug() << "use count before deletion of i.get():" << i.use_count();
         i->Stop();
-        delete i;
+        delete i.get();
+         qDebug() << "use count before after of i.get():" << i.use_count();
     }
     //    clearing just in case
     _sounds.clear();
@@ -1664,11 +1706,13 @@ void SoundboardMainUI::Open(QString fileName)
     if (!error.isEmpty())
         QMessageBox::warning(this,tr("Error opening: %1").arg(fileName),error);
 
+
+
     // Saving Soundboard state in the SettingsController object
         emit SaveSoundboardState();
 
-    //adding default profile here, will add soundwrapper to default later i guess
-    LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
+
+
 
 //    delete _loadingWidget;
 //    _loadingWidget = nullptr;
@@ -1718,7 +1762,7 @@ void SoundboardMainUI::OpenEXPSounboard()
                 QVector<QString> fileList;
                 fileList.append(fileName);
                 // Calling the constructor designed for exp jsons (V)
-                this->addSound(new SoundWrapper(fileList,
+                this->addSound(std::make_shared<SoundWrapper>(fileList,
                                                 LIDL::Playback::Sequential,
                                                 //LIDL::Playback::Singleton // not a singleton anymore cause it's redundant with sequential with only one sound
                                                 LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume(),
@@ -1735,6 +1779,8 @@ void SoundboardMainUI::OpenEXPSounboard()
             return;
         }
     }
+    // in any case we set the profile now
+    LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 }
 
 
@@ -2392,11 +2438,13 @@ void SoundboardMainUI::ToolClearShortcut()
     _winShorcutHandle.clear();
     QKeySequence emptySeq;
 
-    QVector<SoundWrapper*> temp;
+    QVector<std::shared_ptr<SoundWrapper>> temp;
     for (auto &i: _sounds)
     {
-        temp.append(new SoundWrapper(i->getSoundList(),i->getPlayMode(),emptySeq, -1,i->getMainDevice(),i->getVacDevice(),nullptr));
-        delete i;
+        qDebug() << "[2404]­ use count before deletion of i.get():" << i.use_count();
+        temp.append(std::make_shared<SoundWrapper>(i->getSoundList(),i->getPlayMode(),emptySeq, -1,i->getMainDevice(),i->getVacDevice(),nullptr));
+        delete i.get();
+        qDebug() << "use count before deletion of i.get():" << i.use_count();
     }
     _sounds.clear();
     _model->clear();
@@ -2423,9 +2471,11 @@ void SoundboardMainUI::DealDragAndDrop(int newPlace)
 
 void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
 {
-    SoundWrapper * temp = _sounds.at(firstRow);
 
-    SoundWrapper * firstPtr = new SoundWrapper(temp->getSoundList(),
+    qDebug() << "[2435] Need to check if SwapWrappers let ref count unchanged";
+    SoundWrapper * temp = _sounds.at(firstRow).get();
+
+    auto firstPtr = std::make_shared<SoundWrapper>(temp->getSoundList(),
                                                temp->getPlayMode(),
                                                temp->getKeySequence(),
                                                temp->getShortcutVirtualKey(),
@@ -2434,9 +2484,9 @@ void SoundboardMainUI::SwapWrappers(int firstRow, int secondRow)
                                                nullptr);
 
 
-    temp = _sounds.at(secondRow);
+    temp = _sounds.at(secondRow).get();
 
-    SoundWrapper * secondPtr = new SoundWrapper(temp->getSoundList(),
+    auto secondPtr = std::make_shared<SoundWrapper>(temp->getSoundList(),
                                                 temp->getPlayMode(),
                                                 temp->getKeySequence(),
                                                 temp->getShortcutVirtualKey(),
@@ -2664,7 +2714,7 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
                                         tempSfx));
                         QKeySequence emptySeq;
                         // adding sound with empty shortcut and defaulting to singleton
-                        this->addSound( new SoundWrapper(file,LIDL::Playback::Singleton,
+                        this->addSound( std::make_shared<SoundWrapper>(file,LIDL::Playback::Singleton,
                                                                  emptySeq, -1,
                                                                  this->_deviceListOutput->currentIndex(),
                                                                  this->_deviceListVAC->currentIndex()));
@@ -2685,7 +2735,7 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
             &&  e->mimeData()->urls().size() > 1){
     QKeySequence emptySeq;
     // adding sound with empty shortcut and defaulting to sequential
-    this->addSound( new SoundWrapper(file,LIDL::Playback::Sequential,
+    this->addSound( std::make_shared<SoundWrapper>(file,LIDL::Playback::Sequential,
                                              emptySeq, -1,
                                              this->_deviceListOutput->currentIndex(),
                                              this->_deviceListVAC->currentIndex()));

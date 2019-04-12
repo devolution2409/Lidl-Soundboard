@@ -45,6 +45,10 @@ void GameSelector::RefreshProfiles()
             _gameSelectorUi->comboBox->setCurrentIndex(i);
             break;
         }
+        else
+        {
+          qDebug() << "Please implement reverting to default profile in GameSelector.cpp line 50";
+        }
 
     }
 }

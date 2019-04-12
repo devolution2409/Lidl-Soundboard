@@ -9,7 +9,7 @@
 #include <QString>
 #include <QVector>
 #include <QSet>
-
+#include <memory>
 
 /*!
  * \file Profile.h
@@ -86,19 +86,19 @@ class Profile
          * \brief GetSounds
          * \return The sounds associated with this profile
          */
-        QVector<SoundWrapper*> GetSounds() const;
+        QVector<std::shared_ptr<SoundWrapper>> GetSounds() const;
 
         /*!
          * \brief AddSound
          * \param The wrapper to append to _sounds
          */
-        void AddSound(SoundWrapper * wrapper);
+        void AddSound(std::shared_ptr<SoundWrapper> wrapper);
 
 
         ~Profile();
 
     private:
-        QVector<SoundWrapper*> _sounds;
+        QVector<std::shared_ptr<SoundWrapper>> _sounds;
 
         Profile(QString name, QSet<QString> exe, Profile* parent);
 

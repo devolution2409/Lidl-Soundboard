@@ -28,16 +28,21 @@ void Profile::AddGame(QString exe)
     //TODO IMPLEMENT
 }
 
-void Profile::AddSound(SoundWrapper * wrapper)
+void Profile::AddSound(std::shared_ptr<SoundWrapper> wrapper)
 {
     this->_sounds.push_back(wrapper);
 }
 
 Profile::~Profile()
 {
-    //deleting those as they aren't GC cause profile are not QObjects
     for (auto &i: _sounds)
-        delete i;
+        qDebug() << "Ref count of _sounds:" << i.use_count();
+    _sounds.clear();
+    //deleting those as they aren't GC cause profile are not QObjects
+    //for (auto &i: _sounds)
+    //    delete i;
+
+
 }
 
 QString Profile::GetConfigAsString() const
@@ -57,7 +62,7 @@ bool Profile::IsContainingExe(QString exe) const
     return this->_exeList.contains(exe);
 }
 
-QVector<SoundWrapper *> Profile::GetSounds() const
+QVector<std::shared_ptr<SoundWrapper>> Profile::GetSounds() const
 {
     return this->_sounds;
 }

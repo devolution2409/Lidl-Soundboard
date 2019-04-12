@@ -26,6 +26,18 @@ std::vector<Profile *> ProfileController::GetProfiles() const
 
 void  ProfileController::ManualGameConfigurationChanged(const QString &name)
 {
+    // searching for the profile with the correct name
+    for (auto &i: _profiles)
+    {
+        if (i->GetName() == name)
+        {
+            this->_activeProfile = i;
+            return;
+        }
+
+    }
+
+
     qDebug() << "Please implement ManualGameConfiguraitonChanged me in ProfileController" << name;
 }
 
