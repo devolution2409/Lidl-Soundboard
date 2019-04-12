@@ -88,7 +88,8 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
 bool ProfileEdit::IsFormOk()
 {
-    if (ui->listWidget->count() > 0 && !ui->nameEdit->text().isEmpty() )
+   // if (ui->listWidget->count() > 0 && !ui->nameEdit->text().isEmpty() )
+    if (!ui->nameEdit->text().isEmpty())
     {
         return true;
     }

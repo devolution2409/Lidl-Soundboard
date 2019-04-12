@@ -1293,6 +1293,11 @@ void SoundboardMainUI::OpenSlot()
 
 void SoundboardMainUI::Open(QString fileName)
 {
+
+    qDebug() << "[SoundboardMainUI::Open] Please reimplement me account for the new save format !!";
+    return;
+
+
     switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
     {
     case 0: this->Save(); break; // yes
@@ -1697,15 +1702,6 @@ void SoundboardMainUI::Open(QString fileName)
                                        CREATING THE WRAPPERS
                 ****************************************************/
 
-
-//            this->addSound(new SoundWrapper(fileArray,
-//                                            playbackmode,
-//                                            QKeySequence(shortcutString),
-//                                            shortcutVirtualKey,
-//                                            indexMainOutputDevice,
-//                                            indexVACOutputDevice,
-//                                            this),-1,false,false);
-
             wrappers.append( new SoundWrapper(fileArray,
                                             playbackmode,
                                             QKeySequence(shortcutString),
@@ -1734,8 +1730,6 @@ void SoundboardMainUI::Open(QString fileName)
 
 
 
-//    delete _loadingWidget;
-//    _loadingWidget = nullptr;
 }
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()

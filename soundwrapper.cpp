@@ -3,6 +3,7 @@
 //I
 SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 {
+    qDebug() << "WTF I WAS CREATED DANSGAME";
     this->_player = new CustomPlayer();
     connect(_player,&CustomPlayer::ErrorPlaying,this,[=](QString songName){
          emit ErrorPlaying(songName);
