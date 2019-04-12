@@ -380,9 +380,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     connect(this->_shortcutEditPTT,&CustomShortcutEdit::scanCodeChanged, this, [=](int scancode){
         LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttScanCode(scancode);
+        LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttKeySequence(this->_shortcutEditPTT->keySequence());
     });
     connect(this->_shortcutEditPTT,&CustomShortcutEdit::virtualKeyChanged, this, [=](int virtualkey){
         LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttVirtualKey(virtualkey);
+        LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttKeySequence(this->_shortcutEditPTT->keySequence());
     });
 
 
@@ -418,6 +420,12 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         this->ClearAll();
         for (auto &i: wrappers)
             this->addSound(i);
+
+        this->_shortcutEditPTT->setKeySequence(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttKeySequence());
+        this->_shortcutEditPTT->setScanCode(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode());
+        this->_shortcutEditPTT->setVirtualKey(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey());
+
+
     });
 
     emit OnConstructionDone();

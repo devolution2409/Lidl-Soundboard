@@ -20,12 +20,14 @@ QSet<QString> Profile::GetGameList() const
 
 void Profile::RemoveGame(QString exe)
 {
+    Q_UNUSED(exe)
     //TODO IMPLEMENT
     // OR MB NOT if we just swap a profile for another :)
 }
 
 void Profile::AddGame(QString exe)
 {
+    Q_UNUSED(exe)
     //TODO IMPLEMENT
 }
 
@@ -96,6 +98,16 @@ int Profile::GetPttScanCode() const
 int Profile::GetPttVirtualKey() const
 {
     return this->_PTTVirtualKey;
+}
+
+void Profile::SetPttKeySequence(QKeySequence sequence)
+{
+    this->_PTTKeySequence.swap(sequence);
+}
+
+QKeySequence Profile::GetPttKeySequence() const
+{
+    return this->_PTTKeySequence;
 }
 
 

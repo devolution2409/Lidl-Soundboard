@@ -9,6 +9,7 @@
 #include <QString>
 #include <QVector>
 #include <QSet>
+#include <QKeySequence>
 #include <memory>
 
 /*!
@@ -154,6 +155,20 @@ class Profile
          */
         int GetPttVirtualKey() const;
 
+        /*!
+         * \brief SetPttKeySequence
+         * \param sequence
+         * Sets this profile Push To Talk QKeySequence
+         */
+        void SetPttKeySequence(QKeySequence sequence);
+
+        /*!
+         * \brief SetPttKeySequence
+         * \param sequence
+         * Gets this profile Push To Talk QKeySequence
+         */
+        QKeySequence GetPttKeySequence() const;
+
 
         ~Profile();
 
@@ -162,13 +177,14 @@ class Profile
 
         Profile(QString name, QSet<QString> exe, Profile* parent);
 
-        Profile* _parent;
+
         QString _name;
        // QVector<std::pair<QString,QString>> _gameList; /*!< Array of <executable name, nice name> */
         QSet<QString> _exeList; /*!< Array of executables */
-
+        Profile* _parent;
         int _PTTScanCode = -1;
         int _PTTVirtualKey = -1;
+        QKeySequence _PTTKeySequence;
 
 
 
