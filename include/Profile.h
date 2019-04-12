@@ -114,6 +114,17 @@ class Profile
          */
         void SwapSound(std::shared_ptr<SoundWrapper> oldWrapper,std::shared_ptr<SoundWrapper> newWrapper);
 
+        /*!
+         * \brief GetParent
+         * \return The parent profile that sound should be mirrored from
+         */
+        Profile * GetParent() const;
+
+        /*!
+         * \brief ClearSounds
+         * Remove every sound from the array
+         */
+        void ClearSounds();
 
         ~Profile();
 

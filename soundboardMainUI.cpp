@@ -402,7 +402,14 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     //adding default profile here, will add soundwrapper to default later i guess
     LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
+    LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
+    connect(LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::AddSoundsToMainUI,
+            this, [=](QVector<std::shared_ptr<SoundWrapper>> wrappers){
+        this->ClearAll();
+        for (auto &i: wrappers)
+            this->addSound(i);
+    });
 
     emit OnConstructionDone();
 }
@@ -458,7 +465,7 @@ void SoundboardMainUI::addSound(std::shared_ptr<SoundWrapper> modifiedSound, int
 {
 
     qDebug() << "Bear in mind that the previous shared_ptr from the edit window isn't out of scope until the end of this block";
-    qDebug() << "[456] AddSound: ref count for modified sound before anything:" << modifiedSound.use_count();
+    qDebug() << "[SoundboardMainUI::addSound] ref count for modified sound before anything:" << modifiedSound.use_count();
 
     // connecting the status bar signal for unexistant files (reading json)
     connect(modifiedSound.get(),&SoundWrapper::UnexistantFile,this, [=]{
@@ -1232,10 +1239,7 @@ void SoundboardMainUI::ClearAll()
     ****************************************************/
     for (auto &i: this->_sounds)
     {
-        qDebug() << "use count before deletion of i.get():" << i.use_count();
         i->Stop();
-        delete i.get();
-         qDebug() << "use count before after of i.get():" << i.use_count();
     }
     //    clearing just in case
     _sounds.clear();
@@ -2458,7 +2462,7 @@ void SoundboardMainUI::ToolClearShortcut()
         qDebug() << "[2404]­ use count before deletion of i.get():" << i.use_count();
         temp.append(std::make_shared<SoundWrapper>(i->getSoundList(),i->getPlayMode(),emptySeq, -1,i->getMainDevice(),i->getVacDevice(),nullptr));
         delete i.get();
-        qDebug() << "use count before deletion of i.get():" << i.use_count();
+        qDebug() << "[SoundboardMainUI::ToolClearShortcut]use count before deletion of i.get():" << i.use_count();
     }
     _sounds.clear();
     _model->clear();

@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QObject>
 
+
 /*!
  * \file ProfileController.h
  * \brief File describing the Profile Controller.
@@ -90,6 +91,7 @@ private:
 signals:
 
     void ProfileConfigurationChanged();
+    void  AddSoundsToMainUI(QVector<std::shared_ptr<SoundWrapper>>);
 
 };
 

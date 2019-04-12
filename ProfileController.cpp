@@ -27,13 +27,38 @@ std::vector<Profile *> ProfileController::GetProfiles() const
 void  ProfileController::ManualGameConfigurationChanged(const QString &name)
 {
     // searching for the profile with the correct name
+    qDebug() << "[ProfileController::ManualGameConfigurationChanged()] called";
+
+    bool found = false;
     for (auto &i: _profiles)
     {
         if (i->GetName() == name)
         {
             this->_activeProfile = i;
-            return;
+            found = true;
+            break;
         }
+
+    }
+    if (found)
+    {
+        // if the profile has a parent we need to reflect the sounds from there
+        if (_activeProfile->GetParent() != nullptr)
+        {
+            qDebug() <<  "[ProfileController::ManualGameConfigurationChanged()] Please implement mirroring the sounds";
+            // while not being editabel
+        }
+        else
+        {
+            // clear everything from the main UI and then
+            // and the profile forsenT
+            QVector<std::shared_ptr<SoundWrapper>> temp = _activeProfile->GetSounds();
+            _activeProfile->ClearSounds();
+            // add sounds
+            emit AddSoundsToMainUI(temp);
+
+        }
+
 
     }
 

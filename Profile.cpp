@@ -67,6 +67,16 @@ void Profile::SwapSound(std::shared_ptr<SoundWrapper> oldWrapper, std::shared_pt
     }
 }
 
+Profile *Profile::GetParent() const
+{
+    return this->_parent;
+}
+
+void Profile::ClearSounds()
+{
+    this->_sounds.clear();
+}
+
 
 Profile::~Profile()
 {
