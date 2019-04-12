@@ -21,6 +21,7 @@ QSet<QString> Profile::GetGameList() const
 void Profile::RemoveGame(QString exe)
 {
     //TODO IMPLEMENT
+    // OR MB NOT if we just swap a profile for another :)
 }
 
 void Profile::AddGame(QString exe)

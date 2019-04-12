@@ -151,8 +151,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(this->_btnClearPTT,&QPushButton::clicked,this,[=]{
             // Clearing the thing and setting the PTTScanCode and the PTTVirtualKey to -1
             _shortcutEditPTT->clear();
-            LIDL::Controller::SettingsController::GetInstance()->SetPTTScanCode(-1);
-            LIDL::Controller::SettingsController::GetInstance()->SetPTTVirtualKey(-1);
+            LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttScanCode(-1);
+            LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttVirtualKey(-1);
         });
     /***************************************************
                          STOP SOUND BIND
@@ -372,11 +372,19 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // that way we can know if soundboard was modified or not Pog
 
     /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
-    connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
-            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
+//    connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
+//            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
 
-    connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
-            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
+//    connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
+//            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
+
+    connect(this->_shortcutEditPTT,&CustomShortcutEdit::scanCodeChanged, this, [=](int scancode){
+        LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttScanCode(scancode);
+    });
+    connect(this->_shortcutEditPTT,&CustomShortcutEdit::virtualKeyChanged, this, [=](int virtualkey){
+        LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttVirtualKey(virtualkey);
+    });
+
 
     connect(this->_btnStop,&QPushButton::clicked, [=]{
         for (auto &i: _sounds)

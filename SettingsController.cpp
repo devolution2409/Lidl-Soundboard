@@ -405,7 +405,10 @@ void SettingsController::holdPTT(int duration)
     if ( _activePttTimer.remainingTime() < duration )
     {
         this->_eventProcessing = false;
-        keybd_event(_activePttVitualKey,_activePttScanCode,KEYEVENTF_EXTENDEDKEY, 0);
+
+
+        keybd_event(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey(),
+                    LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode(),KEYEVENTF_EXTENDEDKEY, 0);
         // works with 1ms for some reason OMEGALUL
         QTimer::singleShot(1,Qt::PreciseTimer, [=]{
                 this->_eventProcessing = true;
@@ -424,7 +427,8 @@ void SettingsController::unHoldPTT()
 {
     //qDebug() << "unholding ptt here";
     // Unpressing the key physically
-    keybd_event(_activePttVitualKey,_activePttScanCode,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    keybd_event(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey(),
+                 LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode(),KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
     // stopping the timer else PTT will be unhold on each tick forsenT
     _activePttTimer.stop();
 }

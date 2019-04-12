@@ -33,6 +33,7 @@
 #include "Profile.h"
 #include "EnumsAndStructs.h"
 #include <vector>
+#include <ProfileController.h>
 
 namespace LIDL{
 namespace Controller {
