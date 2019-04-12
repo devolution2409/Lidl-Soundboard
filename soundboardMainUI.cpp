@@ -417,14 +417,28 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     connect(LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::AddSoundsToMainUI,
             this, [=](QVector<std::shared_ptr<SoundWrapper>> wrappers){
-        this->ClearAll();
-        for (auto &i: wrappers)
-            this->addSound(i);
+        QString mainOutput = this->_deviceListOutput->currentText();
+        QString vacOutput = this->_deviceListVAC->currentText();
 
+        this->ClearAll();
+
+        if (wrappers.size() > 0)
+        {
+            for (int i = 0; wrappers.size() - 1; i++)
+            {
+                this->addSound(wrappers.at(i),-1,false,false);
+            }
+            this->addSound(wrappers.last(), -1, true,true);
+
+            //for (auto &i: wrappers)
+                //this->addSound(i);
+        }
         this->_shortcutEditPTT->setKeySequence(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttKeySequence());
         this->_shortcutEditPTT->setScanCode(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode());
         this->_shortcutEditPTT->setVirtualKey(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey());
 
+        this->_deviceListVAC->setCurrentText( vacOutput );
+        this->_deviceListOutput->setCurrentText(mainOutput);
 
     });
 

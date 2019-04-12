@@ -170,6 +170,7 @@ class Profile
         QKeySequence GetPttKeySequence() const;
 
 
+
         ~Profile();
 
     private:
