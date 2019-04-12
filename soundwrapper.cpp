@@ -16,6 +16,11 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
             emit holdPTTProxy(duration);
     });
 
+    connect(this,&CustomPlayer::destroyed, this, [=]{
+       qDebug() << "[~SoundWrapper()] I'm either destroyed or about to be !";
+
+    });
+
 }
 
 //II: Constructor when opening a EXP Json file

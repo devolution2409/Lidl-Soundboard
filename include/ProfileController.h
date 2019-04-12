@@ -75,7 +75,11 @@ public:
      */
     void ManualGameConfigurationChanged(const QString &name);
 
-   // void SetActiveProfile()
+    /*!
+     * \brief GetActiveProfile
+     * \return The active profile
+     */
+    Profile* GetActiveProfile() const;
 
 
 private:

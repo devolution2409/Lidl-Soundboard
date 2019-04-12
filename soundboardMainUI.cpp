@@ -277,15 +277,20 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         if (this->lastSelectedRow <= this->_sounds.size())
         {
             this->SetStatusTextEditText("Deleted selected sound");
+
+
             // disconnect anything connected to the sound
             disconnect(_sounds.at(lastSelectedRow).get());
 
-            //Schedule deletion just in case
             auto lul = _sounds.at(lastSelectedRow);
             qDebug() << "[263] use count before deletion of i.get():" << lul.use_count();
-            this->_sounds.at(lastSelectedRow)->deleteLater();
+
+            qDebug() << "[_btnDelete Lambda] Now deleting sound from profile aswell";
+
+            LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->RemoveSoundFromSharedPtr(lul);
+         //   this->_sounds.at(lastSelectedRow)->deleteLater();
             this->_sounds.removeAt(lastSelectedRow);
-             qDebug() << "[263] use count before deletion of i.get():" << lul.use_count();
+             qDebug() << "[263] use count after deletion of wrapper from main ui and profile:" << lul.use_count();
             this->_data.removeAt(lastSelectedRow);
             this->_model->removeRow(lastSelectedRow);
             // Unregistering the hotkey
@@ -452,7 +457,8 @@ void SoundboardMainUI::fetchDeviceList(QComboBox *comboBox, QAudio::Mode mode)
 void SoundboardMainUI::addSound(std::shared_ptr<SoundWrapper> modifiedSound, int whereToInsert, bool generateShortcuts, bool refreshView)
 {
 
-    qDebug() << "[429] AddSound: ref count for modified sound before anything:" << modifiedSound.use_count();
+    qDebug() << "Bear in mind that the previous shared_ptr from the edit window isn't out of scope until the end of this block";
+    qDebug() << "[456] AddSound: ref count for modified sound before anything:" << modifiedSound.use_count();
 
     // connecting the status bar signal for unexistant files (reading json)
     connect(modifiedSound.get(),&SoundWrapper::UnexistantFile,this, [=]{
@@ -497,10 +503,19 @@ void SoundboardMainUI::addSound(std::shared_ptr<SoundWrapper> modifiedSound, int
         _keySequence.append(modifiedSound->getKeySequence());
         _keyVirtualKey.append(modifiedSound->getShortcutVirtualKey());
 
+        // we add it to the current profile
+        qDebug() << "[SoundboardMainUI::addSound] Ref count before adding the sound wrapper to" <<LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName() << "profile" << modifiedSound.use_count();
+        LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->AddSound(modifiedSound);
+        qDebug() << "[SoundboardMainUI::addSound] Ref count after adding the sound wrapper to" <<LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName() << "profile" << modifiedSound.use_count();
+
+
     }
     // else it was modified, need to swap  the previous item by the new, and than delete the item
     else
     {
+        // we swap the sound in the current profile
+        LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SwapSound(_sounds.at(whereToInsert),modifiedSound);
+
         //we stop it if its playing because else we destroy it and can't stop it
         _sounds.at(whereToInsert)->Stop();
         // forsenT
@@ -513,13 +528,18 @@ void SoundboardMainUI::addSound(std::shared_ptr<SoundWrapper> modifiedSound, int
         //_model->removeRow(whereToInsert);
         //_model->insertRow(whereToInsert,_data.at(whereToInsert));
         // updating the shortcuts table
+
+
         _keySequence.removeAt(whereToInsert);
         _keySequence.insert(whereToInsert,modifiedSound->getKeySequence());
         // updating k   eyscancode table
         _keyVirtualKey.removeAt(whereToInsert);
         _keyVirtualKey.insert(whereToInsert,modifiedSound->getShortcutVirtualKey());
 
+
+
     }
+
 
     if (generateShortcuts)
         this->GenerateGlobalShortcuts();
@@ -542,7 +562,7 @@ void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maxim
     LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
 
-    qDebug() << "[542] Please reimplement AddSeveralSounds with shared_ptr !" ;
+    qDebug() << "[542] Please reimplement AddSeveralSounds with shared_ptr !e" ;
     /*
     QSize previous = this->size();
     this->setEnabled(false);

@@ -33,14 +33,46 @@ void Profile::AddSound(std::shared_ptr<SoundWrapper> wrapper)
     this->_sounds.push_back(wrapper);
 }
 
+void Profile::RemoveSoundFromSharedPtr(std::shared_ptr<SoundWrapper> wrapper)
+{
+    for (int i = 0; i < _sounds.size();  i++)
+    {
+        qDebug() << "i:" <<i;
+        if  ( _sounds.at(i) == wrapper)
+        {
+            _sounds.removeAt(i);
+            return;
+        }
+    }
+}
+
+void Profile::SwapSound(std::shared_ptr<SoundWrapper> oldWrapper, std::shared_ptr<SoundWrapper> newWrapper)
+{
+    for (int i = 0; i < _sounds.size();  i++)
+    {
+        if  ( _sounds.at(i) == oldWrapper)
+        {
+            qDebug() << "[Profile::SwapSound() Ref count before swap old:" << oldWrapper.use_count();
+            qDebug() << "[Profile::SwapSound() Ref count before swap new:" << newWrapper.use_count();
+
+            //_sounds.takeAt(i).swap(newWrapper);
+            // ZuluJebaited swap does shit with refcount while removing and inserting doesn't forsenD
+            _sounds.removeAt(i);
+            _sounds.insert(i,newWrapper);
+
+            qDebug() << "[Profile::SwapSound() Ref count after swap old:" << oldWrapper.use_count();
+            qDebug() << "[Profile::SwapSound() Ref count after swap new:" << newWrapper.use_count();
+            return;
+        }
+    }
+}
+
+
 Profile::~Profile()
 {
     for (auto &i: _sounds)
-        qDebug() << "Ref count of _sounds:" << i.use_count();
+        qDebug() << "[~Profile()] Ref count of _sounds:" << i.use_count();
     _sounds.clear();
-    //deleting those as they aren't GC cause profile are not QObjects
-    //for (auto &i: _sounds)
-    //    delete i;
 
 
 }

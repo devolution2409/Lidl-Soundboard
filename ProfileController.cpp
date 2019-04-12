@@ -41,6 +41,11 @@ void  ProfileController::ManualGameConfigurationChanged(const QString &name)
     qDebug() << "Please implement ManualGameConfiguraitonChanged me in ProfileController" << name;
 }
 
+Profile *ProfileController::GetActiveProfile() const
+{
+    return this->_activeProfile;
+}
+
 void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copyMode)
 {
     // pushing the profile in the array

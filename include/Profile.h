@@ -95,6 +95,26 @@ class Profile
         void AddSound(std::shared_ptr<SoundWrapper> wrapper);
 
 
+        /*!
+         * \brief RemoveSoundFromSharedPtr
+         * \param wrapper a shared_ptr
+         *
+         * Will remove a shared_ptr from the QVector (when the sound was deleted or replaced in the main UI)
+         */
+        void RemoveSoundFromSharedPtr(std::shared_ptr<SoundWrapper> wrapper);
+
+
+        /*!
+         * \brief SwapSound
+         * \param oldWrapper
+         * \param newWrapper
+         *
+         * Will swap oldWrapper by newWrapper using shared_ptr<>::reset()
+         * Decreasing ref count of oldWrapper in the proccess
+         */
+        void SwapSound(std::shared_ptr<SoundWrapper> oldWrapper,std::shared_ptr<SoundWrapper> newWrapper);
+
+
         ~Profile();
 
     private:
