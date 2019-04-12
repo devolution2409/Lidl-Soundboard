@@ -377,6 +377,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
             LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
+
     connect(this->_btnStop,&QPushButton::clicked, [=]{
         for (auto &i: _sounds)
             i->Stop();

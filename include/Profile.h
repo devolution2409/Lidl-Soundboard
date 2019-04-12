@@ -126,6 +126,35 @@ class Profile
          */
         void ClearSounds();
 
+        /*!
+         * \brief SetPttScanCode
+         * \param sc
+         * Sets this profile Push To Talk Scan Code
+         */
+        void SetPttScanCode(int sc);
+
+        /*!
+         * \brief SetPttVirtualKey
+         * \param vk
+         * Set this profile Push To Talk Virtual Key
+         */
+        void SetPttVirtualKey(int vk);
+
+        /*!
+         * \brief GetPttScanCode
+         * \return
+         * Gets this profile Push To Talk Scan Code
+         */
+        int GetPttScanCode() const;
+
+        /*!
+         * \brief GetPttVirtualKey
+         * \return
+         * Gets this profile Push To Talk Virtual Key
+         */
+        int GetPttVirtualKey() const;
+
+
         ~Profile();
 
     private:
@@ -137,6 +166,10 @@ class Profile
         QString _name;
        // QVector<std::pair<QString,QString>> _gameList; /*!< Array of <executable name, nice name> */
         QSet<QString> _exeList; /*!< Array of executables */
+
+        int _PTTScanCode = -1;
+        int _PTTVirtualKey = -1;
+
 
 
 };

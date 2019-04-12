@@ -77,6 +77,26 @@ void Profile::ClearSounds()
     this->_sounds.clear();
 }
 
+void Profile::SetPttScanCode(int sc)
+{
+    this->_PTTScanCode= sc;
+}
+
+void Profile::SetPttVirtualKey(int vk)
+{
+    this->_PTTVirtualKey = vk;
+}
+
+int Profile::GetPttScanCode() const
+{
+    return this->_PTTScanCode;
+}
+
+int Profile::GetPttVirtualKey() const
+{
+    return this->_PTTVirtualKey;
+}
+
 
 Profile::~Profile()
 {
