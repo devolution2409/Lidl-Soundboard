@@ -113,16 +113,21 @@ void ProfileController::ReplaceProfiles(std::vector<Profile*> profiles)
     _profiles = profiles;
 }
 
-void ProfileController::DeleteProfile(Profile *profile)
+void ProfileController::DeleteActiveProfile()
 {
-    for (auto it = _profiles.begin(); it != _profiles.end(); ++it)
+    if ( _activeProfile == nullptr || _activeProfile->GetName() == "Default")
+        return;
+    // Remove it from the profile array
+    for  (unsigned int i = 0; _profiles.size(); i++)
     {
-        if (static_cast<Profile*>(*it) == profile)
-        {
-            delete *it;
-            _profiles.erase(it);
+        if (_profiles.at(i) == _activeProfile){
+            _profiles.erase(_profiles.begin() + i);
+            break;
         }
     }
+
+
+    delete _activeProfile;
 
 }
 

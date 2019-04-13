@@ -27,21 +27,7 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
     // delete active profile
     connect(_gameSelectorUi->deleteBtn, &QToolButton::clicked, this, [=]{
-        // don't remove default profile DansW
-        if (LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName() == "Default")
-            return;
-
-        Profile* profileToDelete =  LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile();
-
-        // revert to default (this will switch active profile)
-        LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
-
-        LIDL::Controller::ProfileController::GetInstance()->DeleteProfile(profileToDelete);
-
-        for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
-        {
-            qDebug() << "Profile:" << i->GetName();
-        }
+        LIDL::Controller::ProfileController::GetInstance()->DeleteActiveProfile();
 
 
         this->RefreshProfiles();
@@ -58,7 +44,6 @@ void GameSelector::RefreshProfiles()
     _gameSelectorUi->comboBox->clear();
     for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
-        qDebug() << "weeeeeeeeeeeee";
         _gameSelectorUi->comboBox->addItem(i->GetName());
     }
     for (int i = 0; i < _gameSelectorUi->comboBox->count(); i++)

@@ -57,7 +57,7 @@ public:
      * \param profile*
      * Will delete the profile identified by the pointer.
      */
-    void DeleteProfile(Profile* profile);
+    void DeleteActiveProfile();
 
 
 
