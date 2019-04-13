@@ -2,6 +2,7 @@ var searchData=
 [
   ['save',['Save',['../class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7',1,'SoundboardMainUI']]],
   ['saveas',['SaveAs',['../class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b',1,'SoundboardMainUI']]],
+  ['savecontroller',['SaveController',['../class_l_i_d_l_1_1_controller_1_1_save_controller.html',1,'LIDL::Controller']]],
   ['saveisdifferentfrom',['SaveIsDifferentFrom',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#af6802e639395589a86f10e3d7a8491ee',1,'LIDL::Controller::SettingsController']]],
   ['savesettings',['SaveSettings',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#af37745d1bcfe18f411cee2aff16425df',1,'LIDL::Controller::SettingsController']]],
   ['savesoundboardstate',['SaveSoundboardState',['../class_soundboard_main_u_i.html#abcdb620d3e0846b7a8c7325ea7b4b7f1',1,'SoundboardMainUI']]],
@@ -25,8 +26,9 @@ var searchData=
   ['setplayervacoutput',['setPlayerVACOutput',['../class_sound_wrapper.html#adb6ad18d911fb6df69765466854b2d8b',1,'SoundWrapper']]],
   ['setplaylist',['SetPlaylist',['../class_custom_player.html#a1197c4d80afb2e9a89cf808cff11f5ef',1,'CustomPlayer']]],
   ['setprefix',['setPrefix',['../class_slider_spin.html#afc2d6a37f9adbee990c27d056ce248ac',1,'SliderSpin']]],
-  ['setpttscancode',['SetPTTScanCode',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a9ccd891be6253326c155673b64bdf493',1,'LIDL::Controller::SettingsController']]],
-  ['setpttvirtualkey',['SetPTTVirtualKey',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ada412c44f079c27cef2da7b8a22241d3',1,'LIDL::Controller::SettingsController']]],
+  ['setpttkeysequence',['SetPttKeySequence',['../class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6',1,'Profile']]],
+  ['setpttscancode',['SetPttScanCode',['../class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1',1,'Profile::SetPttScanCode()'],['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a9ccd891be6253326c155673b64bdf493',1,'LIDL::Controller::SettingsController::SetPTTScanCode()']]],
+  ['setpttvirtualkey',['SetPttVirtualKey',['../class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5',1,'Profile::SetPttVirtualKey()'],['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ada412c44f079c27cef2da7b8a22241d3',1,'LIDL::Controller::SettingsController::SetPTTVirtualKey()']]],
   ['setradialscancode',['SetRadialScanCode',['../class_l_i_d_l_1_1_overlay_controller.html#a0ec706362f7933679dabd21a64925735',1,'LIDL::OverlayController']]],
   ['setradialvirtualkey',['SetRadialVirtualKey',['../class_l_i_d_l_1_1_overlay_controller.html#a808a8d8191aafad8aab6545c4087e1f8',1,'LIDL::OverlayController']]],
   ['setrange',['setRange',['../class_slider_spin.html#a6903748c3a95a7bd39f2089a83b50570',1,'SliderSpin']]],
@@ -50,8 +52,8 @@ var searchData=
   ['sfx',['SFX',['../struct_l_i_d_l_1_1_s_f_x.html',1,'LIDL']]],
   ['sfxsettingswidget',['SfxSettingsWidget',['../class_sfx_settings_widget.html',1,'SfxSettingsWidget'],['../class_sfx_settings_widget.html#a881ac22980ad7bde2765a728bc08aef9',1,'SfxSettingsWidget::SfxSettingsWidget(QWidget *parent=nullptr)'],['../class_sfx_settings_widget.html#a100ef320e6204b98401147657a24831a',1,'SfxSettingsWidget::SfxSettingsWidget(QString sfxName, LIDL::SFX_TYPE type=LIDL::SFX_TYPE::NONE, bool showCheckmarkAndPresets=true, QWidget *parent=nullptr)']]],
   ['showgameoverlay',['ShowGameOverlay',['../class_l_i_d_l_1_1_overlay_controller.html#acd15c3b85bd66ce9644940aa824606cd',1,'LIDL::OverlayController::ShowGameOverlay(HWND hwnd)'],['../class_l_i_d_l_1_1_overlay_controller.html#aea02901b077c93e21d9495ea604d93c6',1,'LIDL::OverlayController::ShowGameOverlay(Profile *profile)']]],
-  ['signaladddone',['signalAddDone',['../class_wrapper_properties.html#a926d64924dd768fa9e3ee82c5a8ae943',1,'WrapperProperties']]],
-  ['signaleditdone',['signalEditDone',['../class_wrapper_properties.html#a230ecd556b6d073ff1bf958e0617f74f',1,'WrapperProperties']]],
+  ['signaladddone',['signalAddDone',['../class_wrapper_properties.html#a900c8d394f46d6ddc9be66b2d0288a91',1,'WrapperProperties']]],
+  ['signaleditdone',['signalEditDone',['../class_wrapper_properties.html#a812835dc78dff2a982b985fd7b460ad1',1,'WrapperProperties']]],
   ['sizehint',['sizeHint',['../class_sfx_settings_widget.html#ac2823c4243b54f7c9153755e2a830897',1,'SfxSettingsWidget']]],
   ['sliderspin',['SliderSpin',['../class_slider_spin.html',1,'SliderSpin'],['../class_slider_spin.html#a6437fa1a8f53a6c2fa7204e2af840a7b',1,'SliderSpin::SliderSpin(QWidget *parent=nullptr)'],['../class_slider_spin.html#ac4335a603058aeb596e4f7f6935cba05',1,'SliderSpin::SliderSpin(int min=0, int max=100, QString suffix=&quot;&quot;, QString prefix=&quot;&quot;, QWidget *parent=nullptr)']]],
   ['slidervaluechanged',['sliderValueChanged',['../class_sfx_settings_widget.html#accfa4461f0fba434b8d2dbe87f9970fe',1,'SfxSettingsWidget']]],
@@ -63,5 +65,6 @@ var searchData=
   ['spoiler',['Spoiler',['../class_spoiler.html',1,'']]],
   ['stop',['Stop',['../class_custom_player.html#a43c73c291d287250726d621c209b0c67',1,'CustomPlayer::Stop()'],['../class_sound_wrapper.html#a4ec65454998a456cb49975fa5ee57672',1,'SoundWrapper::Stop()']]],
   ['styleddelegate',['StyledDelegate',['../class_styled_delegate.html',1,'']]],
+  ['swapsound',['SwapSound',['../class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2',1,'Profile']]],
   ['swapwrappers',['SwapWrappers',['../class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a',1,'SoundboardMainUI']]]
 ];

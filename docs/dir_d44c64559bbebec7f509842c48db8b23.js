@@ -30,8 +30,15 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "PresetController.h", "_preset_controller_8h_source.html", null ],
     [ "PresetWizard.h", "_preset_wizard_8h_source.html", null ],
     [ "PresetWizardIntroPage.h", "_preset_wizard_intro_page_8h_source.html", null ],
-    [ "Profile.h", "_profile_8h_source.html", null ],
+    [ "Profile.h", "_profile_8h.html", [
+      [ "Profile", "class_profile.html", "class_profile" ],
+      [ "Builder", "class_profile_1_1_builder.html", "class_profile_1_1_builder" ]
+    ] ],
+    [ "ProfileController.h", "_profile_controller_8h.html", [
+      [ "ProfileController", "class_l_i_d_l_1_1_controller_1_1_profile_controller.html", "class_l_i_d_l_1_1_controller_1_1_profile_controller" ]
+    ] ],
     [ "ProfileEdit.h", "_profile_edit_8h_source.html", null ],
+    [ "SaveController.h", "_save_controller_8h_source.html", null ],
     [ "SettingsController.h", "_settings_controller_8h_source.html", null ],
     [ "SfxSettingsWidget.h", "_sfx_settings_widget_8h_source.html", null ],
     [ "SliderSpin.h", "_slider_spin_8h_source.html", null ],

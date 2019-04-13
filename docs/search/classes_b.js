@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['savecontroller',['SaveController',['../class_l_i_d_l_1_1_controller_1_1_save_controller.html',1,'LIDL::Controller']]],
   ['settingscontroller',['SettingsController',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html',1,'LIDL::Controller']]],
   ['sfx',['SFX',['../struct_l_i_d_l_1_1_s_f_x.html',1,'LIDL']]],
   ['sfxsettingswidget',['SfxSettingsWidget',['../class_sfx_settings_widget.html',1,'']]],

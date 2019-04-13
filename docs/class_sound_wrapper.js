@@ -14,6 +14,7 @@ var class_sound_wrapper =
     [ "getSoundList", "class_sound_wrapper.html#ad6611190dfaf0f92f1edc87dea82f40f", null ],
     [ "getSoundListAsQString", "class_sound_wrapper.html#a4625693047e0673eddac69af87ee1fa1", null ],
     [ "getVacDevice", "class_sound_wrapper.html#a68ad3aa663ff2700b65a880e48b5c242", null ],
+    [ "GetWrapperAsObject", "class_sound_wrapper.html#a803e21026180c1f3e578b61824dbfdfd", null ],
     [ "holdPTTProxy", "class_sound_wrapper.html#a2c1a29d2b1f19e13d88bb2afc8bd7118", null ],
     [ "NowPlaying", "class_sound_wrapper.html#a5a86da80d48b168427c5e5e02b5b0e73", null ],
     [ "OutputDeviceChanged", "class_sound_wrapper.html#a78c2ea2698eeccd51b1d5f32be198baa", null ],

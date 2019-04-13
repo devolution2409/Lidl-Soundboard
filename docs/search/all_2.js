@@ -5,6 +5,7 @@ var searchData=
   ['checkshowflags',['checkShowFlags',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3406eed2c7954ad5cd0066512fc92145',1,'LIDL::Controller::SettingsController']]],
   ['clearall',['ClearAll',['../class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86',1,'SoundboardMainUI']]],
   ['clearshorcut',['clearShorcut',['../class_sound_wrapper.html#acf8d463bb53ce4e983484383a63278a1',1,'SoundWrapper']]],
+  ['clearsounds',['ClearSounds',['../class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22',1,'Profile']]],
   ['closed',['closed',['../class_wrapper_properties.html#a61a9f1b11d211c9c4983da8702597e37',1,'WrapperProperties']]],
   ['comboboxvaluechanged',['comboBoxValueChanged',['../class_sfx_settings_widget.html#a012170135fcd7b98954f8c4da25b3d93',1,'SfxSettingsWidget']]],
   ['comparesaves',['CompareSaves',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a40232fd2554b43558825834be3bcc09e',1,'LIDL::Controller::SettingsController']]],

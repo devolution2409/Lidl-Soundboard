@@ -1,7 +1,7 @@
 var class_soundboard_main_u_i =
 [
     [ "SoundboardMainUI", "class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6", null ],
-    [ "addSound", "class_soundboard_main_u_i.html#a5979153cc8aec552599f8ffff9cb0605", null ],
+    [ "addSound", "class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f", null ],
     [ "CheckForUpdates", "class_soundboard_main_u_i.html#a5bbaeb0a827eb3cac52e6f6243054100", null ],
     [ "ClearAll", "class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86", null ],
     [ "DealDragAndDrop", "class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57", null ],
@@ -17,6 +17,7 @@ var class_soundboard_main_u_i =
     [ "OpenEXPSounboard", "class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b", null ],
     [ "OpenSlot", "class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b", null ],
     [ "PostConstruction", "class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5", null ],
+    [ "ProfileSwitched", "class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be", null ],
     [ "resizeEvent", "class_soundboard_main_u_i.html#a4cd1a4f6794ae0b0c389bb57984bc2b8", null ],
     [ "Save", "class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7", null ],
     [ "SaveAs", "class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b", null ],

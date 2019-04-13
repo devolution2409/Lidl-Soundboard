@@ -10,6 +10,6 @@ var class_wrapper_properties =
     [ "SetItemMainVolume", "class_wrapper_properties.html#aa550969821868e9e576fc0f7cc1b42b3", null ],
     [ "SetItemVACVolume", "class_wrapper_properties.html#a451858ee4324fed752e023779fddbf97", null ],
     [ "SetKeySequence", "class_wrapper_properties.html#a56f56941ef6a4fd9d1f984ac0934fe10", null ],
-    [ "signalAddDone", "class_wrapper_properties.html#a926d64924dd768fa9e3ee82c5a8ae943", null ],
-    [ "signalEditDone", "class_wrapper_properties.html#a230ecd556b6d073ff1bf958e0617f74f", null ]
+    [ "signalAddDone", "class_wrapper_properties.html#a900c8d394f46d6ddc9be66b2d0288a91", null ],
+    [ "signalEditDone", "class_wrapper_properties.html#a812835dc78dff2a982b985fd7b460ad1", null ]
 ];

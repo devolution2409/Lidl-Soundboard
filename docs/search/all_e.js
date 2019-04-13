@@ -8,5 +8,9 @@ var searchData=
   ['presetwizard',['PresetWizard',['../class_preset_wizard.html',1,'']]],
   ['presetwizardintropage',['PresetWizardIntroPage',['../class_preset_wizard_intro_page.html',1,'']]],
   ['profile',['Profile',['../class_profile.html',1,'']]],
-  ['profileedit',['ProfileEdit',['../class_profile_edit.html',1,'']]]
+  ['profile_2eh',['Profile.h',['../_profile_8h.html',1,'']]],
+  ['profilecontroller',['ProfileController',['../class_l_i_d_l_1_1_controller_1_1_profile_controller.html',1,'LIDL::Controller']]],
+  ['profilecontroller_2eh',['ProfileController.h',['../_profile_controller_8h.html',1,'']]],
+  ['profileedit',['ProfileEdit',['../class_profile_edit.html',1,'']]],
+  ['profileswitched',['ProfileSwitched',['../class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be',1,'SoundboardMainUI']]]
 ];

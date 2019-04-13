@@ -90,6 +90,7 @@ $(document).ready(function(){initNavTree('class_game_selector.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-slots">Public Slots</a> &#124;
+<a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_game_selector-members.html">List of all members</a>  </div>
@@ -101,20 +102,34 @@ $(document).ready(function(){initNavTree('class_game_selector.html','');});
 Inheritance diagram for GameSelector:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_game_selector__inherit__graph.png" border="0" usemap="#_game_selector_inherit__map" alt="Inheritance graph"/></div>
-<!-- MAP 0 -->
+<map name="_game_selector_inherit__map" id="_game_selector_inherit__map">
+<area shape="rect"  title=" " alt="" coords="5,80,111,107"/>
+<area shape="rect"  title=" " alt="" coords="21,5,95,32"/>
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for GameSelector:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_game_selector__coll__graph.png" border="0" usemap="#_game_selector_coll__map" alt="Collaboration graph"/></div>
-<!-- MAP 1 -->
+<map name="_game_selector_coll__map" id="_game_selector_coll__map">
+<area shape="rect"  title=" " alt="" coords="25,171,131,197"/>
+<area shape="rect"  title=" " alt="" coords="5,81,79,108"/>
+<area shape="rect"  href="class_profile_edit.html" title=" " alt="" coords="103,81,184,108"/>
+<area shape="rect"  title=" " alt="" coords="109,5,177,32"/>
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Public Slots</h2></td></tr>
-<tr class="memitem:a21641a84899124b6d56c0e5d224cc139"><td class="memItemLeft" align="right" valign="top"><a id="a21641a84899124b6d56c0e5d224cc139"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>RefreshProfiles</b> ()</td></tr>
+<tr class="memitem:a21641a84899124b6d56c0e5d224cc139"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">RefreshProfiles</a> ()</td></tr>
+<tr class="memdesc:a21641a84899124b6d56c0e5d224cc139"><td class="mdescLeft">&#160;</td><td class="mdescRight">RefreshProfiles.  <a href="#a21641a84899124b6d56c0e5d224cc139">More...</a><br /></td></tr>
 <tr class="separator:a21641a84899124b6d56c0e5d224cc139"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
+Signals</h2></td></tr>
+<tr class="memitem:aa70e45a5c6515cba81a387ab433f02c7"><td class="memItemLeft" align="right" valign="top"><a id="aa70e45a5c6515cba81a387ab433f02c7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>RefreshWrappers</b> (QVector&lt; std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt;&gt;)</td></tr>
+<tr class="separator:aa70e45a5c6515cba81a387ab433f02c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,6 +146,46 @@ Ui::GameSelector *&#160;</td><td class="memItemRight" valign="bottom"><b>_gameSe
 <a class="el" href="class_profile_edit.html">ProfileEdit</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_profileEdit</b></td></tr>
 <tr class="separator:a4abbc71f2fbd451f086d3ced718926fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a21641a84899124b6d56c0e5d224cc139"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21641a84899124b6d56c0e5d224cc139">&#9670;&nbsp;</a></span>RefreshProfiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GameSelector::RefreshProfiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>RefreshProfiles. </p>
+<p>Will refresh the combo box and fill it with the available profiles. Will also re-load the active profile. However it will prevent the combobox from emitting event to avoid infinite recursion. It will MANUALLY call the function to AddSounds in the UI. See <a class="el" href="_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile.">ProfileController.h</a> for more details </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_game_selector_a21641a84899124b6d56c0e5d224cc139_cgraph.png" border="0" usemap="#class_game_selector_a21641a84899124b6d56c0e5d224cc139_cgraph" alt=""/></div>
+<map name="class_game_selector_a21641a84899124b6d56c0e5d224cc139_cgraph" id="class_game_selector_a21641a84899124b6d56c0e5d224cc139_cgraph">
+<area shape="rect"  title="RefreshProfiles." alt="" coords="5,71,205,98"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595" title="GetActiveProfile." alt="" coords="253,5,431,47"/>
+<area shape="rect"  href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="281,71,403,98"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a9aed7c3c626becffdf0241c7875587ff" title="GetProfiles." alt="" coords="265,123,419,164"/>
+</map>
+</div>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>D:/Qt/Projects/Lidl_Soundboard/include/<a class="el" href="_game_selector_8h_source.html">GameSelector.h</a></li>
 <li>D:/Qt/Projects/Lidl_Soundboard/GameSelector.cpp</li>

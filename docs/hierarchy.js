@@ -45,6 +45,7 @@ var hierarchy =
     ] ],
     [ "QObject", null, [
       [ "CustomPlayer", "class_custom_player.html", null ],
+      [ "LIDL::Controller::ProfileController", "class_l_i_d_l_1_1_controller_1_1_profile_controller.html", null ],
       [ "LIDL::Controller::SettingsController", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html", null ],
       [ "LIDL::PresetController", "class_l_i_d_l_1_1_preset_controller.html", null ],
       [ "LoadingWidgetWorker", "class_loading_widget_worker.html", null ],
@@ -89,6 +90,7 @@ var hierarchy =
     [ "QWizardPage", null, [
       [ "PresetWizardIntroPage", "class_preset_wizard_intro_page.html", null ]
     ] ],
+    [ "LIDL::Controller::SaveController", "class_l_i_d_l_1_1_controller_1_1_save_controller.html", null ],
     [ "LIDL::SFX", "struct_l_i_d_l_1_1_s_f_x.html", null ],
     [ "TAG_APE_BINARY", "struct_t_a_g___a_p_e___b_i_n_a_r_y.html", null ],
     [ "TAG_BEXT", "struct_t_a_g___b_e_x_t.html", null ],
