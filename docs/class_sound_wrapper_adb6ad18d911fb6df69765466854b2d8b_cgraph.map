@@ -1,0 +1,4 @@
+<map id="SoundWrapper::setPlayerVACOutput" name="SoundWrapper::setPlayerVACOutput">
+<area shape="rect" id="node1" title="Set the index of the VAC output device." alt="" coords="5,5,243,32"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#af121c5c21d552b3eb39a0c7ac2cf4b9f" title="SetVACDevice Sets the VAC output device of the player." alt="" coords="291,5,488,32"/>
+</map>

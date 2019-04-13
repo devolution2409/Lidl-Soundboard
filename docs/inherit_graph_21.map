@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,188,76,215"/>
+<area shape="rect" id="node2" href="$class_custom_player.html" title="The CustomPlayer class, inherits QObject to access signals and slots.*." alt="" coords="155,5,259,32"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html" title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="130,57,285,98"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html" title=" " alt="" coords="124,122,291,163"/>
+<area shape="rect" id="node5" href="$class_l_i_d_l_1_1_preset_controller.html" title="The PresetController singleton." alt="" coords="133,188,282,215"/>
+<area shape="rect" id="node6" href="$class_loading_widget_worker.html" title=" " alt="" coords="132,239,283,265"/>
+<area shape="rect" id="node7" href="$class_mouse_button_signaler.html" title=" " alt="" coords="134,289,281,316"/>
+<area shape="rect" id="node8" href="$class_sound_wrapper.html" title="Inherits QObject." alt="" coords="153,340,261,367"/>
+</map>

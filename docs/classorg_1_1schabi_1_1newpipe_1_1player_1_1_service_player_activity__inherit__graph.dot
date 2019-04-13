@@ -1,0 +1,22 @@
+digraph "org.schabi.newpipe.player.ServicePlayerActivity"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="org.schabi.newpipe.player.\lServicePlayerActivity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="AppCompatActivity",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node2 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="org.schabi.newpipe.player.event.\lPlayerEventListener",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1player_1_1event_1_1_player_event_listener.html",tooltip=" "];
+  Node3 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="OnSeekBarChangeListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node4 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="OnClickListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="org.schabi.newpipe.player.helper.\lPlaybackParameterDialog.Callback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1player_1_1helper_1_1_playback_parameter_dialog_1_1_callback.html",tooltip=" "];
+  Node0 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="org.schabi.newpipe.player.\lBackgroundPlayerActivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1_background_player_activity.html",tooltip=" "];
+  Node0 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="org.schabi.newpipe.player.\lPopupVideoPlayerActivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1_popup_video_player_activity.html",tooltip=" "];
+}

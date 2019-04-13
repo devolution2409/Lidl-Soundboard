@@ -1,0 +1,4 @@
+<map id="SliderSpin::setValue" name="SliderSpin::setValue">
+<area shape="rect" id="node1" title="setValue Sets the current value of both the QSlider and the QSpinBox." alt="" coords="5,5,145,32"/>
+<area shape="rect" id="node2" href="$class_slider_spin.html#a000f369b595c5ff2033fbf2ab34f1926" title="value" alt="" coords="193,5,312,32"/>
+</map>

@@ -1,4 +1,30 @@
 var searchData=
 [
-  ['nowplaying',['NowPlaying',['../class_custom_player.html#a67bc3a677766d0619b09fb63d7ec2f92',1,'CustomPlayer::NowPlaying()'],['../class_sound_wrapper.html#a5a86da80d48b168427c5e5e02b5b0e73',1,'SoundWrapper::NowPlaying()']]]
+  ['main',['main',['../main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main.cpp']]],
+  ['main_2ecpp',['main.cpp',['../main_8cpp.html',1,'']]],
+  ['mainlayout',['mainLayout',['../class_spoiler.html#acac6de7cf0c56d7d6be603c2c5273825',1,'Spoiler']]],
+  ['makelong',['MAKELONG',['../bass_8h.html#ad8e168700a46fc5ba64bd12e8df30bbf',1,'bass.h']]],
+  ['makeword',['MAKEWORD',['../bass_8h.html#a6b98c16b8e3e7733dd4063d0b0fac24c',1,'bass.h']]],
+  ['manualgameconfigurationchanged',['ManualGameConfigurationChanged',['../class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f',1,'LIDL::Controller::ProfileController']]],
+  ['max',['max',['../struct_b_a_s_s___s_a_m_p_l_e.html#a42ecc61ca6008579bc2fcb4fb1bc19fe',1,'BASS_SAMPLE']]],
+  ['maxdist',['maxdist',['../struct_b_a_s_s___s_a_m_p_l_e.html#a3e3c1c0fc99110afd6b7cebbcab1ad35',1,'BASS_SAMPLE']]],
+  ['maxrate',['maxrate',['../struct_b_a_s_s___i_n_f_o.html#a770602ac32b59b0b563da64276e8110e',1,'BASS_INFO']]],
+  ['mime',['mime',['../struct_t_a_g___f_l_a_c___p_i_c_t_u_r_e.html#a5423bc2ef3e8fd3774e72c534e1619cf',1,'TAG_FLAC_PICTURE']]],
+  ['minbuf',['minbuf',['../struct_b_a_s_s___i_n_f_o.html#a855c6df53310491802f018736e81dac4',1,'BASS_INFO']]],
+  ['mindist',['mindist',['../struct_b_a_s_s___s_a_m_p_l_e.html#aae9039af2e1e14189bc6df67c89077de',1,'BASS_SAMPLE']]],
+  ['mingap',['mingap',['../struct_b_a_s_s___s_a_m_p_l_e.html#a17646b031533f3ecb07ee5318b484f44',1,'BASS_SAMPLE']]],
+  ['minrate',['minrate',['../struct_b_a_s_s___i_n_f_o.html#ae98cb552509ca0cf8a6f034544ad9523',1,'BASS_INFO']]],
+  ['mirror',['MIRROR',['../namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aa95e2f8d897352c9d1c5d4df6b7feb824',1,'LIDL']]],
+  ['mod_5falt',['MOD_ALT',['../soundboard_main_u_i_8h.html#a6b2d0dbee4745049e0df5982809bd8f9',1,'soundboardMainUI.h']]],
+  ['mod_5fcontrol',['MOD_CONTROL',['../soundboard_main_u_i_8h.html#ab2812cd7de68c54439a75558e476815e',1,'soundboardMainUI.h']]],
+  ['mod_5fnorepeat',['MOD_NOREPEAT',['../soundboard_main_u_i_8h.html#a6775c884b6c43a5d61cbcbbb526c3f99',1,'soundboardMainUI.h']]],
+  ['mode3d',['mode3d',['../struct_b_a_s_s___s_a_m_p_l_e.html#a20fcedf825bd2d62cff1a39dd4a79d4f',1,'BASS_SAMPLE']]],
+  ['mousebuttonevent',['mouseButtonEvent',['../class_mouse_button_signaler.html#ab4e86265da1fccb26415429b3c0514db',1,'MouseButtonSignaler']]],
+  ['mousebuttonsignaler',['MouseButtonSignaler',['../class_mouse_button_signaler.html',1,'MouseButtonSignaler'],['../class_mouse_button_signaler.html#a03b2616fe8eeba6bae0bc7982d0ce24f',1,'MouseButtonSignaler::MouseButtonSignaler()']]],
+  ['mousedoubleclickevent',['mouseDoubleClickEvent',['../class_window_dragger.html#a7bc72617b76f6ca8e0d0fa61fa99487f',1,'WindowDragger']]],
+  ['mousemoveevent',['mouseMoveEvent',['../class_window_dragger.html#ad45fedcd73873776ba0ff27a87a1d929',1,'WindowDragger']]],
+  ['mousepos',['mousePos',['../class_window_dragger.html#a4cc635053d7a0b8188e7a3ef0381612c',1,'WindowDragger']]],
+  ['mousepressed',['mousePressed',['../class_window_dragger.html#a73f9b599f8bbfafae7009f1e204c8add',1,'WindowDragger']]],
+  ['mousepressevent',['mousePressEvent',['../class_window_dragger.html#a35201311f239f59ee5e82fda981292b9',1,'WindowDragger']]],
+  ['mousereleaseevent',['mouseReleaseEvent',['../class_window_dragger.html#ac575a9ac01fa0596cc460c14bbce795a',1,'WindowDragger']]]
 ];

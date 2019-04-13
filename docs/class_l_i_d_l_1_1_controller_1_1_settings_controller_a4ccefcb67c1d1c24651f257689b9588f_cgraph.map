@@ -1,0 +1,9 @@
+<map id="LIDL::Controller::SettingsController::ShowSettingsWindow" name="LIDL::Controller::SettingsController::ShowSettingsWindow">
+<area shape="rect" id="node1" title=" " alt="" coords="5,169,216,211"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a8ef687216c265baee312ae8a9924817f" title="buttonBrowseLidl Slot connected to a file browser button TODO: refactor as a lambda" alt="" coords="281,5,465,47"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ab1af3ea2a82e4ed0abd0815e65620584" title="buttonBrowseSound Slot connected to a file browser button TODO: refactor as a lambda" alt="" coords="272,71,473,112"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4ce38a7f6df73ccf1655c699eb8ed743" title="SetDefaultMainVolume Sets the default main volume inside the controller, to be used when creating wra..." alt="" coords="264,136,481,177"/>
+<area shape="rect" id="node5" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a619153924ce7f1a95b0516521beb72c3" title="SetDefaultVacVolume Sets the default VAC volume inside the controller, to be used when creating wrapp..." alt="" coords="267,201,479,243"/>
+<area shape="rect" id="node6" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a7e7af0319e1916bce05a7341dce40998" title=" " alt="" coords="272,267,473,308"/>
+<area shape="rect" id="node7" href="$bass_8h.html#a723aadbc1884a3bad613aa6680634d08" title=" " alt="" coords="351,333,395,359"/>
+</map>

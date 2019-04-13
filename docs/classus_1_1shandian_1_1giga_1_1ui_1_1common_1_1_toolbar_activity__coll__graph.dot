@@ -1,0 +1,11 @@
+digraph "us.shandian.giga.ui.common.ToolbarActivity"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node2 [label="us.shandian.giga.ui.common.\lToolbarActivity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="AppCompatActivity",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mToolbar" ,fontname="Helvetica"];
+  Node4 [label="Toolbar",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

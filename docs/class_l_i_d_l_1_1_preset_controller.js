@@ -1,5 +1,6 @@
 var class_l_i_d_l_1_1_preset_controller =
 [
+    [ "PresetController", "class_l_i_d_l_1_1_preset_controller.html#ab0c4de0908578b7067e4cc8af28dac3f", null ],
     [ "AddPreset", "class_l_i_d_l_1_1_preset_controller.html#ade6fc8faf1fb73df5d2ed2045a1ff705", null ],
     [ "AddPreset", "class_l_i_d_l_1_1_preset_controller.html#ac7052e2c72da7b3266accacb727637da", null ],
     [ "AddPreset", "class_l_i_d_l_1_1_preset_controller.html#a55b98a24a193f66c24af608e6c55f135", null ],
@@ -8,11 +9,19 @@ var class_l_i_d_l_1_1_preset_controller =
     [ "AddPreset", "class_l_i_d_l_1_1_preset_controller.html#abad45f29c513c70ee50f6dbeb847d9b1", null ],
     [ "GetExistingPresetsList", "class_l_i_d_l_1_1_preset_controller.html#a63407dad213cd7dfe23d3ef2f4b6ad2c", null ],
     [ "GetExistingSFXList", "class_l_i_d_l_1_1_preset_controller.html#a06c3c691675cc4510e612a8223bf2797", null ],
+    [ "GetInstance", "class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d", null ],
     [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aeb7ef2d554f317932e39498d0d10cb7a", null ],
     [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ],
     [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ],
     [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ],
     [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ],
     [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ],
-    [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ]
+    [ "GetPreset", "class_l_i_d_l_1_1_preset_controller.html#aa06e1f515862c4d02b71df44723d3e3a", null ],
+    [ "_chorusPreset", "class_l_i_d_l_1_1_preset_controller.html#a7b76b7ac5032b1b7031358c8517c333d", null ],
+    [ "_compressorPreset", "class_l_i_d_l_1_1_preset_controller.html#aadf7180ba2133ea500fb2e61b69c84ee", null ],
+    [ "_distortionPreset", "class_l_i_d_l_1_1_preset_controller.html#a5097520f79d4af7cc68c9547db922eae", null ],
+    [ "_echoPreset", "class_l_i_d_l_1_1_preset_controller.html#aa9485cb35be6e9961abed926743cc896", null ],
+    [ "_flangerPreset", "class_l_i_d_l_1_1_preset_controller.html#a7d519ad61a0b46e1be82626778c8ae00", null ],
+    [ "_garglePreset", "class_l_i_d_l_1_1_preset_controller.html#a499504132cd97717b36dee7c85719540", null ],
+    [ "self", "class_l_i_d_l_1_1_preset_controller.html#aefcc62dc044cd43f89330f1ec826a57d", null ]
 ];

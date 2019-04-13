@@ -1,0 +1,14 @@
+<map id="GameSelector::GameSelector" name="GameSelector::GameSelector">
+<area shape="rect" id="node1" title=" " alt="" coords="5,199,201,225"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="546,158,701,199"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f" title="AutoGameConfigurationChange." alt="" coords="249,67,487,123"/>
+<area shape="rect" id="node8" href="$class_game_selector.html#a21641a84899124b6d56c0e5d224cc139" title="RefreshProfiles." alt="" coords="268,227,468,253"/>
+<area shape="rect" id="node12" href="$bass_8h.html#a723aadbc1884a3bad613aa6680634d08" title=" " alt="" coords="346,277,390,304"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="760,158,936,199"/>
+<area shape="rect" id="node5" href="$class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="561,5,686,32"/>
+<area shape="rect" id="node6" href="$class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="558,56,689,83"/>
+<area shape="rect" id="node7" href="$class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="553,107,693,133"/>
+<area shape="rect" id="node9" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595" title="GetActiveProfile." alt="" coords="535,289,712,330"/>
+<area shape="rect" id="node10" href="$class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="563,355,684,381"/>
+<area shape="rect" id="node11" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a9aed7c3c626becffdf0241c7875587ff" title="GetProfiles." alt="" coords="546,223,701,265"/>
+</map>

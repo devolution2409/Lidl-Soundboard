@@ -1,0 +1,13 @@
+digraph "org.schabi.newpipe.BaseFragment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node14 [label="org.schabi.newpipe.BaseFragment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node15 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Fragment",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node16 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" activity" ,fontname="Helvetica"];
+  Node16 [label="AppCompatActivity",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node17 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" imageLoader" ,fontname="Helvetica"];
+  Node17 [label="ImageLoader",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

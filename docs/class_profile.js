@@ -2,6 +2,7 @@ var class_profile =
 [
     [ "Builder", "class_profile_1_1_builder.html", "class_profile_1_1_builder" ],
     [ "~Profile", "class_profile.html#a58fa758a59bc4ee3c1a9980e360e4e98", null ],
+    [ "Profile", "class_profile.html#a20e71d6a873545c682723c51d6def559", null ],
     [ "AddGame", "class_profile.html#a2297fdd43d5c507340db0bf739a579a5", null ],
     [ "AddSound", "class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec", null ],
     [ "ClearSounds", "class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22", null ],
@@ -20,5 +21,12 @@ var class_profile =
     [ "SetPttKeySequence", "class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6", null ],
     [ "SetPttScanCode", "class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1", null ],
     [ "SetPttVirtualKey", "class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5", null ],
-    [ "SwapSound", "class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2", null ]
+    [ "SwapSound", "class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2", null ],
+    [ "_exeList", "class_profile.html#a52caddc60760dbb870957f563b0b0379", null ],
+    [ "_name", "class_profile.html#aa8ea7a58d1b9a01c03fa2f7d025872aa", null ],
+    [ "_parent", "class_profile.html#ae1addaaf5d07952b5dac8bf5885ea2bb", null ],
+    [ "_PTTKeySequence", "class_profile.html#afda1d0f2dea6d70b1e5694eef075d9fd", null ],
+    [ "_PTTScanCode", "class_profile.html#a7c340d00ff8ac60b18c9c9ce4f4397f9", null ],
+    [ "_PTTVirtualKey", "class_profile.html#acc96e9200afc9c9529ce8800197deb90", null ],
+    [ "_sounds", "class_profile.html#acfcde15746c70e868295ce95500848d6", null ]
 ];

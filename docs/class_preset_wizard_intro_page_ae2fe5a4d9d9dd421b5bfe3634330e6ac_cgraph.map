@@ -1,0 +1,17 @@
+<map id="PresetWizardIntroPage::PresetWizardIntroPage" name="PresetWizardIntroPage::PresetWizardIntroPage">
+<area shape="rect" id="node1" title=" " alt="" coords="5,312,169,353"/>
+<area shape="rect" id="node2" href="$class_preset_wizard_intro_page.html#a3c0474fd54295d5f0ceb73d986e560fb" title=" " alt="" coords="225,136,381,177"/>
+<area shape="rect" id="node6" href="$class_spoiler.html#a5c074b88b61d87efb49b63cd9b2b4ab8" title=" " alt="" coords="436,202,608,229"/>
+<area shape="rect" id="node7" href="$class_preset_wizard_intro_page.html#a43888e16d7a01b0013f2292487825230" title=" " alt="" coords="225,253,381,295"/>
+<area shape="rect" id="node9" href="$class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d" title="GetInstance, returns the instance of the controller, creating one if it doesn&#39;t exist." alt="" coords="656,341,805,383"/>
+<area shape="rect" id="node11" href="$class_preset_wizard_intro_page.html#ad346571f94efc1c735989a348f73f9fd" title=" " alt="" coords="217,488,388,529"/>
+<area shape="rect" id="node14" href="$class_preset_wizard_intro_page.html#ab1abee0df4b9f551f305a1d45a5bdd7e" title=" " alt="" coords="225,421,381,463"/>
+<area shape="rect" id="node15" href="$class_preset_wizard_intro_page.html#a51f57903d532a3f9e53d65391e7bdee4" title=" " alt="" coords="444,371,600,412"/>
+<area shape="rect" id="node3" href="$class_sfx_settings_widget.html#a84a8a5eb9b62d4428a6727d56bab96f4" title="addSlider" alt="" coords="453,71,591,112"/>
+<area shape="rect" id="node4" href="$class_sfx_settings_widget.html#adb22b8c5ad033d11f9fbc2d169eb346e" title="addComboBox Add a combo box to the widget." alt="" coords="453,136,591,177"/>
+<area shape="rect" id="node5" href="$class_sfx_settings_widget.html#a308699222a209e16875c9cb9d884a570" title="addSpacer Add a spacer to the layout so that every one have the same line height." alt="" coords="453,5,591,47"/>
+<area shape="rect" id="node8" href="$class_sfx_settings_widget.html#a6583a6288bb13d2f95b868810a7f5c5d" title="getSFXAsStructure Returns the SFX structure associated with the widget" alt="" coords="453,253,591,295"/>
+<area shape="rect" id="node10" href="$class_l_i_d_l_1_1_preset_controller.html#ab0c4de0908578b7067e4cc8af28dac3f" title="PresetController default constructor." alt="" coords="853,341,1003,383"/>
+<area shape="rect" id="node12" href="$class_spoiler.html#a459a7887a52499ded0454ab6b1fab4f2" title=" " alt="" coords="680,437,781,463"/>
+<area shape="rect" id="node13" href="$class_sfx_settings_widget.html#a249f7483c39808006a9f7688123530f1" title="setValueOfEnumParam Will set the value of a widget item settings." alt="" coords="443,488,601,529"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="SoundWrapper::Stop" name="SoundWrapper::Stop">
+<area shape="rect" id="node1" title="Tell the player to stop playing the sound." alt="" coords="5,31,148,57"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#a43c73c291d287250726d621c209b0c67" title="Stop all the channels of this player." alt="" coords="196,31,335,57"/>
+<area shape="rect" id="node3" href="$bass_8h.html#af1001a02e1f8fe71f0b8cb3d4bf07264" title=" " alt="" coords="417,5,555,32"/>
+<area shape="rect" id="node4" href="$class_custom_player.html#a97a71f8be685156d289bb3c976ce3a61" title="resetShouldPlay will reset the _shouldPlay boolean to true;" alt="" coords="383,56,589,83"/>
+</map>

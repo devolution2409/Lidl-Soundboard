@@ -1,0 +1,6 @@
+<map id="LIDL::Controller::ProfileController::ManualGameConfigurationChanged" name="LIDL::Controller::ProfileController::ManualGameConfigurationChanged">
+<area shape="rect" id="node1" title="AutoGameConfigurationChange." alt="" coords="5,41,243,97"/>
+<area shape="rect" id="node2" href="$class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="291,5,431,32"/>
+<area shape="rect" id="node3" href="$class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="298,56,423,83"/>
+<area shape="rect" id="node4" href="$class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="295,107,426,133"/>
+</map>

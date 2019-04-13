@@ -1,0 +1,12 @@
+digraph "org.schabi.newpipe.about.LicenseFragmentHelper.getLicenseStylesheet"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node5 [label="org.schabi.newpipe.about.\lLicenseFragmentHelper.getLicense\lStylesheet",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="org.schabi.newpipe.util.\lThemeHelper.isLightThemeSelected",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1util_1_1_theme_helper.html#aac506ebb937a1f01bc846893d08fde50",tooltip=" "];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="org.schabi.newpipe.about.\lLicenseFragmentHelper.getHexRGBColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1about_1_1_license_fragment_helper.html#a7ee14b250d0dc303faa7404eecdc8de4",tooltip=" "];
+}

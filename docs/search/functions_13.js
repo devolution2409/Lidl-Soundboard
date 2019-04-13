@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['vacdevicechanged',['VACDeviceChanged',['../class_sound_wrapper.html#a94414d148c589737d56ef41b86fca3f6',1,'SoundWrapper']]],
-  ['value',['value',['../class_slider_spin.html#a000f369b595c5ff2033fbf2ab34f1926',1,'SliderSpin']]],
-  ['valuechanged',['valueChanged',['../class_slider_spin.html#ab2131354cb2778d41696d9518835b1dd',1,'SliderSpin']]],
-  ['virtualkeychanged',['virtualKeyChanged',['../class_custom_shortcut_edit.html#a7d7e1f773a508ad17e2281acf5a57e6d',1,'CustomShortcutEdit']]]
+  ['unexistantfile',['UnexistantFile',['../class_sound_wrapper.html#ae16f415bbdf8350936527e5ff237b849',1,'SoundWrapper']]],
+  ['unholdptt',['unHoldPTT',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216',1,'LIDL::Controller::SettingsController']]],
+  ['unsethooks',['UnSetHooks',['../class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a4a77cc144d711bfbabcd2a3479c493c0',1,'LIDL::Controller::HookController']]]
 ];

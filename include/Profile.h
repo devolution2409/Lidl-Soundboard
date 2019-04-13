@@ -37,10 +37,10 @@ class SoundWrapper;
  * List of sounds as a QVector<shared_ptr<SoundWrapper>>
  * The owner ship of those element is shared between the profile and the main ui.
  * So reference count should be like this:
- * 1 for the UI (IF profile is currently active)
- * 1 for the profile
+ * + 1 for the UI (IF profile is currently active)
+ * + 1 for the profile
  * + 1 for which ever profile mirrors it
- *  + temporary ones for editing widgets (like editing profiles etc)
+ * + temporary ones for editing widgets (like editing profiles etc)
  * To see the ref count while in a "still" mode, just play a sound.
  * It will display ref count in qDebug() output.
  */

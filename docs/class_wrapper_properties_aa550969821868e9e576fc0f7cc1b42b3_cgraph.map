@@ -1,0 +1,4 @@
+<map id="WrapperProperties::SetItemMainVolume" name="WrapperProperties::SetItemMainVolume">
+<area shape="rect" id="node1" title="SetItemMainVolume Sets a sound item main volume." alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node2" href="$class_custom_list_widget_item.html#a9705127eb4c5a1fd7eb1bc62837af408" title="setMainVolume Used to change the main output volume with the sliders once a CustomListWidgetItem has ..." alt="" coords="192,5,347,47"/>
+</map>

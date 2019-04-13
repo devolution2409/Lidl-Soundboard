@@ -1,0 +1,14 @@
+digraph "org.schabi.newpipe.player.event.PlayerEventListener"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="org.schabi.newpipe.player.event.\lPlayerEventListener",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="org.schabi.newpipe.player.\lServicePlayerActivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1_service_player_activity.html",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="org.schabi.newpipe.player.\lBackgroundPlayerActivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1_background_player_activity.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="org.schabi.newpipe.player.\lPopupVideoPlayerActivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1_popup_video_player_activity.html",tooltip=" "];
+}

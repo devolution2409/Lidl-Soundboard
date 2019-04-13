@@ -15,5 +15,13 @@ var class_sfx_settings_widget =
     [ "setSliderValue", "class_sfx_settings_widget.html#a0fd1948295514aed89e2c46240043c5b", null ],
     [ "setValueOfEnumParam", "class_sfx_settings_widget.html#a249f7483c39808006a9f7688123530f1", null ],
     [ "sizeHint", "class_sfx_settings_widget.html#ac2823c4243b54f7c9153755e2a830897", null ],
-    [ "sliderValueChanged", "class_sfx_settings_widget.html#accfa4461f0fba434b8d2dbe87f9970fe", null ]
+    [ "sliderValueChanged", "class_sfx_settings_widget.html#accfa4461f0fba434b8d2dbe87f9970fe", null ],
+    [ "_checkbox", "class_sfx_settings_widget.html#aaa3d26dec82a555ac1f95a1db0296a31", null ],
+    [ "_comboBox", "class_sfx_settings_widget.html#aa0213a91b02827f973a8aa10bddb1016", null ],
+    [ "_container", "class_sfx_settings_widget.html#a5227e558801d5ab58ff3f84f3afa20b2", null ],
+    [ "_layout", "class_sfx_settings_widget.html#a320e21671a912e3585a94ce0fbe78f54", null ],
+    [ "_presetBox", "class_sfx_settings_widget.html#a6e472ec0dfd5a5cc4f391f8825ede5e8", null ],
+    [ "_sliders", "class_sfx_settings_widget.html#ab923f585cc48c461bcd6f216dc90c88a", null ],
+    [ "_specialMap", "class_sfx_settings_widget.html#ae197da4eee90b33a7c3104ed7062c1b8", null ],
+    [ "_type", "class_sfx_settings_widget.html#af6204a5fd9571b51671e65bcab2eca1a", null ]
 ];

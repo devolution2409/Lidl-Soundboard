@@ -1,0 +1,17 @@
+<map id="CustomPlayer::CustomPlayer" name="CustomPlayer::CustomPlayer">
+<area shape="rect" id="node1" title="CustomPlayer Default contructor, used by the default constructor of SoundWrapper." alt="" coords="5,284,200,311"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#a497e85ac7db0a32dccfa33c3a9f3cf09" title="PlayNext PlayNext function is called whenever the shortcut, or play button, is pressed." alt="" coords="269,259,434,285"/>
+<area shape="rect" id="node15" href="$class_custom_player.html#a97a71f8be685156d289bb3c976ce3a61" title="resetShouldPlay will reset the _shouldPlay boolean to true;" alt="" coords="248,309,455,336"/>
+<area shape="rect" id="node3" href="$class_custom_player.html#a1391841708ca081f2620d468e8f71999" title="PlayAt Will play the song at the specified index." alt="" coords="503,259,653,285"/>
+<area shape="rect" id="node4" href="$bass_8h.html#a5287ba3829832c92cbbe9a291183ff7b" title=" " alt="" coords="762,5,845,32"/>
+<area shape="rect" id="node5" href="$bass_8h.html#ae0d41bf270827480d3ed8b8a1d1c7c98" title=" " alt="" coords="718,56,889,83"/>
+<area shape="rect" id="node6" href="$bass_8h.html#a6c7bd7b74f6081dedfc21c78fb458e84" title=" " alt="" coords="720,107,887,133"/>
+<area shape="rect" id="node7" href="$bass_8h.html#a5dc1df1608a8a4d7a1b294d5a7968274" title=" " alt="" coords="718,157,889,184"/>
+<area shape="rect" id="node8" href="$bass_8h.html#a9cb2de35aba5b5872b34f28fcf2fdf35" title=" " alt="" coords="713,208,894,235"/>
+<area shape="rect" id="node9" href="$bass_8h.html#af89f15a8e434cb5d237f07d85d6f50ff" title=" " alt="" coords="730,259,877,285"/>
+<area shape="rect" id="node10" href="$bass_8h.html#a3ab136937a1ddb509673122bd07fa348" title=" " alt="" coords="720,309,887,336"/>
+<area shape="rect" id="node11" href="$bass_8h.html#ab237eebf8db255957ab7e844d0eb0e29" title=" " alt="" coords="701,360,905,387"/>
+<area shape="rect" id="node12" href="$bass_8h.html#a05f1bce60746babc6681b66d2a352493" title=" " alt="" coords="717,411,889,437"/>
+<area shape="rect" id="node13" href="$bass_8h.html#ad4e46322f9cb05759d210bb5dd76df07" title=" " alt="" coords="734,461,873,488"/>
+<area shape="rect" id="node14" href="$bass_8h.html#af880373b7d24c5a09a1c7fac264db249" title=" " alt="" coords="725,512,882,539"/>
+</map>

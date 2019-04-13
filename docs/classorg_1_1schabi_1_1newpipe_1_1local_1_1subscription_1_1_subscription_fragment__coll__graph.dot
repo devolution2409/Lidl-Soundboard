@@ -1,0 +1,34 @@
+digraph "org.schabi.newpipe.local.subscription.SubscriptionFragment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node6 [label="org.schabi.newpipe.local.subscription.\lSubscriptionFragment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="org::schabi::newpipe\l::fragments::BaseStateFragment\l\< List\< SubscriptionEntity \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1fragments_1_1_base_state_fragment.html",tooltip=" "];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="org.schabi.newpipe.BaseFragment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1_base_fragment.html",tooltip=" "];
+  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Fragment",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" activity" ,fontname="Helvetica"];
+  Node10 [label="AppCompatActivity",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node11 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" imageLoader" ,fontname="Helvetica"];
+  Node11 [label="ImageLoader",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="org::schabi::newpipe\l::fragments::ViewContract\< I \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1fragments_1_1_view_contract.html",tooltip=" "];
+  Node13 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorButtonRetry" ,fontname="Helvetica"];
+  Node13 [label="Button",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node14 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" loadingProgressBar" ,fontname="Helvetica"];
+  Node14 [label="ProgressBar",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node15 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorPanelRoot\nemptyStateView" ,fontname="Helvetica"];
+  Node15 [label="View",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node16 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorTextView" ,fontname="Helvetica"];
+  Node16 [label="TextView",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node17 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" isLoading\nwasLoading" ,fontname="Helvetica"];
+  Node17 [label="AtomicBoolean",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="SharedPreferences::\lOnSharedPreferenceChangeListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node19 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" importExportOptionsState\nitemsListState" ,fontname="Helvetica"];
+  Node19 [label="Parcelable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,13 @@
+<map id="LIDL::Callback::ShowOverlay" name="LIDL::Callback::ShowOverlay">
+<area shape="rect" id="node1" title="ShowOverlay." alt="" coords="5,111,195,138"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_overlay_controller.html#ac42a7b5e1b098c8cfd57d9921040301a" title=" " alt="" coords="267,5,422,47"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35" title="GetProfileForExe." alt="" coords="243,71,447,112"/>
+<area shape="rect" id="node8" href="$class_l_i_d_l_1_1_overlay_controller.html#a3ba20099a836e5f5b77766ac63161712" title="Resize the overlay to the topmost window. Should be called whenever topmost window changes,..." alt="" coords="267,136,422,177"/>
+<area shape="rect" id="node9" href="$class_l_i_d_l_1_1_overlay_controller.html#acd15c3b85bd66ce9644940aa824606cd" title="Show the smol overlay when topmost window (game) changes." alt="" coords="267,201,422,243"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_overlay_controller.html#a322d3f49563edc3573205dfe17b20359" title="OverlayController default constructor." alt="" coords="513,5,668,47"/>
+<area shape="rect" id="node5" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="513,71,668,112"/>
+<area shape="rect" id="node7" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#afae55bb07068f30e99c87f17b207bcd1" title="GetForExe." alt="" coords="499,136,683,177"/>
+<area shape="rect" id="node6" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="735,71,911,112"/>
+<area shape="rect" id="node10" href="$class_game_name_overlay.html#a395538ede5f27596757f41bb93a349ee" title=" " alt="" coords="495,205,687,231"/>
+<area shape="rect" id="node11" href="$class_game_name_overlay.html#abb8c3ea9206f5751fc0c976a1d9cc169" title=" " alt="" coords="497,255,684,282"/>
+</map>

@@ -1,0 +1,10 @@
+digraph "org.schabi.newpipe.util.StateSaver.tryToSave"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node4 [label="org.schabi.newpipe.util.\lStateSaver.tryToSave",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="org.schabi.newpipe.util.\lStateSaver.WriteRead.generate\lSuffix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1util_1_1_state_saver_1_1_write_read.html#a88d49174f87200031ec5b79373aaee25",tooltip=" "];
+}

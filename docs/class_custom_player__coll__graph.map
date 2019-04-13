@@ -1,0 +1,4 @@
+<map id="CustomPlayer" name="CustomPlayer">
+<area shape="rect" id="node1" title="The CustomPlayer class, inherits QObject to access signals and slots.*." alt="" coords="5,131,185,516"/>
+<area shape="rect" id="node2" title=" " alt="" coords="60,5,131,83"/>
+</map>

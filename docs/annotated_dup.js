@@ -1,17 +1,6 @@
 var annotated_dup =
 [
-    [ "LIDL", null, [
-      [ "Controller", null, [
-        [ "HookController", "class_l_i_d_l_1_1_controller_1_1_hook_controller.html", "class_l_i_d_l_1_1_controller_1_1_hook_controller" ],
-        [ "ProfileController", "class_l_i_d_l_1_1_controller_1_1_profile_controller.html", "class_l_i_d_l_1_1_controller_1_1_profile_controller" ],
-        [ "SaveController", "class_l_i_d_l_1_1_controller_1_1_save_controller.html", "class_l_i_d_l_1_1_controller_1_1_save_controller" ],
-        [ "SettingsController", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html", "class_l_i_d_l_1_1_controller_1_1_settings_controller" ]
-      ] ],
-      [ "OverlayController", "class_l_i_d_l_1_1_overlay_controller.html", "class_l_i_d_l_1_1_overlay_controller" ],
-      [ "PresetController", "class_l_i_d_l_1_1_preset_controller.html", "class_l_i_d_l_1_1_preset_controller" ],
-      [ "SFX", "struct_l_i_d_l_1_1_s_f_x.html", "struct_l_i_d_l_1_1_s_f_x" ],
-      [ "SoundFile", "class_l_i_d_l_1_1_sound_file.html", "class_l_i_d_l_1_1_sound_file" ]
-    ] ],
+    [ "LIDL", "namespace_l_i_d_l.html", "namespace_l_i_d_l" ],
     [ "BASS_3DVECTOR", "struct_b_a_s_s__3_d_v_e_c_t_o_r.html", "struct_b_a_s_s__3_d_v_e_c_t_o_r" ],
     [ "BASS_CHANNELINFO", "struct_b_a_s_s___c_h_a_n_n_e_l_i_n_f_o.html", "struct_b_a_s_s___c_h_a_n_n_e_l_i_n_f_o" ],
     [ "BASS_DEVICEINFO", "struct_b_a_s_s___d_e_v_i_c_e_i_n_f_o.html", "struct_b_a_s_s___d_e_v_i_c_e_i_n_f_o" ],
@@ -39,9 +28,9 @@ var annotated_dup =
     [ "CustomTableView", "class_custom_table_view.html", "class_custom_table_view" ],
     [ "DarkenEffect", "class_darken_effect.html", "class_darken_effect" ],
     [ "DarkStyle", "class_dark_style.html", "class_dark_style" ],
-    [ "enable_bitmask_operators", "structenable__bitmask__operators.html", null ],
-    [ "enable_bitmask_operators< LIDL::SFX_TYPE >", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4.html", null ],
-    [ "enable_bitmask_operators< LIDL::SHOW_SETTINGS >", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4.html", null ],
+    [ "enable_bitmask_operators", "structenable__bitmask__operators.html", "structenable__bitmask__operators" ],
+    [ "enable_bitmask_operators< LIDL::SFX_TYPE >", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4.html", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4" ],
+    [ "enable_bitmask_operators< LIDL::SHOW_SETTINGS >", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4.html", "structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4" ],
     [ "FancySlider", "class_fancy_slider.html", "class_fancy_slider" ],
     [ "FramelessWindow", "class_frameless_window.html", "class_frameless_window" ],
     [ "GameNameOverlay", "class_game_name_overlay.html", "class_game_name_overlay" ],

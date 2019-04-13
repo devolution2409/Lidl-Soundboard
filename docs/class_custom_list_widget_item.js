@@ -2,6 +2,7 @@ var class_custom_list_widget_item =
 [
     [ "CustomListWidgetItem", "class_custom_list_widget_item.html#a4cd1002242d950ac50bbb889ee68b39e", null ],
     [ "CustomListWidgetItem", "class_custom_list_widget_item.html#a9b8810bff4d752b5fbe61bd5e5dd3741", null ],
+    [ "CustomListWidgetItem", "class_custom_list_widget_item.html#a536bbab16639be36e7a01a53ae1307cd", null ],
     [ "getMainVolume", "class_custom_list_widget_item.html#ad8ae881dd7c947ff729c6e2cfdbb45b7", null ],
     [ "getSFX", "class_custom_list_widget_item.html#ac6e21f9baa4df631f5707137ce72757d", null ],
     [ "getSFXChorus", "class_custom_list_widget_item.html#a2752fc5f7d547018f590b052cf8ce215", null ],
@@ -22,5 +23,9 @@ var class_custom_list_widget_item =
     [ "SetSFXEnabled", "class_custom_list_widget_item.html#ae919a93eb4dfccec08308fc0c6eae0f4", null ],
     [ "setSFXFlanger", "class_custom_list_widget_item.html#acb3e3053fee219521f60c2332097ec03", null ],
     [ "setSFXGargle", "class_custom_list_widget_item.html#a2dd273f1e860570f8d110c1f1aee688d", null ],
-    [ "setVacVolume", "class_custom_list_widget_item.html#af642ae593e2b969e10b65d184c9742b1", null ]
+    [ "setVacVolume", "class_custom_list_widget_item.html#af642ae593e2b969e10b65d184c9742b1", null ],
+    [ "_mainVolume", "class_custom_list_widget_item.html#a4737fa573dac842ab6e5708fd9b2ba02", null ],
+    [ "_sfx", "class_custom_list_widget_item.html#ace8c236b21ad41d5686a06aa4496ae06", null ],
+    [ "_size", "class_custom_list_widget_item.html#a308edac81a9ab8a26d4b0cd33cd8c326", null ],
+    [ "_vacVolume", "class_custom_list_widget_item.html#aefc159089a011a8938b8862f41112f92", null ]
 ];

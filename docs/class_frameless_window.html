@@ -94,75 +94,625 @@ $(document).ready(function(){initNavTree('class_frameless_window.html','');});
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-slots">Private Slots</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_frameless_window-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">FramelessWindow Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="framelesswindow_8h_source.html">framelesswindow.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for FramelessWindow:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_frameless_window__inherit__graph.png" border="0" usemap="#_frameless_window_inherit__map" alt="Inheritance graph"/></div>
 <map name="_frameless_window_inherit__map" id="_frameless_window_inherit__map">
-<area shape="rect"  title=" " alt="" coords="5,80,135,107"/>
-<area shape="rect"  title=" " alt="" coords="33,5,107,32"/>
+<area shape="rect"  title=" " alt="" coords="5,131,208,399"/>
+<area shape="rect"  title=" " alt="" coords="70,5,143,83"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <div class="dynheader">
 Collaboration diagram for FramelessWindow:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_frameless_window__coll__graph.png" border="0" usemap="#_frameless_window_coll__map" alt="Collaboration graph"/></div>
 <map name="_frameless_window_coll__map" id="_frameless_window_coll__map">
-<area shape="rect"  title=" " alt="" coords="5,80,135,107"/>
-<area shape="rect"  title=" " alt="" coords="33,5,107,32"/>
+<area shape="rect"  title=" " alt="" coords="5,131,208,399"/>
+<area shape="rect"  title=" " alt="" coords="70,5,143,83"/>
 </map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Public Slots</h2></td></tr>
-<tr class="memitem:a3500036b9f8179ceeadbb22e2d80c29b"><td class="memItemLeft" align="right" valign="top"><a id="a3500036b9f8179ceeadbb22e2d80c29b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setWindowTitle</b> (const QString &amp;text)</td></tr>
+<tr class="memitem:a3500036b9f8179ceeadbb22e2d80c29b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a3500036b9f8179ceeadbb22e2d80c29b">setWindowTitle</a> (const QString &amp;text)</td></tr>
 <tr class="separator:a3500036b9f8179ceeadbb22e2d80c29b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4abbb5a47a91a3217accf247bc954bd"><td class="memItemLeft" align="right" valign="top"><a id="aa4abbb5a47a91a3217accf247bc954bd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setWindowIcon</b> (const QIcon &amp;ico)</td></tr>
+<tr class="memitem:aa4abbb5a47a91a3217accf247bc954bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#aa4abbb5a47a91a3217accf247bc954bd">setWindowIcon</a> (const QIcon &amp;ico)</td></tr>
 <tr class="separator:aa4abbb5a47a91a3217accf247bc954bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
-<tr class="memitem:a24da5dab007014333f96ad71fc5cb573"><td class="memItemLeft" align="right" valign="top"><a id="a24da5dab007014333f96ad71fc5cb573"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>windowIconLeftClicked</b> ()</td></tr>
+<tr class="memitem:a24da5dab007014333f96ad71fc5cb573"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a24da5dab007014333f96ad71fc5cb573">windowIconLeftClicked</a> ()</td></tr>
 <tr class="separator:a24da5dab007014333f96ad71fc5cb573"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebf382334345720b42d416f7e37b76d2"><td class="memItemLeft" align="right" valign="top"><a id="aebf382334345720b42d416f7e37b76d2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>windowIconRightClicked</b> ()</td></tr>
+<tr class="memitem:aebf382334345720b42d416f7e37b76d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#aebf382334345720b42d416f7e37b76d2">windowIconRightClicked</a> ()</td></tr>
 <tr class="separator:aebf382334345720b42d416f7e37b76d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4da7ad311a8db4236d77555d459b03e"><td class="memItemLeft" align="right" valign="top"><a id="ae4da7ad311a8db4236d77555d459b03e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>windowIconDblClick</b> ()</td></tr>
+<tr class="memitem:ae4da7ad311a8db4236d77555d459b03e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#ae4da7ad311a8db4236d77555d459b03e">windowIconDblClick</a> ()</td></tr>
 <tr class="separator:ae4da7ad311a8db4236d77555d459b03e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a860d6d0d18c2de8f52c1a92ce01697f4"><td class="memItemLeft" align="right" valign="top"><a id="a860d6d0d18c2de8f52c1a92ce01697f4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FramelessWindow</b> (QWidget *parent=0)</td></tr>
+<tr class="memitem:a860d6d0d18c2de8f52c1a92ce01697f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a860d6d0d18c2de8f52c1a92ce01697f4">FramelessWindow</a> (QWidget *parent=0)</td></tr>
 <tr class="separator:a860d6d0d18c2de8f52c1a92ce01697f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9364e6cd71652a32bdd44da3a4f3290b"><td class="memItemLeft" align="right" valign="top"><a id="a9364e6cd71652a32bdd44da3a4f3290b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setContent</b> (QWidget *w)</td></tr>
+<tr class="memitem:a9364e6cd71652a32bdd44da3a4f3290b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a9364e6cd71652a32bdd44da3a4f3290b">setContent</a> (QWidget *w)</td></tr>
 <tr class="separator:a9364e6cd71652a32bdd44da3a4f3290b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a0aa35e40b978865114d3546882e274a9"><td class="memItemLeft" align="right" valign="top"><a id="a0aa35e40b978865114d3546882e274a9"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>changeEvent</b> (QEvent *event)</td></tr>
+<tr class="memitem:a0aa35e40b978865114d3546882e274a9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a0aa35e40b978865114d3546882e274a9">changeEvent</a> (QEvent *event)</td></tr>
 <tr class="separator:a0aa35e40b978865114d3546882e274a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a254499f01c901025ae70df1f4938690e"><td class="memItemLeft" align="right" valign="top"><a id="a254499f01c901025ae70df1f4938690e"></a>
-QHBoxLayout&#160;</td><td class="memItemRight" valign="bottom"><b>contentLayout</b></td></tr>
+<tr class="memitem:a254499f01c901025ae70df1f4938690e"><td class="memItemLeft" align="right" valign="top">QHBoxLayout&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a254499f01c901025ae70df1f4938690e">contentLayout</a></td></tr>
 <tr class="separator:a254499f01c901025ae70df1f4938690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-slots"></a>
+Private Slots</h2></td></tr>
+<tr class="memitem:a69b9f41329f25a952a1d08fdaa70758d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a69b9f41329f25a952a1d08fdaa70758d">on_applicationStateChanged</a> (Qt::ApplicationState state)</td></tr>
+<tr class="separator:a69b9f41329f25a952a1d08fdaa70758d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc7debf163002603ab1306ced779153f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#acc7debf163002603ab1306ced779153f">on_minimizeButton_clicked</a> ()</td></tr>
+<tr class="separator:acc7debf163002603ab1306ced779153f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade632284aa31be034b91d99ebadc1c1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a">on_restoreButton_clicked</a> ()</td></tr>
+<tr class="separator:ade632284aa31be034b91d99ebadc1c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0118400a2e3ab73b47732dd6ba0cf9e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4">on_maximizeButton_clicked</a> ()</td></tr>
+<tr class="separator:a0118400a2e3ab73b47732dd6ba0cf9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ab5c6759297f59ec8b4f4777b5defa0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a5ab5c6759297f59ec8b4f4777b5defa0">on_closeButton_clicked</a> ()</td></tr>
+<tr class="separator:a5ab5c6759297f59ec8b4f4777b5defa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd193d6bf50b6c588875c8352828651d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#afd193d6bf50b6c588875c8352828651d">on_windowTitlebar_doubleClicked</a> ()</td></tr>
+<tr class="separator:afd193d6bf50b6c588875c8352828651d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a9bc4161596d24df1dd9a9a8f7b018e43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43">styleWindow</a> (bool bActive, bool bNoState)</td></tr>
+<tr class="separator:a9bc4161596d24df1dd9a9a8f7b018e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:aa8d22c4b529526c0e138e769953a0697"><td class="memItemLeft" align="right" valign="top">Ui::FramelessWindow *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a></td></tr>
+<tr class="separator:aa8d22c4b529526c0e138e769953a0697"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a860d6d0d18c2de8f52c1a92ce01697f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a860d6d0d18c2de8f52c1a92ce01697f4">&#9670;&nbsp;</a></span>FramelessWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FramelessWindow::FramelessWindow </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_mouse_button_signaler.html#aae3fe22a92c232757c415d82888140f5">MouseButtonSignaler::installOn()</a>, <a class="el" href="class_mouse_button_signaler.html#ab4e86265da1fccb26415429b3c0514db">MouseButtonSignaler::mouseButtonEvent()</a>, <a class="el" href="class_frameless_window.html#a69b9f41329f25a952a1d08fdaa70758d">on_applicationStateChanged()</a>, <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>, <a class="el" href="class_frameless_window.html#ae4da7ad311a8db4236d77555d459b03e">windowIconDblClick()</a>, <a class="el" href="class_frameless_window.html#a24da5dab007014333f96ad71fc5cb573">windowIconLeftClicked()</a>, and <a class="el" href="class_frameless_window.html#aebf382334345720b42d416f7e37b76d2">windowIconRightClicked()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_frameless_window_a860d6d0d18c2de8f52c1a92ce01697f4_cgraph.png" border="0" usemap="#class_frameless_window_a860d6d0d18c2de8f52c1a92ce01697f4_cgraph" alt=""/></div>
+<map name="class_frameless_window_a860d6d0d18c2de8f52c1a92ce01697f4_cgraph" id="class_frameless_window_a860d6d0d18c2de8f52c1a92ce01697f4_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,39,204,80"/>
+<area shape="rect"  href="class_mouse_button_signaler.html#aae3fe22a92c232757c415d82888140f5" title=" " alt="" coords="265,5,412,47"/>
+<area shape="rect"  href="class_frameless_window.html#a69b9f41329f25a952a1d08fdaa70758d" title=" " alt="" coords="252,71,425,112"/>
+<area shape="rect"  href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43" title=" " alt="" coords="473,78,684,105"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0aa35e40b978865114d3546882e274a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aa35e40b978865114d3546882e274a9">&#9670;&nbsp;</a></span>changeEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::changeEvent </td>
+          <td>(</td>
+          <td class="paramtype">QEvent *&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4">on_maximizeButton_clicked()</a>, and <a class="el" href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a">on_restoreButton_clicked()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_frameless_window_a0aa35e40b978865114d3546882e274a9_cgraph.png" border="0" usemap="#class_frameless_window_a0aa35e40b978865114d3546882e274a9_cgraph" alt=""/></div>
+<map name="class_frameless_window_a0aa35e40b978865114d3546882e274a9_cgraph" id="class_frameless_window_a0aa35e40b978865114d3546882e274a9_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,46,216,73"/>
+<area shape="rect"  href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4" title=" " alt="" coords="264,5,435,47"/>
+<area shape="rect"  href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a" title=" " alt="" coords="272,71,427,112"/>
+<area shape="rect"  href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43" title=" " alt="" coords="483,46,693,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a69b9f41329f25a952a1d08fdaa70758d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69b9f41329f25a952a1d08fdaa70758d">&#9670;&nbsp;</a></span>on_applicationStateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::on_applicationStateChanged </td>
+          <td>(</td>
+          <td class="paramtype">Qt::ApplicationState&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43">styleWindow()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a860d6d0d18c2de8f52c1a92ce01697f4">FramelessWindow()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_frameless_window_a69b9f41329f25a952a1d08fdaa70758d_cgraph.png" border="0" usemap="#class_frameless_window_a69b9f41329f25a952a1d08fdaa70758d_cgraph" alt=""/></div>
+<map name="class_frameless_window_a69b9f41329f25a952a1d08fdaa70758d_cgraph" id="class_frameless_window_a69b9f41329f25a952a1d08fdaa70758d_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,179,47"/>
+<area shape="rect"  href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43" title=" " alt="" coords="227,13,437,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5ab5c6759297f59ec8b4f4777b5defa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ab5c6759297f59ec8b4f4777b5defa0">&#9670;&nbsp;</a></span>on_closeButton_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::on_closeButton_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0118400a2e3ab73b47732dd6ba0cf9e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0118400a2e3ab73b47732dd6ba0cf9e4">&#9670;&nbsp;</a></span>on_maximizeButton_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::on_maximizeButton_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43">styleWindow()</a>, and <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a0aa35e40b978865114d3546882e274a9">changeEvent()</a>, and <a class="el" href="class_frameless_window.html#afd193d6bf50b6c588875c8352828651d">on_windowTitlebar_doubleClicked()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_frameless_window_a0118400a2e3ab73b47732dd6ba0cf9e4_cgraph.png" border="0" usemap="#class_frameless_window_a0118400a2e3ab73b47732dd6ba0cf9e4_cgraph" alt=""/></div>
+<map name="class_frameless_window_a0118400a2e3ab73b47732dd6ba0cf9e4_cgraph" id="class_frameless_window_a0118400a2e3ab73b47732dd6ba0cf9e4_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,176,47"/>
+<area shape="rect"  href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43" title=" " alt="" coords="224,13,435,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="acc7debf163002603ab1306ced779153f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc7debf163002603ab1306ced779153f">&#9670;&nbsp;</a></span>on_minimizeButton_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::on_minimizeButton_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade632284aa31be034b91d99ebadc1c1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade632284aa31be034b91d99ebadc1c1a">&#9670;&nbsp;</a></span>on_restoreButton_clicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::on_restoreButton_clicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43">styleWindow()</a>, and <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a0aa35e40b978865114d3546882e274a9">changeEvent()</a>, and <a class="el" href="class_frameless_window.html#afd193d6bf50b6c588875c8352828651d">on_windowTitlebar_doubleClicked()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_frameless_window_ade632284aa31be034b91d99ebadc1c1a_cgraph.png" border="0" usemap="#class_frameless_window_ade632284aa31be034b91d99ebadc1c1a_cgraph" alt=""/></div>
+<map name="class_frameless_window_ade632284aa31be034b91d99ebadc1c1a_cgraph" id="class_frameless_window_ade632284aa31be034b91d99ebadc1c1a_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,160,47"/>
+<area shape="rect"  href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43" title=" " alt="" coords="208,13,419,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="afd193d6bf50b6c588875c8352828651d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd193d6bf50b6c588875c8352828651d">&#9670;&nbsp;</a></span>on_windowTitlebar_doubleClicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::on_windowTitlebar_doubleClicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4">on_maximizeButton_clicked()</a>, and <a class="el" href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a">on_restoreButton_clicked()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_frameless_window_afd193d6bf50b6c588875c8352828651d_cgraph.png" border="0" usemap="#class_frameless_window_afd193d6bf50b6c588875c8352828651d_cgraph" alt=""/></div>
+<map name="class_frameless_window_afd193d6bf50b6c588875c8352828651d_cgraph" id="class_frameless_window_afd193d6bf50b6c588875c8352828651d_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,39,207,80"/>
+<area shape="rect"  href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4" title=" " alt="" coords="255,5,425,47"/>
+<area shape="rect"  href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a" title=" " alt="" coords="263,71,417,112"/>
+<area shape="rect"  href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43" title=" " alt="" coords="473,46,684,73"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9364e6cd71652a32bdd44da3a4f3290b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9364e6cd71652a32bdd44da3a4f3290b">&#9670;&nbsp;</a></span>setContent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::setContent </td>
+          <td>(</td>
+          <td class="paramtype">QWidget *&#160;</td>
+          <td class="paramname"><em>w</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#a254499f01c901025ae70df1f4938690e">contentLayout</a>, and <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>.</p>
+
+</div>
+</div>
+<a id="aa4abbb5a47a91a3217accf247bc954bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4abbb5a47a91a3217accf247bc954bd">&#9670;&nbsp;</a></span>setWindowIcon</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::setWindowIcon </td>
+          <td>(</td>
+          <td class="paramtype">const QIcon &amp;&#160;</td>
+          <td class="paramname"><em>ico</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>.</p>
+
+</div>
+</div>
+<a id="a3500036b9f8179ceeadbb22e2d80c29b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3500036b9f8179ceeadbb22e2d80c29b">&#9670;&nbsp;</a></span>setWindowTitle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::setWindowTitle </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>.</p>
+
+</div>
+</div>
+<a id="a9bc4161596d24df1dd9a9a8f7b018e43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bc4161596d24df1dd9a9a8f7b018e43">&#9670;&nbsp;</a></span>styleWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::styleWindow </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bActive</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bNoState</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_frameless_window.html#aa8d22c4b529526c0e138e769953a0697">ui</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a69b9f41329f25a952a1d08fdaa70758d">on_applicationStateChanged()</a>, <a class="el" href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4">on_maximizeButton_clicked()</a>, and <a class="el" href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a">on_restoreButton_clicked()</a>.</p>
+
+</div>
+</div>
+<a id="ae4da7ad311a8db4236d77555d459b03e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4da7ad311a8db4236d77555d459b03e">&#9670;&nbsp;</a></span>windowIconDblClick</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::windowIconDblClick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a860d6d0d18c2de8f52c1a92ce01697f4">FramelessWindow()</a>.</p>
+
+</div>
+</div>
+<a id="a24da5dab007014333f96ad71fc5cb573"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24da5dab007014333f96ad71fc5cb573">&#9670;&nbsp;</a></span>windowIconLeftClicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::windowIconLeftClicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a860d6d0d18c2de8f52c1a92ce01697f4">FramelessWindow()</a>.</p>
+
+</div>
+</div>
+<a id="aebf382334345720b42d416f7e37b76d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf382334345720b42d416f7e37b76d2">&#9670;&nbsp;</a></span>windowIconRightClicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> FramelessWindow::windowIconRightClicked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a860d6d0d18c2de8f52c1a92ce01697f4">FramelessWindow()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a254499f01c901025ae70df1f4938690e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a254499f01c901025ae70df1f4938690e">&#9670;&nbsp;</a></span>contentLayout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHBoxLayout FramelessWindow::contentLayout</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a9364e6cd71652a32bdd44da3a4f3290b">setContent()</a>.</p>
+
+</div>
+</div>
+<a id="aa8d22c4b529526c0e138e769953a0697"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d22c4b529526c0e138e769953a0697">&#9670;&nbsp;</a></span>ui</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Ui::FramelessWindow* FramelessWindow::ui</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_frameless_window.html#a860d6d0d18c2de8f52c1a92ce01697f4">FramelessWindow()</a>, <a class="el" href="class_frameless_window.html#a0118400a2e3ab73b47732dd6ba0cf9e4">on_maximizeButton_clicked()</a>, <a class="el" href="class_frameless_window.html#ade632284aa31be034b91d99ebadc1c1a">on_restoreButton_clicked()</a>, <a class="el" href="class_frameless_window.html#a9364e6cd71652a32bdd44da3a4f3290b">setContent()</a>, <a class="el" href="class_frameless_window.html#aa4abbb5a47a91a3217accf247bc954bd">setWindowIcon()</a>, <a class="el" href="class_frameless_window.html#a3500036b9f8179ceeadbb22e2d80c29b">setWindowTitle()</a>, and <a class="el" href="class_frameless_window.html#a9bc4161596d24df1dd9a9a8f7b018e43">styleWindow()</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>D:/Qt/Projects/Lidl_Soundboard/include/<a class="el" href="framelesswindow_8h_source.html">framelesswindow.h</a></li>
-<li>D:/Qt/Projects/Lidl_Soundboard/framelesswindow.cpp</li>
+<li>D:/Qt/Projects/Lidl_Soundboard/<a class="el" href="framelesswindow_8cpp.html">framelesswindow.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

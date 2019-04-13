@@ -1,0 +1,5 @@
+<map id="SfxSettingsWidget::SfxSettingsWidget" name="SfxSettingsWidget::SfxSettingsWidget">
+<area shape="rect" id="node1" title="SfxSettingsWidget Overloaded constructor to account for SFX name." alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d" title="GetInstance, returns the instance of the controller, creating one if it doesn&#39;t exist." alt="" coords="192,5,341,47"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_preset_controller.html#ab0c4de0908578b7067e4cc8af28dac3f" title="PresetController default constructor." alt="" coords="389,5,539,47"/>
+</map>

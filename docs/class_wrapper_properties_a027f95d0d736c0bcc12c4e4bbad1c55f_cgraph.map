@@ -1,0 +1,22 @@
+<map id="WrapperProperties::setUpConnection" name="WrapperProperties::setUpConnection">
+<area shape="rect" id="node1" title="Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget." alt="" coords="5,365,144,407"/>
+<area shape="rect" id="node2" href="$class_sfx_settings_widget.html#aaa4ebb2b6d87472ce724892826f2ee27" title="deactivateAll Deactivates all widgets except the checkbox." alt="" coords="202,136,341,177"/>
+<area shape="rect" id="node3" href="$class_custom_list_widget_item.html#ac6e21f9baa4df631f5707137ce72757d" title="getSFX" alt="" coords="194,201,349,243"/>
+<area shape="rect" id="node4" href="$class_custom_list_widget_item.html#a092c6e88ff6dae74e82b867ee8dd98a0" title=" " alt="" coords="194,267,349,308"/>
+<area shape="rect" id="node11" href="$class_sfx_settings_widget.html#ae34af62fb08f393a03612a3c30b33c42" title="setCheckboxState Set this widget checkbox checked state." alt="" coords="202,365,341,407"/>
+<area shape="rect" id="node12" href="$class_custom_list_widget_item.html#a9878538f9bc8a44cde5f7733aa5cb840" title=" " alt="" coords="194,463,349,504"/>
+<area shape="rect" id="node19" href="$class_custom_list_widget_item.html#ae919a93eb4dfccec08308fc0c6eae0f4" title="SetSFXEnabled Sets (or unsets) the _sfx.flags member." alt="" coords="194,528,349,569"/>
+<area shape="rect" id="node20" href="$class_sfx_settings_widget.html#a249f7483c39808006a9f7688123530f1" title="setValueOfEnumParam Will set the value of a widget item settings." alt="" coords="192,593,351,635"/>
+<area shape="rect" id="node5" href="$class_custom_list_widget_item.html#a2752fc5f7d547018f590b052cf8ce215" title="getSFXChorus Get the value of the specified Chorus SFX parameter." alt="" coords="399,5,553,47"/>
+<area shape="rect" id="node6" href="$class_custom_list_widget_item.html#a01c0f71f59165e8d40bad50502e6aa7b" title=" " alt="" coords="399,71,553,112"/>
+<area shape="rect" id="node7" href="$class_custom_list_widget_item.html#a428552066876f13b66f2cbe9adc0cfd1" title="getSFXDistortion Get the value of the specified Distortion SFX parameter." alt="" coords="399,136,553,177"/>
+<area shape="rect" id="node8" href="$class_custom_list_widget_item.html#a8b194f7cdae1f1d8c067672e1ba50875" title=" " alt="" coords="399,201,553,243"/>
+<area shape="rect" id="node9" href="$class_custom_list_widget_item.html#aaa8c560bfab9b046f161063a2d44692e" title=" " alt="" coords="399,267,553,308"/>
+<area shape="rect" id="node10" href="$class_custom_list_widget_item.html#ae2f0cb483e1fe12e067964ccb1f94811" title=" " alt="" coords="399,332,553,373"/>
+<area shape="rect" id="node13" href="$class_custom_list_widget_item.html#a0de9a9344f7387f961704bea94d55c79" title="setSFXChorud Used to set the parameters of the Chorus." alt="" coords="399,397,553,439"/>
+<area shape="rect" id="node14" href="$class_custom_list_widget_item.html#ad6990ffcc775050d0d135d5df657dae3" title="setSFXCompressor" alt="" coords="399,463,553,504"/>
+<area shape="rect" id="node15" href="$class_custom_list_widget_item.html#a46e549f258fd2d8a36c2ff81f55cd102" title="setSFXDistortion Used to set the parameters of the Distortion." alt="" coords="399,528,553,569"/>
+<area shape="rect" id="node16" href="$class_custom_list_widget_item.html#a76d053083178631912a092345f6db6e1" title="setSFXEcho" alt="" coords="399,593,553,635"/>
+<area shape="rect" id="node17" href="$class_custom_list_widget_item.html#acb3e3053fee219521f60c2332097ec03" title=" " alt="" coords="399,659,553,700"/>
+<area shape="rect" id="node18" href="$class_custom_list_widget_item.html#a2dd273f1e860570f8d110c1f1aee688d" title=" " alt="" coords="399,724,553,765"/>
+</map>

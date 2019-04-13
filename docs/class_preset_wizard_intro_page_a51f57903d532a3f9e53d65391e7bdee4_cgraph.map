@@ -1,0 +1,6 @@
+<map id="PresetWizardIntroPage::sfxBoxIndexChanged" name="PresetWizardIntroPage::sfxBoxIndexChanged">
+<area shape="rect" id="node1" title=" " alt="" coords="5,35,161,76"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d" title="GetInstance, returns the instance of the controller, creating one if it doesn&#39;t exist." alt="" coords="209,5,359,47"/>
+<area shape="rect" id="node4" href="$class_spoiler.html#a459a7887a52499ded0454ab6b1fab4f2" title=" " alt="" coords="233,71,335,98"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_preset_controller.html#ab0c4de0908578b7067e4cc8af28dac3f" title="PresetController default constructor." alt="" coords="407,5,556,47"/>
+</map>

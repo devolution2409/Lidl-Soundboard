@@ -1,0 +1,35 @@
+<map id="SoundboardMainUI::PostConstruction" name="SoundboardMainUI::PostConstruction">
+<area shape="rect" id="node1" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="5,744,244,770"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="This function clears the soundboard, as if it was just opened without any file." alt="" coords="555,714,739,741"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aed98ae192e70efc2fdbc1f18d76060dd" title=" " alt="" coords="1591,510,1757,551"/>
+<area shape="rect" id="node10" href="$class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737" title="Function to generate the .lidljson save file." alt="" coords="1345,316,1537,358"/>
+<area shape="rect" id="node14" href="$class_soundboard_main_u_i.html#a5de8fbd8d804b891a3b70097e9349485" title="This function construct and display the first&#45;time user dialog." alt="" coords="292,854,489,895"/>
+<area shape="rect" id="node15" href="$class_soundboard_main_u_i.html#a93a68924788cfdc9050d6d673183833c" title="This function Open a saved soundboard and add all the entries in the CustomTableView." alt="" coords="305,412,476,438"/>
+<area shape="rect" id="node33" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a68607dd2ce920c50e406dc84893f17c4" title="SaveState." alt="" coords="307,919,474,960"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a3152f03f43dd9f953d4d5a1a15e1e5bc" title="This function deals with editing the data that will be displayed according to user settings...." alt="" coords="819,714,1026,741"/>
+<area shape="rect" id="node9" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3406eed2c7954ad5cd0066512fc92145" title="checkShowFlags" alt="" coords="1099,736,1283,778"/>
+<area shape="rect" id="node5" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2d9f179f9e5531fedd6684b1fccadd84" title=" " alt="" coords="1813,510,2001,551"/>
+<area shape="rect" id="node6" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216" title="unHoldPTT" alt="" coords="2056,510,2223,551"/>
+<area shape="rect" id="node7" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="2271,510,2425,551"/>
+<area shape="rect" id="node8" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="2473,510,2649,551"/>
+<area shape="rect" id="node11" href="$class_custom_shortcut_edit.html#ab54838ea18d09f66ad3732cc7de95489" title="getScanCode" alt="" coords="1605,382,1743,423"/>
+<area shape="rect" id="node12" href="$class_custom_shortcut_edit.html#abf26841bd094a5043777649338cc3d99" title="getText" alt="" coords="1605,251,1743,292"/>
+<area shape="rect" id="node13" href="$class_custom_shortcut_edit.html#ad712da01e38cfd661297c0ff18f0b2aa" title="getVirtualKey" alt="" coords="1605,316,1743,358"/>
+<area shape="rect" id="node16" href="$class_soundboard_main_u_i.html#a0ed1db7f6ffa5b0f251232da25711a2e" title="addSeveralSounds Function used by the thread created when opening a lidljson file." alt="" coords="545,74,748,115"/>
+<area shape="rect" id="node21" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae7b21591a7eaecaa394b4419a644e1c4" title="addShowFlag Will add a flag to the list of things to be displayed (stored as flags)" alt="" coords="563,568,730,610"/>
+<area shape="rect" id="node22" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2c2459a3d8dd3e46bb4e78e0a4aa154a" title="GetDefaultMainVolume." alt="" coords="537,139,756,180"/>
+<area shape="rect" id="node23" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#acb61cc569ff5b0c547661d52408fbf6d" title="GetDefaultVacVolume." alt="" coords="540,204,753,246"/>
+<area shape="rect" id="node24" href="$class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7" title="Function save the active lidljson file. If no file is already set, it will open the Save As prompt." alt="" coords="563,321,730,348"/>
+<area shape="rect" id="node30" href="$class_custom_shortcut_edit.html#ac69998132d1ec7389c41376ca950083d" title="setScanCode" alt="" coords="577,372,716,414"/>
+<area shape="rect" id="node31" href="$class_soundboard_main_u_i.html#ac387aaa733c93d8e0cd64f05b84963d6" title="Function to register the Stop ALL Shortcut. It is used by the associated CustomShortcutEdit and the O..." alt="" coords="555,438,739,479"/>
+<area shape="rect" id="node32" href="$class_custom_shortcut_edit.html#ac6a8f93cbefa645e5bd0569bed428dbc" title="setVirtualKey" alt="" coords="577,503,716,544"/>
+<area shape="rect" id="node17" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f" title="AutoGameConfigurationChange." alt="" coords="804,128,1041,184"/>
+<area shape="rect" id="node18" href="$class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="1128,197,1253,224"/>
+<area shape="rect" id="node19" href="$class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="1125,96,1256,122"/>
+<area shape="rect" id="node20" href="$class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="1121,146,1261,173"/>
+<area shape="rect" id="node25" href="$class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b" title="This function Opens a Save As prompt, and save the active soundboard as a .lidljson file." alt="" coords="831,448,1014,474"/>
+<area shape="rect" id="node29" href="$class_soundboard_main_u_i.html#ad1aaec3f9fca8bfdb6855888f7ac539b" title="This function set the text of the permanent widget in the status bar." alt="" coords="1092,400,1289,442"/>
+<area shape="rect" id="node26" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a93b5ad8a346a2adda7f2fc95dcc4bedb" title=" " alt="" coords="1089,518,1292,559"/>
+<area shape="rect" id="node28" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a89cfbbda29312c0d267467d89251575c" title="WriteSaveFile." alt="" coords="1805,600,2008,642"/>
+<area shape="rect" id="node27" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a9f0a06aac0d756ab759ae10245369dd6" title=" " alt="" coords="1340,518,1543,559"/>
+</map>

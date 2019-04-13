@@ -11,5 +11,9 @@ var class_l_i_d_l_1_1_sound_file =
     [ "getVacVolume", "class_l_i_d_l_1_1_sound_file.html#a9d1328d646e72d9f2e2cdbbe54517c25", null ],
     [ "IsEqualTo", "class_l_i_d_l_1_1_sound_file.html#abf5c5013c3988b28e2829afb815c4e73", null ],
     [ "operator!=", "class_l_i_d_l_1_1_sound_file.html#aedcb0d46d02ea8d0ee4c109e6ad9aae0", null ],
-    [ "operator==", "class_l_i_d_l_1_1_sound_file.html#ad9de1ac179ebc14eef4717c43bfdde06", null ]
+    [ "operator==", "class_l_i_d_l_1_1_sound_file.html#ad9de1ac179ebc14eef4717c43bfdde06", null ],
+    [ "_mainVolume", "class_l_i_d_l_1_1_sound_file.html#af99194537a8b106aa6a96542a70f0307", null ],
+    [ "_size", "class_l_i_d_l_1_1_sound_file.html#a1c5b5d5fe58614adff21bb09159eab2b", null ],
+    [ "_vacVolume", "class_l_i_d_l_1_1_sound_file.html#a594c7e93be7b2e1ed8372ceae17f8260", null ],
+    [ "sfx", "class_l_i_d_l_1_1_sound_file.html#a9749392d9dfb78adec9cd53d929e743a", null ]
 ];

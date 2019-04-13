@@ -1,0 +1,4 @@
+<map id="SoundWrapper::setPlayerMainOutput" name="SoundWrapper::setPlayerMainOutput">
+<area shape="rect" id="node1" title="Set the index of the main output device." alt="" coords="5,5,204,47"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#a46d9ee558903757d2bd34a4d08bc5ca3" title="SetOutputDevice Sets the main output device of the player." alt="" coords="252,13,461,39"/>
+</map>

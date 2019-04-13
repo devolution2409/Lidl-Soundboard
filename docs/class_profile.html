@@ -91,6 +91,8 @@ $(document).ready(function(){initNavTree('class_profile.html','');});
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_profile-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Profile Class Reference</div>  </div>
@@ -101,6 +103,14 @@ $(document).ready(function(){initNavTree('class_profile.html','');});
  <a href="class_profile.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_profile_8h_source.html">Profile.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for Profile:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_profile__coll__graph.png" border="0" usemap="#_profile_coll__map" alt="Collaboration graph"/></div>
+<map name="_profile_coll__map" id="_profile_coll__map">
+<area shape="rect"  title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit..." alt="" coords="5,5,219,317"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -115,10 +125,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3d0f83c3208be24b337e110d90417bb7"><td class="memItemLeft" align="right" valign="top">QSet&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a3d0f83c3208be24b337e110d90417bb7">GetGameList</a> () const</td></tr>
 <tr class="memdesc:a3d0f83c3208be24b337e110d90417bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetGameList.  <a href="#a3d0f83c3208be24b337e110d90417bb7">More...</a><br /></td></tr>
 <tr class="separator:a3d0f83c3208be24b337e110d90417bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a865a00741836e6c24693b5ebd298ee92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a865a00741836e6c24693b5ebd298ee92">RemoveGame</a> (QString exe)</td></tr>
+<tr class="memitem:a865a00741836e6c24693b5ebd298ee92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a865a00741836e6c24693b5ebd298ee92">RemoveGame</a> (QString exe)</td></tr>
 <tr class="memdesc:a865a00741836e6c24693b5ebd298ee92"><td class="mdescLeft">&#160;</td><td class="mdescRight">RemoveGame.  <a href="#a865a00741836e6c24693b5ebd298ee92">More...</a><br /></td></tr>
 <tr class="separator:a865a00741836e6c24693b5ebd298ee92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2297fdd43d5c507340db0bf739a579a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a2297fdd43d5c507340db0bf739a579a5">AddGame</a> (QString exe)</td></tr>
+<tr class="memitem:a2297fdd43d5c507340db0bf739a579a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a2297fdd43d5c507340db0bf739a579a5">AddGame</a> (QString exe)</td></tr>
 <tr class="memdesc:a2297fdd43d5c507340db0bf739a579a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">AddGame.  <a href="#a2297fdd43d5c507340db0bf739a579a5">More...</a><br /></td></tr>
 <tr class="separator:a2297fdd43d5c507340db0bf739a579a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1612ed24d5b6d1b8d9e41c70841eb6a"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a">GetConfigAsString</a> () const</td></tr>
@@ -130,26 +140,25 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adbde9472f7d2c85aaa06acec8dd02cab"><td class="memItemLeft" align="right" valign="top">QVector&lt; std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab">GetSounds</a> () const</td></tr>
 <tr class="memdesc:adbde9472f7d2c85aaa06acec8dd02cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetSounds.  <a href="#adbde9472f7d2c85aaa06acec8dd02cab">More...</a><br /></td></tr>
 <tr class="separator:adbde9472f7d2c85aaa06acec8dd02cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4682f9f8d3ce4b7672f36c1add96aec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec">AddSound</a> (std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; wrapper)</td></tr>
+<tr class="memitem:af4682f9f8d3ce4b7672f36c1add96aec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec">AddSound</a> (std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; wrapper)</td></tr>
 <tr class="memdesc:af4682f9f8d3ce4b7672f36c1add96aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">AddSound.  <a href="#af4682f9f8d3ce4b7672f36c1add96aec">More...</a><br /></td></tr>
 <tr class="separator:af4682f9f8d3ce4b7672f36c1add96aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e81bc0cb881035bcabfd328025cb1d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a2e81bc0cb881035bcabfd328025cb1d1">RemoveSoundFromSharedPtr</a> (std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; wrapper)</td></tr>
+<tr class="memitem:a2e81bc0cb881035bcabfd328025cb1d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a2e81bc0cb881035bcabfd328025cb1d1">RemoveSoundFromSharedPtr</a> (std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; wrapper)</td></tr>
 <tr class="memdesc:a2e81bc0cb881035bcabfd328025cb1d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">RemoveSoundFromSharedPtr.  <a href="#a2e81bc0cb881035bcabfd328025cb1d1">More...</a><br /></td></tr>
 <tr class="separator:a2e81bc0cb881035bcabfd328025cb1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fcb9609666829e3d52fc29e9acda9d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2">SwapSound</a> (std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; oldWrapper, std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; newWrapper)</td></tr>
+<tr class="memitem:a3fcb9609666829e3d52fc29e9acda9d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2">SwapSound</a> (std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; oldWrapper, std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; newWrapper)</td></tr>
 <tr class="memdesc:a3fcb9609666829e3d52fc29e9acda9d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">SwapSound.  <a href="#a3fcb9609666829e3d52fc29e9acda9d2">More...</a><br /></td></tr>
 <tr class="separator:a3fcb9609666829e3d52fc29e9acda9d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f2bbe00e09f1aec8cc9b88ae1d2ecf9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_profile.html">Profile</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9">GetParent</a> () const</td></tr>
 <tr class="memdesc:a9f2bbe00e09f1aec8cc9b88ae1d2ecf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetParent.  <a href="#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9">More...</a><br /></td></tr>
 <tr class="separator:a9f2bbe00e09f1aec8cc9b88ae1d2ecf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb38cdc09c8fa4e968b4306f78fa1f22"><td class="memItemLeft" align="right" valign="top"><a id="acb38cdc09c8fa4e968b4306f78fa1f22"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22">ClearSounds</a> ()</td></tr>
-<tr class="memdesc:acb38cdc09c8fa4e968b4306f78fa1f22"><td class="mdescLeft">&#160;</td><td class="mdescRight">ClearSounds Remove every sound from the array. <br /></td></tr>
+<tr class="memitem:acb38cdc09c8fa4e968b4306f78fa1f22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22">ClearSounds</a> ()</td></tr>
+<tr class="memdesc:acb38cdc09c8fa4e968b4306f78fa1f22"><td class="mdescLeft">&#160;</td><td class="mdescRight">ClearSounds Remove every sound from the array.  <a href="#acb38cdc09c8fa4e968b4306f78fa1f22">More...</a><br /></td></tr>
 <tr class="separator:acb38cdc09c8fa4e968b4306f78fa1f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24c790eba28568250d8ed78c4ca7bbe1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1">SetPttScanCode</a> (int sc)</td></tr>
+<tr class="memitem:a24c790eba28568250d8ed78c4ca7bbe1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1">SetPttScanCode</a> (int sc)</td></tr>
 <tr class="memdesc:a24c790eba28568250d8ed78c4ca7bbe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">SetPttScanCode.  <a href="#a24c790eba28568250d8ed78c4ca7bbe1">More...</a><br /></td></tr>
 <tr class="separator:a24c790eba28568250d8ed78c4ca7bbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8df517ec5f95c11f0bf966beb0688ac5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5">SetPttVirtualKey</a> (int vk)</td></tr>
+<tr class="memitem:a8df517ec5f95c11f0bf966beb0688ac5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5">SetPttVirtualKey</a> (int vk)</td></tr>
 <tr class="memdesc:a8df517ec5f95c11f0bf966beb0688ac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">SetPttVirtualKey.  <a href="#a8df517ec5f95c11f0bf966beb0688ac5">More...</a><br /></td></tr>
 <tr class="separator:a8df517ec5f95c11f0bf966beb0688ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4ff547c54850ff3b4e14f36afc7fcc1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#ac4ff547c54850ff3b4e14f36afc7fcc1">GetPttScanCode</a> () const</td></tr>
@@ -158,7 +167,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:af9f6c1bc8d9310c0559687a35dadd623"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#af9f6c1bc8d9310c0559687a35dadd623">GetPttVirtualKey</a> () const</td></tr>
 <tr class="memdesc:af9f6c1bc8d9310c0559687a35dadd623"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetPttVirtualKey.  <a href="#af9f6c1bc8d9310c0559687a35dadd623">More...</a><br /></td></tr>
 <tr class="separator:af9f6c1bc8d9310c0559687a35dadd623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bb4bb4575c9fdb30c864f0500df03c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6">SetPttKeySequence</a> (QKeySequence sequence)</td></tr>
+<tr class="memitem:a4bb4bb4575c9fdb30c864f0500df03c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6">SetPttKeySequence</a> (QKeySequence sequence)</td></tr>
 <tr class="memdesc:a4bb4bb4575c9fdb30c864f0500df03c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">SetPttKeySequence.  <a href="#a4bb4bb4575c9fdb30c864f0500df03c6">More...</a><br /></td></tr>
 <tr class="separator:a4bb4bb4575c9fdb30c864f0500df03c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01ac144d81e64c073ad2c54db6712950"><td class="memItemLeft" align="right" valign="top">QKeySequence&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a01ac144d81e64c073ad2c54db6712950">GetPttKeySequence</a> () const</td></tr>
@@ -167,6 +176,30 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a18fac6b2f1cb02cb075deb938da7f8bf"><td class="memItemLeft" align="right" valign="top">QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a18fac6b2f1cb02cb075deb938da7f8bf">GetProfileAsObject</a> () const</td></tr>
 <tr class="memdesc:a18fac6b2f1cb02cb075deb938da7f8bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetProfileAsObject.  <a href="#a18fac6b2f1cb02cb075deb938da7f8bf">More...</a><br /></td></tr>
 <tr class="separator:a18fac6b2f1cb02cb075deb938da7f8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58fa758a59bc4ee3c1a9980e360e4e98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a58fa758a59bc4ee3c1a9980e360e4e98">~Profile</a> ()</td></tr>
+<tr class="separator:a58fa758a59bc4ee3c1a9980e360e4e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a20e71d6a873545c682723c51d6def559"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a20e71d6a873545c682723c51d6def559">Profile</a> (QString name, QSet&lt; QString &gt; exe, <a class="el" href="class_profile.html">Profile</a> *parent)</td></tr>
+<tr class="separator:a20e71d6a873545c682723c51d6def559"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:acfcde15746c70e868295ce95500848d6"><td class="memItemLeft" align="right" valign="top">QVector&lt; std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a></td></tr>
+<tr class="separator:acfcde15746c70e868295ce95500848d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8ea7a58d1b9a01c03fa2f7d025872aa"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#aa8ea7a58d1b9a01c03fa2f7d025872aa">_name</a></td></tr>
+<tr class="separator:aa8ea7a58d1b9a01c03fa2f7d025872aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52caddc60760dbb870957f563b0b0379"><td class="memItemLeft" align="right" valign="top">QSet&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a52caddc60760dbb870957f563b0b0379">_exeList</a></td></tr>
+<tr class="separator:a52caddc60760dbb870957f563b0b0379"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1addaaf5d07952b5dac8bf5885ea2bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_profile.html">Profile</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#ae1addaaf5d07952b5dac8bf5885ea2bb">_parent</a></td></tr>
+<tr class="separator:ae1addaaf5d07952b5dac8bf5885ea2bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c340d00ff8ac60b18c9c9ce4f4397f9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#a7c340d00ff8ac60b18c9c9ce4f4397f9">_PTTScanCode</a> = -1</td></tr>
+<tr class="separator:a7c340d00ff8ac60b18c9c9ce4f4397f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc96e9200afc9c9529ce8800197deb90"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#acc96e9200afc9c9529ce8800197deb90">_PTTVirtualKey</a> = -1</td></tr>
+<tr class="separator:acc96e9200afc9c9529ce8800197deb90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afda1d0f2dea6d70b1e5694eef075d9fd"><td class="memItemLeft" align="right" valign="top">QKeySequence&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html#afda1d0f2dea6d70b1e5694eef075d9fd">_PTTKeySequence</a></td></tr>
+<tr class="separator:afda1d0f2dea6d70b1e5694eef075d9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_profile.html" title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit...">Profile</a> class Describe a profile: Name List of linked executable that will make this profile switched to when the executable is detected List of sounds as a QVector&lt;shared_ptr&lt;SoundWrapper&gt;&gt; The owner ship of those element is shared between the profile and the main ui. So reference count should be like this: 1 for the UI (IF profile is currently active) 1 for the profile. </p>
@@ -176,7 +209,71 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </ul>
 </li>
 </ul>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a58fa758a59bc4ee3c1a9980e360e4e98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58fa758a59bc4ee3c1a9980e360e4e98">&#9670;&nbsp;</a></span>~Profile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Profile::~Profile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
+
+</div>
+</div>
+<a id="a20e71d6a873545c682723c51d6def559"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20e71d6a873545c682723c51d6def559">&#9670;&nbsp;</a></span>Profile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Profile::Profile </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QSet&lt; QString &gt;&#160;</td>
+          <td class="paramname"><em>exe</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_profile.html">Profile</a> *&#160;</td>
+          <td class="paramname"><em>parent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile_1_1_builder.html#a4e842a9198c91a93f4f6aa96a4bd8faa">Profile::Builder::Build()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2297fdd43d5c507340db0bf739a579a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2297fdd43d5c507340db0bf739a579a5">&#9670;&nbsp;</a></span>AddGame()</h2>
 
@@ -184,7 +281,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::AddGame </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::AddGame </td>
           <td>(</td>
           <td class="paramtype">QString&#160;</td>
           <td class="paramname"><em>exe</em></td><td>)</td>
@@ -210,7 +307,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::AddSound </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::AddSound </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt;&#160;</td>
           <td class="paramname"><em>wrapper</em></td><td>)</td>
@@ -226,6 +323,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
+
+<p class="reference">References <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>.</p>
+
+</div>
+</div>
+<a id="acb38cdc09c8fa4e968b4306f78fa1f22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb38cdc09c8fa4e968b4306f78fa1f22">&#9670;&nbsp;</a></span>ClearSounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::ClearSounds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>ClearSounds Remove every sound from the array. </p>
+
+<p class="reference">References <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">LIDL::Controller::ProfileController::ManualGameConfigurationChanged()</a>.</p>
 
 </div>
 </div>
@@ -247,6 +371,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>GetConfig. </p>
 <dl class="section return"><dt>Returns</dt><dd>The config as a string, mostly used for debug </dd></dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#a52caddc60760dbb870957f563b0b0379">_exeList</a>, and <a class="el" href="class_profile.html#aa8ea7a58d1b9a01c03fa2f7d025872aa">_name</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d">LIDL::Controller::ProfileController::AddProfile()</a>.</p>
+
 </div>
 </div>
 <a id="a3d0f83c3208be24b337e110d90417bb7"></a>
@@ -266,6 +394,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>GetGameList. </p>
 <dl class="section return"><dt>Returns</dt><dd>The game list as a QSet&lt;QString&gt; </dd></dl>
+
+<p class="reference">References <a class="el" href="class_profile.html#a52caddc60760dbb870957f563b0b0379">_exeList</a>.</p>
 
 </div>
 </div>
@@ -287,6 +417,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>GetName. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_profile.html" title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit...">Profile</a> name as a QString </dd></dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#aa8ea7a58d1b9a01c03fa2f7d025872aa">_name</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0">LIDL::Controller::ProfileController::DeleteActiveProfile()</a>, <a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">GameSelector::RefreshProfiles()</a>, and <a class="el" href="class_l_i_d_l_1_1_overlay_controller.html#aea02901b077c93e21d9495ea604d93c6">LIDL::OverlayController::ShowGameOverlay()</a>.</p>
+
 </div>
 </div>
 <a id="a9f2bbe00e09f1aec8cc9b88ae1d2ecf9"></a>
@@ -307,6 +441,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>GetParent. </p>
 <dl class="section return"><dt>Returns</dt><dd>The parent profile that sound should be mirrored from </dd></dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#ae1addaaf5d07952b5dac8bf5885ea2bb">_parent</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">LIDL::Controller::ProfileController::ManualGameConfigurationChanged()</a>.</p>
+
 </div>
 </div>
 <a id="a18fac6b2f1cb02cb075deb938da7f8bf"></a>
@@ -326,6 +464,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>GetProfileAsObject. </p>
 <dl class="section return"><dt>Returns</dt><dd>A JSON Object representing this profile </dd></dl>
+
+<p class="reference">References <a class="el" href="class_profile.html#aa8ea7a58d1b9a01c03fa2f7d025872aa">_name</a>, <a class="el" href="class_profile.html#afda1d0f2dea6d70b1e5694eef075d9fd">_PTTKeySequence</a>, <a class="el" href="class_profile.html#a7c340d00ff8ac60b18c9c9ce4f4397f9">_PTTScanCode</a>, <a class="el" href="class_profile.html#acc96e9200afc9c9529ce8800197deb90">_PTTVirtualKey</a>, and <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
 
 </div>
 </div>
@@ -352,6 +492,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#afda1d0f2dea6d70b1e5694eef075d9fd">_PTTKeySequence</a>.</p>
+
 </div>
 </div>
 <a id="ac4ff547c54850ff3b4e14f36afc7fcc1"></a>
@@ -371,6 +513,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>GetPttScanCode. </p>
 <dl class="section return"><dt>Returns</dt><dd>Gets this profile Push To Talk Scan Code </dd></dl>
+
+<p class="reference">References <a class="el" href="class_profile.html#a7c340d00ff8ac60b18c9c9ce4f4397f9">_PTTScanCode</a>.</p>
 
 </div>
 </div>
@@ -392,6 +536,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>GetPttVirtualKey. </p>
 <dl class="section return"><dt>Returns</dt><dd>Gets this profile Push To Talk Virtual Key </dd></dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#acc96e9200afc9c9529ce8800197deb90">_PTTVirtualKey</a>.</p>
+
 </div>
 </div>
 <a id="adbde9472f7d2c85aaa06acec8dd02cab"></a>
@@ -411,6 +557,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>GetSounds. </p>
 <dl class="section return"><dt>Returns</dt><dd>The sounds associated with this profile </dd></dl>
+
+<p class="reference">References <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">LIDL::Controller::ProfileController::ManualGameConfigurationChanged()</a>.</p>
 
 </div>
 </div>
@@ -433,6 +583,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>IsExeHere Search for an executable in _exeList. </p>
 <dl class="section return"><dt>Returns</dt><dd>true is found, false otherwise </dd></dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#a52caddc60760dbb870957f563b0b0379">_exeList</a>.</p>
+
 </div>
 </div>
 <a id="a865a00741836e6c24693b5ebd298ee92"></a>
@@ -442,7 +594,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::RemoveGame </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::RemoveGame </td>
           <td>(</td>
           <td class="paramtype">QString&#160;</td>
           <td class="paramname"><em>exe</em></td><td>)</td>
@@ -468,7 +620,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::RemoveSoundFromSharedPtr </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::RemoveSoundFromSharedPtr </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt;&#160;</td>
           <td class="paramname"><em>wrapper</em></td><td>)</td>
@@ -486,6 +638,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </dl>
 <p>Will remove a shared_ptr from the QVector (when the sound was deleted or replaced in the main UI) </p>
 
+<p class="reference">References <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+
 </div>
 </div>
 <a id="a4bb4bb4575c9fdb30c864f0500df03c6"></a>
@@ -495,7 +651,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::SetPttKeySequence </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::SetPttKeySequence </td>
           <td>(</td>
           <td class="paramtype">QKeySequence&#160;</td>
           <td class="paramname"><em>sequence</em></td><td>)</td>
@@ -512,6 +668,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#afda1d0f2dea6d70b1e5694eef075d9fd">_PTTKeySequence</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+
 </div>
 </div>
 <a id="a24c790eba28568250d8ed78c4ca7bbe1"></a>
@@ -521,7 +681,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::SetPttScanCode </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::SetPttScanCode </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>sc</em></td><td>)</td>
@@ -538,6 +698,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#a7c340d00ff8ac60b18c9c9ce4f4397f9">_PTTScanCode</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+
 </div>
 </div>
 <a id="a8df517ec5f95c11f0bf966beb0688ac5"></a>
@@ -547,7 +711,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::SetPttVirtualKey </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::SetPttVirtualKey </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>vk</em></td><td>)</td>
@@ -564,6 +728,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#acc96e9200afc9c9529ce8800197deb90">_PTTVirtualKey</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+
 </div>
 </div>
 <a id="a3fcb9609666829e3d52fc29e9acda9d2"></a>
@@ -573,7 +741,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Profile::SwapSound </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> Profile::SwapSound </td>
           <td>(</td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt;&#160;</td>
           <td class="paramname"><em>oldWrapper</em>, </td>
@@ -601,11 +769,185 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 
+<p class="reference">References <a class="el" href="class_profile.html#acfcde15746c70e868295ce95500848d6">_sounds</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a52caddc60760dbb870957f563b0b0379"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52caddc60760dbb870957f563b0b0379">&#9670;&nbsp;</a></span>_exeList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSet&lt;QString&gt; Profile::_exeList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Array of executables </p>
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a">GetConfigAsString()</a>, <a class="el" href="class_profile.html#a3d0f83c3208be24b337e110d90417bb7">GetGameList()</a>, and <a class="el" href="class_profile.html#aef728410935bb621752c7db92223d4c8">IsContainingExe()</a>.</p>
+
+</div>
+</div>
+<a id="aa8ea7a58d1b9a01c03fa2f7d025872aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8ea7a58d1b9a01c03fa2f7d025872aa">&#9670;&nbsp;</a></span>_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Profile::_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a">GetConfigAsString()</a>, <a class="el" href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5">GetName()</a>, and <a class="el" href="class_profile.html#a18fac6b2f1cb02cb075deb938da7f8bf">GetProfileAsObject()</a>.</p>
+
+</div>
+</div>
+<a id="ae1addaaf5d07952b5dac8bf5885ea2bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1addaaf5d07952b5dac8bf5885ea2bb">&#9670;&nbsp;</a></span>_parent</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_profile.html">Profile</a>* Profile::_parent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9">GetParent()</a>.</p>
+
+</div>
+</div>
+<a id="afda1d0f2dea6d70b1e5694eef075d9fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afda1d0f2dea6d70b1e5694eef075d9fd">&#9670;&nbsp;</a></span>_PTTKeySequence</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QKeySequence Profile::_PTTKeySequence</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#a18fac6b2f1cb02cb075deb938da7f8bf">GetProfileAsObject()</a>, <a class="el" href="class_profile.html#a01ac144d81e64c073ad2c54db6712950">GetPttKeySequence()</a>, and <a class="el" href="class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6">SetPttKeySequence()</a>.</p>
+
+</div>
+</div>
+<a id="a7c340d00ff8ac60b18c9c9ce4f4397f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c340d00ff8ac60b18c9c9ce4f4397f9">&#9670;&nbsp;</a></span>_PTTScanCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Profile::_PTTScanCode = -1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#a18fac6b2f1cb02cb075deb938da7f8bf">GetProfileAsObject()</a>, <a class="el" href="class_profile.html#ac4ff547c54850ff3b4e14f36afc7fcc1">GetPttScanCode()</a>, and <a class="el" href="class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1">SetPttScanCode()</a>.</p>
+
+</div>
+</div>
+<a id="acc96e9200afc9c9529ce8800197deb90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc96e9200afc9c9529ce8800197deb90">&#9670;&nbsp;</a></span>_PTTVirtualKey</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Profile::_PTTVirtualKey = -1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#a18fac6b2f1cb02cb075deb938da7f8bf">GetProfileAsObject()</a>, <a class="el" href="class_profile.html#af9f6c1bc8d9310c0559687a35dadd623">GetPttVirtualKey()</a>, and <a class="el" href="class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5">SetPttVirtualKey()</a>.</p>
+
+</div>
+</div>
+<a id="acfcde15746c70e868295ce95500848d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfcde15746c70e868295ce95500848d6">&#9670;&nbsp;</a></span>_sounds</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;std::shared_ptr&lt;<a class="el" href="class_sound_wrapper.html">SoundWrapper</a>&gt; &gt; Profile::_sounds</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec">AddSound()</a>, <a class="el" href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22">ClearSounds()</a>, <a class="el" href="class_profile.html#a18fac6b2f1cb02cb075deb938da7f8bf">GetProfileAsObject()</a>, <a class="el" href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab">GetSounds()</a>, <a class="el" href="class_profile.html#a2e81bc0cb881035bcabfd328025cb1d1">RemoveSoundFromSharedPtr()</a>, <a class="el" href="class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2">SwapSound()</a>, and <a class="el" href="class_profile.html#a58fa758a59bc4ee3c1a9980e360e4e98">~Profile()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>D:/Qt/Projects/Lidl_Soundboard/include/<a class="el" href="_profile_8h_source.html">Profile.h</a></li>
-<li>D:/Qt/Projects/Lidl_Soundboard/Profile.cpp</li>
+<li>D:/Qt/Projects/Lidl_Soundboard/<a class="el" href="_profile_8cpp.html">Profile.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

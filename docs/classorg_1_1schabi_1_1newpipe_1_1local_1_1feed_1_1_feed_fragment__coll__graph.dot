@@ -1,0 +1,47 @@
+digraph "org.schabi.newpipe.local.feed.FeedFragment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node9 [label="org.schabi.newpipe.local.feed.\lFeedFragment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node10 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="org::schabi::newpipe\l::fragments::list::BaseList\lFragment\< List\< SubscriptionEntity\l \>, Void \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1fragments_1_1list_1_1_base_list_fragment.html",tooltip=" "];
+  Node11 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="org::schabi::newpipe\l::fragments::BaseStateFragment\< I \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1fragments_1_1_base_state_fragment.html",tooltip=" "];
+  Node12 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="org.schabi.newpipe.BaseFragment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1_base_fragment.html",tooltip=" "];
+  Node13 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Fragment",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node14 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" activity" ,fontname="Helvetica"];
+  Node14 [label="AppCompatActivity",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node15 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" imageLoader" ,fontname="Helvetica"];
+  Node15 [label="ImageLoader",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node16 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="org::schabi::newpipe\l::fragments::ViewContract\< I \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1fragments_1_1_view_contract.html",tooltip=" "];
+  Node17 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorButtonRetry" ,fontname="Helvetica"];
+  Node17 [label="Button",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" loadingProgressBar" ,fontname="Helvetica"];
+  Node18 [label="ProgressBar",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node19 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorPanelRoot\nemptyStateView" ,fontname="Helvetica"];
+  Node19 [label="View",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node20 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorTextView" ,fontname="Helvetica"];
+  Node20 [label="TextView",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node21 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" isLoading\nwasLoading" ,fontname="Helvetica"];
+  Node21 [label="AtomicBoolean",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node22 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="org::schabi::newpipe\l::fragments::list::ListView\lContract\< I, N \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1fragments_1_1list_1_1_list_view_contract.html",tooltip=" "];
+  Node16 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="org.schabi.newpipe.util.\lStateSaver.WriteRead",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1util_1_1_state_saver_1_1_write_read.html",tooltip=" "];
+  Node24 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="OnSharedPreferenceChange\lListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node25 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" itemsList" ,fontname="Helvetica"];
+  Node25 [label="RecyclerView",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node26 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" savedState" ,fontname="Helvetica"];
+  Node26 [label="org.schabi.newpipe.util.\lStateSaver",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1util_1_1_state_saver.html",tooltip=" "];
+  Node27 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" infoListAdapter" ,fontname="Helvetica"];
+  Node27 [label="org.schabi.newpipe.info\l_list.InfoListAdapter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1info__list_1_1_info_list_adapter.html",tooltip=" "];
+  Node28 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="RecyclerView::Adapter\l\< RecyclerView.ViewHolder \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

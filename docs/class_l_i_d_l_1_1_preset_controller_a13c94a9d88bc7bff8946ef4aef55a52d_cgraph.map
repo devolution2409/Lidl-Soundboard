@@ -1,0 +1,4 @@
+<map id="LIDL::PresetController::GetInstance" name="LIDL::PresetController::GetInstance">
+<area shape="rect" id="node1" title="GetInstance, returns the instance of the controller, creating one if it doesn&#39;t exist." alt="" coords="5,5,155,47"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_preset_controller.html#ab0c4de0908578b7067e4cc8af28dac3f" title="PresetController default constructor." alt="" coords="203,5,352,47"/>
+</map>

@@ -1,0 +1,14 @@
+digraph "org.schabi.newpipe.about.LicenseFragmentHelper.getFormattedLicense"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="org.schabi.newpipe.about.\lLicenseFragmentHelper.getFormatted\lLicense",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="org.schabi.newpipe.about.\lLicenseFragmentHelper.getLicense\lStylesheet",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1about_1_1_license_fragment_helper.html#a91fd58e37571d64817c56d5ebf4ae8e2",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="org.schabi.newpipe.util.\lThemeHelper.isLightThemeSelected",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1util_1_1_theme_helper.html#aac506ebb937a1f01bc846893d08fde50",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="org.schabi.newpipe.about.\lLicenseFragmentHelper.getHexRGBColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1about_1_1_license_fragment_helper.html#a7ee14b250d0dc303faa7404eecdc8de4",tooltip=" "];
+}

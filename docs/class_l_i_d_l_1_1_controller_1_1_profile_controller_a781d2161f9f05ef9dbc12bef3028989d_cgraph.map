@@ -1,0 +1,4 @@
+<map id="LIDL::Controller::ProfileController::AddProfile" name="LIDL::Controller::ProfileController::AddProfile">
+<area shape="rect" id="node1" title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node2" href="$class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a" title="GetConfig." alt="" coords="208,13,381,39"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="PresetWizardIntroPage::addWidgets" name="PresetWizardIntroPage::addWidgets">
+<area shape="rect" id="node1" title=" " alt="" coords="5,104,161,145"/>
+<area shape="rect" id="node2" href="$class_sfx_settings_widget.html#adb22b8c5ad033d11f9fbc2d169eb346e" title="addComboBox Add a combo box to the widget." alt="" coords="226,5,365,47"/>
+<area shape="rect" id="node3" href="$class_sfx_settings_widget.html#a84a8a5eb9b62d4428a6727d56bab96f4" title="addSlider" alt="" coords="226,71,365,112"/>
+<area shape="rect" id="node4" href="$class_sfx_settings_widget.html#a308699222a209e16875c9cb9d884a570" title="addSpacer Add a spacer to the layout so that every one have the same line height." alt="" coords="226,136,365,177"/>
+<area shape="rect" id="node5" href="$class_spoiler.html#a5c074b88b61d87efb49b63cd9b2b4ab8" title=" " alt="" coords="209,202,381,229"/>
+</map>

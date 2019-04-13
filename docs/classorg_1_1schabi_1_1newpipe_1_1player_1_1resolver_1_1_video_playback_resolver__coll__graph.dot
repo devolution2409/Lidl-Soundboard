@@ -1,0 +1,11 @@
+digraph "org.schabi.newpipe.player.resolver.VideoPlaybackResolver"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node3 [label="org.schabi.newpipe.player.resolver.\lVideoPlaybackResolver",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="org.schabi.newpipe.player.resolver.\lPlaybackResolver",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1player_1_1resolver_1_1_playback_resolver.html",tooltip=" "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="org.schabi.newpipe.player.resolver.\lResolver\< StreamInfo, MediaSource \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1player_1_1resolver_1_1_resolver.html",tooltip=" "];
+}

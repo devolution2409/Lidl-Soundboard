@@ -1,0 +1,4 @@
+<map id="SoundWrapper::VACDeviceChanged" name="SoundWrapper::VACDeviceChanged">
+<area shape="rect" id="node1" title="Set the VAC output device of the player according to the combo box in the UI." alt="" coords="5,5,237,32"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#af121c5c21d552b3eb39a0c7ac2cf4b9f" title="SetVACDevice Sets the VAC output device of the player." alt="" coords="285,5,483,32"/>
+</map>

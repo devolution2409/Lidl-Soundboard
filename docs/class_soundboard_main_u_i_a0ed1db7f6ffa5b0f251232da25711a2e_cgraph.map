@@ -1,0 +1,9 @@
+<map id="SoundboardMainUI::addSeveralSounds" name="SoundboardMainUI::addSeveralSounds">
+<area shape="rect" id="node1" title="addSeveralSounds Function used by the thread created when opening a lidljson file." alt="" coords="5,60,208,101"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="297,15,452,56"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f" title="AutoGameConfigurationChange." alt="" coords="256,98,493,154"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="541,5,717,47"/>
+<area shape="rect" id="node5" href="$class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="567,71,692,98"/>
+<area shape="rect" id="node6" href="$class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="564,122,695,149"/>
+<area shape="rect" id="node7" href="$class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="559,173,699,199"/>
+</map>

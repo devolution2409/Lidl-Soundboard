@@ -8,10 +8,22 @@ var class_custom_player =
     [ "GetVACDevice", "class_custom_player.html#a83bbf53e1c7b1710527ff4b6b1c21e9e", null ],
     [ "holdPTT", "class_custom_player.html#a164127c799f6f4d3028f353e50266317", null ],
     [ "NowPlaying", "class_custom_player.html#a67bc3a677766d0619b09fb63d7ec2f92", null ],
+    [ "PlayAt", "class_custom_player.html#a1391841708ca081f2620d468e8f71999", null ],
     [ "PlayNext", "class_custom_player.html#a497e85ac7db0a32dccfa33c3a9f3cf09", null ],
+    [ "resetShouldPlay", "class_custom_player.html#a97a71f8be685156d289bb3c976ce3a61", null ],
     [ "SetOutputDevice", "class_custom_player.html#a46d9ee558903757d2bd34a4d08bc5ca3", null ],
     [ "SetPlaybackMode", "class_custom_player.html#ac195f473029b4629683893721c2542bf", null ],
     [ "SetPlaylist", "class_custom_player.html#a1197c4d80afb2e9a89cf808cff11f5ef", null ],
     [ "SetVACDevice", "class_custom_player.html#af121c5c21d552b3eb39a0c7ac2cf4b9f", null ],
-    [ "Stop", "class_custom_player.html#a43c73c291d287250726d621c209b0c67", null ]
+    [ "Stop", "class_custom_player.html#a43c73c291d287250726d621c209b0c67", null ],
+    [ "_index", "class_custom_player.html#a1f9e2a484f67d8bab4a28cde8e9b42e2", null ],
+    [ "_mainChannel", "class_custom_player.html#a15a5923d036ab27801014678d052ba04", null ],
+    [ "_mainOutputDevice", "class_custom_player.html#abf1b75facb86e2ff12875db7e6d69126", null ],
+    [ "_playMode", "class_custom_player.html#aa3bb1ab37f588c3eb66d52af33222814", null ],
+    [ "_shouldPlay", "class_custom_player.html#a08dae2e78d15c341bc8110a4893745b7", null ],
+    [ "_soundList", "class_custom_player.html#ae1f093a9252d0b58e458bbb14e303ba8", null ],
+    [ "_timerSequentialAutoPlay", "class_custom_player.html#a55bc8902a4d7c899adba4b70b5317524", null ],
+    [ "_timerShouldPlay", "class_custom_player.html#a274f69775bf681acf19cfcbfbc4fbfc5", null ],
+    [ "_vacChannel", "class_custom_player.html#a60b44e11955c6f8482b8688fbd97fdb5", null ],
+    [ "_VACOutputDevice", "class_custom_player.html#ab61b1a7243bcf751590a11d63af1b9b5", null ]
 ];

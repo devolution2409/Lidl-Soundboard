@@ -1,5 +1,6 @@
 var class_l_i_d_l_1_1_controller_1_1_settings_controller =
 [
+    [ "SettingsController", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2d9f179f9e5531fedd6684b1fccadd84", null ],
     [ "addFileToRecent", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a6fd1befc01712f748c874747d2efa3f2", null ],
     [ "addShowFlag", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae7b21591a7eaecaa394b4419a644e1c4", null ],
     [ "buttonBrowseLidl", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a8ef687216c265baee312ae8a9924817f", null ],
@@ -12,6 +13,7 @@ var class_l_i_d_l_1_1_controller_1_1_settings_controller =
     [ "GetDefaultVacVolume", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#acb61cc569ff5b0c547661d52408fbf6d", null ],
     [ "GetDragAndDropSeveralWrappers", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a6c23e95874bcfad7f18d33180ad905f9", null ],
     [ "getEventProcessing", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a7ad72306c32b8ad98db88b5e17099d89", null ],
+    [ "GetInstance", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aed98ae192e70efc2fdbc1f18d76060dd", null ],
     [ "GetLastOpenedSoundboard", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a5095b2c87b1e6360c05e91631368d88d", null ],
     [ "GetRecentFiles", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a99b42bfb0518168d3a03adf9783a94bc", null ],
     [ "GetRecentFilesCount", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae4702da680016665d731291850aaf41f", null ],
@@ -35,5 +37,24 @@ var class_l_i_d_l_1_1_controller_1_1_settings_controller =
     [ "SetRecentFileCount", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a7e7af0319e1916bce05a7341dce40998", null ],
     [ "SettingsChanged", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a40ebe5e1bfdc1bc16120ac8b16424dc6", null ],
     [ "ShowSettingsWindow", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4ccefcb67c1d1c24651f257689b9588f", null ],
-    [ "unHoldPTT", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216", null ]
+    [ "unHoldPTT", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216", null ],
+    [ "_activePttScanCode", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#abeb157f274991650da5db2e161538ba4", null ],
+    [ "_activePttTimer", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a9049ce17a8ba379242b58d9a9ee4bd6a", null ],
+    [ "_activePttVitualKey", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a5286823e459945ff058069b19a17eda2", null ],
+    [ "_eventProcessing", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#abacff4782c693259ddcea2e8dcef961f", null ],
+    [ "_isEditing", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aa384b386341c030ca5850f8b0105b817", null ],
+    [ "_recentMenu", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ace1cd582854d571f5686fbf9bbc9aabf", null ],
+    [ "_showFlags", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4d98c43ba9312495e5f6119baefbad9d", null ],
+    [ "defaultMainVolume", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a1ef88dc2d8e377ca2d84e0c83d618904", null ],
+    [ "defaultSoundboardFolder", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a91b3b3126c218fb31f8d8d67ea88813e", null ],
+    [ "defaultSoundsFolder", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a73684b7aaeba792479f36947ce4f96e7", null ],
+    [ "defaultVacVolume", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3c24ffbd44e36a8ac6e8e4d799c3d46b", null ],
+    [ "dragAndDropSeveralWrappers", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a8b04212ef30f5dcbea9427f3e0f98ed1", null ],
+    [ "fileAlreadyExisted", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ad4b63ff920c2e2bbd439d2df49d010e3", null ],
+    [ "fileName", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a1373b2def12b20b65ebc4c27be1e6f18", null ],
+    [ "oldObject", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a269686e387113803e671b43a54be5bfd", null ],
+    [ "recentFileCount", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#afa68a5eebef05448b3e5db0d879a6c56", null ],
+    [ "recentFiles", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a5826f4aa45f009db1cc320f5086681a3", null ],
+    [ "self", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aefa37f3111804549e1812b104888872e", null ],
+    [ "ui", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ab52ab52a04a20c100db343474e9119bb", null ]
 ];

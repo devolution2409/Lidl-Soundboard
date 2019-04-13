@@ -1,0 +1,8 @@
+<map id="GameSelector::RefreshProfiles" name="GameSelector::RefreshProfiles">
+<area shape="rect" id="node1" title="RefreshProfiles." alt="" coords="5,107,205,134"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595" title="GetActiveProfile." alt="" coords="253,5,431,47"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="265,71,419,112"/>
+<area shape="rect" id="node5" href="$class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="281,137,403,163"/>
+<area shape="rect" id="node6" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a9aed7c3c626becffdf0241c7875587ff" title="GetProfiles." alt="" coords="265,188,419,229"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="479,71,655,112"/>
+</map>

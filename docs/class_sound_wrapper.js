@@ -4,6 +4,7 @@ var class_sound_wrapper =
     [ "SoundWrapper", "class_sound_wrapper.html#adf420f194ccc8b20947f9a74040bd8c8", null ],
     [ "SoundWrapper", "class_sound_wrapper.html#ae338d43330773a630d45fa2f334b1259", null ],
     [ "addSound", "class_sound_wrapper.html#a0e7c3c938c43af3dbabecbfcafdadcfd", null ],
+    [ "checkFileExistence", "class_sound_wrapper.html#a8ebedf0a61169145dcff3ef5438136bd", null ],
     [ "clearShorcut", "class_sound_wrapper.html#acf8d463bb53ce4e983484383a63278a1", null ],
     [ "ErrorPlaying", "class_sound_wrapper.html#a67248253506b0cdaf854b63bda59646d", null ],
     [ "getKeySequence", "class_sound_wrapper.html#ac73f84dba78c414521116ac89235edc8", null ],
@@ -25,5 +26,10 @@ var class_sound_wrapper =
     [ "UnexistantFile", "class_sound_wrapper.html#ae16f415bbdf8350936527e5ff237b849", null ],
     [ "VACDeviceChanged", "class_sound_wrapper.html#a94414d148c589737d56ef41b86fca3f6", null ],
     [ "operator!=", "class_sound_wrapper.html#ab1d45f345f645dad8cd58dba618aa31b", null ],
-    [ "operator==", "class_sound_wrapper.html#a445c21f582ade531ce597b5a6a4b44b2", null ]
+    [ "operator==", "class_sound_wrapper.html#a445c21f582ade531ce597b5a6a4b44b2", null ],
+    [ "_keySequence", "class_sound_wrapper.html#aa009856fa4019fe62c16a155a87a7978", null ],
+    [ "_player", "class_sound_wrapper.html#ac360d290ba6a2e332b976d36b31be615", null ],
+    [ "_playMode", "class_sound_wrapper.html#a0b8ec647068c550b4de09205d43b7255", null ],
+    [ "_soundList", "class_sound_wrapper.html#ae2a94da495c2d1616807eeb8a4b36f6a", null ],
+    [ "_virtualKey", "class_sound_wrapper.html#a7f6ddf76eb433eb5b4003709d65170e0", null ]
 ];

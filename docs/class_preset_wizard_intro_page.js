@@ -1,4 +1,30 @@
 var class_preset_wizard_intro_page =
 [
-    [ "PresetWizardIntroPage", "class_preset_wizard_intro_page.html#ae2fe5a4d9d9dd421b5bfe3634330e6ac", null ]
+    [ "PresetWizardIntroPage", "class_preset_wizard_intro_page.html#ae2fe5a4d9d9dd421b5bfe3634330e6ac", null ],
+    [ "addWidgets", "class_preset_wizard_intro_page.html#a3c0474fd54295d5f0ceb73d986e560fb", null ],
+    [ "finished", "class_preset_wizard_intro_page.html#a43888e16d7a01b0013f2292487825230", null ],
+    [ "presetBoxIndexChanged", "class_preset_wizard_intro_page.html#ad346571f94efc1c735989a348f73f9fd", null ],
+    [ "radioWasClicked", "class_preset_wizard_intro_page.html#ab1abee0df4b9f551f305a1d45a5bdd7e", null ],
+    [ "sfxBoxIndexChanged", "class_preset_wizard_intro_page.html#a51f57903d532a3f9e53d65391e7bdee4", null ],
+    [ "_cancelButton", "class_preset_wizard_intro_page.html#a19fae28fdf85d211c8fd374bb2416820", null ],
+    [ "_chorusWidget", "class_preset_wizard_intro_page.html#ac5098fbd879a2e1b817bdabe1704eb5e", null ],
+    [ "_compressorWidget", "class_preset_wizard_intro_page.html#a5b70e9d0e4bada18961dee0dfcdd52a4", null ],
+    [ "_distortionWidget", "class_preset_wizard_intro_page.html#a38d7ba8b595c6fae35ebbbe35ae88e42", null ],
+    [ "_echoWidget", "class_preset_wizard_intro_page.html#ab6f7c02b9f6fc3f4b5fb0ad38289d1f7", null ],
+    [ "_finishButton", "class_preset_wizard_intro_page.html#a19e4ac180042f49bb9b84757c724b471", null ],
+    [ "_flangerWidget", "class_preset_wizard_intro_page.html#aeba7408e9b7c49f109e174129e64193f", null ],
+    [ "_gargleWidget", "class_preset_wizard_intro_page.html#a2d7c9a8e0d74c107bb544415b159a4e7", null ],
+    [ "_layout", "class_preset_wizard_intro_page.html#abdc2b4ee6c4dc8f4c028e74bf0f13164", null ],
+    [ "_pastorLUL", "class_preset_wizard_intro_page.html#a287e664cf9ec33b3c93d679ed94930d9", null ],
+    [ "_presetName", "class_preset_wizard_intro_page.html#ab78d6a0bd18c1b0f56956574d04f830a", null ],
+    [ "_presetSFXcomboBox", "class_preset_wizard_intro_page.html#a5a749fde3f63e556452c49a58c5933cb", null ],
+    [ "_presetSFXLayout", "class_preset_wizard_intro_page.html#a14db4794cb7e12b3c0befc88718f3381", null ],
+    [ "_presetSFXSpoiler", "class_preset_wizard_intro_page.html#a7732bafb0e2a0e2ce4f6c13ba2cace19", null ],
+    [ "_radioAdd", "class_preset_wizard_intro_page.html#adc14eb4faf54abf560cd18eb925af1b2", null ],
+    [ "_radioEdit", "class_preset_wizard_intro_page.html#ab47cc8f7cb92709070d9671972791d4b", null ],
+    [ "_settingsLayout", "class_preset_wizard_intro_page.html#a67071cafb29d94e7cdc2a6498557745c", null ],
+    [ "_settingsSpoiler", "class_preset_wizard_intro_page.html#a453829371f905b890adf9e91c12a7766", null ],
+    [ "_spoilerSFX", "class_preset_wizard_intro_page.html#a9cc580a814a2b7cd734cb856860aabda", null ],
+    [ "_spoilerSFXcomboBox", "class_preset_wizard_intro_page.html#a94d276602822b33a09b5cf4fedb84538", null ],
+    [ "_spoilerSFXLayout", "class_preset_wizard_intro_page.html#a477a5636b6995c27df37578aaa7d4f46", null ]
 ];

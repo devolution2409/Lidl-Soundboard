@@ -1,0 +1,50 @@
+digraph "org.schabi.newpipe.player.BasePlayer"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node7 [label="org.schabi.newpipe.player.\lBasePlayer",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Player::EventListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="org.schabi.newpipe.player.playback.\lPlaybackListener",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$interfaceorg_1_1schabi_1_1newpipe_1_1player_1_1playback_1_1_playback_listener.html",tooltip=" "];
+  Node10 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="ImageLoadingListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node11 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" playQueue" ,fontname="Helvetica"];
+  Node11 [label="org.schabi.newpipe.player.playqueue.\lPlayQueue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1playqueue_1_1_play_queue.html",tooltip=" "];
+  Node12 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Serializable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node13 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" errorToast" ,fontname="Helvetica"];
+  Node13 [label="Toast",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node14 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" broadcastReceiver" ,fontname="Helvetica"];
+  Node14 [label="BroadcastReceiver",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node15 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" simpleExoPlayer" ,fontname="Helvetica"];
+  Node15 [label="SimpleExoPlayer",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node16 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" recordManager" ,fontname="Helvetica"];
+  Node16 [label="org.schabi.newpipe.local.history.\lHistoryRecordManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1local_1_1history_1_1_history_record_manager.html",tooltip=" "];
+  Node17 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" intentFilter" ,fontname="Helvetica"];
+  Node17 [label="IntentFilter",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mediaSessionManager" ,fontname="Helvetica"];
+  Node18 [label="org.schabi.newpipe.player.helper.\lMediaSessionManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1helper_1_1_media_session_manager.html",tooltip=" "];
+  Node19 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" playQueueAdapter" ,fontname="Helvetica"];
+  Node19 [label="org.schabi.newpipe.player.playqueue.\lPlayQueueAdapter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1playqueue_1_1_play_queue_adapter.html",tooltip=" "];
+  Node20 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="RecyclerView::Adapter\l\< RecyclerView.ViewHolder \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node21 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" audioReactor" ,fontname="Helvetica"];
+  Node21 [label="org.schabi.newpipe.player.helper.\lAudioReactor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1helper_1_1_audio_reactor.html",tooltip=" "];
+  Node22 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="AudioManager::OnAudioFocus\lChangeListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node23 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="AudioRendererEventListener",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node24 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" dataSource" ,fontname="Helvetica"];
+  Node24 [label="org.schabi.newpipe.player.helper.\lPlayerDataSource",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1helper_1_1_player_data_source.html",tooltip=" "];
+  Node25 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" trackSelector" ,fontname="Helvetica"];
+  Node25 [label="org.schabi.newpipe.player.playback.\lCustomTrackSelector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1playback_1_1_custom_track_selector.html",tooltip=" "];
+  Node26 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="DefaultTrackSelector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node27 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" context" ,fontname="Helvetica"];
+  Node27 [label="Context",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node28 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" playbackManager" ,fontname="Helvetica"];
+  Node28 [label="org.schabi.newpipe.player.playback.\lMediaSourceManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classorg_1_1schabi_1_1newpipe_1_1player_1_1playback_1_1_media_source_manager.html",tooltip=" "];
+}

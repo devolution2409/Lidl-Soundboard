@@ -1,0 +1,9 @@
+<map id="CustomListWidgetItem::setSFX" name="CustomListWidgetItem::setSFX">
+<area shape="rect" id="node1" title=" " alt="" coords="5,169,160,211"/>
+<area shape="rect" id="node2" href="$class_custom_list_widget_item.html#a0de9a9344f7387f961704bea94d55c79" title="setSFXChorud Used to set the parameters of the Chorus." alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node3" href="$class_custom_list_widget_item.html#ad6990ffcc775050d0d135d5df657dae3" title="setSFXCompressor" alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node4" href="$class_custom_list_widget_item.html#a46e549f258fd2d8a36c2ff81f55cd102" title="setSFXDistortion Used to set the parameters of the Distortion." alt="" coords="208,136,363,177"/>
+<area shape="rect" id="node5" href="$class_custom_list_widget_item.html#a76d053083178631912a092345f6db6e1" title="setSFXEcho" alt="" coords="208,201,363,243"/>
+<area shape="rect" id="node6" href="$class_custom_list_widget_item.html#acb3e3053fee219521f60c2332097ec03" title=" " alt="" coords="208,267,363,308"/>
+<area shape="rect" id="node7" href="$class_custom_list_widget_item.html#a2dd273f1e860570f8d110c1f1aee688d" title=" " alt="" coords="208,332,363,373"/>
+</map>

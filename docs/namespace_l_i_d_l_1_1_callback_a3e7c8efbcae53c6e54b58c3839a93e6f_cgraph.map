@@ -1,0 +1,6 @@
+<map id="LIDL::Callback::ResizeToWindow" name="LIDL::Callback::ResizeToWindow">
+<area shape="rect" id="node1" title="ResizeToWindow." alt="" coords="5,39,173,80"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_overlay_controller.html#ac42a7b5e1b098c8cfd57d9921040301a" title=" " alt="" coords="221,5,376,47"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_overlay_controller.html#a3ba20099a836e5f5b77766ac63161712" title="Resize the overlay to the topmost window. Should be called whenever topmost window changes,..." alt="" coords="221,71,376,112"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_overlay_controller.html#a322d3f49563edc3573205dfe17b20359" title="OverlayController default constructor." alt="" coords="424,5,579,47"/>
+</map>

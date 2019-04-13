@@ -1,0 +1,5 @@
+<map id="SoundboardMainUI::fetchDeviceList" name="SoundboardMainUI::fetchDeviceList">
+<area shape="rect" id="node1" title="This function fetches the devices list, and sets up the given combo box." alt="" coords="5,31,232,57"/>
+<area shape="rect" id="node2" href="$bass_8h.html#ae3bbfc4ab79e2399b999390a89ab9021" title=" " alt="" coords="301,5,445,32"/>
+<area shape="rect" id="node3" href="$bass_8h.html#a27cacc41a800e3521b6ec703f00405f5" title=" " alt="" coords="280,56,465,83"/>
+</map>

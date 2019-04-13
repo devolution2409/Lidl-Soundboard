@@ -9,5 +9,8 @@ var class_slider_spin =
     [ "setValue", "class_slider_spin.html#ac2a25144bc8c1bfed94248456f9667f9", null ],
     [ "specialValue", "class_slider_spin.html#ac8f39640f9f3a9dbc181f26cff33b93d", null ],
     [ "value", "class_slider_spin.html#a000f369b595c5ff2033fbf2ab34f1926", null ],
-    [ "valueChanged", "class_slider_spin.html#ab2131354cb2778d41696d9518835b1dd", null ]
+    [ "valueChanged", "class_slider_spin.html#ab2131354cb2778d41696d9518835b1dd", null ],
+    [ "_layout", "class_slider_spin.html#ab0ef073dfe8d276fd62b693e975a4f12", null ],
+    [ "_slider", "class_slider_spin.html#a3312f91a350a61027aa1c649e5680ffb", null ],
+    [ "_spinbox", "class_slider_spin.html#ade2eaa48393e05196482690f76205e0f", null ]
 ];

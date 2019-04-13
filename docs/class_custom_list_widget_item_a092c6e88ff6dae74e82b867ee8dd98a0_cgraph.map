@@ -1,0 +1,9 @@
+<map id="CustomListWidgetItem::getSFXValue" name="CustomListWidgetItem::getSFXValue">
+<area shape="rect" id="node1" title=" " alt="" coords="5,169,160,211"/>
+<area shape="rect" id="node2" href="$class_custom_list_widget_item.html#a2752fc5f7d547018f590b052cf8ce215" title="getSFXChorus Get the value of the specified Chorus SFX parameter." alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node3" href="$class_custom_list_widget_item.html#a01c0f71f59165e8d40bad50502e6aa7b" title=" " alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node4" href="$class_custom_list_widget_item.html#a428552066876f13b66f2cbe9adc0cfd1" title="getSFXDistortion Get the value of the specified Distortion SFX parameter." alt="" coords="208,136,363,177"/>
+<area shape="rect" id="node5" href="$class_custom_list_widget_item.html#a8b194f7cdae1f1d8c067672e1ba50875" title=" " alt="" coords="208,201,363,243"/>
+<area shape="rect" id="node6" href="$class_custom_list_widget_item.html#aaa8c560bfab9b046f161063a2d44692e" title=" " alt="" coords="208,267,363,308"/>
+<area shape="rect" id="node7" href="$class_custom_list_widget_item.html#ae2f0cb483e1fe12e067964ccb1f94811" title=" " alt="" coords="208,332,363,373"/>
+</map>
