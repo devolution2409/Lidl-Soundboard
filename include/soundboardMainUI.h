@@ -271,6 +271,7 @@ private:
      */
     void addSeveralSounds(QVector<SoundWrapper*> sounds, int maximum);
 
+
 public:
     /*!
      * \brief SoundboardMainUI Default constructor.
@@ -481,6 +482,15 @@ public slots:
      */
     void dropEvent(QDropEvent *e);
 
+    /*!
+     * \brief ProfileSwitched
+     * \param wrappers
+     * Slot that will be called whenever the profile is switched.
+     * It will delete the shared_ptr of mainUI and replace it with the one from the profile.
+     * Ref count should be ok :)
+     * It will also register the new PTT key to auto-hold and the new sounds shortcuts
+     */
+    void ProfileSwitched(QVector<std::shared_ptr<SoundWrapper> > wrappers);
 };
 
 

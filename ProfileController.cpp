@@ -12,11 +12,12 @@ ProfileController *ProfileController::GetInstance()
         self = new ProfileController();
     return self;
 
+
 }
 
 ProfileController::ProfileController()
 {
-
+    _activeProfile = nullptr;
 }
 
 std::vector<Profile *> ProfileController::GetProfiles() const
@@ -34,8 +35,10 @@ void  ProfileController::ManualGameConfigurationChanged(const QString &name)
     {
         if (i->GetName() == name)
         {
+
             this->_activeProfile = i;
             found = true;
+            qDebug() << "found profile:" << name;
             break;
         }
 
@@ -90,8 +93,10 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
                     " or by holding a list of profile that are mirrored  in the profile? IDK KEV PepeS";
     }
 
+    this->_activeProfile = profile;
 
     emit ProfileConfigurationChanged();
+
     qDebug().noquote() << profile->GetConfigAsString();
 
 
@@ -106,6 +111,19 @@ void ProfileController::ReplaceProfiles(std::vector<Profile*> profiles)
 
     _profiles.clear();
     _profiles = profiles;
+}
+
+void ProfileController::DeleteProfile(Profile *profile)
+{
+    for (auto it = _profiles.begin(); it != _profiles.end(); ++it)
+    {
+        if (static_cast<Profile*>(*it) == profile)
+        {
+            delete *it;
+            _profiles.erase(it);
+        }
+    }
+
 }
 
 

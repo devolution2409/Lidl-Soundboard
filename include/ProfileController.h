@@ -53,6 +53,15 @@ public:
     void ReplaceProfiles(std::vector<Profile*> profiles);
 
     /*!
+     * \brief DeleteProfile
+     * \param profile*
+     * Will delete the profile identified by the pointer.
+     */
+    void DeleteProfile(Profile* profile);
+
+
+
+    /*!
      * \brief GetForExe
      * \param exe
      * \return A pointer to the profile if it was found, nullptr otherwise.

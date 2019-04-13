@@ -21,6 +21,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                       SETTING UP MENU BAR
     ****************************************************/
     this->setUpMenu();
+
+
     _updateScheduled = false;
     // Setting up the layouts
     // vLayout = new QVBoxLayout();
@@ -368,15 +370,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             &LIDL::Controller::SettingsController::SettingsChanged,
             this, &SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
 
-    // connected modified soundboard with a lambda to call the savestate function
-    // that way we can know if soundboard was modified or not Pog
 
-    /* CONNECTING THE SETTINGS CONTROLLER TO THE PTT KEY THINGS */
-//    connect(this->_shortcutEditPTT,SIGNAL(scanCodeChanged(int)),
-//            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTScanCode(int)));
-
-//    connect(this->_shortcutEditPTT,SIGNAL(virtualKeyChanged(int)),
-//            LIDL::Controller::SettingsController::GetInstance(),SLOT(SetPTTVirtualKey(int)));
 
     connect(this->_shortcutEditPTT,&CustomShortcutEdit::scanCodeChanged, this, [=](int scancode){
         LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->SetPttScanCode(scancode);
@@ -408,42 +402,71 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
                     i->VACDeviceChanged(newIndex);
     });
 
+
     // QueudConnection so that it doesn't fucks up the view
     connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
 
     //adding default profile here, will add soundwrapper to default later i guess
+
     LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
-    LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
-    connect(LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::AddSoundsToMainUI,
-            this, [=](QVector<std::shared_ptr<SoundWrapper>> wrappers){
-        QString mainOutput = this->_deviceListOutput->currentText();
-        QString vacOutput = this->_deviceListVAC->currentText();
+   // LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
-        this->ClearAll();
+    connect(LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::AddSoundsToMainUI,this,
+            &SoundboardMainUI::ProfileSwitched);
 
-        if (wrappers.size() > 0)
-        {
-            for (int i = 0; wrappers.size() - 1; i++)
-            {
-                this->addSound(wrappers.at(i),-1,false,false);
-            }
-            this->addSound(wrappers.last(), -1, true,true);
 
-            //for (auto &i: wrappers)
-                //this->addSound(i);
-        }
-        this->_shortcutEditPTT->setKeySequence(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttKeySequence());
-        this->_shortcutEditPTT->setScanCode(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode());
-        this->_shortcutEditPTT->setVirtualKey(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey());
-
-        this->_deviceListVAC->setCurrentText( vacOutput );
-        this->_deviceListOutput->setCurrentText(mainOutput);
-
-    });
 
     emit OnConstructionDone();
+
 }
+
+
+
+void SoundboardMainUI::ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wrappers)
+{
+    QString mainOutput = this->_deviceListOutput->currentText();
+    QString vacOutput = this->_deviceListVAC->currentText();
+
+    QKeySequence stopSeq = this->_shortcutEditStop->keySequence();
+    int stopSC = this->_shortcutEditStop->getScanCode();
+    int stopVK = this->_shortcutEditStop->getVirtualKey();
+
+    this->ClearAll();
+
+    if (wrappers.size() > 0)
+    {
+        for (int i = 0; wrappers.size() - 1; i++)
+        {
+            this->addSound(wrappers.at(i),-1,false,false);
+        }
+        this->addSound(wrappers.last(), -1, true,true);
+
+        //for (auto &i: wrappers)
+            //this->addSound(i);
+    }
+    // setting the text of the QTextEdits here
+    // Clear all will clear those
+
+    // It will also unregister the stop button, and any wrappers and their shorcuts
+    // It will however not touch the settings singleton FeelsOkayMan
+
+    // the PTT comes from the profile
+    this->_shortcutEditPTT->setKeySequence(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttKeySequence());
+    this->_shortcutEditPTT->setScanCode(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode());
+    this->_shortcutEditPTT->setVirtualKey(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey());
+
+    // the stop one comes from the global config
+
+    this->_shortcutEditStop->setKeySequence(stopSeq);
+    this->_shortcutEditStop->setScanCode(stopSC);
+    this->_shortcutEditStop->setVirtualKey(stopVK);
+    this->setStopShortcut(static_cast<unsigned int>(stopVK));
+
+    this->_deviceListVAC->setCurrentText( vacOutput );
+    this->_deviceListOutput->setCurrentText(mainOutput);
+}
+
 
 void SoundboardMainUI::PostConstruction()
 {

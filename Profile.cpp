@@ -113,11 +113,8 @@ QKeySequence Profile::GetPttKeySequence() const
 
 Profile::~Profile()
 {
-    for (auto &i: _sounds)
-        qDebug() << "[~Profile()] Ref count of _sounds:" << i.use_count();
+    // clearing the array of sounds so the ref count decreases
     _sounds.clear();
-
-
 }
 
 QString Profile::GetConfigAsString() const
