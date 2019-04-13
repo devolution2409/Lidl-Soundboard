@@ -415,7 +415,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::AddSoundsToMainUI,this,
             &SoundboardMainUI::ProfileSwitched);
 
-
+    connect(_gameSelector, &GameSelector::RefreshWrappers, this,
+            &SoundboardMainUI::ProfileSwitched);
 
     emit OnConstructionDone();
 
@@ -425,6 +426,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
 void SoundboardMainUI::ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wrappers)
 {
+    qDebug() << "[SoundboardMainUI::ProfileSwitched]";
     QString mainOutput = this->_deviceListOutput->currentText();
     QString vacOutput = this->_deviceListVAC->currentText();
 
@@ -436,11 +438,19 @@ void SoundboardMainUI::ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wr
 
     if (wrappers.size() > 0)
     {
-        for (int i = 0; wrappers.size() - 1; i++)
+        qDebug() << "[SoundboardMainUI::ProfileSwitched] We coo";
+        for (int i = 0; i < wrappers.size() - 1; i++)
         {
+            qDebug() << "-------------------";
+            qDebug() << "-------------------";
+            qDebug() << "-------------------";
+            qDebug() << "-------------------";
+            qDebug() << i;
             this->addSound(wrappers.at(i),-1,false,false);
         }
+
         this->addSound(wrappers.last(), -1, true,true);
+        qDebug() << "dis shit crashes?";
 
         //for (auto &i: wrappers)
             //this->addSound(i);
@@ -1983,6 +1993,7 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
 // Save
 void SoundboardMainUI::Save()
 {
+
     // if file doesn't exist we throw the save as prompt
     if (this->_saveName.isEmpty())
     {
@@ -2021,6 +2032,10 @@ void SoundboardMainUI::Save()
 // Save as
 void SoundboardMainUI::SaveAs()
 {
+    LIDL::Controller::SaveController::GetInstance()->WriteSaveFile("nigger");
+
+    return;
+
     /*QFileDialog::getSaveFileName(QWidget *parent = Q_NULLPTR,
                                 const QString &caption = QString(),
                                 const QString &dir = QString(),

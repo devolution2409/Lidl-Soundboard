@@ -110,6 +110,28 @@ QKeySequence Profile::GetPttKeySequence() const
     return this->_PTTKeySequence;
 }
 
+QJsonObject Profile::GetProfileAsObject() const
+{
+    QJsonObject obj;
+
+    obj.insert("Profile Name", this->_name);
+
+    QJsonObject pttKey;
+        pttKey.insert("Key Name",this->_PTTKeySequence.toString());
+        pttKey.insert("VirtualKey" ,this->_PTTVirtualKey);
+        pttKey.insert("ScanCode"   ,this->_PTTScanCode);
+        obj.insert("Push To Talk Key",pttKey);
+
+    QJsonArray sounds;
+
+    for (auto &j: _sounds){
+        sounds.append(j->GetWrapperAsObject());
+    }
+
+    return obj;
+
+}
+
 
 Profile::~Profile()
 {

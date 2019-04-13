@@ -266,6 +266,94 @@ unsigned int SoundWrapper::getShortcutVirtualKey()
     return _virtualKey;
 }
 
+QJsonObject SoundWrapper::GetWrapperAsObject() const
+{
+    // creating temp sound collection
+    QJsonObject tempSound;
+    tempSound.insert("Playback Mode",static_cast<int>(_playMode));
+    // qDebug() << i->getPlayMode();
+    QJsonObject key;
+    key.insert("Key", _keySequence.toString());
+    key.insert("VirtualKey", static_cast<int>(_virtualKey));
+    tempSound.insert("Shortcut",key);
+    // The sound collection
+    QJsonArray soundCollection;
+    for (auto &j: _soundList)
+    {
+        QJsonObject properties;
+            properties.insert("Main Volume",static_cast<int>(j->getMainVolume() *100));
+            properties.insert("VAC Volume" ,static_cast<int>(j->getVacVolume() *100));
+            properties.insert("SFX Flags", static_cast<int>(j->getSFX().flags));
+
+        QJsonObject soundEffects;
+
+            QJsonObject distortion;
+            distortion.insert("Gain", static_cast<int>(j->getSFX().distortion.fGain));
+            distortion.insert("Edge", static_cast<int>(j->getSFX().distortion.fEdge));
+            distortion.insert("EQCenterFrequency",static_cast<int>(j->getSFX().distortion.fPostEQCenterFrequency));
+            distortion.insert("EQBandwidth",static_cast<int>(j->getSFX().distortion.fPostEQBandwidth));
+            distortion.insert("Cutoff",static_cast<int>(j->getSFX().distortion.fPreLowpassCutoff));
+            soundEffects.insert("Distortion",distortion);
+
+            QJsonObject chorus;
+            chorus.insert("Delay",static_cast<int>(j->getSFX().chorus.fDelay));
+            chorus.insert("Depth",static_cast<int>(j->getSFX().chorus.fDepth));
+            chorus.insert("Feedback",static_cast<int>(j->getSFX().chorus.fFeedback));
+            chorus.insert("Frequency",static_cast<int>(j->getSFX().chorus.fFrequency));
+            chorus.insert("Wet Dry Mix",static_cast<int>(j->getSFX().chorus.fWetDryMix));
+            chorus.insert("Phase",static_cast<int>(j->getSFX().chorus.lPhase));
+            chorus.insert("Waveform",static_cast<int>(j->getSFX().chorus.lWaveform));
+            soundEffects.insert("Chorus",chorus);
+
+            QJsonObject echo;
+
+            echo.insert("Feedback",static_cast<int>(j->getSFX().echo.fFeedback) );
+            echo.insert("Left Delay",static_cast<int>(j->getSFX().echo.fLeftDelay) );
+            echo.insert("Right Delay",static_cast<int>(j->getSFX().echo.fRightDelay) );
+            echo.insert("Wet Dry Mix",static_cast<int>(j->getSFX().echo.fWetDryMix) );
+            echo.insert("Swap",static_cast<int>(j->getSFX().echo.lPanDelay) );
+            soundEffects.insert("Echo",echo);
+
+            QJsonObject flanger;
+            flanger.insert("Delay",static_cast<int>(j->getSFX().flanger.fDelay));
+            flanger.insert("Depth",static_cast<int>(j->getSFX().flanger.fDepth));
+            flanger.insert("Feedback",static_cast<int>(j->getSFX().flanger.fFeedback));
+            flanger.insert("Frequency",static_cast<int>(j->getSFX().flanger.fFrequency));
+            flanger.insert("Phase",static_cast<int>(j->getSFX().flanger.lPhase));
+            flanger.insert("Waveform",static_cast<bool>(j->getSFX().flanger.lWaveform));
+            soundEffects.insert("Flanger",flanger);
+
+
+            QJsonObject compressor;
+            compressor.insert("Attack",static_cast<int>(j->getSFX().compressor.fAttack));
+            compressor.insert("Gain"  ,static_cast<int>(j->getSFX().compressor.fGain));
+            compressor.insert("Predelay",static_cast<int>(j->getSFX().compressor.fPredelay));
+            compressor.insert("Ratio",static_cast<int>(j->getSFX().compressor.fRatio));
+            compressor.insert("Release",static_cast<int>(j->getSFX().compressor.fRelease));
+            compressor.insert("Threshold",static_cast<int>(j->getSFX().compressor.fThreshold));
+            soundEffects.insert("Compressor",compressor);
+
+            QJsonObject gargle;
+            gargle.insert("Rate",static_cast<int>(j->getSFX().gargle.dwRateHz));
+            gargle.insert("Waveform",static_cast<bool>(j->getSFX().gargle.dwWaveShape));
+            soundEffects.insert("Gargle",compressor);
+
+
+
+        //soundCollection.insert(  j->url(), properties); // old wey
+        // new way: (VER > 1.7.0.)
+        QJsonObject numberedSound;
+        properties.insert("SFX",soundEffects);
+        numberedSound.insert( j->url(), properties);
+
+        soundCollection.append(numberedSound);
+
+
+    }
+
+    return tempSound;
+}
+
 /********************************************
  *                 Setters:                 *
  ********************************************/

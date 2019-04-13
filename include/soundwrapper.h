@@ -147,6 +147,11 @@ public:
      */
     unsigned int getShortcutVirtualKey();
 
+    /*!
+     * \brief GetWrapperAsObject
+     * \return
+     */
+    QJsonObject GetWrapperAsObject() const;
 
 
 private:

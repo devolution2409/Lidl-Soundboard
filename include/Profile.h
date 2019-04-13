@@ -11,6 +11,7 @@
 #include <QSet>
 #include <QKeySequence>
 #include <memory>
+#include <QJsonObject>
 
 /*!
  * \file Profile.h
@@ -22,22 +23,27 @@
  *
  */
 
-/*! \class SoundboardMainUI
-  * \brief Inherits QMainWindow.
-  *
-  *  Deals with displaying sounds (main UUI) and intercepting shortcuts.
-  *
-  */
-
-
 //forward declaration instead of including because somehow it fucks everything up
 class SoundWrapper;
 
-// TODO: add a QVector<SoundWrapper*> array here
 
-//TODO is having a game "nice name" really necessary or not?
-// in the end, we will just display the profile i think
 
+
+/*!
+ * \brief The Profile class
+ * Describe a profile:
+ * Name
+ * List of linked executable that will make this profile switched to when the executable is detected
+ * List of sounds as a QVector<shared_ptr<SoundWrapper>>
+ * The owner ship of those element is shared between the profile and the main ui.
+ * So reference count should be like this:
+ * 1 for the UI (IF profile is currently active)
+ * 1 for the profile
+ * + 1 for which ever profile mirrors it
+ *  + temporary ones for editing widgets (like editing profiles etc)
+ * To see the ref count while in a "still" mode, just play a sound.
+ * It will display ref count in qDebug() output.
+ */
 class Profile
 {
 
@@ -169,6 +175,12 @@ class Profile
          */
         QKeySequence GetPttKeySequence() const;
 
+        /*!
+         * \brief GetProfileAsObject
+         * \return A JSON Object representing this profile
+         *
+         */
+        QJsonObject GetProfileAsObject() const;
 
 
         ~Profile();

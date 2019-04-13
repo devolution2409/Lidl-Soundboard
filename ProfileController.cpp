@@ -58,6 +58,8 @@ void  ProfileController::ManualGameConfigurationChanged(const QString &name)
             QVector<std::shared_ptr<SoundWrapper>> temp = _activeProfile->GetSounds();
             _activeProfile->ClearSounds();
             // add sounds
+
+            //connected to ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wrappers)
             emit AddSoundsToMainUI(temp);
 
         }
@@ -65,8 +67,6 @@ void  ProfileController::ManualGameConfigurationChanged(const QString &name)
 
     }
 
-
-    qDebug() << "Please implement ManualGameConfiguraitonChanged me in ProfileController" << name;
 }
 
 Profile *ProfileController::GetActiveProfile() const
@@ -95,7 +95,10 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
 
     this->_activeProfile = profile;
 
-    emit ProfileConfigurationChanged();
+        qDebug() << "???";
+
+    emit ProfileConfigurationChanged(); //linked to refresh profile list in the combobox
+    //however we still need to clear previous wrappers
 
     qDebug().noquote() << profile->GetConfigAsString();
 
@@ -115,8 +118,11 @@ void ProfileController::ReplaceProfiles(std::vector<Profile*> profiles)
 
 void ProfileController::DeleteActiveProfile()
 {
+    // we don't wanna delete the default profile :)
     if ( _activeProfile == nullptr || _activeProfile->GetName() == "Default")
         return;
+
+
     // Remove it from the profile array
     for  (unsigned int i = 0; _profiles.size(); i++)
     {
@@ -126,7 +132,7 @@ void ProfileController::DeleteActiveProfile()
         }
     }
 
-
+    // deleting profile will delete the pointers
     delete _activeProfile;
 
 }

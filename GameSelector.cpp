@@ -10,7 +10,8 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
   //  _gameSelectorUi->comboBox->addItem(tr("Default"));
 
-    connect(_gameSelectorUi->comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::ManualGameConfigurationChanged);
+    connect(_gameSelectorUi->comboBox,static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+            LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::ManualGameConfigurationChanged);
 
 
 
@@ -27,10 +28,12 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
     // delete active profile
     connect(_gameSelectorUi->deleteBtn, &QToolButton::clicked, this, [=]{
-        LIDL::Controller::ProfileController::GetInstance()->DeleteActiveProfile();
+        if (LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile() == nullptr ||
+                LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName() =="Default")
+        return;
 
-
-        this->RefreshProfiles();
+       LIDL::Controller::ProfileController::GetInstance()->DeleteActiveProfile();
+       this->RefreshProfiles();
 
             });
 
@@ -38,14 +41,17 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
 void GameSelector::RefreshProfiles()
 {
+    _gameSelectorUi->comboBox->blockSignals(true);
     qDebug() << "[RefreshProfiles]";
 
     QString previous = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName();
     _gameSelectorUi->comboBox->clear();
+    qDebug() << "number of profiles:" << LIDL::Controller::ProfileController::GetInstance()->GetProfiles().size();
     for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
         _gameSelectorUi->comboBox->addItem(i->GetName());
     }
+    qDebug() << "tis aint out of range";
     for (int i = 0; i < _gameSelectorUi->comboBox->count(); i++)
     {
         // if profile wasn't deleted we remain on it
@@ -60,4 +66,11 @@ void GameSelector::RefreshProfiles()
         }
 
     }
+
+    qDebug() << "i made it feels good man";
+    _gameSelectorUi->comboBox->blockSignals(false);
+    // we need to force SwitchToProfile on the soundboard main ui now
+    emit RefreshWrappers( LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetSounds());
+
+
 }

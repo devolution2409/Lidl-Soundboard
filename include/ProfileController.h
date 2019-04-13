@@ -24,7 +24,24 @@ namespace LIDL {
 namespace Controller {
 
 
-
+/*!
+ * \brief The ProfileController class
+ * Basically when a profile is loaded, the array of sounds QVector<shared_ptr<SoundWrapper>>, contained by the Profile
+ * Will be copied to a temporary array temp.
+ * Then, the profile sounds will be cleared.
+ * Then, mainUI's QVector<shared_ptr<SoundWrapper>> which contains pointer to the currently load profile will be cleared.
+ * Finally, the mainUI ProfileSwitched method will be invoked, passing the temporary array as an argument.
+ *
+ * It will re-add the sounds to the profile, and to the UI.
+ * Temporary array goes out of scope, ref count decreases.
+ * Reference count should be like this:
+ *  1 for the UI (IF profile is currently active)
+ *  1 for the profile
+ *  + 1 for which ever profile mirrors it
+ *  + temporary ones for editing widgets (like editing profiles etc)
+ * To see the ref count while in a "still" mode, just play a sound.
+ * It will display ref count in qDebug() output.
+ */
 class ProfileController : public QObject
 {
     Q_OBJECT
