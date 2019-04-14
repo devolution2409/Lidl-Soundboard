@@ -350,7 +350,7 @@ QJsonObject SoundWrapper::GetWrapperAsObject() const
 
 
     }
-
+    tempSound.insert("Sound Collection",soundCollection);
     return tempSound;
 }
 
