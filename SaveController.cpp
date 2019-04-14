@@ -20,14 +20,31 @@ SaveController *SaveController::GetInstance()
 
 }
 
-void SaveController::SaveAs()
+void SaveController::Save()
 {
 
-    QString fileName  = QFileDialog::getSaveFileName(nullptr,
+    // if file doesn't exist we throw the save as prompt
+    if (this->_saveName.isEmpty())
+    {
+        this->SaveAs();
+        return;
+    }
+    else
+    {
+        this->SaveAs(this->_saveName);
+    }
+}
+
+void SaveController::SaveAs(QString fileName)
+{
+    // if filename is empty we show the prompt
+    if (fileName.isEmpty())
+    {
+        fileName  = QFileDialog::getSaveFileName(nullptr,
                                                      QObject::tr("Save Soundboard As.."),
                                                      LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
                                                      QObject::tr("LIDL JSON file(*.lidljson)"));
-
+    }
     //  fileName.append(".lidljson");
     QJsonObject save = GenerateSaveFile();
     QJsonDocument *doc = new QJsonDocument(save);
@@ -41,7 +58,7 @@ void SaveController::SaveAs()
     }
     else
     {
-        QString _saveName = fileName;
+        this->_saveName = fileName;
 
 
         QTextStream out(&file);

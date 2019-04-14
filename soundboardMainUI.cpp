@@ -2000,6 +2000,9 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
 void SoundboardMainUI::Save()
 {
 
+    LIDL::Controller::SaveController::GetInstance()->Save();
+    return;
+
     // if file doesn't exist we throw the save as prompt
     if (this->_saveName.isEmpty())
     {

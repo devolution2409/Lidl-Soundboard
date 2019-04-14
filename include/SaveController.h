@@ -55,10 +55,13 @@ public:
     /*!
      * \brief SaveAs
      */
-    void SaveAs();
+    void SaveAs(QString fileName = "");
 
-    QString nigger;
 
+    /*!
+     * \brief Save
+     */
+    void Save();
 private:
         SaveController();
         static SaveController *self;
@@ -66,7 +69,7 @@ private:
 
         QString _vacOutputDevice;
 
-
+        QString _saveName;
 
 
 };
