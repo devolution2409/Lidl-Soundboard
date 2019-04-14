@@ -7,7 +7,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
-
+#include "SettingsController.h"
 
 namespace LIDL {
 
@@ -25,9 +25,37 @@ public:
      */
     void WriteSaveFile(QString which) const;
 
+    /*!
+     * \brief SetMainOutputDevice
+     * Only used to remember which device was set, in order to save it to the JSON
+     */
+    void SetMainOutputDevice(QString);
+
+    /*!
+     * \brief SetVacOutputDevice
+     * Only used to remember which device was set, in order to save it to the JSON
+     */
+    void SetVacOutputDevice(QString);
+
+    /*!
+     * \brief GetMainOutputDevice
+     * \return
+     */
+    QString GetMainOutputDevice() const;
+
+    /*!
+     * \brief GetVacOutputDevice
+     * \return
+     */
+    QString GetVacOutputDevice() const;
 private:
         SaveController();
         static SaveController *self;
+        QString _mainOutputDevice;
+
+        QString _vacOutputDevice;
+
+
 };
 
 } // end namespace Controller

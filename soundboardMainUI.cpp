@@ -394,12 +394,18 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             {
                 for (auto &i: _sounds)
                     i->OutputDeviceChanged(newIndex);
+
+                LIDL::Controller::SaveController::GetInstance()->SetMainOutputDevice( this->_deviceListOutput->currentText() );
+
+
     });
     connect(this->_deviceListVAC,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,
             [=](int newIndex)
             {
                 for (auto &i: _sounds)
                     i->VACDeviceChanged(newIndex);
+
+                LIDL::Controller::SaveController::GetInstance()->SetVacOutputDevice(this->_deviceListVAC->currentText());
     });
 
 

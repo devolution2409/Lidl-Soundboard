@@ -514,5 +514,6 @@ void SettingsController::setEditing(bool newState)
 
 
 
+
 } // end namespace controller
 } // end namespace lidl

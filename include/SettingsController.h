@@ -223,6 +223,8 @@ public:
      */
     void setEditing(bool);
 
+
+
 private:
     QString fileName;
     // Singleton class
