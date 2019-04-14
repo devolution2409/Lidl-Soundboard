@@ -84,6 +84,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
     });
 
+    //connect(ui->nameEdit, &QLineEdit::keyPressEvent, [=]);
 }
 
 bool ProfileEdit::IsFormOk()

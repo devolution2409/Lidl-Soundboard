@@ -706,6 +706,7 @@ void WrapperProperties::AddSoundFromUrl()
         }
         else // we coo? cmonBruh
         {
+            qDebug() << "-------------------------- reeee";
             unsigned long long size = 0;
             //lambda to check the serverAnswer for mimes types
             // so we dont write the same code twice weSmart
@@ -716,9 +717,10 @@ void WrapperProperties::AddSoundFromUrl()
                 // The regular expression to compare the servers reply against:
                 QRegExp reg("audio/[\\w]+(-{,1}[\\w]{,10})*");
 
-
+                qDebug() << "------------------------";
                 if (answer.contains("Content-Type"))
                 {
+                    qDebug() << "content type?";
                     // Supported Mimes types
                     QStringList supportedMimes = LIDL::Controller::SettingsController::GetInstance()->GetSupportedMimeTypes();
                     /* https://shugo.developpez.com/tutoriels/regexqt/
@@ -733,7 +735,8 @@ void WrapperProperties::AddSoundFromUrl()
 
                     // comparing the string against the QRegExp
                     answer.contains(reg);
-                    //qDebug() << reg.cap(0);
+                    qDebug() << "-------------------------treehard";
+                    qDebug() << reg.cap(0);
                     // reg.cap(0) should now contain the MIME type (if its audio)
                     // if meme type isn't supported we return
                     if  (supportedMimes.contains(reg.cap(0)))
@@ -759,18 +762,23 @@ void WrapperProperties::AddSoundFromUrl()
             // if it is https
             if (url.scheme() == "https")
             {
+                qDebug() << "hello world";
                 // Testing purposes:
                 // Need to work: https://pajlada.se/files/clr/2018-05-28/howstrong.ogg
                 // Need to fail: https://pajlada.se/files/clr/
                 QSslSocket socket;
                 socket.connectToHostEncrypted(url.host() , 443);
+
                 if (socket.waitForConnected())
                 {
+                    qDebug() << "socket conected!";
                     socket.write("HEAD " + url.path().toUtf8() + " HTTP/1.1\r\n"
                                                                  "Host: " + url.host().toUtf8() + "\r\n"
                                                                                                   "\r\n");
+
                     if (socket.waitForReadyRead())
                     {
+                        qDebug() << "we're ready for, mysocketcar FeelsGoodMan";
                         QByteArray bytes = socket.readAll();
                        // qDebug() << bytes;
                         // If the server answer is ok
@@ -786,7 +794,19 @@ void WrapperProperties::AddSoundFromUrl()
                             size = getSize(bytes);
 
                     }
+                    else
+                    {
+                        QMessageBox::critical(this, tr("LIDL Soundboard Entry Editor"),
+                                              tr("SSL Socket error:"
+                                                 " https://doc.qt.io/qt-5/qabstractsocket.html#waitForReadyRead!"),
+                                              QMessageBox::Discard);
+                       return;
+                    }
                 }// end if socket wait for connected
+                else
+                {
+                    qDebug() << " Socket failed to connect forsenT";
+                }
             } // end if https
 
             // if it http
