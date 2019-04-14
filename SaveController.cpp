@@ -78,6 +78,10 @@ QJsonObject SaveController::GenerateSaveFile() const
 {
     QJsonObject obj;
 
+    // inserting version
+    // defined in qmake (.pro) file
+    obj.insert("Version", VER_STRING);
+
     QJsonObject settings;
     settings.insert("Main Output Device", this->_mainOutputDevice);
     settings.insert("VAC Output Device",  this->_vacOutputDevice);

@@ -114,6 +114,12 @@ RESOURCES +=  \
 RC_FILE = lidlsoundboard.rc
 CONFIG += c++17
 
+#define VER 1.9.0
+#define VER_STRING "1.9.0"
+DEFINES += VER_STRING=\\\"1.9.0\\\"
+
+DEFINES += VER=1.9.0
+
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
 QMAKE_CXXFLAGS += -static-libgcc -Wno-error=date-time

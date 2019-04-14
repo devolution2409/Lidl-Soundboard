@@ -77,8 +77,6 @@
 #include <QMovie>
 // mod_shift already defined for some reason
 //#define MOD_SHIFT       0x0003
-#define VER 1.9.0
-#define VER_STRING "1.9.0"
 
 //#include "QSimpleUpdater.h"
 #include <QMainWindow>
