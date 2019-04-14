@@ -1,5 +1,6 @@
 #ifndef SAVECONTROLLER_H
 #define SAVECONTROLLER_H
+
 #include <QString>
 
 #include "ProfileController.h"
@@ -8,6 +9,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include "SettingsController.h"
+#include <QFileDialog>
+#include <QString>
 
 namespace LIDL {
 
@@ -20,10 +23,10 @@ public:
 
 
     /*!
-     * \brief WriteSaveFile
-     * \param which
+     * \brief GenerateSaveFile
+     * \return
      */
-    void WriteSaveFile(QString which) const;
+    QJsonObject GenerateSaveFile() const;
 
     /*!
      * \brief SetMainOutputDevice
@@ -48,12 +51,22 @@ public:
      * \return
      */
     QString GetVacOutputDevice() const;
+
+    /*!
+     * \brief SaveAs
+     */
+    void SaveAs();
+
+    QString nigger;
+
 private:
         SaveController();
         static SaveController *self;
         QString _mainOutputDevice;
 
         QString _vacOutputDevice;
+
+
 
 
 };

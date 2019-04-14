@@ -128,7 +128,7 @@ QJsonObject Profile::GetProfileAsObject() const
         sounds.append(j->GetWrapperAsObject());
     }
 
-    obj.insert("sounds" ,sounds);
+    obj.insert("Sounds" ,sounds);
     return obj;
 
 }

@@ -2038,7 +2038,9 @@ void SoundboardMainUI::Save()
 // Save as
 void SoundboardMainUI::SaveAs()
 {
-    LIDL::Controller::SaveController::GetInstance()->WriteSaveFile("nigger");
+//    LIDL::Controller::SaveController::GetInstance()-
+
+    LIDL::Controller::SaveController::GetInstance()->SaveAs();
 
     return;
 

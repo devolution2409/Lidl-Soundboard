@@ -20,7 +20,44 @@ SaveController *SaveController::GetInstance()
 
 }
 
-void SaveController::WriteSaveFile(QString which) const
+void SaveController::SaveAs()
+{
+
+    QString fileName  = QFileDialog::getSaveFileName(nullptr,
+                                                     QObject::tr("Save Soundboard As.."),
+                                                     LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
+                                                     QObject::tr("LIDL JSON file(*.lidljson)"));
+
+    //  fileName.append(".lidljson");
+    QJsonObject save = GenerateSaveFile();
+    QJsonDocument *doc = new QJsonDocument(save);
+    QString jsonString = doc->toJson(QJsonDocument::Indented);
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+
+        QMessageBox::information(nullptr, QObject::tr("Unable to open file"), file.errorString());
+        return;
+    }
+    else
+    {
+        QString _saveName = fileName;
+
+
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        out << jsonString.toUtf8();
+        // lidljson detected is used to add the file in the recent file thing
+     //   emit lidlJsonDetected(QFileInfo(file));
+        file.close();
+        // Saving Soundboard state in the SettingsController object
+       // emit SaveSoundboardState();
+       // this->SetStatusTextEditText("Succesfully saved file: " + fileName);
+    }
+}
+
+
+QJsonObject SaveController::GenerateSaveFile() const
 {
     QJsonObject obj;
 
@@ -45,8 +82,8 @@ void SaveController::WriteSaveFile(QString which) const
     }
 
     obj.insert("Profiles",profiles);
-
-    qDebug() << QJsonDocument(obj).toJson();
+    return obj;
+   // qDebug() << QJsonDocument(obj).toJson();
 }
 
 void SaveController::SetMainOutputDevice(QString device)
