@@ -61,6 +61,7 @@ void CustomPlayer::PlayNext()
 
         if ( (_soundList.size() >= 1) && ((_mainOutputDevice != 0) || (_VACOutputDevice != 0)  )    )
         {
+            qDebug() << "[CustomPlayer] Playback mode: " << static_cast<int>(_playMode);
             int duration;
             /***********************************
              *           SINGLETON             *
@@ -82,7 +83,6 @@ void CustomPlayer::PlayNext()
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
                 _timerShouldPlay->start(duration);
-
             }
             /***********************************
              *       SEQUENTIAL AUTO           *
@@ -336,10 +336,8 @@ double CustomPlayer::PlayAt(int index)
 
         QThread *thread = QThread::create([=]{
             unsigned long test = 0;
-             qDebug() << "nig1";
             do{
                 test = BASS_ChannelIsActive( _vacChannel.last() );
-                 qDebug() << "nig2";
             } while(test!=1);
 
         });
@@ -358,7 +356,7 @@ double CustomPlayer::PlayAt(int index)
         // need to remove the appended index in the vectors else it will keep growing
         QTimer::singleShot(static_cast<int>((duration + 0.5)*1000),this, [=]{
                 _mainChannel.pop_front();
-                _vacChannel.pop_front();
+                _vacChannel.pop_front();   
             } );
     }
     return duration;

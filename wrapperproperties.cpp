@@ -238,7 +238,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _radioCancer     = new QRadioButton("Singleton (Cancer)",this);
     _radioAutoLoop     = new QRadioButton("Sequential (Auto Loop)",this);
     // setting 1 has default value for playblack
-    _playBackMode    = LIDL::Playback::Singleton;
+    _playBackMode    = LIDL::Playback::Sequential;
 
     // Adding them to layout, and setting singleton checked by default
    // _radioLayout->insertWidget(0,_radioSingleton);
@@ -482,7 +482,7 @@ WrapperProperties::WrapperProperties(int mainOutput, int VACOutput, SoundWrapper
     else // if it is a fresh window we need to connect the _btnDone to send a new wrapper
     {
         // we check for the sound being singleton or not, if it is, we don't accept if we have more than 1 sound
-        if( (this->_playBackMode == LIDL::Playback::Singleton) && (this->_soundListDisplay->count()  >1))
+        if( (this->_playBackMode == LIDL::Playback::Cancer) && (this->_soundListDisplay->count()  >1))
         {
             QMessageBox::critical(this, "Error", "Singleton cannot contain more than one sound file.");
             return;
