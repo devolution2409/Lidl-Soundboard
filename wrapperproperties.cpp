@@ -774,7 +774,8 @@ void WrapperProperties::AddSoundFromUrl()
                     qDebug() << "socket conected!";
                     socket.write("HEAD " + url.path().toUtf8() + " HTTP/1.1\r\n"
                                                                  "Host: " + url.host().toUtf8() + "\r\n"
-                                                                                                  "\r\n");
+                                                                    "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36" +
+                                                                                                  "\r\n\r\n");
 
                     if (socket.waitForReadyRead())
                     {
@@ -842,6 +843,7 @@ void WrapperProperties::AddSoundFromUrl()
 
 
             } // end if http
+
             // If everything is good we can add the sound, FeelsOkayMan
             _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(url.toString(),
                                                                                                  static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),

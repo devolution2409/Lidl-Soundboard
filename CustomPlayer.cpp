@@ -325,17 +325,21 @@ double CustomPlayer::PlayAt(int index)
     // apparentely this crash on linux if this test isn't present? :WutFace:
     if ((_VACOutputDevice != 0) && (_VACOutputDevice != _mainOutputDevice))
         BASS_ChannelPlay(_vacChannel.last(),false);
+
+
     // testing shit :monkaOMEGA:
     // working :feelsokay man
     // Basically the thread will check for the state of the channel, when it is playing
     // it will hold ptt.
-    if (remote)
+    if (remote && _VACOutputDevice != 0)
     {
 
         QThread *thread = QThread::create([=]{
             unsigned long test = 0;
+             qDebug() << "nig1";
             do{
                 test = BASS_ChannelIsActive( _vacChannel.last() );
+                 qDebug() << "nig2";
             } while(test!=1);
 
         });
