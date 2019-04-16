@@ -22,6 +22,9 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
 //    connect(_timerSequentialAuto,&QTimer::timeout ,this,[=]{this->resetShouldPlay(); });
 
     _shouldPlay = true;
+    _index = 0;
+
+
 }
 
 CustomPlayer::CustomPlayer(QVector<LIDL::SoundFile *> soundList, LIDL::Playback playMode, QObject *parent) : CustomPlayer(parent)
@@ -35,6 +38,9 @@ CustomPlayer::CustomPlayer(QVector<LIDL::SoundFile *> soundList, LIDL::Playback 
 // index is already initialized at 0 in constructor
 void CustomPlayer::PlayNext()
 {
+
+    qDebug() << "[CustomPlayer::PlayNext()] index: " << _index << " max: " << _soundList.size() - 1 ;
+
     // stop the sequential auto timer in case it is running.
     _timerSequentialAutoPlay->stop();
 
@@ -45,7 +51,6 @@ void CustomPlayer::PlayNext()
     // qDebug() <<"shouldplay when called" << _shouldPlay;
     if (_index > _soundList.size() -1 )
         _index = 0;
-
     // check if next file exists
     if (! _soundList.at(_index)->exists())
     {
@@ -62,26 +67,27 @@ void CustomPlayer::PlayNext()
         if ( (_soundList.size() >= 1) && ((_mainOutputDevice != 0) || (_VACOutputDevice != 0)  )    )
         {
             qDebug() << "[CustomPlayer] Playback mode: " << static_cast<int>(_playMode);
-            int duration;
+            int duration = 1;
             /***********************************
              *           SINGLETON             *
              ***********************************/
-            if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
-            {
-                _shouldPlay = false;
-               // qDebug() << "ZULULUL" << _mainOutputDevice << _VACOutputDevice;
-                duration =  static_cast<int>(this->PlayAt(_index)*1000);
-                  //_timerSingleton->start(duration);
-                _timerShouldPlay->start(duration);
-                // qDebug() << "duration is: " << duration;
-            }
+//            if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
+//            {
+//                _shouldPlay = false;
+//               // qDebug() << "ZULULUL" << _mainOutputDevice << _VACOutputDevice;
+//                duration =  static_cast<int>(this->PlayAt(_index)*1000);
+//                  //_timerSingleton->start(duration);
+//                _timerShouldPlay->start(duration);
+//                // qDebug() << "duration is: " << duration;
+//            }
             /***********************************
              *           SEQUENTIAL            *
              ***********************************/
-            else if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
+            if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
             {
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);
+
                 _timerShouldPlay->start(duration);
             }
             /***********************************
@@ -103,15 +109,6 @@ void CustomPlayer::PlayNext()
             {
                 this->PlayAt(_index++);
             }
-            // If playback is autoplay, we need to check sound has finished
-//            else if ((_playMode == LIDL::Playback::Singleton))
-//            {
-//                this->PlayAt(_index++);
-//            }
-
-
-
-
         }
     }
 }
@@ -355,10 +352,13 @@ double CustomPlayer::PlayAt(int index)
     {
         // need to remove the appended index in the vectors else it will keep growing
         QTimer::singleShot(static_cast<int>((duration + 0.5)*1000),this, [=]{
-                _mainChannel.pop_front();
-                _vacChannel.pop_front();   
-            } );
+                if (!_mainChannel.isEmpty())
+                    _mainChannel.pop_front();
+                if (!_vacChannel.isEmpty())
+                    _vacChannel.pop_front();
+        } );
     }
+
     return duration;
 }
 

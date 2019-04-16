@@ -28,6 +28,8 @@ SettingsController::SettingsController()
                 this->unHoldPTT();});
 
         _isEditing = false;
+        _activePttVitualKey = -1;
+        _activePttScanCode =-1;
 
 }
 
@@ -425,12 +427,14 @@ bool SettingsController::getEventProcessing() const
 }
 void SettingsController::unHoldPTT()
 {
+    qDebug() << "ZULOL";
     //qDebug() << "unholding ptt here";
     // Unpressing the key physically
     keybd_event(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey(),
                  LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode(),KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
     // stopping the timer else PTT will be unhold on each tick forsenT
     _activePttTimer.stop();
+    qDebug() << "??";
 }
 
 void SettingsController::SetPTTScanCode(int sc)

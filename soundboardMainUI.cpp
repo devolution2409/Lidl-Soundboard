@@ -255,6 +255,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     // Lambda
     connect(this->resultView, &CustomTableView::doubleClicked,this, [=](QModelIndex index){
+        qDebug() << "DOUBLECLICKDETECTED";
         // but we update it regardless
         disconnect(_btnPlay,nullptr,nullptr,nullptr);
         lastSelectedRow = index.row();
@@ -1028,6 +1029,8 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
 
     else if ( ! _sounds.at(handle)->getSoundList().isEmpty() && !LIDL::Controller::SettingsController::GetInstance()->isEditing())
         _sounds.at(handle)->Play();
+
+
 }
 
 
