@@ -1368,6 +1368,9 @@ void SoundboardMainUI::ClearAll()
 // Open slot
 void SoundboardMainUI::OpenSlot()
 {
+        LIDL::Controller::SaveController::GetInstance()->OpenSaveFile();
+
+    return;
     QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"), LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,tr("LIDL JSON file(*.lidljson)"));
     if ((fileName).isEmpty())
             return;
@@ -1379,6 +1382,7 @@ void SoundboardMainUI::Open(QString fileName)
 {
 
     qDebug() << "[SoundboardMainUI::Open] Please reimplement me account for the new save format !!";
+
     return;
 
 

@@ -11,6 +11,10 @@
 #include "SettingsController.h"
 #include <QFileDialog>
 #include <QString>
+#include <QObject>
+#include <QRegExp>
+#include "EnumsAndStructs.h"
+#include "soundwrapper.h"
 
 namespace LIDL {
 
@@ -73,6 +77,14 @@ public:
      * \param vk
      */
     void SetStopVirtualKey( unsigned int vk);
+
+    /*!
+     * \brief OpenSaveFile
+     */
+    void OpenSaveFile();
+
+    //void CompareSaves();
+    // Generate hash of json and compare it :QString blah = QString(QCryptographicHash::hash(("myPassword"),QCryptographicHash::Md5).toHex())
 
 
 private:

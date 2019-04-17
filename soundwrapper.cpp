@@ -3,7 +3,7 @@
 //I
 SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 {
-    qDebug() << "WTF I WAS CREATED DANSGAME";
+    qDebug() << "[SoundWrapper::SoundWrapper]";
     this->_player = new CustomPlayer();
     connect(_player,&CustomPlayer::ErrorPlaying,this,[=](QString songName){
          emit ErrorPlaying(songName);
@@ -47,6 +47,12 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
                            int mainOutput, int vacOutput, QObject *parent)
             : SoundWrapper(parent)
 {
+
+    for (auto &i: fileList)
+    {
+        qDebug() << i->url();
+    }
+
     //qDebug() << "WAKANDA FOR EVAH";
     this->_soundList = fileList;
     this->_playMode = playbackMode;
@@ -277,7 +283,8 @@ QJsonObject SoundWrapper::GetWrapperAsObject() const
     key.insert("VirtualKey", static_cast<int>(_virtualKey));
     tempSound.insert("Shortcut",key);
     // The sound collection
-    QJsonArray soundCollection;
+    QJsonObject soundCollection;
+    int test = 0;
     for (auto &j: _soundList)
     {
         QJsonObject properties;
@@ -346,7 +353,7 @@ QJsonObject SoundWrapper::GetWrapperAsObject() const
         properties.insert("SFX",soundEffects);
         numberedSound.insert( j->url(), properties);
 
-        soundCollection.append(numberedSound);
+        soundCollection.insert(QString::number(test++),numberedSound);
 
 
     }

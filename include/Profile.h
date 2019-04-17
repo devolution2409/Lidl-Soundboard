@@ -186,20 +186,21 @@ class Profile
         ~Profile();
 
     private:
-        QVector<std::shared_ptr<SoundWrapper>> _sounds;
 
-        Profile(QString name, QSet<QString> exe, Profile* parent);
+
+        Profile(QString name, QSet<QString> exe, Profile* parent,  QVector<std::shared_ptr<SoundWrapper>> wrappers);
 
 
         QString _name;
        // QVector<std::pair<QString,QString>> _gameList; /*!< Array of <executable name, nice name> */
         QSet<QString> _exeList; /*!< Array of executables */
         Profile* _parent;
+
         int _PTTScanCode = -1;
         int _PTTVirtualKey = -1;
         QKeySequence _PTTKeySequence;
 
-
+        QVector<std::shared_ptr<SoundWrapper>> _sounds;
 
 
 
@@ -215,12 +216,16 @@ class Profile::Builder{
 
         Profile* _parent = nullptr;
 
+        //PepeS ?
+
+        QVector<std::shared_ptr<SoundWrapper>> _wrappers;
+
     public:
         // create Builder with default values assigned
         // (in C++11 they can be simply assigned above on declaration instead)
         Builder()
         {
-
+            _wrappers.clear();
         }
 
         // sets custom values for Product creation
@@ -243,13 +248,19 @@ class Profile::Builder{
             return *this;
         }
 
+        Builder & setSounds(QVector<std::shared_ptr<SoundWrapper>> wrappers )
+        {
+            this->_wrappers = wrappers;
+            return *this;
+        }
+
 
         // produce desired Product
         Profile* Build(){
             // Here, optionaly check variable consistency
             // and also if Product is buildable from given information
 
-            return new Profile(_name,_exeList, _parent);
+            return new Profile(_name,_exeList, _parent,_wrappers);
         }
 };
 

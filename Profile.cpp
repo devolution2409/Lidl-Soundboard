@@ -2,7 +2,9 @@
 
 #include "soundwrapper.h"
 
-Profile::Profile(QString name, QSet<QString> exe,Profile* parent) : _name(name) , _exeList(exe), _parent(parent)
+Profile::Profile(QString name, QSet<QString> exe, Profile* parent,
+                 QVector<std::shared_ptr<SoundWrapper> > wrappers)
+    : _name(name) , _exeList(exe), _parent(parent), _sounds(wrappers)
 {
 
 }
