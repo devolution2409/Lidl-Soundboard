@@ -112,7 +112,7 @@ void SaveController::OpenSaveFile()
 
     QString mainOutputDevice, vacOutputDevice;
     QString pttName;
-    int pttScanCode=-1, pttVirtualKey =-1;
+
     QString stopName; int stopVirtualKey =-1;
 
     this->_saveName = fileName;
@@ -136,6 +136,8 @@ void SaveController::OpenSaveFile()
                 stopVirtualKey = settingsStop.value("VirtualKey").toInt();
         }
 
+
+
         //parsing the profiles
 
         if (json.contains("Profiles")){
@@ -146,6 +148,8 @@ void SaveController::OpenSaveFile()
                 QJsonObject profile = value.toObject();
                 QString profileName;
                 QSet<QString> exes;
+                int pttScanCode=-1, pttVirtualKey =-1;
+                QKeySequence pttKeySequence;
                 if (profile.contains("Profile Name")){
                   profileName = profile.value("Profile Name").toString();
                 }
@@ -157,6 +161,16 @@ void SaveController::OpenSaveFile()
                     }
 
                 }
+                if (profile.contains("Push To Talk Key")){
+
+                    QJsonObject ptt = profile.value("Push To Talk Key").toObject();
+                    qDebug() << QString::fromStdString(QJsonDocument(ptt).toJson().toStdString());
+                    pttScanCode = ptt.value("ScanCode").toInt();
+                    pttVirtualKey = ptt.value("VirtualKey").toInt();
+                    pttKeySequence = QKeySequence(ptt.value("Key Name").toString());
+
+                }
+
 
                 // sounds
                 if (profile.contains("Sounds")){
@@ -397,7 +411,10 @@ void SaveController::OpenSaveFile()
                 {
                     temp.addExe(i);
                 }
-                temp.setSounds(wrappers);
+                temp.setSounds(wrappers)
+                        .setPttScanCode(pttScanCode)
+                        .setPttVirtualKey(pttVirtualKey)
+                        .setPttKeySequence(pttKeySequence);
                 LIDL::Controller::ProfileController::GetInstance()->AddProfile(temp.Build());
 
             } // end for each profile

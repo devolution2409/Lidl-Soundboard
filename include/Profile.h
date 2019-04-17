@@ -189,7 +189,11 @@ class Profile
     private:
 
 
-        Profile(QString name, QSet<QString> exe, Profile* parent,  QVector<std::shared_ptr<SoundWrapper>> wrappers);
+        Profile(QString name, QSet<QString> exe, Profile* parent,
+                QVector<std::shared_ptr<SoundWrapper>> wrappers,
+                int PttVirtualKey,
+                int PttScanCode,
+                QKeySequence PttKeySequence);
 
 
         QString _name;
@@ -197,12 +201,13 @@ class Profile
         QSet<QString> _exeList; /*!< Array of executables */
         Profile* _parent;
 
-        int _PTTScanCode = -1;
-        int _PTTVirtualKey = -1;
-        QKeySequence _PTTKeySequence;
+
+
 
         QVector<std::shared_ptr<SoundWrapper>> _sounds;
-
+        int _PTTVirtualKey = -1;
+        int _PTTScanCode = -1;
+        QKeySequence _PTTKeySequence;
 
 
 };
@@ -217,9 +222,14 @@ class Profile::Builder{
 
         Profile* _parent = nullptr;
 
+
         //PepeS ?
 
         QVector<std::shared_ptr<SoundWrapper>> _wrappers;
+
+        int _pttVirtualKey = -1;
+        int _pttScanCode = -1;
+        QKeySequence _pttKeySequence = QKeySequence();
 
     public:
         // create Builder with default values assigned
@@ -255,6 +265,22 @@ class Profile::Builder{
             return *this;
         }
 
+        Builder & setPttVirtualKey(int vk)
+        {
+            this->_pttVirtualKey = vk;
+            return *this;
+        }
+        Builder & setPttScanCode(int sc)
+        {
+            this->_pttScanCode = sc;
+            return *this;
+        }
+        Builder & setPttKeySequence (QKeySequence ks)
+        {
+            this->_pttKeySequence = ks;
+            return *this;
+        }
+
 
         // produce desired Product
         Profile* Build(){
@@ -262,7 +288,7 @@ class Profile::Builder{
             // and also if Product is buildable from given information
             qDebug() << "[Profile::Builder] Building profile: " << _name
                         << " with " << _wrappers.size() << " wrappers";
-            return new Profile(_name,_exeList, _parent,_wrappers);
+            return new Profile(_name,_exeList, _parent,_wrappers, _pttVirtualKey,_pttScanCode,_pttKeySequence);
         }
 };
 

@@ -140,6 +140,7 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
     // merge this with the default profile
     if (profile->GetName()=="Default")
     {
+       qDebug() << "[ProfileController::AddProfile] Adding sounds to default profile";
        Profile* def = nullptr;
        bool found = false;
        for (auto &i: _profiles)
@@ -165,7 +166,11 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
            }
 
            this->AutomaticConfigurationChange("Default");
-           //deleting profile passed as argument
+           // need to do the same for PTT
+           def->SetPttScanCode(profile->GetPttScanCode());
+           def->SetPttVirtualKey(profile->GetPttVirtualKey());
+           def->SetPttKeySequence(profile->GetPttKeySequence());
+           //deleting profile passed as argument else it is memory leak PepeMeltdown
            delete(profile);
            return;
        }
@@ -179,7 +184,6 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
     _profiles.push_back(profile);
     qDebug() << "[ProfileController::AddProfile] Adding profile to array:  " << profile->GetName();
 
-    qDebug() << "[ProfileController::AddProfile] Please add profile name collision here for when soundboard is opening so that defualt profile isn't duplicated";
 
 
 

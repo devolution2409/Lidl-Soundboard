@@ -2,12 +2,15 @@
 
 #include "soundwrapper.h"
 
-Profile::Profile(QString name, QSet<QString> exe, Profile* parent,
-                 QVector<std::shared_ptr<SoundWrapper> > wrappers)
-    : _name(name) , _exeList(exe), _parent(parent), _sounds(wrappers)
+Profile::Profile(QString name, QSet<QString> exe, Profile *parent,
+                 QVector<std::shared_ptr<SoundWrapper> > wrappers,
+                 int PttVirtualKey, int PttScanCode, QKeySequence PttKeySequence)
+  : _name(name) , _exeList(exe), _parent(parent), _sounds(wrappers), _PTTVirtualKey(PttVirtualKey),
+    _PTTScanCode(PttScanCode),_PTTKeySequence(PttKeySequence)
 {
 
 }
+
 
 QString Profile::GetName() const
 {
@@ -155,8 +158,9 @@ Profile::~Profile()
     // clearing the array of sounds so the ref count decreases
     qDebug() << "[Profile::~Profile()] started destruction of profile: " << this->_name;
     _sounds.clear();
-     qDebug() << "[Profile::~Profile()] ended nam";
+    qDebug() << "[Profile::~Profile()] ended nam";
 }
+
 
 QString Profile::GetConfigAsString() const
 {
