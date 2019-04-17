@@ -129,6 +129,20 @@ QJsonObject Profile::GetProfileAsObject() const
     }
 
     obj.insert("Sounds" ,sounds);
+
+    QJsonArray exe;
+    for (auto &i: _exeList){
+        exe.append(i);
+    }
+
+    obj.insert("Executables",exe);
+
+    // checking for parent
+
+    if (this->_parent != nullptr){
+        obj.insert("Parent",this->_parent->GetName());
+    };
+
     return obj;
 
 }
