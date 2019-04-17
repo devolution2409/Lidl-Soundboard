@@ -194,7 +194,6 @@ void SaveController::OpenSaveFile()
                         // Sound collection
                         if (item.contains("Sound Collection"))
                         {
-                            qDebug() << "uuuuh? DuckerZ";
                             if (item.value("Sound Collection").isObject())
                             {
                                 qDebug() << "this is an object forsenE, so new file format forsenE";

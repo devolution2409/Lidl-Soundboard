@@ -137,11 +137,50 @@ void ProfileController::AutomaticConfigurationChange(const QString &name)
 
 void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copyMode)
 {
+    // merge this with the default profile
+    if (profile->GetName()=="Default")
+    {
+       Profile* def = nullptr;
+       bool found = false;
+       for (auto &i: _profiles)
+       {
+           // proceed
+           if (i->GetName() == "Default")
+           {
+               found = true;
+               def = i;
+               break;
+           }
+
+       }
+
+       // if we found it we proceed, otherwise we let the adding happen
+       if (found)
+       {
+            // adding the wrappers from the profile passed in argument
+           for ( auto &i: profile->GetSounds())
+           {
+               //i is a shared_ptr <soundwrapper>
+               def->AddSound(i);
+           }
+
+           this->AutomaticConfigurationChange("Default");
+           //deleting profile passed as argument
+           delete(profile);
+           return;
+       }
+
+
+
+
+    }
+
     // pushing the profile in the array
     _profiles.push_back(profile);
     qDebug() << "[ProfileController::AddProfile] Adding profile to array:  " << profile->GetName();
 
     qDebug() << "[ProfileController::AddProfile] Please add profile name collision here for when soundboard is opening so that defualt profile isn't duplicated";
+
 
 
     if (copyMode == LIDL::PROFILE_COPY_MODE::NO_COPY)
