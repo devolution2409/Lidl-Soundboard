@@ -1291,6 +1291,13 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 void SoundboardMainUI::setStopShortcut(unsigned int virtualKey)
 {
+
+    //TODO refactor this shit pepeL
+    // assigning it to save controller feelsweirdman
+    LIDL::Controller::SaveController::GetInstance()->SetStopVirtualKey(virtualKey);
+    LIDL::Controller::SaveController::GetInstance()->SetStopKeyName(
+                this->_shortcutEditStop->getText());
+
     //qDebug() << "virtual key" << virtualKey;
     UnregisterHotKey(nullptr,2147483647);
     RegisterHotKey(nullptr,2147483647,0, virtualKey);
@@ -2815,7 +2822,7 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
                                         tempSfx));
                         QKeySequence emptySeq;
                         // adding sound with empty shortcut and defaulting to singleton
-                        this->addSound( std::make_shared<SoundWrapper>(file,LIDL::Playback::Singleton,
+                        this->addSound( std::make_shared<SoundWrapper>(file,LIDL::Playback::Sequential,
                                                                  emptySeq, -1,
                                                                  this->_deviceListOutput->currentIndex(),
                                                                  this->_deviceListVAC->currentIndex()));

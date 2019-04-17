@@ -62,6 +62,19 @@ public:
      * \brief Save
      */
     void Save();
+
+    /*!
+     * \brief SetStopKeyName
+     */
+    void SetStopKeyName(QString name);
+
+    /*!
+     * \brief SetStopVirtualKey
+     * \param vk
+     */
+    void SetStopVirtualKey( unsigned int vk);
+
+
 private:
         SaveController();
         static SaveController *self;
@@ -70,6 +83,9 @@ private:
         QString _vacOutputDevice;
 
         QString _saveName;
+
+        QString _stopKeyName;
+        unsigned int _stopVirtualKey;
 
 
 };

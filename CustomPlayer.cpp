@@ -71,19 +71,19 @@ void CustomPlayer::PlayNext()
             /***********************************
              *           SINGLETON             *
              ***********************************/
-//            if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
-//            {
-//                _shouldPlay = false;
-//               // qDebug() << "ZULULUL" << _mainOutputDevice << _VACOutputDevice;
-//                duration =  static_cast<int>(this->PlayAt(_index)*1000);
-//                  //_timerSingleton->start(duration);
-//                _timerShouldPlay->start(duration);
-//                // qDebug() << "duration is: " << duration;
-//            }
+            if (_playMode == LIDL::Playback::Singleton && _shouldPlay)
+            {
+                _shouldPlay = false;
+                qDebug() << "[CustomPlayer::PlayNext()] WARNING: USING DEPRECATED MODE: LIDL::Playback::Singleton";
+                duration =  static_cast<int>(this->PlayAt(_index)*1000);
+                  //_timerSingleton->start(duration);
+                _timerShouldPlay->start(duration);
+                // qDebug() << "duration is: " << duration;
+            }
             /***********************************
              *           SEQUENTIAL            *
              ***********************************/
-            if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
+            else if  ((_playMode == LIDL::Playback::Sequential && _shouldPlay))
             {
                 _shouldPlay = false;
                 duration =  static_cast<int>(this->PlayAt(_index++)*1000);

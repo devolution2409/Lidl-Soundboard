@@ -29,7 +29,7 @@ void CustomListWidget::dragEnterEvent(QDragEnterEvent *event)
 
 
         if (accept)
-        event->acceptProposedAction();
+            event->acceptProposedAction();
     }
     // QListItems have no mime data so we can test it that way (for reorder purposes)
     // ITS A HACK THO forsenT

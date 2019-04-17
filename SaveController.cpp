@@ -35,6 +35,16 @@ void SaveController::Save()
     }
 }
 
+void SaveController::SetStopKeyName(QString name)
+{
+    this->_stopKeyName = name;
+}
+
+void SaveController::SetStopVirtualKey(unsigned int vk)
+{
+    this->_stopVirtualKey = vk;
+}
+
 void SaveController::SaveAs(QString fileName)
 {
     // if filename is empty we show the prompt
@@ -87,10 +97,11 @@ QJsonObject SaveController::GenerateSaveFile() const
     settings.insert("VAC Output Device",  this->_vacOutputDevice);
     settings.insert("Show Flags", static_cast<int>(LIDL::Controller::SettingsController::GetInstance()->getShowFlags()));
 
-//    QJsonObject stopSoundKey;
-//    stopSoundKey.insert("Key Name",this->_shortcutEditStop->getText());
-//    stopSoundKey.insert("VirtualKey" ,this->_shortcutEditStop->getVirtualKey());
-//    settings.insert("Stop Sound Key",stopSoundKey);
+    QJsonObject stopSoundKey;
+    stopSoundKey.insert("Key Name",this->_stopKeyName);
+    stopSoundKey.insert("VirtualKey" ,static_cast<int>(this->_stopVirtualKey));
+
+    settings.insert("Stop Sound Key",stopSoundKey);
 
     obj.insert("Settings", settings);
 
