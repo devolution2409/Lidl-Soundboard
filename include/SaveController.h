@@ -20,8 +20,9 @@ namespace LIDL {
 
 namespace Controller {
 
-class SaveController
+class SaveController : public QObject
 {
+    Q_OBJECT
 public:
     static SaveController* GetInstance();
 
@@ -98,6 +99,8 @@ private:
 
         QString _stopKeyName;
         unsigned int _stopVirtualKey;
+signals:
+   void Clear();
 
 
 };

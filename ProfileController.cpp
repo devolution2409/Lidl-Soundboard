@@ -74,10 +74,67 @@ Profile *ProfileController::GetActiveProfile() const
     return this->_activeProfile;
 }
 
+void ProfileController::RemoveAllProfiles()
+{
+    for (auto &i: _profiles)
+    {
+       delete i;
+    }
+    this->_activeProfile = nullptr;
+
+}
+
+void ProfileController::AutomaticConfigurationChange(const QString &name)
+{
+    // searching for the profile with the correct name
+    qDebug() << "[ProfileController::ManualGameConfigurationChanged()] called";
+
+    bool found = false;
+    for (auto &i: _profiles)
+    {
+        if (i->GetName() == name)
+        {
+
+            this->_activeProfile = i;
+            found = true;
+            qDebug() << "found profile:" << name;
+            break;
+        }
+
+    }
+    if (found)
+    {
+        // if the profile has a parent we need to reflect the sounds from there
+        if (_activeProfile->GetParent() != nullptr)
+        {
+            qDebug() <<  "[ProfileController::AutomaticConfigurationChange()] Please implement mirroring the sounds";
+            // while not being editabel
+        }
+        else
+        {
+            // clear everything from the main UI and then
+            // and the profile forsenT
+            QVector<std::shared_ptr<SoundWrapper>> temp = _activeProfile->GetSounds();
+            _activeProfile->ClearSounds();
+            // add sounds
+
+            //connected to ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wrappers)
+            emit AddSoundsToMainUI(temp);
+
+        }
+
+
+    }
+    emit RefreshComboBox();
+}
+
 void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copyMode)
 {
     // pushing the profile in the array
     _profiles.push_back(profile);
+
+    qDebug() << "[ProfileController::AddProfile] Please add profile name collision here for when soundboard is opening so that defualt profile isn't duplicated";
+
 
     if (copyMode == LIDL::PROFILE_COPY_MODE::NO_COPY)
     {
@@ -93,11 +150,17 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
                     " or by holding a list of profile that are mirrored  in the profile? IDK KEV PepeS";
     }
 
-    this->_activeProfile = profile;
 
-        qDebug() << "???";
 
-    emit ProfileConfigurationChanged(); //linked to refresh profile list in the combobox
+
+
+
+
+      this->AutomaticConfigurationChange(profile->GetName());
+
+        //which eventually emits RefreshWrappers
+        // and it is connected to ProfileSwitched in the main UI monkaThink
+
     //however we still need to clear previous wrappers
 
     qDebug().noquote() << profile->GetConfigAsString();

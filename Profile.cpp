@@ -153,7 +153,7 @@ QJsonObject Profile::GetProfileAsObject() const
 Profile::~Profile()
 {
     // clearing the array of sounds so the ref count decreases
-    qDebug() << "[Profile::~Profile()] started";
+    qDebug() << "[Profile::~Profile()] started destruction of profile: " << this->_name;
     _sounds.clear();
      qDebug() << "[Profile::~Profile()] ended nam";
 }

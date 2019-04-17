@@ -20,6 +20,7 @@ public:
     ProfileEdit * _profileEdit;
 signals:
      void RefreshWrappers(QVector<std::shared_ptr<SoundWrapper>>);
+     void RefreshComboBox();
 
 public slots:
      /*!
@@ -33,6 +34,8 @@ public slots:
      *
      */
     void RefreshProfiles();
+
+
 
 };
 

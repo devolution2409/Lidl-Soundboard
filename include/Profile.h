@@ -12,6 +12,7 @@
 #include <QKeySequence>
 #include <memory>
 #include <QJsonObject>
+#include <QDebug>
 
 /*!
  * \file Profile.h
@@ -259,7 +260,8 @@ class Profile::Builder{
         Profile* Build(){
             // Here, optionaly check variable consistency
             // and also if Product is buildable from given information
-
+            qDebug() << "[Profile::Builder] Building profile: " << _name
+                        << " with " << _wrappers.size() << " wrappers";
             return new Profile(_name,_exeList, _parent,_wrappers);
         }
 };

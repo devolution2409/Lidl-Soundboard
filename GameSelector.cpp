@@ -24,8 +24,6 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
              _profileEdit->exec();
     });
 
-    connect(LIDL::Controller::ProfileController::GetInstance(),&LIDL::Controller::ProfileController::ProfileConfigurationChanged,
-            this, &GameSelector::RefreshProfiles);
 
 
     // delete active profile
@@ -39,15 +37,27 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 
             });
 
+    connect(LIDL::Controller::ProfileController::GetInstance(),
+           &LIDL::Controller::ProfileController::RefreshComboBox,
+           this, [=]{
+       RefreshProfiles();
+
+    });
+
 }
+
+
 
 void GameSelector::RefreshProfiles()
 {
     _gameSelectorUi->comboBox->blockSignals(true);
     qDebug() << "[GameSelector::RefreshProfiles()] started";
-
+     _gameSelectorUi->comboBox->clear();
+    if (LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile() == nullptr)
+        return;
     QString previous = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName();
-    _gameSelectorUi->comboBox->clear();
+    qDebug() << "niiiiiiiig" << previous;
+
     qDebug() << "number of profiles:" << LIDL::Controller::ProfileController::GetInstance()->GetProfiles().size();
     for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
@@ -69,9 +79,11 @@ void GameSelector::RefreshProfiles()
 
 
 
+
     _gameSelectorUi->comboBox->blockSignals(false);
     // we need to force SwitchToProfile on the soundboard main ui now
-    emit RefreshWrappers( LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetSounds());
+    // or actually not cause this was doing some shenanigans when opneing soundboards ? forsenE
+  //  emit RefreshWrappers( LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetSounds());
 
       qDebug() << "[GameSelector::RefreshProfiles()] ended nam";
 

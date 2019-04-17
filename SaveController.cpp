@@ -390,6 +390,7 @@ void SaveController::OpenSaveFile()
 
                 } // end if profile contains sounds
                 // Now we can add the profile i guess PepeS
+                emit Clear();
                 Profile::Builder temp;
                 temp.setName(profileName);
                 for ( QString i: exes)
@@ -412,6 +413,13 @@ void SaveController::OpenSaveFile()
 
     // once parse, we set the device on the soundboard
     // and we swap to default profile, it should re-add the sound with the correct device
+
+
+
+    // in any case we revert to default profile forsenT
+    LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange("Default");
+
+    // we set the sounds output i guess
 
 }
 

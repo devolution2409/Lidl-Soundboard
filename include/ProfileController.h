@@ -108,6 +108,18 @@ public:
      */
     Profile* GetActiveProfile() const;
 
+    /*!
+     * \brief RemoveAllProfiles
+     * Remove all profiles (included default constructed "default" one)
+     */
+    void RemoveAllProfiles();
+
+    /*!
+     * \brief AutomaticConfigurationChange
+     * \param name
+     * Call this when you need to change profile and then update the combo box :)
+     */
+    void AutomaticConfigurationChange(const QString &name);
 
 private:
     ProfileController();
@@ -115,9 +127,18 @@ private:
     std::vector<Profile*> _profiles; /*!< Array of available profile, not a QVector because it doesnt work kek*/
     Profile * _activeProfile;
 signals:
-
-    void ProfileConfigurationChanged();
+    /*!
+     * \brief AddSoundsToMainUI
+     * Triggers the main UI logic that will add the sound to both the active profile and the UI.
+     * So that ref count isn't fucked up
+     */
     void  AddSoundsToMainUI(QVector<std::shared_ptr<SoundWrapper>>);
+    /*!
+     * \brief RefreshComboBox
+     * Signal sent by AutomaticConfigurationChange to notify the combobox it needs
+     * to update itself
+     */
+    void RefreshComboBox();
 
 };
 

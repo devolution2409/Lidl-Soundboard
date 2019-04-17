@@ -375,7 +375,7 @@ public slots:
      *
      * Call a function from the controller settings to prompt for save, clears the soundwrapper array, unregisters the shortcuts and clear their array, clears the model, clears the data, clears the devices lists, and finally refreshes the view.
      */
-    void ClearAll();
+    void ClearAllSounds();
 
     /*!
      * \brief This function allows the opening of .json files written by EXP Soundboard
@@ -490,6 +490,11 @@ public slots:
      * It will also register the new PTT key to auto-hold and the new sounds shortcuts
      */
     void ProfileSwitched(QVector<std::shared_ptr<SoundWrapper> > wrappers);
+    /*!
+     * \brief ClearAll
+     * Clear everything including profiles
+     */
+    void ClearAll();
 };
 
 

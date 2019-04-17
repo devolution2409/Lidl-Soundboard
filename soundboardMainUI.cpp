@@ -415,7 +415,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     //adding default profile here, will add soundwrapper to default later i guess
 
-    LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
+//    LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
 
    // LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
@@ -424,6 +424,11 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     connect(_gameSelector, &GameSelector::RefreshWrappers, this,
             &SoundboardMainUI::ProfileSwitched);
+
+    connect(LIDL::Controller::SaveController::GetInstance(),
+            &LIDL::Controller::SaveController::Clear,
+            this,
+            &SoundboardMainUI::ClearAll);
 
     emit OnConstructionDone();
 
@@ -441,23 +446,18 @@ void SoundboardMainUI::ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wr
     int stopSC = this->_shortcutEditStop->getScanCode();
     int stopVK = this->_shortcutEditStop->getVirtualKey();
 
-    this->ClearAll();
+    this->ClearAllSounds();
 
     if (wrappers.size() > 0)
     {
         qDebug() << "[SoundboardMainUI::ProfileSwitched] We coo";
         for (int i = 0; i < wrappers.size() - 1; i++)
         {
-            qDebug() << "-------------------";
-            qDebug() << "-------------------";
-            qDebug() << "-------------------";
-            qDebug() << "-------------------";
-            qDebug() << i;
             this->addSound(wrappers.at(i),-1,false,false);
         }
 
         this->addSound(wrappers.last(), -1, true,true);
-        qDebug() << "dis shit crashes?";
+
 
         //for (auto &i: wrappers)
             //this->addSound(i);
@@ -495,7 +495,7 @@ void SoundboardMainUI::PostConstruction()
         if(!(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
             QTimer::singleShot(0, [=]{   this->Open(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
         else // show firt use dialog
-            this->ClearAll();
+            this->ClearAllSounds();
     }
     // If this is the first time the user uses soundboard
     if (LIDL::Controller::SettingsController::GetInstance()->IsThisFirstTimeUser())
@@ -1062,7 +1062,7 @@ void SoundboardMainUI::setUpMenu()
             case -1: break; // file up to date
         }
         // Saving Soundboard state in the SettingsController object
-        this->ClearAll();
+        this->ClearAllSounds();
         //emit SaveSoundboardState();
         this->SetStatusTextEditText(QString(tr("Creating new empty soundboard")));
         emit SaveSoundboardState(); // == LIDL::Controller::SettingsController::GetInstance()->SaveSoundboardState(QJsonObject save);
@@ -1309,10 +1309,20 @@ void SoundboardMainUI::setStopShortcut(unsigned int virtualKey)
 /***************************************************
                     FILE MENU SLOTS
 ****************************************************/
-
-
-// CLEAR ALL aka New
 void SoundboardMainUI::ClearAll()
+{
+    //clear sounds
+    this->ClearAllSounds();
+    // clear profiles
+
+    // take a new snapshot
+
+}
+
+
+// CLEAR ALL sounds but wont remove profiles
+// and ptt buttons forsenT
+void SoundboardMainUI::ClearAllSounds()
 {
     /***************************************************
                         SOUNDS
@@ -1474,7 +1484,7 @@ void SoundboardMainUI::Open(QString fileName)
     if (json.contains("Settings"))
     {
         // we only clear if file is valid weSmart
-        this->ClearAll();
+        this->ClearAllSounds();
 
         this->_saveName = fileName;
         QJsonObject settings = json.value("Settings").toObject();
@@ -1844,7 +1854,7 @@ void SoundboardMainUI::OpenEXPSounboard()
         {
             // we clear the soundboard only if it's a valid file forsenE
             // We clear the soundboard
-            this->ClearAll();
+            this->ClearAllSounds();
 
             QJsonArray soundArray = json.value("soundboardEntries").toArray();
             for (auto i: soundArray)
