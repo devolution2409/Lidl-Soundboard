@@ -30,6 +30,7 @@ public slots:
      * However it will prevent the combobox from emitting event to avoid infinite recursion.
      * It will MANUALLY call the function to AddSounds in the UI.
      * See ProfileController.h for more details
+     *
      */
     void RefreshProfiles();
 

@@ -44,7 +44,7 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
 void GameSelector::RefreshProfiles()
 {
     _gameSelectorUi->comboBox->blockSignals(true);
-    qDebug() << "[RefreshProfiles]";
+    qDebug() << "[GameSelector::RefreshProfiles()] started";
 
     QString previous = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName();
     _gameSelectorUi->comboBox->clear();
@@ -53,7 +53,10 @@ void GameSelector::RefreshProfiles()
     {
         _gameSelectorUi->comboBox->addItem(i->GetName());
     }
-    qDebug() << "tis aint out of range";
+
+
+
+
     for (int i = 0; i < _gameSelectorUi->comboBox->count(); i++)
     {
         // if profile wasn't deleted we remain on it
@@ -62,17 +65,14 @@ void GameSelector::RefreshProfiles()
             _gameSelectorUi->comboBox->setCurrentIndex(i);
             break;
         }
-        else
-        {
-          qDebug() << "Please implement reverting to default profile in GameSelector.cpp line 50";
-        }
-
     }
 
-    qDebug() << "i made it feels good man";
+
+
     _gameSelectorUi->comboBox->blockSignals(false);
     // we need to force SwitchToProfile on the soundboard main ui now
     emit RefreshWrappers( LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetSounds());
 
+      qDebug() << "[GameSelector::RefreshProfiles()] ended nam";
 
 }

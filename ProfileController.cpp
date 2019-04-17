@@ -125,15 +125,24 @@ void ProfileController::DeleteActiveProfile()
 
     // Remove it from the profile array
     for  (unsigned int i = 0; _profiles.size(); i++)
-    {
+    {       
         if (_profiles.at(i) == _activeProfile){
             _profiles.erase(_profiles.begin() + i);
             break;
         }
     }
 
-    // deleting profile will delete the pointers
+    // deleting profile will clear the pointers array and decrease ref count
     delete _activeProfile;
+
+    // reverting to default profile
+
+    for (auto &i: _profiles)
+    {
+        if (i->GetName() == "Default")
+            _activeProfile = i;
+    }
+
 
 }
 
