@@ -78,8 +78,11 @@ void ProfileController::RemoveAllProfiles()
 {
     for (auto &i: _profiles)
     {
-       delete i;
+        qDebug() << "lel ---------------------" << i->GetName();
+        delete i;
+
     }
+    _profiles.clear();
     this->_activeProfile = nullptr;
 
 }
@@ -87,17 +90,19 @@ void ProfileController::RemoveAllProfiles()
 void ProfileController::AutomaticConfigurationChange(const QString &name)
 {
     // searching for the profile with the correct name
-    qDebug() << "[ProfileController::ManualGameConfigurationChanged()] called";
+    qDebug() << "[ProfileController::AutomaticConfigurationChange()] called";
 
     bool found = false;
     for (auto &i: _profiles)
     {
+
+        qDebug() << "greighreioghreoighreioghreoighreoighoireghiore";
         if (i->GetName() == name)
         {
 
             this->_activeProfile = i;
             found = true;
-            qDebug() << "found profile:" << name;
+          //  qDebug() << "found profile:" << name;
             break;
         }
 
@@ -114,6 +119,7 @@ void ProfileController::AutomaticConfigurationChange(const QString &name)
         {
             // clear everything from the main UI and then
             // and the profile forsenT
+
             QVector<std::shared_ptr<SoundWrapper>> temp = _activeProfile->GetSounds();
             _activeProfile->ClearSounds();
             // add sounds
@@ -126,12 +132,14 @@ void ProfileController::AutomaticConfigurationChange(const QString &name)
 
     }
     emit RefreshComboBox();
+     qDebug() << "[ProfileController::AutomaticConfigurationChange()] ended nam";
 }
 
 void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copyMode)
 {
     // pushing the profile in the array
     _profiles.push_back(profile);
+    qDebug() << "[ProfileController::AddProfile] Adding profile to array:  " << profile->GetName();
 
     qDebug() << "[ProfileController::AddProfile] Please add profile name collision here for when soundboard is opening so that defualt profile isn't duplicated";
 
@@ -153,17 +161,14 @@ void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copy
 
 
 
-
+    qDebug().noquote() << profile->GetConfigAsString();
 
 
       this->AutomaticConfigurationChange(profile->GetName());
 
-        //which eventually emits RefreshWrappers
-        // and it is connected to ProfileSwitched in the main UI monkaThink
 
-    //however we still need to clear previous wrappers
 
-    qDebug().noquote() << profile->GetConfigAsString();
+
 
 
 }

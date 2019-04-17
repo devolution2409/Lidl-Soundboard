@@ -56,11 +56,11 @@ void GameSelector::RefreshProfiles()
     if (LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile() == nullptr)
         return;
     QString previous = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetName();
-    qDebug() << "niiiiiiiig" << previous;
 
     qDebug() << "number of profiles:" << LIDL::Controller::ProfileController::GetInstance()->GetProfiles().size();
     for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
+        qDebug() << "GachiPls crash";
         _gameSelectorUi->comboBox->addItem(i->GetName());
     }
 

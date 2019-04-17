@@ -139,6 +139,7 @@ void SaveController::OpenSaveFile()
         //parsing the profiles
 
         if (json.contains("Profiles")){
+            emit Clear();
             QJsonArray profiles = json.value("Profiles").toArray();
             foreach (const QJsonValue & value, profiles) {
                 QVector <std::shared_ptr<SoundWrapper>> wrappers;
@@ -390,7 +391,7 @@ void SaveController::OpenSaveFile()
 
                 } // end if profile contains sounds
                 // Now we can add the profile i guess PepeS
-                emit Clear();
+
                 Profile::Builder temp;
                 temp.setName(profileName);
                 for ( QString i: exes)

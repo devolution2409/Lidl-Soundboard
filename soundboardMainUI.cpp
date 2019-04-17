@@ -413,11 +413,8 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // QueudConnection so that it doesn't fucks up the view
     connect(this,&SoundboardMainUI::OnConstructionDone,this,&SoundboardMainUI::PostConstruction,Qt::QueuedConnection);
 
-    //adding default profile here, will add soundwrapper to default later i guess
 
-//    LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
 
-   // LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
     connect(LIDL::Controller::ProfileController::GetInstance(), &LIDL::Controller::ProfileController::AddSoundsToMainUI,this,
             &SoundboardMainUI::ProfileSwitched);
@@ -487,6 +484,7 @@ void SoundboardMainUI::ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wr
 
 void SoundboardMainUI::PostConstruction()
 {
+    this->ClearAll();
     // Take a snapshot right now to avoid lidl errors when loading soundboard automatically
     LIDL::Controller::SettingsController::GetInstance()->SaveState(*this->GenerateSaveFile() );
     // Open the soundboard post-construction
@@ -494,8 +492,6 @@ void SoundboardMainUI::PostConstruction()
     {
         if(!(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
             QTimer::singleShot(0, [=]{   this->Open(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
-        else // show firt use dialog
-            this->ClearAllSounds();
     }
     // If this is the first time the user uses soundboard
     if (LIDL::Controller::SettingsController::GetInstance()->IsThisFirstTimeUser())
@@ -1314,8 +1310,10 @@ void SoundboardMainUI::ClearAll()
     //clear sounds
     this->ClearAllSounds();
     // clear profiles
+    LIDL::Controller::ProfileController::GetInstance()->RemoveAllProfiles();
 
-    // take a new snapshot
+    // build default profile
+    LIDL::Controller::ProfileController::GetInstance()->AddProfile( Profile::Builder().Build());
 
 }
 
@@ -1378,6 +1376,7 @@ void SoundboardMainUI::ClearAllSounds()
 // Open slot
 void SoundboardMainUI::OpenSlot()
 {
+
         LIDL::Controller::SaveController::GetInstance()->OpenSaveFile();
 
     return;
