@@ -101,6 +101,7 @@ private:
         unsigned int _stopVirtualKey;
 signals:
    void Clear();
+   void SetDevices(QString main,QString vac);
 
 
 };

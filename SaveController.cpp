@@ -437,6 +437,8 @@ void SaveController::OpenSaveFile()
     LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange("Default");
 
     // we set the sounds output i guess
+    emit SetDevices(mainOutputDevice,vacOutputDevice);
+
 
 }
 

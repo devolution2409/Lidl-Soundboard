@@ -427,6 +427,15 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             this,
             &SoundboardMainUI::ClearAll);
 
+    connect(LIDL::Controller::SaveController::GetInstance(),
+            &LIDL::Controller::SaveController::SetDevices,
+            this, [=] (QString main, QString vac){
+
+        this->_deviceListVAC->setCurrentText( vac );
+        this->_deviceListOutput->setCurrentText(main);
+
+    });
+
     emit OnConstructionDone();
 
 }
@@ -1058,7 +1067,7 @@ void SoundboardMainUI::setUpMenu()
             case -1: break; // file up to date
         }
         // Saving Soundboard state in the SettingsController object
-        this->ClearAllSounds();
+        this->ClearAll();
         //emit SaveSoundboardState();
         this->SetStatusTextEditText(QString(tr("Creating new empty soundboard")));
         emit SaveSoundboardState(); // == LIDL::Controller::SettingsController::GetInstance()->SaveSoundboardState(QJsonObject save);
