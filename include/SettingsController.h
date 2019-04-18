@@ -308,20 +308,6 @@ public slots:
 
     void ShowSettingsWindow();
 
-    /*!
-     * \brief SetPTTScanCode
-     * Register the key to be auto-held while playing a sound
-     * \param sc The key scan code
-     */
-    void SetPTTScanCode(int sc);
-
-    /*!
-     * \brief SetPTTVirtualKey
-     * Register the key to be auto-held while playing a sound
-     * \param vk The key virtual key
-     */
-    void SetPTTVirtualKey(int vk);
-
 
 
     /*!

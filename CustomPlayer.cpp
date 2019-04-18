@@ -344,9 +344,10 @@ double CustomPlayer::PlayAt(int index)
         thread->start();
     }
     // If any of the previous if were passed, the duration isn't -1.
-    if (!remote)
+    if (!remote){
         emit holdPTT(static_cast<int>(duration*1000) );
-
+            qDebug() << "[CustomPlayer::PlayAt] Emitting holdPTT";
+    }
     int tempIndex = _mainChannel.size() - 1 ;
     if (tempIndex != -1)
     {

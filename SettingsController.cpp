@@ -397,20 +397,20 @@ bool SettingsController::SaveIsDifferentFrom( QJsonObject newObject )
 
 void SettingsController::holdPTT(int duration)
 {
-
-
-    if (_activePttVitualKey == -1 || _activePttScanCode ==-1)
-        return;
+    int vk = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey();
+    int sc = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode();
+    if ( vk == -1 || sc == -1 )
+           return;
 
     // If a timer is already running we compare remaining time
     // and new duration, if remaining < new, we need to reschedule the stop
     if ( _activePttTimer.remainingTime() < duration )
     {
+        qDebug() << "blblbl";
         this->_eventProcessing = false;
 
-
-        keybd_event(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey(),
-                    LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode(),KEYEVENTF_EXTENDEDKEY, 0);
+           qDebug() << "[SettingsController::holdPTT] attempting to hold ptt";
+        keybd_event(vk, sc,KEYEVENTF_EXTENDEDKEY, 0);
         // works with 1ms for some reason OMEGALUL
         QTimer::singleShot(1,Qt::PreciseTimer, [=]{
                 this->_eventProcessing = true;
@@ -427,25 +427,17 @@ bool SettingsController::getEventProcessing() const
 }
 void SettingsController::unHoldPTT()
 {
-    qDebug() << "ZULOL";
+    qDebug() << "[SettingController::unHoldPTT()] started";
     //qDebug() << "unholding ptt here";
     // Unpressing the key physically
     keybd_event(LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttVirtualKey(),
                  LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->GetPttScanCode(),KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
     // stopping the timer else PTT will be unhold on each tick forsenT
     _activePttTimer.stop();
-    qDebug() << "??";
+    qDebug() << "[SettingController::unHoldPTT()] ended nam";
 }
 
-void SettingsController::SetPTTScanCode(int sc)
-{
-    this->_activePttScanCode = sc;
-}
 
-void SettingsController::SetPTTVirtualKey(int vk)
-{
-    this->_activePttVitualKey = vk;
-}
 
 
 void SettingsController::addShowFlag(LIDL::SHOW_SETTINGS addedFlag)

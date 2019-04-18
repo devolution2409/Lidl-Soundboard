@@ -14,6 +14,7 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
     });
 
     connect(_player, &CustomPlayer::holdPTT, [=] (int duration){
+        qDebug() << "[SoundWrapper::lambda] Emitting holding PTT proxy]";
             emit holdPTTProxy(duration);
     });
 
