@@ -116,6 +116,7 @@ private:
         QString _stopKeyName;
         unsigned int _stopVirtualKey;
         QJsonObject _snapshot;
+        void ParseOldSave(QJsonObject json);
 signals:
    void Clear();
    void SetDevices(QString main,QString vac);
