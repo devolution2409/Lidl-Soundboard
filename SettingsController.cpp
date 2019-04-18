@@ -377,22 +377,14 @@ std::deque<QFileInfo> SettingsController::GetRecentFiles()
     return this->recentFiles;
 }
 
-// We save the state here and than we can use it to be compared when
-// we need to know if soundboard was modified
-void SettingsController::SaveState(QJsonObject object)
-{
-    this->oldObject = object;
-}
+
 
 bool SettingsController::IsThisFirstTimeUser()
 {
     return !(this->fileAlreadyExisted);
 }
 
-bool SettingsController::SaveIsDifferentFrom( QJsonObject newObject )
-{
-    return  !(this->oldObject == newObject);
-}
+
 
 
 void SettingsController::holdPTT(int duration)
@@ -470,28 +462,6 @@ QStringList SettingsController::GetSupportedMimeTypes() const
 }
 
 
-int SettingsController::CompareSaves(QJsonObject newObject)
-{
-    // save the settings forsenE
-    this->SaveSettings();
-    if (!(this->oldObject == newObject))
-    {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(nullptr,tr("LIDL Soundboard: Changes Detected"),
-                                      tr("Do you wish to save changes?"),
-                                      QMessageBox::Yes|QMessageBox::No| QMessageBox::Cancel);
-        switch (reply){
-        case QMessageBox::Yes: return 0; break;
-        case QMessageBox::No : return 1; break;
-        case QMessageBox::Cancel: return 2; break;
-        default:
-            return 2;
-            break;
-        }
-
-    }
-    return -1; // file up-to-date
-}
 
 bool SettingsController::GetDragAndDropSeveralWrappers() const
 {

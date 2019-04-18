@@ -47,6 +47,16 @@ void SaveController::SetStopVirtualKey(unsigned int vk)
 
 void SaveController::OpenSaveFile()
 {
+    switch(this->CheckAndPromptIfNeedsSaving())
+    {
+        case 0: this->Save(); break; // yes
+        case 1: break; // no
+        case 2: return; break; // cancel or x button
+
+        case -1: break; // file up to date
+    }
+
+
     QString fileName = QFileDialog::getOpenFileName(nullptr,QObject::tr("Open file"),
                                                     LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
                                                     QObject::tr("LIDL JSON file(*.lidljson)"));
@@ -436,10 +446,56 @@ void SaveController::OpenSaveFile()
     // in any case we revert to default profile forsenT
     LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange("Default");
 
-    // we set the sounds output i guess
+    // we set the sounds output i guessèè
     emit SetDevices(mainOutputDevice,vacOutputDevice);
 
+    this->_snapshot = GenerateSaveFile();
 
+}
+bool SaveController::NeedsSaving()
+{
+    return (this->GenerateSaveFile() == _snapshot);
+}
+
+QString SaveController::GetSaveName() const
+{
+    return this->_saveName;
+}
+
+
+int SaveController::CheckAndPromptIfNeedsSaving()
+{
+    QJsonObject newSnapshot = this->GenerateSaveFile();
+    // if NOTHING HERE we return
+    if ( _snapshot == newSnapshot)
+        return -1;
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(nullptr,tr("LIDL Soundboard: Changes Detected"),
+                                  tr("Do you wish to save changes?"),
+                                  QMessageBox::Yes|QMessageBox::No| QMessageBox::Cancel);
+    switch (reply){
+    case QMessageBox::Yes:
+        this->Save();
+        return 0;
+        break;
+    case QMessageBox::No :
+        return 1;
+        break;
+    case QMessageBox::Cancel:
+        return 2;
+        break;
+    default:
+        return 2;
+        break;
+    }
+
+
+}
+
+void SaveController::SaveState()
+{
+    this->_snapshot = this->GenerateSaveFile();
 }
 
 void SaveController::SaveAs(QString fileName)
@@ -478,7 +534,12 @@ void SaveController::SaveAs(QString fileName)
        // emit SaveSoundboardState();
        // this->SetStatusTextEditText("Succesfully saved file: " + fileName);
     }
+    // not sure about this.
+
+    delete doc;
+    this->_snapshot = save;
 }
+
 
 
 QJsonObject SaveController::GenerateSaveFile() const

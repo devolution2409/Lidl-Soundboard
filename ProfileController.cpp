@@ -78,9 +78,7 @@ void ProfileController::RemoveAllProfiles()
 {
     for (auto &i: _profiles)
     {
-        qDebug() << "lel ---------------------" << i->GetName();
         delete i;
-
     }
     _profiles.clear();
     this->_activeProfile = nullptr;

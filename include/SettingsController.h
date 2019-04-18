@@ -109,23 +109,8 @@ public:
      */
     int GetRecentFilesCount() const;
 
-    // Literally a snapshot whenever we open or save
-    //             Sounds to be compared (including shorcuts) pointer to pttKeySequenceEdit and stop KeySequenceEdit
 
-    /*!
-     * \brief SaveState
-     * \param object A json "snapshot" from the soundboard
-     * TODO: account for profiles
-     */
-    void SaveState( QJsonObject object);
 
-    /*!
-     * \brief SaveIsDifferentFrom
-     * \param newObject A json "snapshot" from the soundboard
-     * \return Result of comparison between "old" snapshot and this one
-     * TODO: account for profiles
-     */
-    bool SaveIsDifferentFrom( QJsonObject  newObject);
 
     /*!
      * \brief IsThisFirstTimeUser
@@ -149,16 +134,6 @@ public:
      * \param duration The duration to hold the PTT for
      */
     void holdPTT(int duration);
-
-    /*!
-     * \brief CompareSaves
-     * Will comparse old and new save and prompt user if a change was detected.
-     * Seems a litle bit redundant with SaveIsDifferentFrom( QJsonObject  newObject);
-     * TODO: is it tho?
-     * \param newObject
-     * \return eShrug
-     */
-    int CompareSaves(QJsonObject newObject);
 
     /*!
      * \brief addShowFlag

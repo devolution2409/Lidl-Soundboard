@@ -223,10 +223,7 @@ private:
 
 
     QTextEdit * _statusEdit; /*!<Main widget of the QStatusBar so we have more control over it.*/
-    /***************************************************
-                            SAVE
-    ****************************************************/
-    QString _saveName; /*!<Keeps tracks the .lidljson file being read/written.*/
+
 
     /**
      * \brief This function Open a saved soundboard and add all the entries in the CustomTableView.

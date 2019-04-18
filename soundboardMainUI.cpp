@@ -330,8 +330,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         _btnDelete->setEnabled(false);
     });
 
-    // Declaring savename empty string so save doesn't work forsenE
-    this->_saveName = "";
+
 
     /* Calling OpenSetting will created the instance of the SettingsController we can after wards access it everywhere.
        * If the settings file was found, this function will return true
@@ -360,13 +359,13 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             &SoundboardMainUI::SetUpRecentMenu,
             Qt::QueuedConnection
             );
+
     connect(this,
             &SoundboardMainUI::SaveSoundboardState,
-            [=]
-    {
+           LIDL::Controller::SaveController::GetInstance(),
+            &LIDL::Controller::SaveController::SaveState);
 
-        LIDL::Controller::SettingsController::GetInstance()->SaveState(*(this->GenerateSaveFile()));
-    });
+
     connect(LIDL::Controller::SettingsController::GetInstance(),
             &LIDL::Controller::SettingsController::SettingsChanged,
             this, &SoundboardMainUI::SetUpRecentMenu,Qt::QueuedConnection);
@@ -495,7 +494,9 @@ void SoundboardMainUI::PostConstruction()
 {
     this->ClearAll();
     // Take a snapshot right now to avoid lidl errors when loading soundboard automatically
-    LIDL::Controller::SettingsController::GetInstance()->SaveState(*this->GenerateSaveFile() );
+    LIDL::Controller::SaveController::GetInstance()->SaveState();
+
+
     // Open the soundboard post-construction
     if (LIDL::Controller::SettingsController::GetInstance()->OpenSettings())
     {
@@ -1058,7 +1059,7 @@ void SoundboardMainUI::setUpMenu()
     //  connect(this->_actions.at(0),SIGNAL(triggered()),this,SLOT(ClearAll()));
     connect(this->_actions.last(),&QAction::triggered,
             [=]{
-        switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+        switch(LIDL::Controller::SaveController::GetInstance()->CheckAndPromptIfNeedsSaving())
         {
             case 0: this->Save(); break; // yes
             case 1: break; // no
@@ -1246,19 +1247,19 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
 
 
     // Compare saved soundboard state with the one we have now
-    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+    switch(LIDL::Controller::SaveController::GetInstance()->CheckAndPromptIfNeedsSaving())
     {
-        case 0: this->Save(); break; // yes
+        case 0:
+            break; // yes
         case 1:
             break; // no
         case 2:
-            event->ignore();
-            return;
+            event->ignore(); // we cancel the close the event
             break; // cancel or x button
-
         case -1: break; // file up to date
     }
 
+    // we generate the .lidlsettings file anyway
     LIDL::Controller::SettingsController::GetInstance()->SaveSettings();
 
 
@@ -1266,10 +1267,8 @@ void SoundboardMainUI::closeEvent (QCloseEvent *event)
         UnregisterHotKey(nullptr,i);
 
     // now deleting sounds from profile
-    for (auto &i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
-    {
-        delete i;
-    }
+    LIDL::Controller::ProfileController::GetInstance()->RemoveAllProfiles();
+
 
     if (_updateScheduled)
     {
@@ -1377,7 +1376,7 @@ void SoundboardMainUI::ClearAllSounds()
     ****************************************************/
     this->_deviceListOutput->setCurrentIndex(0);
     this->_deviceListVAC->setCurrentIndex(0);
-    this->_saveName.clear();
+
 
     this->refreshView();
 }
@@ -1404,14 +1403,14 @@ void SoundboardMainUI::Open(QString fileName)
     return;
 
 
-    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
-    {
-    case 0: this->Save(); break; // yes
-    case 1: break; // no
-    case 2: return; break; // cancel or x button
+//    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+//    {
+//    case 0: this->Save(); break; // yes
+//    case 1: break; // no
+//    case 2: return; break; // cancel or x button
 
-    case -1: break; // file up to date
-    }
+//    case -1: break; // file up to date
+//    }
 
     QString error ="";
 //    _loadingWidget = new LoadingWidget(fileName);
@@ -1494,7 +1493,7 @@ void SoundboardMainUI::Open(QString fileName)
         // we only clear if file is valid weSmart
         this->ClearAllSounds();
 
-        this->_saveName = fileName;
+
         QJsonObject settings = json.value("Settings").toObject();
         if (settings.contains("Main Output Device"))
             mainOutputDevice = settings.value("Main Output Device").toString();
@@ -1840,7 +1839,7 @@ void SoundboardMainUI::Open(QString fileName)
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
-    switch(LIDL::Controller::SettingsController::GetInstance()->CompareSaves(* this->GenerateSaveFile()))
+    switch(LIDL::Controller::SaveController::GetInstance()->CheckAndPromptIfNeedsSaving())
     {
     case 0: this->Save(); break; // yes
     case 1: break; // no
@@ -2031,43 +2030,17 @@ QJsonObject * SoundboardMainUI::GenerateSaveFile()
 // Save
 void SoundboardMainUI::Save()
 {
-
+    // if file doesn't exist controller will throw the SaveAs prompt,
+    //else it will save to the same file
     LIDL::Controller::SaveController::GetInstance()->Save();
     return;
 
-    // if file doesn't exist we throw the save as prompt
-    if (this->_saveName.isEmpty())
-    {
-        this->SaveAs();
-        return;
-    }
-    // else we save on it
-    else
-    {
-        QJsonObject *save = GenerateSaveFile();
-        QJsonDocument *cdOMEGALUL = new QJsonDocument(*save);
-        QString jsonString = cdOMEGALUL->toJson(QJsonDocument::Indented);
-        QFile file(_saveName);
-        if (!file.open(QIODevice::WriteOnly))
-        {
-            QMessageBox::information(this, tr("Unable to open file:\n"), file.errorString());
-            file.close();
-            return;
-        }
-        else
-        {
-            QTextStream out(&file);
-            out.setCodec("UTF-8");
-            out << jsonString.toUtf8();
-            file.close();
-            // Saving Soundboard state in the SettingsController object
-            emit SaveSoundboardState();
-            this->SetStatusTextEditText("Succesfully saved file: " + _saveName);
-        }
+            //this->SetStatusTextEditText("Succesfully saved file: " + "blblblbl");
+
         // not needed cause it is already emitted once opened
         // emit lidlJsonDetected(QFileInfo(file)); // forsenBee
 
-    }
+
 }
 
 // Save as
@@ -2656,18 +2629,20 @@ void SoundboardMainUI::SetStatusTextEditText(QString text)
         // if the soundboard has been modified:
         QTimer::singleShot(1500, [=]
         {
+
+            QString temp = LIDL::Controller::SaveController::GetInstance()->GetSaveName();
             // if snapshot now is different from stored one
-            if ( LIDL::Controller::SettingsController::GetInstance()->SaveIsDifferentFrom(*(this->GenerateSaveFile())))
+            if ( LIDL::Controller::SaveController::GetInstance()->NeedsSaving())
             {
-                if (_saveName.isEmpty() || _saveName.size() == 0)
+                if (temp.isEmpty() || temp.size() == 0)
                     _statusEdit->setText("Soundboard file not saved.");
                 else
-                    _statusEdit->setText("Soundboard file: " + this->_saveName   + " not saved."  );
+                    _statusEdit->setText("Soundboard file: " + temp   + " not saved."  );
             }
-            else if (_saveName.isEmpty())
+            else if (temp.isEmpty())
                 _statusEdit->setText("Soundboard file not saved.");
             else //it is the same soundboard as before (ie it is saved)
-                _statusEdit->setText("Soundboard file: \"" + this->_saveName  + "\".");
+                _statusEdit->setText("Soundboard file: \"" + temp  + "\".");
         });
     }
 }

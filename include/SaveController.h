@@ -87,6 +87,22 @@ public:
     //void CompareSaves();
     // Generate hash of json and compare it :QString blah = QString(QCryptographicHash::hash(("myPassword"),QCryptographicHash::Md5).toHex())
 
+    /*!
+     * \brief CheckIfNeedsSaving
+     * Checks if the soundboard needs saving.
+     * IE is the previous stored snapshot equal to the new
+     */
+    int CheckAndPromptIfNeedsSaving();
+
+    /*!
+     * \brief SaveState
+     * Saves the soundboard in the _snapshot variable.
+     */
+    void SaveState();
+
+    bool NeedsSaving();
+
+    QString GetSaveName() const;
 
 private:
         SaveController();
@@ -99,6 +115,7 @@ private:
 
         QString _stopKeyName;
         unsigned int _stopVirtualKey;
+        QJsonObject _snapshot;
 signals:
    void Clear();
    void SetDevices(QString main,QString vac);
