@@ -105,8 +105,7 @@
 #include <QMimeDatabase>
 #include <QProgressBar>
 #include <QThread>
-#include "LoadingWidget.h"
-#include "LoadingWidgetWorker.h"
+
 #include "PresetWizard.h"
 
 #include <QDebug>
@@ -249,23 +248,8 @@ private:
      */
     void refreshView();
 
-    LoadingWidget * _loadingWidget;/*!< Widget that shows the loading bar. */
 
-    /*!
-     * \brief addSeveralSounds Function used by the thread created when opening a lidljson file.
-     *
-     * This function will fix the size of the soundboard.
-     * Shows the progress bar.
-     * Creates a new thread to deal with the _sounds argument and populate the needed variables.
-     * Creates a new thread to handle the displaying of the progress bar (updating current value).
-     *  This second thread use a worker to have more control over its signal.
-     * Then, it will close the widget, delete the pointer, refresh the view and generate shorcuts.
-     * Finally, it will enable the UI and save the soundboard state.
-     *
-     * \param sounds The sounds array.
-     * \param maximum The number of file in the sounds variable. (needed for display purposes).
-     */
-    void addSeveralSounds(QVector<SoundWrapper*> sounds, int maximum);
+
 
 
 public:

@@ -15,6 +15,9 @@
 #include <QRegExp>
 #include "EnumsAndStructs.h"
 #include "soundwrapper.h"
+#include "LoadingWidget.h"
+#include "LoadingWidgetWorker.h"
+
 
 namespace LIDL {
 
@@ -120,6 +123,7 @@ private:
 signals:
    void Clear();
    void SetDevices(QString main,QString vac);
+   void SetStopShortcut(QKeySequence ks, int virtualKey);
 
 
 };

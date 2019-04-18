@@ -64,6 +64,7 @@ void SaveController::OpenSaveFile()
     if ((fileName).isEmpty())
             return;
 
+
     QFile file(fileName);
     QJsonObject json;
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)   )
@@ -461,7 +462,13 @@ void SaveController::OpenSaveFile()
     // we set the sounds output i guess
     emit SetDevices(mainOutputDevice,vacOutputDevice);
 
+
+    // setting the stop
+    emit SetStopShortcut(QKeySequence(stopName), stopVirtualKey);
+
     this->_snapshot = GenerateSaveFile();
+
+
 
 }
 
@@ -907,6 +914,7 @@ QString SaveController::GetVacOutputDevice() const
 {
     return this->_vacOutputDevice;
 }
+
 
 
 } // end namespace controller

@@ -435,6 +435,14 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
     });
 
+    connect(LIDL::Controller::SaveController::GetInstance(),
+               &LIDL::Controller::SaveController::SetStopShortcut,
+            this, [=] (QKeySequence ks, int vk){
+        this->_shortcutEditStop->setKeySequence(ks);
+        this->_shortcutEditStop->setVirtualKey(vk);
+        this->setStopShortcut(vk);
+    });
+
     emit OnConstructionDone();
 
 }
@@ -640,94 +648,7 @@ void SoundboardMainUI::addSound(std::shared_ptr<SoundWrapper> modifiedSound, int
       qDebug() << "[429] AddSound: ref count for modified sound after:" << modifiedSound.use_count();
 }
 
-void SoundboardMainUI::addSeveralSounds(QVector<SoundWrapper *> sounds,int maximum)
-{
-    // We set the default profile after opening tho
-    LIDL::Controller::ProfileController::GetInstance()->ManualGameConfigurationChanged("Default");
 
-
-    qDebug() << "[542] Please reimplement AddSeveralSounds with shared_ptr !e" ;
-    /*
-    QSize previous = this->size();
-    this->setEnabled(false);
-    this->setMaximumSize(previous);
-    this->setMinimumSize(previous);
-
-    _loadingWidget = new LoadingWidget( _saveName );
-    _loadingWidget->setMaximum(maximum);
-    _loadingWidget->show();
-
-    QThread *thread = QThread::create([=]
-    {
-       // this->setDisabled(true);
-        this->_sounds = sounds;
-        for (auto &i: _sounds)
-        {
-            SoundWrapper * wrapper  = static_cast<SoundWrapper*>(i);
-            _data.append(wrapper->getSoundAsItem());
-            // Adding actual row the view is done by addind the data
-            // to the model forsenT
-            //_model->appendRow(_data.last());
-            // addind the key sequence to the shortcut list
-            _winShorcutHandle.append(_winShorcutHandle.size());
-            _keySequence.append(wrapper->getKeySequence());
-            _keyVirtualKey.append(wrapper->getShortcutVirtualKey());
-
-        }
-    });
-
-
-
-    thread->start();
-
-    QThread *updateUI = new QThread();
-    LoadingWidgetWorker *worker = new LoadingWidgetWorker(&this->_data,maximum);
-    worker->moveToThread(updateUI);
-    connect(updateUI, SIGNAL (started()), worker, SLOT (process()));
-    connect(worker, SIGNAL (finished()), updateUI, SLOT (quit()));
-    connect(worker, SIGNAL (finished()), worker, SLOT (deleteLater()));
-    connect(updateUI, SIGNAL (finished()), updateUI, SLOT (deleteLater()));
-
-    connect(worker, &LoadingWidgetWorker::setValue, _loadingWidget, &LoadingWidget::setCurrent);
-
-    // final treatment can't be done in the thread
-    connect(worker, &LoadingWidgetWorker::finished, this,[=]{
-        _loadingWidget->close();
-        delete _loadingWidget;
-        _loadingWidget = nullptr;
-        this->setMaximumSize(99999,99999 );
-        this->GenerateGlobalShortcuts();
-        this->refreshView();
-        this->setEnabled(true);
-        emit SaveSoundboardState();
-        for (auto &i: _sounds)
-        {
-            // need to connect the sounds to the correponding signals forsenD
-            connect(i,&SoundWrapper::UnexistantFile,this, [=]{
-                    this->SetStatusTextEditText("The files marked with ⚠️ aren't present on disk.");
-                });
-
-            // connecting the wrapper proxy signal for player NowPlaying
-            connect(i,&SoundWrapper::NowPlaying,this,[=](QString name){
-                    this->SetStatusTextEditText("<b>Now playing: </b>\"" + name +"\"");
-                });
-
-            // connecting the wrapper proxy signal for player ErrorPlaying
-            connect(i,&SoundWrapper::ErrorPlaying,this, [=](QString name){
-                    this->SetStatusTextEditText("<b>Error playing file: </b>\"" + name + "\"");
-                 });
-           // needed for remotes files forsenE
-            connect(i, &SoundWrapper::holdPTTProxy, [=] (int duration){
-                LIDL::Controller::SettingsController::GetInstance()->holdPTT(duration);
-            } );
-        }
-
-    } );
-
-    updateUI->start();
-    */
-
-}
 
 
 // Sort of delegate. Re-implemented here cause i don't know how the fuck
