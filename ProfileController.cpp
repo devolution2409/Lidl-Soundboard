@@ -90,11 +90,16 @@ void ProfileController::AutomaticConfigurationChange(const QString &name)
     // searching for the profile with the correct name
     qDebug() << "[ProfileController::AutomaticConfigurationChange()] called";
 
+    if (this->_activeProfile != nullptr && this->_activeProfile->GetName() == name)
+    {
+        qDebug() << "[ProfileController::AutomaticConfigurationChange()] Requested profile is already active, returning.";
+        return;
+    }
+
     bool found = false;
     for (auto &i: _profiles)
     {
 
-        qDebug() << "greighreioghreoighreioghreoighreoighoireghiore";
         if (i->GetName() == name)
         {
 
