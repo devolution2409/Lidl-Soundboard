@@ -184,6 +184,7 @@ void CALLBACK ShowOverlay(HWINEVENTHOOK hook, DWORD event, HWND hwnd,
 
         LIDL::OverlayController::GetInstance()->ResizeToWindow(GetForegroundWindow());
         LIDL::OverlayController::GetInstance()->ShowGameOverlay(profile);
+        LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange(profile->GetName());
 
     }
 

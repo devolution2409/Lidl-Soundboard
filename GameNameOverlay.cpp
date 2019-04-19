@@ -13,7 +13,7 @@ GameNameOverlay::GameNameOverlay(QWidget *parent) : QWidget(parent)
     imageLabel->setScaledContents(true);
     this->setFixedSize(200,100);
     layout->addWidget(imageLabel,0,0,1,1);
-    QLabel * blah = new QLabel("Detected Game");
+    QLabel * blah = new QLabel("Switched to Profile:");
     layout->addWidget(blah,0,1,2,2);
 
     _labelGame = new QLabel("Playerunknown's Battlegrounds");

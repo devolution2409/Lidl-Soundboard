@@ -246,12 +246,12 @@ void ProfileController::DeleteActiveProfile()
 
     // reverting to default profile
 
-    for (auto &i: _profiles)
-    {
-        if (i->GetName() == "Default")
-            _activeProfile = i;
-    }
-
+//    for (auto &i: _profiles)
+//    {
+//        if (i->GetName() == "Default")
+//            _activeProfile = i;
+//    }
+    this->AutomaticConfigurationChange("Default");
 
 }
 

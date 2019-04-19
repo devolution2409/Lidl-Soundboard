@@ -456,6 +456,7 @@ QStringList SettingsController::GetSupportedMimeTypes() const
     QStringList mimes;
     mimes << "audio/wav"   << "audio/xwav" << "audio/x-wav" // wav
                            << "audio/mpeg3" << "audio/x-mpeg-3" <<"audio/mpeg" //mp3
+                           << "audio/mp4"
                            << "audio/ogg"  //ogg
                            << "audio/flac"; // flac
     return mimes;

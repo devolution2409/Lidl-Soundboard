@@ -52,11 +52,16 @@ void CustomPlayer::PlayNext()
     if (_index > _soundList.size() -1 )
         _index = 0;
     // check if next file exists
-    if (! _soundList.at(_index)->exists())
+    //if (! _soundList.at(_index)->exists())
+    if (false)
     {
         emit ErrorPlaying(_soundList.at(_index)->fileName() );
-        return;
+
+        qDebug() << "[CustomPlayer::PlayNext() Find a way to make the socket connect, or add a isYoutube condition to ditch the existing stuff";
+        qDebug() << "Also: find a way to fucking use the url only thing forsenD";
+       // return;
     }
+
     else // if it does exist
     {
         emit NowPlaying(_soundList.at(_index)->fileName());
@@ -144,7 +149,7 @@ void CustomPlayer::Stop()
 // Play the sound and return the duration in secs.
 double CustomPlayer::PlayAt(int index)
 {
-
+    qDebug() << "[CustomPlayer::PlayAt] started";
     double duration = std::numeric_limits<double>::quiet_NaN();
     bool remote = false;
     if (_soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp")
@@ -163,8 +168,14 @@ double CustomPlayer::PlayAt(int index)
 
         // We check for scheme
         // if it is a URL we use the StreamCreateURL
+
+
+        //http://www.un4seen.com/doc/#bass/BASS_StreamCreateURL.html
+        // we can set a cookie there:
+        //HSTREAM stream=BASS_StreamCreateURL("http://www.asite.com/afile.mp3\r\nCookie: mycookie=blah\r\n", 0, 0, NULL, 0);
         if ( _soundList.at(index)->scheme() == "http" || _soundList.at(index)->scheme() == "https" ||_soundList.at(index)->scheme() == "ftp" )
         {
+            qDebug() << "[CustomPlayer::PlayAt] REMOTE sound !";
             _mainChannel.append( BASS_StreamCreateURL( _soundList.at(index)->url().toStdWString().c_str(),0,  BASS_STREAM_PRESCAN | BASS_STREAM_AUTOFREE,nullptr,nullptr  ));
 
         }
@@ -331,7 +342,10 @@ double CustomPlayer::PlayAt(int index)
     if (remote && _VACOutputDevice != 0)
     {
 
+
+        qDebug() << "Find a way to stop the qthread if song is never laoding";
         QThread *thread = QThread::create([=]{
+
             unsigned long test = 0;
             do{
                 test = BASS_ChannelIsActive( _vacChannel.last() );
@@ -342,6 +356,7 @@ double CustomPlayer::PlayAt(int index)
             emit holdPTT(static_cast<int>(duration*1000));
         });
         thread->start();
+
     }
     // If any of the previous if were passed, the duration isn't -1.
     if (!remote){
@@ -359,6 +374,8 @@ double CustomPlayer::PlayAt(int index)
                     _vacChannel.pop_front();
         } );
     }
+    qDebug() << "[CustomPlayer::PlayAt] ended nam";
+
 
     return duration;
 }

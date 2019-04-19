@@ -33,7 +33,7 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
         return;
 
        LIDL::Controller::ProfileController::GetInstance()->DeleteActiveProfile();
-       this->RefreshProfiles();
+       //this->RefreshProfiles();
 
             });
 

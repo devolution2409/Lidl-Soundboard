@@ -547,7 +547,7 @@ void WrapperProperties::AddSound()
     //if we already have more than one s²ound we set the mode to sequential (default)
 
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3 *.ogg *.flac)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundFolder(), tr("Sounds (*.wav *.mp3 *.ogg *.flac *.m4a)"));
     // if the fileName isn't empty, the user selected a file, so we add it.
     if (!fileName.isEmpty())
     {
