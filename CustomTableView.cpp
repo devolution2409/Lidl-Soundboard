@@ -30,6 +30,9 @@ CustomTableView::CustomTableView(QWidget *parent) : QTableView(parent)
     _delegate = new StyledDelegate(LIDL::HoverBehavior::HoverRows ,this);
     this->setItemDelegate(_delegate);
 
+    this->setSortingEnabled(true);
+    this->horizontalHeader()->setSortIndicator(0,Qt::SortOrder::AscendingOrder);
+
 }
 
 void CustomTableView::selectionChanged(const QItemSelection & selected, const QItemSelection & deselected)

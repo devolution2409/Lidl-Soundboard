@@ -563,3 +563,21 @@ QSpinBox::down-arrow:disabled,QSpinBox::down-arrow:off /* off state when value i
     background: #323232;
     image: url(:/icon/resources/down_arrow_disabled.png);
 }
+
+QHeaderView::down-arrow
+{
+    width: 13px;
+    height:9px;
+    image:url(:/icon/resources/down_arrow.png);
+    subcontrol-position:
+    bottom right;
+}
+QHeaderView::up-arrow
+{
+    width: 13px;
+    height:9px;
+    image:url(:/icon/resources/up_arrow.png);
+    subcontrol-position:
+    bottom right;
+}
+
