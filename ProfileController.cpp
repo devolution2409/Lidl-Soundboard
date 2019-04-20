@@ -135,7 +135,21 @@ void ProfileController::AutomaticConfigurationChange(const QString &name, bool f
 
     }
     emit RefreshComboBox();
-     qDebug() << "[ProfileController::AutomaticConfigurationChange()] ended nam";
+    qDebug() << "[ProfileController::AutomaticConfigurationChange()] ended nam";
+}
+
+Profile *ProfileController::GetProfileForName(QString name)
+{
+    for (auto &i: _profiles)
+    {
+        if (i->GetName() == name)
+        {
+            return i;
+
+        }
+
+    }
+    return nullptr;
 }
 
 void ProfileController::AddProfile(Profile* profile,LIDL::PROFILE_COPY_MODE copyMode)

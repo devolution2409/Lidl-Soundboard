@@ -40,6 +40,17 @@ SoundWrapper::SoundWrapper(QVector<QString> fileList,LIDL::Playback playbackMode
     this->setPlayerVACOutput(vacOutput);
 }
 
+SoundWrapper::SoundWrapper(SoundWrapper* &other) : SoundWrapper::SoundWrapper(nullptr)
+{
+    qDebug() << "[SoundWrapper::CopyConstructor] started";
+    this->setPlayerVACOutput(other->_player->GetVACDevice());
+    this->setPlayerMainOutput(other->_player->GetOutputDevice());
+    this->_soundList = other->_soundList;
+    this->_playMode = other->_playMode;
+    qDebug() << "[SoundWrapper::CopyConstructor] ended nam";
+
+}
+
 
 
 //III: Constructor used when opening a LIDLJSON file
@@ -201,7 +212,7 @@ QList<QStandardItem*> SoundWrapper::getSoundAsItem()
 
     // If shortcut is empty we write no shortcut    
     if (this->getKeySequence().isEmpty())
-        tempItem.append(new QStandardItem("No Shortcut!"));
+        tempItem.append(new QStandardItem("! No Shortcut !"));
     else
     {
 

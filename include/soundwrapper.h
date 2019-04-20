@@ -82,6 +82,13 @@ public:
                 int vacOutput,
                 QObject * parent=nullptr);
 
+    /*!
+     * \brief SoundWrapper
+     * \param other
+     * Used by when copying sound from another profile :)
+     */
+    SoundWrapper(SoundWrapper* &other);
+
 
 
 //Getters

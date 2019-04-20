@@ -122,6 +122,13 @@ public:
      */
     void AutomaticConfigurationChange(const QString &name, bool forceChange = false);
 
+    /*!
+     * \brief GetProfileForName
+     * \param name
+     * \return
+     */
+    Profile* GetProfileForName(QString name);
+
 private:
     ProfileController();
     static ProfileController *self;

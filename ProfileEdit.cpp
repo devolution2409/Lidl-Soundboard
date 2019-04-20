@@ -12,7 +12,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
     });
 
-
+    ui->radioCopy->setChecked(true);
 
     connect(ui->btnAdd,&QToolButton::clicked, this, [=]{
         QString fileName = QFileDialog::getOpenFileName(this,
@@ -64,6 +64,8 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
     connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->comboBoxProfiles ,&QComboBox::setEnabled);
     connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioGroup ,&QGroupBox::setEnabled);
+    connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioCopy, &QRadioButton::setEnabled);
+    connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioMirror, &QRadioButton::setEnabled);
     //adding them to the list HYPERBRUH
     for(auto i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
@@ -78,6 +80,40 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         {
             QListWidgetItem* item = ui->listWidget->item(i);
             builder.addExe(item->text());
+        }
+
+
+        // need to copy the sound if checkmark && radio is checked
+
+        if (ui->checkBoxCopySounds->isChecked())
+        {
+            if (ui->radioCopy->isChecked())
+            {
+                QVector<std::shared_ptr<SoundWrapper>> temp;
+                Profile* profile = LIDL::Controller::ProfileController::GetInstance()->GetProfileForName( ui->comboBoxProfiles->currentText());
+                // i is a reference to a shared_ptr soundwrapper
+
+                for(auto &i: profile->GetSounds())
+                {
+                    //A shared_ptr may share ownership of an object while storing a pointer to another object.
+                    //get() returns the stored pointer, not the managed pointer.
+                    SoundWrapper* NaM = i.get();
+
+                    // need to use a temp variable with the SoundWrapper* type else
+                    // it will call the default constructor of SoundWrapper(QObject* parent= nullptr)
+                    // despite trying static_cast,dynamic_cast and even reinterpret_cast
+
+                    temp.append(std::make_shared<SoundWrapper>( NaM));
+                }
+                builder.setSounds(temp);
+
+            }
+            else if (ui->radioMirror->isChecked())
+            {
+                //setting the parent forsenE
+                builder.setParent(LIDL::Controller::ProfileController::GetInstance()->GetProfileForName( ui->comboBoxProfiles->currentText()));
+            }
+
         }
 
 
