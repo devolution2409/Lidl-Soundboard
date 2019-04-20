@@ -6,6 +6,7 @@
 WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
 {
     Q_UNUSED(parent);
+    const int maxVolume = 300;
     this->setFocusPolicy(Qt::StrongFocus);
     this->setMinimumSize(419,687);
     //w*h
@@ -59,7 +60,7 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _sliderLayout = new QGridLayout();
     _sliderMain  = new QSlider(Qt::Orientation::Horizontal,this);
     _sliderVAC   = new QSlider(Qt::Orientation::Horizontal,this);
-    int maxVolume = 100;
+
     _sliderMain->setRange(0,maxVolume);
     _sliderVAC->setRange(0,maxVolume);
     _sliderLabelMain = new QLabel(tr("Main Output Volume"));

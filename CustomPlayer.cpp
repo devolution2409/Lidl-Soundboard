@@ -198,9 +198,6 @@ double CustomPlayer::PlayAt(int index)
 
         BASS_ChannelSetDevice(_mainChannel.last(),_mainOutputDevice);
 
-
-
-
         //http://www.un4seen.com/doc/#bass/BASS_ChannelPlay.html
         //http://www.un4seen.com/doc/#bass/BASS_ChannelSetFX.html
         BASS_ChannelSetAttribute(_mainChannel.last(), BASS_ATTRIB_VOL,  _soundList.at(index)->getMainVolume() );
