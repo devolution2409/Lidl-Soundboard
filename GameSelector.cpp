@@ -22,6 +22,8 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
              _profileEdit = new ProfileEdit();
 
              _profileEdit->exec();
+
+           //  _profileEdit->deleteLater();
     });
 
 
@@ -43,6 +45,20 @@ GameSelector::GameSelector(QWidget* parent) : QWidget(parent)
        RefreshProfiles();
 
     });
+
+    // connecting the edit button
+    connect(_gameSelectorUi->editBtn, &QToolButton::clicked, this, [=]{
+        Profile * activeProfile = LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile();
+        if (activeProfile == nullptr || activeProfile->GetName() =="Default")
+        return;
+
+       _profileEdit = new ProfileEdit(activeProfile);
+
+       _profileEdit->exec();
+
+
+    });
+
 
 }
 

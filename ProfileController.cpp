@@ -85,12 +85,12 @@ void ProfileController::RemoveAllProfiles()
 
 }
 
-void ProfileController::AutomaticConfigurationChange(const QString &name)
+void ProfileController::AutomaticConfigurationChange(const QString &name, bool forceChange)
 {
     // searching for the profile with the correct name
     qDebug() << "[ProfileController::AutomaticConfigurationChange()] called";
 
-    if (this->_activeProfile != nullptr && this->_activeProfile->GetName() == name)
+    if (this->_activeProfile != nullptr && this->_activeProfile->GetName() == name && !forceChange)
     {
         qDebug() << "[ProfileController::AutomaticConfigurationChange()] Requested profile is already active, returning.";
         return;

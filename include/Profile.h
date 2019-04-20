@@ -59,23 +59,26 @@ class Profile
         QString GetName() const;
 
         /*!
+         * \brief SetName
+         * \param newName
+         * Set the name, useful when editing profiles.
+         */
+        void SetName(QString newName);
+
+
+
+        /*!
          * \brief GetGameList
          * \return The game list as a QSet<QString>
          */
         QSet<QString> GetGameList() const;
-        /*!
-         * \brief RemoveGame
-         * \param exe
-         * Removes a game from the list
-         */
-        void RemoveGame(QString exe);
 
         /*!
-         * \brief AddGame
-         * \param exe
-         * Add a game to the list HYPERBRUH
+         * \brief SwapGames
+         * \param newListHYPERBRUH
+         * Swap the executable list by the new list, useful when edition profiles.
          */
-        void AddGame(QString exe);
+        void SwapGames(QSet<QString> newListHYPERBRUH);
 
         /*!
          * \brief GetConfig
@@ -182,6 +185,7 @@ class Profile
          *
          */
         QJsonObject GetProfileAsObject() const;
+
 
 
         ~Profile();

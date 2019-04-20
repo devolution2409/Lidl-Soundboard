@@ -20,6 +20,12 @@ public:
 
     explicit ProfileEdit(QWidget *parent = nullptr);
 
+    /*!
+     * \brief ProfileEdit
+     * Used to edit existing profile.
+     */
+    ProfileEdit(Profile*);
+
 private:
     Ui::ProfilEdit * ui;
 

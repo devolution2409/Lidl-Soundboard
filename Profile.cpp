@@ -18,23 +18,22 @@ QString Profile::GetName() const
 
 }
 
+void Profile::SetName(QString newName)
+{
+    this->_name = newName;
+}
+
 QSet<QString> Profile::GetGameList() const
 {
     return this->_exeList;
 }
 
-void Profile::RemoveGame(QString exe)
+void Profile::SwapGames(QSet<QString> newListHYPERBRUH)
 {
-    Q_UNUSED(exe)
-    //TODO IMPLEMENT
-    // OR MB NOT if we just swap a profile for another :)
+    this->_exeList = newListHYPERBRUH;
 }
 
-void Profile::AddGame(QString exe)
-{
-    Q_UNUSED(exe)
-    //TODO IMPLEMENT
-}
+
 
 void Profile::AddSound(std::shared_ptr<SoundWrapper> wrapper)
 {

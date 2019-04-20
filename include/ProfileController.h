@@ -117,9 +117,10 @@ public:
     /*!
      * \brief AutomaticConfigurationChange
      * \param name
+     * \param forceChange (Default false) Will force the profile to change even if it's already loaded
      * Call this when you need to change profile and then update the combo box :)
      */
-    void AutomaticConfigurationChange(const QString &name);
+    void AutomaticConfigurationChange(const QString &name, bool forceChange = false);
 
 private:
     ProfileController();

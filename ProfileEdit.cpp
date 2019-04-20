@@ -5,7 +5,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
     this->setAttribute(Qt::WA_DeleteOnClose);
     ui = new Ui::ProfilEdit();
     ui->setupUi(this);
-    this->setWindowTitle(tr("Profile Edition"));
+    this->setWindowTitle(tr("LIDL Profile Creation"));
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
     connect(ui->nameEdit, &QLineEdit::editingFinished, this, [=]{
@@ -61,6 +61,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         });
 
     });
+
     connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->comboBoxProfiles ,&QComboBox::setEnabled);
     connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioGroup ,&QGroupBox::setEnabled);
     //adding them to the list HYPERBRUH
@@ -84,10 +85,113 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         LIDL::Controller::ProfileController::GetInstance()->AddProfile( builder.Build());
 
 
+    });
 
+    connect(this, &QDialog::destroyed , this,[=]{
+        qDebug() << "[ProfileEdit] I was destroyed!";
+        this->deleteLater();
     });
 
     //connect(ui->nameEdit, &QLineEdit::keyPressEvent, [=]);
+}
+
+ProfileEdit::ProfileEdit(Profile * profile)
+{
+
+
+    this->setAttribute(Qt::WA_DeleteOnClose);
+    ui = new Ui::ProfilEdit();
+    ui->setupUi(this);
+    this->setWindowTitle(tr("LIDL Profile Edition"));
+
+
+    connect(this, &QDialog::destroyed , this,[=]{
+        qDebug() << "[ProfileEdit] I was destroyed!";
+        this->deleteLater();
+    });
+    connect(ui->nameEdit, &QLineEdit::editingFinished, this, [=]{
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
+    });
+
+
+
+    ui->nameEdit->setText( profile->GetName() );
+
+    for (auto i: profile->GetGameList())
+    {
+        ui->listWidget->addItem(i);
+    }
+
+    connect(ui->btnAdd,&QToolButton::clicked, this, [=]{
+        QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Select Application"), "", tr("Executable (*.exe)"));
+
+        if (!fileName.isEmpty())
+        {
+            //forbidding adding the same exe twice
+            for(int i = 0; i < ui->listWidget->count(); ++i)
+            {
+                QListWidgetItem* item = ui->listWidget->item(i);
+                if (item->text() == fileName)
+                {
+                    return;
+                }
+
+            }
+            // forbidding adding an exe that is already in another profile
+            for (auto i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
+            {
+                // if we find a game somewhere
+                if ( i->GetGameList().contains(fileName) )
+                {
+                       QMessageBox::critical(this,"LIDL Error !","This executable is already set in another profile, please remove it before adding it in another profile.");
+                       return;
+                }
+
+            }
+
+            ui->listWidget->addItem(fileName);
+        }
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
+
+
+    });
+
+    connect(ui->listWidget, &QListWidget::itemClicked, this, [=](QListWidgetItem* item){
+        ui->btnMinus->setEnabled(true);
+       // disconnect(ui->btnMinus);
+        connect(ui->btnMinus, &QToolButton::clicked, this, [=]{
+           delete  item;
+           ui->btnMinus->setEnabled(false);
+           disconnect(ui->btnMinus);
+           ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
+
+        });
+
+    });
+
+    ui->checkBoxCopySounds->hide();
+    ui->comboBoxProfiles->hide();
+    ui->radioGroup->hide();
+    //ui->buttonBox->hide();
+
+    connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, [=]{
+
+        profile->SetName(ui->nameEdit->text());
+        QSet<QString> temp;
+        for(int i = 0; i < ui->listWidget->count(); ++i)
+        {
+            QListWidgetItem* item = ui->listWidget->item(i);
+            temp.insert(item->text());
+        }
+        profile->SwapGames(temp);
+
+        //Switching to the new profile name (and, even if name didn't change, it will also trigger the refresh i think
+        LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange(ui->nameEdit->text(),true);
+
+    });
+
+
 }
 
 bool ProfileEdit::IsFormOk()
