@@ -44,6 +44,18 @@ unsigned long long SoundFile::getSize() const
     return this->_size;
 }
 
+SoundFile SoundFile::operator=(const SoundFile &other)
+{
+    if (this != &other) { // self-assignment check expected
+        this->setUrl(other.url());
+        this->_mainVolume = other._mainVolume;
+        this->_vacVolume = other._vacVolume;
+        this->_size = other._size;
+        this->sfx= other.sfx;
+    }
+    return *this;
+}
+
 
 
 LIDL::SFX SoundFile::getSFX() const

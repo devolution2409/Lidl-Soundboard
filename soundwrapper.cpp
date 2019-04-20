@@ -47,6 +47,9 @@ SoundWrapper::SoundWrapper(SoundWrapper* &other) : SoundWrapper::SoundWrapper(nu
     this->setPlayerMainOutput(other->_player->GetOutputDevice());
     this->_soundList = other->_soundList;
     this->_playMode = other->_playMode;
+    this->_player->SetPlaylist(this->getSoundList());
+    this->_player->SetPlaybackMode(this->getPlayMode());
+
     qDebug() << "[SoundWrapper::CopyConstructor] ended nam";
 
 }

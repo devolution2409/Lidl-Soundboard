@@ -38,6 +38,11 @@ CustomPlayer::CustomPlayer(QVector<LIDL::SoundFile *> soundList, LIDL::Playback 
 // index is already initialized at 0 in constructor
 void CustomPlayer::PlayNext()
 {
+    if (_soundList.size() == 0)
+    {
+        qDebug() << "[CustomPlayer::PlayNext()] no sound in sound list!";
+        return;
+    }
 
     qDebug() << "[CustomPlayer::PlayNext()] index: " << _index << " max: " << _soundList.size() - 1 ;
 

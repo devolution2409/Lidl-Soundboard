@@ -38,6 +38,14 @@ private:
     friend bool operator==(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
     friend bool operator!=(const LIDL::SoundFile &a, const LIDL::SoundFile &b);
 
+    /*!
+     * \brief operator =
+     * \param other
+     * \return
+     * Not sure if i need this monkaHMMM
+     */
+    LIDL::SoundFile operator=(const LIDL::SoundFile& other);
+
 
     // sfx struct
     LIDL::SFX sfx;
