@@ -12,7 +12,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(this->IsFormOk());
     });
 
-    ui->radioCopy->setChecked(true);
+
 
     connect(ui->btnAdd,&QToolButton::clicked, this, [=]{
         QString fileName = QFileDialog::getOpenFileName(this,
@@ -63,9 +63,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
     });
 
     connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->comboBoxProfiles ,&QComboBox::setEnabled);
-    connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioGroup ,&QGroupBox::setEnabled);
-    connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioCopy, &QRadioButton::setEnabled);
-    connect(ui->checkBoxCopySounds,&QCheckBox::clicked,ui->radioMirror, &QRadioButton::setEnabled);
+
     //adding them to the list HYPERBRUH
     for(auto i: LIDL::Controller::ProfileController::GetInstance()->GetProfiles())
     {
@@ -87,8 +85,7 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
 
         if (ui->checkBoxCopySounds->isChecked())
         {
-            if (ui->radioCopy->isChecked())
-            {
+
                 QVector<std::shared_ptr<SoundWrapper>> temp;
                 Profile* profile = LIDL::Controller::ProfileController::GetInstance()->GetProfileForName( ui->comboBoxProfiles->currentText());
                 // i is a reference to a shared_ptr soundwrapper
@@ -106,14 +103,6 @@ ProfileEdit::ProfileEdit(QWidget *parent) : QDialog(parent)
                     temp.append(std::make_shared<SoundWrapper>( NaM));
                 }
                 builder.setSounds(temp);
-
-            }
-            else if (ui->radioMirror->isChecked())
-            {
-                //setting the parent forsenE
-                builder.setParent(LIDL::Controller::ProfileController::GetInstance()->GetProfileForName( ui->comboBoxProfiles->currentText()));
-            }
-
         }
 
 
@@ -208,8 +197,7 @@ ProfileEdit::ProfileEdit(Profile * profile)
 
     ui->checkBoxCopySounds->hide();
     ui->comboBoxProfiles->hide();
-    ui->radioGroup->hide();
-    //ui->buttonBox->hide();
+
 
     connect( ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, [=]{
 
