@@ -344,12 +344,10 @@ void SettingsController::addFileToRecent(QFileInfo fileInfo)
     {
         // we iter from the result to the first element
         // and we swap element one by one
-        int nigg = 0;
         for ( std::deque<QFileInfo>::reverse_iterator i(result); i != recentFiles.rend(); ++i )
         {
             if ( std::prev(i,1) != recentFiles.rend() )
                 std::iter_swap(i,std::prev(i,1) );
-            qDebug() << "iteration :"  << nigg++ << " deck is:  ";
             for (unsigned int j = 0; j < recentFiles.size(); j++)
                  qDebug() << recentFiles[j].fileName();
 

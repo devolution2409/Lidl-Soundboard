@@ -114,6 +114,8 @@
 #include "HookController.h"
 #include "ProfileController.h"
 #include "SaveController.h"
+#include <QSplashScreen>
+
 
 /*!
  * \file soundboardMainUI.h
@@ -247,6 +249,8 @@ private:
      * \brief This function deals with editing the data that will be displayed according to user settings. (Read: kind of delegate).
      */
     void refreshView();
+
+    QSplashScreen * _splash;
 
 
 

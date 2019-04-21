@@ -10,6 +10,9 @@ SaveController* SaveController::self = nullptr;
 SaveController::SaveController()
 {
 
+    connect(this,&SaveController::lidlJsonDetected,
+            LIDL::Controller::SettingsController::GetInstance(),&LIDL::Controller::SettingsController::addFileToRecent);
+
 }
 
 SaveController *SaveController::GetInstance()
@@ -45,7 +48,7 @@ void SaveController::SetStopVirtualKey(unsigned int vk)
     this->_stopVirtualKey = vk;
 }
 
-void SaveController::OpenSaveFile()
+void SaveController::OpenSaveFile(QString fileName)
 {
     switch(this->CheckAndPromptIfNeedsSaving())
     {
@@ -56,13 +59,15 @@ void SaveController::OpenSaveFile()
         case -1: break; // file up to date
     }
 
-
-    QString fileName = QFileDialog::getOpenFileName(nullptr,QObject::tr("Open file"),
+    // if filename is empty we ask for a filename
+   if ((fileName).isEmpty())
+   fileName = QFileDialog::getOpenFileName(nullptr,QObject::tr("Open file"),
                                                     LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,
                                                     QObject::tr("LIDL JSON file(*.lidljson)"));
 
-    if ((fileName).isEmpty())
-            return;
+   // if it is still empty at this point we return
+   if ((fileName).isEmpty())
+    return;
 
 
     QFile file(fileName);
@@ -416,8 +421,8 @@ void SaveController::OpenSaveFile()
                                                         playbackmode,
                                                         QKeySequence(shortcutString),
                                                         shortcutVirtualKey,
-                                                        -1,
-                                                        -1,
+                                                        0,
+                                                        0,
                                                         nullptr));
 
 
@@ -467,6 +472,8 @@ void SaveController::OpenSaveFile()
     emit SetStopShortcut(QKeySequence(stopName), stopVirtualKey);
 
     this->_snapshot = GenerateSaveFile();
+    emit lidlJsonDetected(QFileInfo(fileName) );
+
 
 
 
@@ -754,8 +761,8 @@ void SaveController::ParseOldSave(QJsonObject json)
                                             playbackmode,
                                             QKeySequence(shortcutString),
                                             shortcutVirtualKey,
-                                            -1,
-                                            -1,
+                                            0,
+                                            0,
                                             nullptr));
 
 
@@ -857,6 +864,8 @@ void SaveController::SaveAs(QString fileName)
 
     delete doc;
     this->_snapshot = save;
+    emit lidlJsonDetected(QFileInfo(fileName) );
+
 }
 
 

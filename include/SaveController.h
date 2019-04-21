@@ -85,7 +85,7 @@ public:
     /*!
      * \brief OpenSaveFile
      */
-    void OpenSaveFile();
+    void OpenSaveFile(QString fileName = "");
 
     //void CompareSaves();
     // Generate hash of json and compare it :QString blah = QString(QCryptographicHash::hash(("myPassword"),QCryptographicHash::Md5).toHex())
@@ -107,6 +107,8 @@ public:
 
     QString GetSaveName() const;
 
+
+
 private:
         SaveController();
         static SaveController *self;
@@ -124,6 +126,7 @@ signals:
    void Clear();
    void SetDevices(QString main,QString vac);
    void SetStopShortcut(QKeySequence ks, int virtualKey);
+   void lidlJsonDetected(QFileInfo);
 
 
 };

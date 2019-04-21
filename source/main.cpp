@@ -20,7 +20,7 @@
 //#include <vector>
 #include "OverlayController.h"
 
-
+#include "QSplashScreen"
 
 
 
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     SoundboardMainUI container;
 
-    container.show();
+  //  container.show();
 
 //r    app.setStyle(new DarkStyle);
     //app.setStyle(QStyleFactory::create("plastique"));
@@ -57,8 +57,12 @@ int main(int argc, char *argv[])
     //EVENT_SYSTEM_FOREGROUND OMEGAPOGCHAMP?
 
       MSG msg;
+      QPixmap pixmap(":/icon/resources/forsenAim.png");
+      //QSplashScreen* _splash = new QSplashScreen(pixmap);
+     //_splash->show();
+     // _splash->showMessage("blblbl");
       // Proccess the system events
-      QApplication::processEvents();
+      app.processEvents();
       // Send a signal to the mainUI with the int parm
       // check if the parm is inside a table
       // if it is, play the associated sound forsenT

@@ -3,7 +3,6 @@
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
 
-
     //set up hooks
     LIDL::Controller::HookController::GetInstance()->SetHooks();
 
@@ -332,21 +331,12 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
 
 
-    /* Calling OpenSetting will created the instance of the SettingsController we can after wards access it everywhere.
-       * If the settings file was found, this function will return true
-       * => we can automatically open last opened file */
-
-    // Ensure LIDL::Controller::SettingsController exist so we can connect it
-    if (LIDL::Controller::SettingsController::GetInstance() != nullptr)
-        connect(this,&SoundboardMainUI::lidlJsonDetected,
-                LIDL::Controller::SettingsController::GetInstance(),&LIDL::Controller::SettingsController::addFileToRecent);
-
     // We are required to do this trick else
     // the window isn't existing when the AddSound method attempts to resize columns
 
     this->setMinimumSize(400,600);
     this->setMaximumSize(16777215,16777215);
-    this->show();
+
     /***************************************************
                    CONNECTING TO OPEN SOUNDBOARD
       ****************************************************/
@@ -429,7 +419,9 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     connect(LIDL::Controller::SaveController::GetInstance(),
             &LIDL::Controller::SaveController::SetDevices,
             this, [=] (QString main, QString vac){
-
+        qDebug() << "gnnnn " << main << "   " << vac;
+        if (main.isEmpty())
+            this->_deviceListVAC->setCurrentText("<No device selected>");
         this->_deviceListVAC->setCurrentText( vac );
         this->_deviceListOutput->setCurrentText(main);
 
@@ -501,6 +493,10 @@ void SoundboardMainUI::ProfileSwitched(QVector<std::shared_ptr<SoundWrapper>> wr
 void SoundboardMainUI::PostConstruction()
 {
     this->ClearAll();
+//    connect(LIDL::Controller::SaveController::GetInstance(),
+//            &LIDL::Controller::SaveController::lidlJsonDetected,this, [=]{
+//            this->show();
+//    });
     // Take a snapshot right now to avoid lidl errors when loading soundboard automatically
     LIDL::Controller::SaveController::GetInstance()->SaveState();
 
@@ -509,11 +505,25 @@ void SoundboardMainUI::PostConstruction()
     if (LIDL::Controller::SettingsController::GetInstance()->OpenSettings())
     {
         if(!(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard().isEmpty()))
-            QTimer::singleShot(0, [=]{   this->Open(LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard());});
+        {
+            QTimer::singleShot(0, [=]{
+                LIDL::Controller::SaveController::GetInstance()->OpenSaveFile(
+                            LIDL::Controller::SettingsController::GetInstance()->GetLastOpenedSoundboard());
+            });
+        }
+
     }
+
+
+
+    this->show();
+
+
     // If this is the first time the user uses soundboard
     if (LIDL::Controller::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
+
+
 }
 
 
@@ -1309,20 +1319,9 @@ void SoundboardMainUI::OpenSlot()
         LIDL::Controller::SaveController::GetInstance()->OpenSaveFile();
 
     return;
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open file"), LIDL::Controller::SettingsController::GetInstance()->GetDefaultSoundboardFolder() ,tr("LIDL JSON file(*.lidljson)"));
-    if ((fileName).isEmpty())
-            return;
-    this->Open(fileName);
     // forsenT
 }
 
-void SoundboardMainUI::Open(QString fileName)
-{
-
-    qDebug() << "[SoundboardMainUI::Open] Please reimplement me account for the new save format !!";
-
-    return;
-}
 // Open EXP
 void SoundboardMainUI::OpenEXPSounboard()
 {
@@ -2114,7 +2113,7 @@ void SoundboardMainUI::SetUpRecentMenu()
         connect( actions.last(),
                  &QAction::triggered,
                  [=] {
-            this->Open( i.filePath() );
+            LIDL::Controller::SaveController::GetInstance()->OpenSaveFile(i.filePath());
         });
         _openRecentMenu->addAction(actions.last());
 
@@ -2246,10 +2245,10 @@ void SoundboardMainUI::dropEvent(QDropEvent *e)
     QVector<LIDL::SoundFile*> file;
     foreach (const QUrl &url, e->mimeData()->urls())
     {
-        //QString fileName = url.toLocalFile();
-        //qDebug() << "Dropped file:" << url.toString();
+        // url are linux style, so /d/blabla/thingy.lidljson
+        // we need to remove the first / else it doesn't understand forsenT
         if (url.toString().contains(".lidljson"))
-            this->Open(url.path().remove(0,1));
+            LIDL::Controller::SaveController::GetInstance()->OpenSaveFile(url.path().remove(0,1));
         else
         {
                 // check anyway but it shouldn't be possible
