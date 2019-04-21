@@ -1,3 +1,5 @@
+
+
 QT += widgets \
       multimedia \
       core \
@@ -6,116 +8,30 @@ QT += widgets \
       network
 #      autoupdatergui \
 
-SOURCES += \
-    main.cpp \
-    wrapperproperties.cpp \
-    soundwrapper.cpp \
-    soundboardMainUI.cpp \
-    CustomTableView.cpp \
-    CustomShortcutEdit.cpp \
-    CustomPlayer.cpp \
-    CustomListWidget.cpp \
-    CustomListWidgetItem.cpp \
-    FancySlider.cpp \
-    CustomSoundFile.cpp \
-    CustomTableModel.cpp \
-    StyledDelegate.cpp \
-    SettingsController.cpp \
-    Spoiler.cpp \
-#    framelesswindow.cpp \
-#    windowdragger.cpp \
-#    DarkStyle.cpp
-    SliderSpin.cpp \
-    SfxSettingsWidget.cpp \
-    LoadingWidget.cpp \
-    LoadingWidgetWorker.cpp \
-    PresetController.cpp \
-    PresetWizard.cpp \
-    PresetWizardIntroPage.cpp \
-    OverlayController.cpp \
-    GameNameOverlay.cpp \
-    Profile.cpp \
-    ProfileEdit.cpp \
-    GameSelector.cpp \
-    HookController.cpp \
-    ProfileController.cpp \
-    SaveController.cpp
 
+SOURCES += \
+       $$files(source/*.cpp)
 
 HEADERS += \
-    include/wrapperproperties.h \
-    include/soundwrapper.h \
-    include/soundboardMainUI.h \
-    include/CustomTableView.h \
-    include/CustomShortcutEdit.h \
-    include/CustomPlayer.h \
-    include/CustomListWidget.h \
-    include/EnumsAndStructs.h \
-    include/FancySlider.h     \
-    include/CustomListWidgetItem.h \
-    include/CustomSoundFile.h \
-    include/CustomTableModel.h \
-    include/StyledDelegate.h \
-    include/SettingsController.h \
-    include/Spoiler.h \
-   # include/bitmask_operators.h \
-#    include/framelesswindow.h \
-#    include/windowdragger.h \
-#    include/DarkStyle.h
-    include/SliderSpin.h \
-    include/SfxSettingsWidget.h \
-    include/LoadingWidget.h \
-    include/LoadingWidgetWorker.h \
-    include/PresetController.h \
-    include/PresetWizard.h \
-    include/PresetWizardIntroPage.h \
-    include/OverlayController.h \
-    include/GameNameOverlay.h \
-    include/Profile.h \
-    include/ProfileEdit.h \
-    include/GameSelector.h \
-    include/HookController.h \
-    include/ProfileController.h \
-    include/SaveController.h
-
+    $$files(include/*.h)
 
 # Use Precompiled headers (PCH)
 PRECOMPILED_HEADER  +=  \
-    include/bitmask_operators.h  \
+    pch/bitmask_operators.h  \
 
-
-
-#HEADERS+= \
-# include/flags/allow_flags.hpp \
-#          include/flags/flags.hpp \
-#          include/flags/flagsfwd.hpp  \
-#          include/flags/iterator.hpp
-# do not need to add this to header as this does not contains Q_OBJECT macro
-# actually we do or it doesn't add it into project tree forsenT
-#include/CustomListWidgetItem.h
-#TEMPLATE += app
 FORMS += \
-    Settings.ui \
-    guideUI.ui \
-    loadingJson.ui \
-    GameSelector.ui \
-    ProfileEdit.ui
-   # framelesswindow.ui \e
+    $$files(forms/*.ui)
+
 
 
 RESOURCES +=  \
     resources.qrc \
-#    framelesswindow.qrc \
-#    darkstyle.qrc
 
-#deprecated because we use .rc file
-#VERSION = 1.4.0
+
 
 RC_FILE = lidlsoundboard.rc
 CONFIG += c++17
 
-#define VER 1.9.0
-#define VER_STRING "1.9.0"
 DEFINES += VER_STRING=\\\"1.9.0\\\"
 
 DEFINES += VER=1.9.0
@@ -133,8 +49,30 @@ LIBS += -L$$PWD/lib/ -lbass -lbassflac   -lole32 -loleaut32 -limm32 -lwinmm -lps
 #else:unix:
 #LIBS += -L$$PWD/lib/ -lbass
 
-INCLUDEPATH += $$PWD/include
+INCLUDEPATH += $$PWD/include \
+            $$PWD/pch
 DEPENDPATH += $$PWD/.
-
+VPATH +=  $$PWD/include \
+            $$PWD/source \
+            $$PWD/pch
 #Including the auto-updater lib
 #include($$PWD/lib/QSimpleUpdater-2.0/QSimpleUpdater.pri)
+
+#Trying to setup nice build/release and build/debug folder :)
+BUILD_ROOT = $${PWD}/build
+#/$$TARGET-$$TEMPLATE
+DIST_ROOT = $${PWD}/dist
+
+CONFIG(debug, debug|release) {
+    BUILD_ROOT = $${BUILD_ROOT}/debug
+    DIST_ROOT = $${DIST_ROOT}/debug
+} else {
+    BUILD_ROOT = $${BUILD_ROOT}/release
+    DIST_ROOT = $${DIST_ROOT}/release
+}
+
+DESTDIR = $${DIST_ROOT}
+OBJECTS_DIR = $${BUILD_ROOT}/obj
+MOC_DIR = $${BUILD_ROOT}/moc
+RCC_DIR = $${BUILD_ROOT}/rcc
+UI_DIR = $${BUILD_ROOT}/ui
