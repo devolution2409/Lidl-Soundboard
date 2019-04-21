@@ -1,7 +1,7 @@
 <map id="D:/Qt/Projects/Lidl_Soundboard/include/HookController.h" name="D:/Qt/Projects/Lidl_Soundboard/include/HookController.h">
-<area shape="rect" id="node1" title="File handling the Hook Controller Singleton as well as the definition of the CallBack." alt="" coords="141,5,284,61"/>
-<area shape="rect" id="node2" href="$_hook_controller_8cpp.html" title=" " alt="" coords="5,117,217,158"/>
-<area shape="rect" id="node3" href="$soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="242,109,386,165"/>
-<area shape="rect" id="node4" href="$main_8cpp.html" title=" " alt="" coords="137,221,291,262"/>
-<area shape="rect" id="node5" href="$soundboard_main_u_i_8cpp.html" title=" " alt="" coords="315,213,513,269"/>
+<area shape="rect" id="node1" title="File handling the Hook Controller Singleton as well as the definition of the CallBack." alt="" coords="260,5,403,61"/>
+<area shape="rect" id="node2" href="$soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="147,109,291,165"/>
+<area shape="rect" id="node5" href="$_hook_controller_8cpp.html" title=" " alt="" coords="316,117,571,158"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title=" " alt="" coords="5,221,204,262"/>
+<area shape="rect" id="node4" href="$soundboard_main_u_i_8cpp.html" title=" " alt="" coords="228,213,440,269"/>
 </map>

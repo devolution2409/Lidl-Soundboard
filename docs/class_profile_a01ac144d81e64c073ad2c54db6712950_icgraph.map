@@ -1,0 +1,13 @@
+<map id="Profile::GetPttKeySequence" name="Profile::GetPttKeySequence">
+<area shape="rect" id="node1" title="SetPttKeySequence." alt="" coords="1505,151,1691,177"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d" title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="1303,143,1457,185"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="801,89,1004,130"/>
+<area shape="rect" id="node10" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1052,85,1255,126"/>
+<area shape="rect" id="node11" href="$class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="563,201,747,228"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,63,505,89"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="559,100,752,127"/>
+<area shape="rect" id="node8" href="$class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,5,509,32"/>
+<area shape="rect" id="node9" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="557,151,753,177"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,81,213,122"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,113,488,140"/>
+</map>

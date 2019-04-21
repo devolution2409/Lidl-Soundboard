@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['darkstyle_2ecpp',['DarkStyle.cpp',['../_dark_style_8cpp.html',1,'']]],
-  ['darkstyle_2eh',['DarkStyle.h',['../_dark_style_8h.html',1,'']]]
+  ['enumsandstructs_2eh',['EnumsAndStructs.h',['../_enums_and_structs_8h.html',1,'']]]
 ];

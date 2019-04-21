@@ -1,0 +1,6 @@
+<map id="SoundWrapper::getVacDevice" name="SoundWrapper::getVacDevice">
+<area shape="rect" id="node1" title=" " alt="" coords="776,13,971,39"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="501,13,728,39"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="261,5,453,47"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,5,213,47"/>
+</map>

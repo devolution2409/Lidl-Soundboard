@@ -11,6 +11,5 @@ var globals_defs =
     [ "m", "globals_defs_m.html", null ],
     [ "s", "globals_defs_s.html", null ],
     [ "t", "globals_defs_t.html", null ],
-    [ "v", "globals_defs_v.html", null ],
     [ "w", "globals_defs_w.html", null ]
 ];

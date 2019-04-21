@@ -1,0 +1,14 @@
+<map id="SoundWrapper::ErrorPlaying" name="SoundWrapper::ErrorPlaying">
+<area shape="rect" id="node1" title="Used to send a warning to main ui that an error happened playing a file." alt="" coords="1071,183,1257,209"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="823,157,1020,184"/>
+<area shape="rect" id="node12" href="$class_sound_wrapper.html#a6e46655e51d534a2eac1a65b46f73a06" title=" " alt="" coords="820,208,1023,235"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="545,5,741,32"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="265,41,463,82"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,155,213,197"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="515,157,772,184"/>
+<area shape="rect" id="node8" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="277,225,451,266"/>
+<area shape="rect" id="node9" href="$class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="530,325,757,352"/>
+<area shape="rect" id="node11" href="$class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="547,209,740,250"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="261,163,467,189"/>
+<area shape="rect" id="node10" href="$class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="268,311,460,353"/>
+</map>

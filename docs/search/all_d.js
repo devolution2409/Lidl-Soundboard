@@ -4,6 +4,7 @@ var searchData=
   ['navgbytespersec',['nAvgBytesPerSec',['../structt_w_a_v_e_f_o_r_m_a_t_e_x.html#a933a772d450a8a8939fc96d1eb15c672',1,'tWAVEFORMATEX']]],
   ['nblockalign',['nBlockAlign',['../structt_w_a_v_e_f_o_r_m_a_t_e_x.html#abb977590324e3d1b5a14f94b806b8ec1',1,'tWAVEFORMATEX']]],
   ['nchannels',['nChannels',['../structt_w_a_v_e_f_o_r_m_a_t_e_x.html#ae71090e815279542a4f2ffea72ff1a07',1,'tWAVEFORMATEX']]],
+  ['needssaving',['NeedsSaving',['../class_l_i_d_l_1_1_controller_1_1_save_controller.html#aae328ff1fc0d7d386b35e0144ea120cd',1,'LIDL::Controller::SaveController']]],
   ['nindexes',['nindexes',['../struct_t_a_g___f_l_a_c___c_u_e___t_r_a_c_k.html#a1e0a16a55663ed00fabe521b8077e6da',1,'TAG_FLAC_CUE_TRACK']]],
   ['no_5fcopy',['NO_COPY',['../namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aac3904d1648151f4b082e7e65e8948754',1,'LIDL']]],
   ['no_5fsettings',['NO_SETTINGS',['../namespace_l_i_d_l.html#a20a84de5fc493c7ae2fd83dc6d10f397a37ca1491ff321ba2e182b70f9ccd7824',1,'LIDL']]],

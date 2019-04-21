@@ -46,14 +46,11 @@ var hierarchy =
     [ "QObject", null, [
       [ "CustomPlayer", "class_custom_player.html", null ],
       [ "LIDL::Controller::ProfileController", "class_l_i_d_l_1_1_controller_1_1_profile_controller.html", null ],
+      [ "LIDL::Controller::SaveController", "class_l_i_d_l_1_1_controller_1_1_save_controller.html", null ],
       [ "LIDL::Controller::SettingsController", "class_l_i_d_l_1_1_controller_1_1_settings_controller.html", null ],
       [ "LIDL::PresetController", "class_l_i_d_l_1_1_preset_controller.html", null ],
       [ "LoadingWidgetWorker", "class_loading_widget_worker.html", null ],
-      [ "MouseButtonSignaler", "class_mouse_button_signaler.html", null ],
       [ "SoundWrapper", "class_sound_wrapper.html", null ]
-    ] ],
-    [ "QProxyStyle", null, [
-      [ "DarkStyle", "class_dark_style.html", null ]
     ] ],
     [ "QScrollArea", null, [
       [ "SfxSettingsWidget", "class_sfx_settings_widget.html", null ]
@@ -74,14 +71,12 @@ var hierarchy =
       [ "LIDL::SoundFile", "class_l_i_d_l_1_1_sound_file.html", null ]
     ] ],
     [ "QWidget", null, [
-      [ "FramelessWindow", "class_frameless_window.html", null ],
       [ "GameNameOverlay", "class_game_name_overlay.html", null ],
       [ "GameSelector", "class_game_selector.html", null ],
       [ "LIDL::OverlayController", "class_l_i_d_l_1_1_overlay_controller.html", null ],
       [ "LoadingWidget", "class_loading_widget.html", null ],
       [ "SliderSpin", "class_slider_spin.html", null ],
       [ "Spoiler", "class_spoiler.html", null ],
-      [ "WindowDragger", "class_window_dragger.html", null ],
       [ "WrapperProperties", "class_wrapper_properties.html", null ]
     ] ],
     [ "QWizard", null, [
@@ -90,7 +85,6 @@ var hierarchy =
     [ "QWizardPage", null, [
       [ "PresetWizardIntroPage", "class_preset_wizard_intro_page.html", null ]
     ] ],
-    [ "LIDL::Controller::SaveController", "class_l_i_d_l_1_1_controller_1_1_save_controller.html", null ],
     [ "LIDL::SFX", "struct_l_i_d_l_1_1_s_f_x.html", null ],
     [ "TAG_APE_BINARY", "struct_t_a_g___a_p_e___b_i_n_a_r_y.html", null ],
     [ "TAG_BEXT", "struct_t_a_g___b_e_x_t.html", null ],

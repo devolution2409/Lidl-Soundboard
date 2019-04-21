@@ -1,0 +1,6 @@
+<map id="WrapperProperties::closed" name="WrapperProperties::closed">
+<area shape="rect" id="node1" title="This signal is emitted whenever the Sound Entry Editor window is closed." alt="" coords="507,71,645,112"/>
+<area shape="rect" id="node2" href="$class_wrapper_properties.html#a81b4d7a15c2057f18a1636321cd38924" title="Reimplemented to send a closed signal to the mainUI, so we can re&#45;enable the widgets." alt="" coords="291,5,429,47"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="261,71,459,112"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,100,213,141"/>
+</map>

@@ -1,7 +1,9 @@
 <map id="D:/Qt/Projects/Lidl_Soundboard/include/LoadingWidgetWorker.h" name="D:/Qt/Projects/Lidl_Soundboard/include/LoadingWidgetWorker.h">
-<area shape="rect" id="node1" title=" " alt="" coords="212,5,377,61"/>
-<area shape="rect" id="node2" href="$soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="111,109,255,165"/>
-<area shape="rect" id="node5" href="$_loading_widget_worker_8cpp.html" title=" " alt="" coords="279,117,534,158"/>
-<area shape="rect" id="node3" href="$main_8cpp.html" title=" " alt="" coords="5,221,160,262"/>
-<area shape="rect" id="node4" href="$soundboard_main_u_i_8cpp.html" title=" " alt="" coords="184,213,381,269"/>
+<area shape="rect" id="node1" title=" " alt="" coords="342,5,507,61"/>
+<area shape="rect" id="node2" href="$_save_controller_8h.html" title=" " alt="" coords="259,109,401,165"/>
+<area shape="rect" id="node7" href="$_loading_widget_worker_8cpp.html" title=" " alt="" coords="425,109,616,165"/>
+<area shape="rect" id="node3" href="$soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="147,213,291,269"/>
+<area shape="rect" id="node6" href="$_save_controller_8cpp.html" title=" " alt="" coords="315,221,569,262"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title=" " alt="" coords="5,325,204,366"/>
+<area shape="rect" id="node5" href="$soundboard_main_u_i_8cpp.html" title=" " alt="" coords="228,317,440,373"/>
 </map>

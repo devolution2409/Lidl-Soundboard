@@ -1,0 +1,8 @@
+<map id="CustomShortcutEdit::scanCodeChanged" name="CustomShortcutEdit::scanCodeChanged">
+<area shape="rect" id="node1" title="scanCodeChanged" alt="" coords="671,71,809,112"/>
+<area shape="rect" id="node2" href="$class_custom_shortcut_edit.html#ac1346c2b8061368109b92cfcb3eddd57" title="sendSignal This slot is called whenever the editing is done, could be replaced by lambda but i&#39;m lazy..." alt="" coords="484,5,623,47"/>
+<area shape="rect" id="node4" href="$class_custom_shortcut_edit.html#ac69998132d1ec7389c41376ca950083d" title="setScanCode" alt="" coords="484,71,623,112"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,100,213,141"/>
+<area shape="rect" id="node3" href="$class_custom_shortcut_edit.html#aa5381aa4fa34a77c7ccdee5a3f60b691" title="CustomShortcutEdit." alt="" coords="275,5,422,47"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="261,71,436,112"/>
+</map>

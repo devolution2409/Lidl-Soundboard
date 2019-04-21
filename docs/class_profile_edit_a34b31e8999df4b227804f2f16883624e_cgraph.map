@@ -1,0 +1,6 @@
+<map id="ProfileEdit::ProfileEdit" name="ProfileEdit::ProfileEdit">
+<area shape="rect" id="node1" title="ProfileEdit Used to edit existing profile." alt="" coords="5,56,153,83"/>
+<area shape="rect" id="node2" href="$class_profile.html#a3d0f83c3208be24b337e110d90417bb7" title="GetGameList." alt="" coords="203,5,346,32"/>
+<area shape="rect" id="node3" href="$class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="214,56,335,83"/>
+<area shape="rect" id="node4" href="$class_profile_edit.html#a49ebdd12d7ad80819bbe8f3bdaff402c" title=" " alt="" coords="201,107,348,133"/>
+</map>

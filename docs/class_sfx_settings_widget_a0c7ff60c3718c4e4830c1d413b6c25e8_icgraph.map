@@ -1,0 +1,5 @@
+<map id="SfxSettingsWidget::checkBoxStateChanged" name="SfxSettingsWidget::checkBoxStateChanged">
+<area shape="rect" id="node1" title="checkBoxStateChanged Emitted when checkbox is toggled." alt="" coords="192,39,355,80"/>
+<area shape="rect" id="node2" href="$class_wrapper_properties.html#a027f95d0d736c0bcc12c4e4bbad1c55f" title="Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget." alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node3" href="$class_sfx_settings_widget.html#a100ef320e6204b98401147657a24831a" title="SfxSettingsWidget Overloaded constructor to account for SFX name." alt="" coords="5,71,144,112"/>
+</map>

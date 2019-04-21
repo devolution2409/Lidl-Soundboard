@@ -1,0 +1,13 @@
+<map id="SoundboardMainUI::GenerateGlobalShortcuts" name="SoundboardMainUI::GenerateGlobalShortcuts">
+<area shape="rect" id="node1" title="Function to register all the Shortcuts being used by the LIDL Soundboard." alt="" coords="1065,347,1257,388"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="820,187,1017,214"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,176,213,217"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="261,293,467,319"/>
+<area shape="rect" id="node11" href="$class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="547,315,740,356"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="545,162,741,189"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="265,145,463,187"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="515,263,772,290"/>
+<area shape="rect" id="node8" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="277,5,451,47"/>
+<area shape="rect" id="node9" href="$class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="530,61,757,87"/>
+<area shape="rect" id="node10" href="$class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="268,77,460,119"/>
+</map>

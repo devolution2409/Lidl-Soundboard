@@ -1,0 +1,6 @@
+<map id="LIDL::OverlayController::ShowGameOverlay" name="LIDL::OverlayController::ShowGameOverlay">
+<area shape="rect" id="node1" title="Show the smol overlay when topmost window (game) changes." alt="" coords="751,5,905,47"/>
+<area shape="rect" id="node2" href="$namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="513,13,703,39"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="261,5,465,47"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,5,213,47"/>
+</map>

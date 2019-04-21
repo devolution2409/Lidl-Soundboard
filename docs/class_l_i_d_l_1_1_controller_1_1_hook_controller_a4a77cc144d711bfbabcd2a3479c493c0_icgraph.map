@@ -1,0 +1,6 @@
+<map id="LIDL::Controller::HookController::UnSetHooks" name="LIDL::Controller::HookController::UnSetHooks">
+<area shape="rect" id="node1" title="UnSetHooks Unregister the hooks (before closing app, because if you don&#39;t unregister them close the a..." alt="" coords="513,27,717,69"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31" title="This function adds all the entries of the QMenuBar.(Reimplementation of the QMainWindow close event)." alt="" coords="262,5,465,32"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="261,57,465,98"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,57,213,98"/>
+</map>

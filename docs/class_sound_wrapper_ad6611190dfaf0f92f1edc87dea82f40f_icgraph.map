@@ -1,0 +1,8 @@
+<map id="SoundWrapper::getSoundList" name="SoundWrapper::getSoundList">
+<area shape="rect" id="node1" title=" " alt="" coords="776,56,968,83"/>
+<area shape="rect" id="node2" href="$class_sound_wrapper.html#ae338d43330773a630d45fa2f334b1259" title="ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE." alt="" coords="513,5,716,32"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="501,56,728,83"/>
+<area shape="rect" id="node6" href="$class_wrapper_properties.html#a75b87657531719f1f00cdf0fafcd14aa" title="Constructor of the &quot;Sound Entry Editor&quot; UI." alt="" coords="545,107,684,149"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="261,49,453,90"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,49,213,90"/>
+</map>

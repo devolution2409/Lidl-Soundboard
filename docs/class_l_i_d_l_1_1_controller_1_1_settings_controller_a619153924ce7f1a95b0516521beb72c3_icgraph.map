@@ -1,0 +1,4 @@
+<map id="LIDL::Controller::SettingsController::SetDefaultVacVolume" name="LIDL::Controller::SettingsController::SetDefaultVacVolume">
+<area shape="rect" id="node1" title="SetDefaultVacVolume Sets the default VAC volume inside the controller, to be used when creating wrapp..." alt="" coords="264,5,476,47"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4ccefcb67c1d1c24651f257689b9588f" title=" " alt="" coords="5,5,216,47"/>
+</map>

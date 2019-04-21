@@ -1,51 +1,52 @@
 <map id="SoundboardMainUI::setUpMenu" name="SoundboardMainUI::setUpMenu">
-<area shape="rect" id="node1" title="This function adds all the entries of the QMenuBar." alt="" coords="5,889,211,916"/>
-<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae7b21591a7eaecaa394b4419a644e1c4" title="addShowFlag Will add a flag to the list of things to be displayed (stored as flags)" alt="" coords="865,1461,1031,1502"/>
-<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a5bbaeb0a827eb3cac52e6f6243054100" title="This function check for updates." alt="" coords="1127,713,1321,754"/>
-<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#ad1aaec3f9fca8bfdb6855888f7ac539b" title="This function set the text of the permanent widget in the status bar." alt="" coords="1395,727,1593,769"/>
-<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737" title="Function to generate the .lidljson save file." alt="" coords="1651,1197,1843,1238"/>
-<area shape="rect" id="node6" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aed98ae192e70efc2fdbc1f18d76060dd" title=" " alt="" coords="1896,665,2063,706"/>
-<area shape="rect" id="node14" href="$class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="This function clears the soundboard, as if it was just opened without any file." alt="" coords="856,712,1040,739"/>
-<area shape="rect" id="node15" href="$class_soundboard_main_u_i.html#a3152f03f43dd9f953d4d5a1a15e1e5bc" title="This function deals with editing the data that will be displayed according to user settings...." alt="" coords="1391,477,1597,504"/>
-<area shape="rect" id="node17" href="$class_soundboard_main_u_i.html#ab3c4c435e7acf35615331c9cd21c311b" title="This function fetches the devices list, and sets up the given combo box." alt="" coords="259,1628,485,1655"/>
-<area shape="rect" id="node20" href="$class_soundboard_main_u_i.html#a6598a08d56d5efb3e330ef3d016ab963" title="Function to register all the Shortcuts being used by the LIDL Soundboard." alt="" coords="1398,41,1590,82"/>
-<area shape="rect" id="node21" href="$class_soundboard_main_u_i.html#a335a46d5e3011ae3a518ec6fb87555d1" title="This function will open the about window." alt="" coords="273,1679,471,1705"/>
-<area shape="rect" id="node22" href="$class_soundboard_main_u_i.html#ad15f38616f730144613e88d577de3474" title="This function will open the application tour guide." alt="" coords="273,1729,471,1756"/>
-<area shape="rect" id="node23" href="$class_soundboard_main_u_i.html#a5de8fbd8d804b891a3b70097e9349485" title="This function construct and display the first&#45;time user dialog." alt="" coords="273,1781,471,1822"/>
-<area shape="rect" id="node24" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="533,624,791,651"/>
-<area shape="rect" id="node35" href="$class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7" title="Function save the active lidljson file. If no file is already set, it will open the Save As prompt." alt="" coords="865,915,1031,941"/>
-<area shape="rect" id="node36" href="$class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b" title="This function Opens a Save As prompt, and save the active soundboard as a .lidljson file." alt="" coords="1133,1519,1315,1545"/>
-<area shape="rect" id="node40" href="$class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="275,864,469,891"/>
-<area shape="rect" id="node48" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aff7c75553fbe7cbf7bb820c9d59dd353" title="removeShowFlag Will remove a flag to the list of things to be displayed (stored as flags)" alt="" coords="281,1846,463,1887"/>
-<area shape="rect" id="node49" href="$class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="851,342,1045,383"/>
-<area shape="rect" id="node11" href="$class_custom_shortcut_edit.html#ab54838ea18d09f66ad3732cc7de95489" title="getScanCode" alt="" coords="1910,1163,2049,1205"/>
-<area shape="rect" id="node12" href="$class_custom_shortcut_edit.html#abf26841bd094a5043777649338cc3d99" title="getText" alt="" coords="1910,1229,2049,1270"/>
-<area shape="rect" id="node13" href="$class_custom_shortcut_edit.html#ad712da01e38cfd661297c0ff18f0b2aa" title="getVirtualKey" alt="" coords="1910,1294,2049,1335"/>
-<area shape="rect" id="node7" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2d9f179f9e5531fedd6684b1fccadd84" title=" " alt="" coords="2118,655,2306,697"/>
-<area shape="rect" id="node8" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216" title="unHoldPTT" alt="" coords="2361,638,2528,679"/>
-<area shape="rect" id="node9" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="2576,591,2731,633"/>
-<area shape="rect" id="node10" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="2779,591,2955,633"/>
-<area shape="rect" id="node16" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3406eed2c7954ad5cd0066512fc92145" title="checkShowFlags" alt="" coords="1655,511,1839,553"/>
-<area shape="rect" id="node18" href="$bass_8h.html#ae3bbfc4ab79e2399b999390a89ab9021" title=" " alt="" coords="590,1628,734,1655"/>
-<area shape="rect" id="node19" href="$bass_8h.html#a27cacc41a800e3521b6ec703f00405f5" title=" " alt="" coords="569,1679,755,1705"/>
-<area shape="rect" id="node25" href="$class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="1125,307,1323,333"/>
-<area shape="rect" id="node31" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f" title="AutoGameConfigurationChange." alt="" coords="1105,880,1343,936"/>
-<area shape="rect" id="node26" href="$class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec" title="AddSound." alt="" coords="1431,259,1557,285"/>
-<area shape="rect" id="node27" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595" title="GetActiveProfile." alt="" coords="1405,310,1583,351"/>
-<area shape="rect" id="node28" href="$class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="1433,376,1555,403"/>
-<area shape="rect" id="node29" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a" title="holdPTT" alt="" coords="2361,331,2528,373"/>
-<area shape="rect" id="node30" href="$class_profile.html#a3fcb9609666829e3d52fc29e9acda9d2" title="SwapSound." alt="" coords="1427,208,1561,235"/>
-<area shape="rect" id="node32" href="$class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="1431,808,1557,835"/>
-<area shape="rect" id="node33" href="$class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="1429,859,1559,885"/>
-<area shape="rect" id="node34" href="$class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="1424,909,1564,936"/>
-<area shape="rect" id="node37" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a93b5ad8a346a2adda7f2fc95dcc4bedb" title=" " alt="" coords="1393,1511,1595,1553"/>
-<area shape="rect" id="node39" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a89cfbbda29312c0d267467d89251575c" title="WriteSaveFile." alt="" coords="2111,1417,2313,1458"/>
-<area shape="rect" id="node38" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a9f0a06aac0d756ab759ae10245369dd6" title=" " alt="" coords="1645,1511,1848,1553"/>
-<area shape="rect" id="node41" href="$class_soundboard_main_u_i.html#a93a68924788cfdc9050d6d673183833c" title="This function Open a saved soundboard and add all the entries in the CustomTableView." alt="" coords="577,1121,747,1148"/>
-<area shape="rect" id="node42" href="$class_soundboard_main_u_i.html#a0ed1db7f6ffa5b0f251232da25711a2e" title="addSeveralSounds Function used by the thread created when opening a lidljson file." alt="" coords="847,1082,1049,1123"/>
-<area shape="rect" id="node43" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2c2459a3d8dd3e46bb4e78e0a4aa154a" title="GetDefaultMainVolume." alt="" coords="839,1147,1057,1189"/>
-<area shape="rect" id="node44" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#acb61cc569ff5b0c547661d52408fbf6d" title="GetDefaultVacVolume." alt="" coords="841,1213,1055,1254"/>
-<area shape="rect" id="node45" href="$class_custom_shortcut_edit.html#ac69998132d1ec7389c41376ca950083d" title="setScanCode" alt="" coords="879,1278,1017,1319"/>
-<area shape="rect" id="node46" href="$class_soundboard_main_u_i.html#ac387aaa733c93d8e0cd64f05b84963d6" title="Function to register the Stop ALL Shortcut. It is used by the associated CustomShortcutEdit and the O..." alt="" coords="856,1343,1040,1385"/>
-<area shape="rect" id="node47" href="$class_custom_shortcut_edit.html#ac6a8f93cbefa645e5bd0569bed428dbc" title="setVirtualKey" alt="" coords="879,1017,1017,1058"/>
+<area shape="rect" id="node1" title="This function adds all the entries of the QMenuBar." alt="" coords="5,1009,211,1036"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#ae7b21591a7eaecaa394b4419a644e1c4" title="addShowFlag Will add a flag to the list of things to be displayed (stored as flags)" alt="" coords="869,136,1036,178"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a5bbaeb0a827eb3cac52e6f6243054100" title="This function check for updates." alt="" coords="585,574,780,615"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#ad1aaec3f9fca8bfdb6855888f7ac539b" title="This function set the text of the permanent widget in the status bar." alt="" coords="854,650,1051,691"/>
+<area shape="rect" id="node5" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a93b5ad8a346a2adda7f2fc95dcc4bedb" title=" " alt="" coords="1112,370,1315,411"/>
+<area shape="rect" id="node7" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aed98ae192e70efc2fdbc1f18d76060dd" title=" " alt="" coords="1629,402,1796,443"/>
+<area shape="rect" id="node14" href="$class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="295,1408,479,1434"/>
+<area shape="rect" id="node28" href="$class_soundboard_main_u_i.html#a3152f03f43dd9f953d4d5a1a15e1e5bc" title="This function deals with editing the data that will be displayed according to user settings...." alt="" coords="849,1509,1056,1536"/>
+<area shape="rect" id="node31" href="$class_soundboard_main_u_i.html#ab3c4c435e7acf35615331c9cd21c311b" title="This function fetches the devices list, and sets up the given combo box." alt="" coords="274,1568,501,1594"/>
+<area shape="rect" id="node34" href="$class_soundboard_main_u_i.html#a6598a08d56d5efb3e330ef3d016ab963" title="Function to register all the Shortcuts being used by the LIDL Soundboard." alt="" coords="857,1560,1049,1602"/>
+<area shape="rect" id="node35" href="$class_soundboard_main_u_i.html#a335a46d5e3011ae3a518ec6fb87555d1" title="This function will open the about window." alt="" coords="288,1618,487,1645"/>
+<area shape="rect" id="node36" href="$class_soundboard_main_u_i.html#ad15f38616f730144613e88d577de3474" title="This function will open the application tour guide." alt="" coords="288,1669,487,1696"/>
+<area shape="rect" id="node37" href="$class_soundboard_main_u_i.html#a5de8fbd8d804b891a3b70097e9349485" title="This function construct and display the first&#45;time user dialog." alt="" coords="289,1720,486,1762"/>
+<area shape="rect" id="node38" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="259,918,516,945"/>
+<area shape="rect" id="node43" href="$class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7" title="Function save the active lidljson file. If no file is already set, it will open the Save As prompt." alt="" coords="599,522,766,549"/>
+<area shape="rect" id="node46" href="$class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="291,370,484,397"/>
+<area shape="rect" id="node48" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aff7c75553fbe7cbf7bb820c9d59dd353" title="removeShowFlag Will remove a flag to the list of things to be displayed (stored as flags)" alt="" coords="296,1786,479,1827"/>
+<area shape="rect" id="node49" href="$class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b" title="This function Opens a Save As prompt, and save the active soundboard as a .lidljson file." alt="" coords="861,370,1044,397"/>
+<area shape="rect" id="node50" href="$class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="291,1182,484,1223"/>
+<area shape="rect" id="node13" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#adb55d36255fa21920a4abe3a6c2f30b3" title=" " alt="" coords="1112,435,1315,476"/>
+<area shape="rect" id="node6" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a9f0a06aac0d756ab759ae10245369dd6" title=" " alt="" coords="1371,402,1573,443"/>
+<area shape="rect" id="node12" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a6fd1befc01712f748c874747d2efa3f2" title="addFileToRecent" alt="" coords="1621,467,1804,508"/>
+<area shape="rect" id="node8" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2d9f179f9e5531fedd6684b1fccadd84" title=" " alt="" coords="1852,736,2040,778"/>
+<area shape="rect" id="node9" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216" title="unHoldPTT" alt="" coords="2088,904,2255,946"/>
+<area shape="rect" id="node10" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="2303,1182,2457,1223"/>
+<area shape="rect" id="node11" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="2505,1182,2681,1223"/>
+<area shape="rect" id="node15" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d" title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="875,878,1030,919"/>
+<area shape="rect" id="node27" href="$class_soundboard_main_u_i.html#ae44157f1e47760d4c504d3f312651ed5" title="This function clears the soundboard, as if it was just opened without any file." alt="" coords="591,1240,775,1282"/>
+<area shape="rect" id="node30" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a42f7945d0024225923eb17dfbbd22239" title="RemoveAllProfiles Remove all profiles (included default constructed &quot;default&quot; one)" alt="" coords="588,1459,777,1500"/>
+<area shape="rect" id="node16" href="$class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="1411,682,1533,709"/>
+<area shape="rect" id="node17" href="$class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="1407,617,1537,644"/>
+<area shape="rect" id="node18" href="$class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec" title="AddSound." alt="" coords="1150,1037,1277,1064"/>
+<area shape="rect" id="node19" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759" title="AutomaticConfigurationChange." alt="" coords="1104,602,1323,658"/>
+<area shape="rect" id="node20" href="$class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1" title="SetPttScanCode." alt="" coords="1132,834,1295,861"/>
+<area shape="rect" id="node21" href="$class_profile.html#ac4ff547c54850ff3b4e14f36afc7fcc1" title="GetPttScanCode." alt="" coords="1131,1189,1295,1216"/>
+<area shape="rect" id="node22" href="$class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5" title="SetPttVirtualKey." alt="" coords="1132,885,1295,912"/>
+<area shape="rect" id="node23" href="$class_profile.html#af9f6c1bc8d9310c0559687a35dadd623" title="GetPttVirtualKey." alt="" coords="1131,1088,1295,1114"/>
+<area shape="rect" id="node24" href="$class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6" title="SetPttKeySequence." alt="" coords="1121,936,1305,962"/>
+<area shape="rect" id="node25" href="$class_profile.html#a01ac144d81e64c073ad2c54db6712950" title="SetPttKeySequence." alt="" coords="1121,733,1306,760"/>
+<area shape="rect" id="node26" href="$class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a" title="GetConfig." alt="" coords="1127,784,1300,810"/>
+<area shape="rect" id="node29" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3406eed2c7954ad5cd0066512fc92145" title="checkShowFlags" alt="" coords="1121,1560,1305,1602"/>
+<area shape="rect" id="node32" href="$bass_8h.html#ae3bbfc4ab79e2399b999390a89ab9021" title=" " alt="" coords="611,1677,755,1704"/>
+<area shape="rect" id="node33" href="$bass_8h.html#a27cacc41a800e3521b6ec703f00405f5" title=" " alt="" coords="590,1626,775,1653"/>
+<area shape="rect" id="node39" href="$class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="584,1189,781,1216"/>
+<area shape="rect" id="node42" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f" title="AutoGameConfigurationChange." alt="" coords="564,813,801,869"/>
+<area shape="rect" id="node40" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595" title="GetActiveProfile." alt="" coords="1125,1291,1302,1332"/>
+<area shape="rect" id="node41" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a" title="holdPTT" alt="" coords="869,1190,1036,1231"/>
+<area shape="rect" id="node44" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a5716e1b0645fbf32c05277224dce4d94" title="Save." alt="" coords="851,304,1054,346"/>
+<area shape="rect" id="node45" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#add9149f8827c18b359c4a42ec2327ac0" title="SaveAs." alt="" coords="1112,304,1315,346"/>
+<area shape="rect" id="node47" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="581,304,784,346"/>
 </map>

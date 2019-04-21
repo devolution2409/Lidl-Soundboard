@@ -1,0 +1,15 @@
+<map id="LIDL::Controller::SaveController::SaveAs" name="LIDL::Controller::SaveController::SaveAs">
+<area shape="rect" id="node1" title="SaveAs." alt="" coords="1625,239,1828,281"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a5716e1b0645fbf32c05277224dce4d94" title="Save." alt="" coords="1375,205,1577,246"/>
+<area shape="rect" id="node13" href="$class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b" title="This function Opens a Save As prompt, and save the active soundboard as a .lidljson file." alt="" coords="1129,299,1311,325"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#a8e1193d47f9243748ebfc03ac9d1c34e" title="CheckIfNeedsSaving Checks if the soundboard needs saving. IE is the previous stored snapshot equal to..." alt="" coords="1113,99,1327,141"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="863,99,1065,141"/>
+<area shape="rect" id="node11" href="$class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7" title="Function save the active lidljson file. If no file is already set, it will open the Save As prompt." alt="" coords="881,216,1047,243"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="588,5,784,32"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="589,157,783,184"/>
+<area shape="rect" id="node9" href="$class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,56,505,83"/>
+<area shape="rect" id="node10" href="$class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,107,509,133"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,208,488,235"/>
+<area shape="rect" id="node8" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,99,213,141"/>
+<area shape="rect" id="node12" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="557,259,815,285"/>
+</map>

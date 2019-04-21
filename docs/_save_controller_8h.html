@@ -101,30 +101,69 @@ $(document).ready(function(){initNavTree('_save_controller_8h.html','');});
 <code>#include &lt;QJsonObject&gt;</code><br />
 <code>#include &lt;QJsonArray&gt;</code><br />
 <code>#include &lt;QJsonDocument&gt;</code><br />
+<code>#include &quot;<a class="el" href="_settings_controller_8h_source.html">SettingsController.h</a>&quot;</code><br />
+<code>#include &lt;QFileDialog&gt;</code><br />
+<code>#include &lt;QObject&gt;</code><br />
+<code>#include &lt;QRegExp&gt;</code><br />
+<code>#include &quot;<a class="el" href="_enums_and_structs_8h_source.html">EnumsAndStructs.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="soundwrapper_8h_source.html">soundwrapper.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_loading_widget_8h_source.html">LoadingWidget.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_loading_widget_worker_8h_source.html">LoadingWidgetWorker.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SaveController.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_save_controller_8h__incl.png" border="0" usemap="#_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_save_controller_8h" alt=""/></div>
 <map name="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_save_controller_8h" id="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_save_controller_8h">
-<area shape="rect"  title=" " alt="" coords="673,5,816,61"/>
-<area shape="rect"  title=" " alt="" coords="410,259,477,285"/>
-<area shape="rect"  href="_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile." alt="" coords="547,109,671,136"/>
-<area shape="rect"  href="_profile_8h.html" title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="667,184,737,211"/>
-<area shape="rect"  title=" " alt="" coords="999,259,1096,285"/>
-<area shape="rect"  title=" " alt="" coords="811,109,902,136"/>
-<area shape="rect"  title=" " alt="" coords="927,109,1045,136"/>
-<area shape="rect"  title=" " alt="" coords="501,259,572,285"/>
-<area shape="rect"  href="_enums_and_structs_8h.html" title=" " alt="" coords="121,184,259,211"/>
-<area shape="rect"  title=" " alt="" coords="574,184,643,211"/>
-<area shape="rect"  title=" " alt="" coords="904,259,975,285"/>
-<area shape="rect"  title=" " alt="" coords="596,259,648,285"/>
-<area shape="rect"  title=" " alt="" coords="672,259,785,285"/>
-<area shape="rect"  title=" " alt="" coords="810,259,879,285"/>
-<area shape="rect"  title=" " alt="" coords="159,259,221,285"/>
-<area shape="rect"  title=" " alt="" coords="187,333,270,360"/>
-<area shape="rect"  href="bass_8h.html" title=" " alt="" coords="5,259,84,285"/>
-<area shape="rect"  href="bitmask__operators_8h.html" title=" " alt="" coords="245,259,385,285"/>
-<area shape="rect"  title=" " alt="" coords="12,333,77,360"/>
+<area shape="rect"  title=" " alt="" coords="1262,5,1404,61"/>
+<area shape="rect"  title=" " alt="" coords="530,333,597,360"/>
+<area shape="rect"  href="_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile." alt="" coords="1798,184,1922,211"/>
+<area shape="rect"  title=" " alt="" coords="1526,333,1596,360"/>
+<area shape="rect"  href="_profile_8h.html" title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="1070,259,1140,285"/>
+<area shape="rect"  title=" " alt="" coords="347,333,444,360"/>
+<area shape="rect"  href="_enums_and_structs_8h.html" title=" " alt="" coords="2881,408,3020,435"/>
+<area shape="rect"  title=" " alt="" coords="46,184,137,211"/>
+<area shape="rect"  title=" " alt="" coords="162,184,280,211"/>
+<area shape="rect"  href="_settings_controller_8h.html" title=" " alt="" coords="1070,109,1206,136"/>
+<area shape="rect"  title=" " alt="" coords="304,184,394,211"/>
+<area shape="rect"  href="soundwrapper_8h.html" title=" " alt="" coords="2150,184,2263,211"/>
+<area shape="rect"  title=" " alt="" coords="2200,109,2279,136"/>
+<area shape="rect"  href="_loading_widget_8h.html" title=" " alt="" coords="2478,259,2596,285"/>
+<area shape="rect"  href="_loading_widget_worker_8h.html" title=" " alt="" coords="1816,259,1978,285"/>
+<area shape="rect"  title=" " alt="" coords="1358,408,1428,435"/>
+<area shape="rect"  title=" " alt="" coords="1431,333,1502,360"/>
+<area shape="rect"  title=" " alt="" coords="1084,333,1136,360"/>
+<area shape="rect"  title=" " alt="" coords="1760,333,1874,360"/>
+<area shape="rect"  title=" " alt="" coords="990,333,1060,360"/>
+<area shape="rect"  title=" " alt="" coords="2794,483,2856,509"/>
+<area shape="rect"  title=" " alt="" coords="2909,557,2992,584"/>
+<area shape="rect"  href="bass_8h.html" title=" " alt="" coords="2452,483,2531,509"/>
+<area shape="rect"  href="bitmask__operators_8h.html" title=" " alt="" coords="2880,483,3020,509"/>
+<area shape="rect"  title=" " alt="" coords="892,333,966,360"/>
+<area shape="rect"  title=" " alt="" coords="621,184,720,211"/>
+<area shape="rect"  title=" " alt="" coords="744,184,836,211"/>
+<area shape="rect"  title=" " alt="" coords="2444,408,2497,435"/>
+<area shape="rect"  title=" " alt="" coords="872,408,946,435"/>
+<area shape="rect"  title=" " alt="" coords="1064,184,1122,211"/>
+<area shape="rect"  title=" " alt="" coords="1146,184,1221,211"/>
+<area shape="rect"  title=" " alt="" coords="1245,184,1309,211"/>
+<area shape="rect"  title=" " alt="" coords="1333,184,1402,211"/>
+<area shape="rect"  title=" " alt="" coords="1672,333,1736,360"/>
+<area shape="rect"  href="_custom_shortcut_edit_8h.html" title="Code of the mainUI." alt="" coords="683,259,834,285"/>
+<area shape="rect"  title=" " alt="" coords="1426,184,1509,211"/>
+<area shape="rect"  title=" " alt="" coords="1534,184,1642,211"/>
+<area shape="rect"  title=" " alt="" coords="1666,184,1722,211"/>
+<area shape="rect"  title=" " alt="" coords="2192,259,2274,285"/>
+<area shape="rect"  title=" " alt="" coords="2723,333,2818,360"/>
+<area shape="rect"  title=" " alt="" coords="3096,333,3215,360"/>
+<area shape="rect"  title=" " alt="" coords="2298,259,2352,285"/>
+<area shape="rect"  title=" " alt="" coords="1949,333,2058,360"/>
+<area shape="rect"  href="_custom_player_8h.html" title="File describing the CustomPlayer class." alt="" coords="2053,259,2168,285"/>
+<area shape="rect"  href="_custom_sound_file_8h.html" title=" " alt="" coords="2133,333,2269,360"/>
+<area shape="rect"  href="_custom_list_widget_8h.html" title="File describing the CustomListWidget class." alt="" coords="1215,259,1355,285"/>
+<area shape="rect"  href="_custom_list_widget_item_8h.html" title="File describing the CustomListWidgetItem class." alt="" coords="2934,259,3100,285"/>
+<area shape="rect"  title=" " alt="" coords="2394,333,2453,360"/>
+<area shape="rect"  title=" " alt="" coords="681,333,817,360"/>
+<area shape="rect"  title=" " alt="" coords="2478,333,2596,360"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -132,11 +171,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_save_controller_8h__dep__incl.png" border="0" usemap="#_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_save_controller_8hdep" alt=""/></div>
 <map name="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_save_controller_8hdep" id="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_save_controller_8hdep">
-<area shape="rect"  title=" " alt="" coords="211,5,354,61"/>
-<area shape="rect"  href="soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="111,109,255,165"/>
-<area shape="rect"  href="_save_controller_8cpp.html" title=" " alt="" coords="279,117,489,158"/>
-<area shape="rect"  href="main_8cpp.html" title=" " alt="" coords="5,221,160,262"/>
-<area shape="rect"  href="soundboard_main_u_i_8cpp.html" title=" " alt="" coords="184,213,381,269"/>
+<area shape="rect"  title=" " alt="" coords="259,5,401,61"/>
+<area shape="rect"  href="soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="147,109,291,165"/>
+<area shape="rect"  href="_save_controller_8cpp.html" title=" " alt="" coords="315,117,569,158"/>
+<area shape="rect"  href="main_8cpp.html" title=" " alt="" coords="5,221,204,262"/>
+<area shape="rect"  href="soundboard_main_u_i_8cpp.html" title=" " alt="" coords="228,213,440,269"/>
 </map>
 </div>
 </div>

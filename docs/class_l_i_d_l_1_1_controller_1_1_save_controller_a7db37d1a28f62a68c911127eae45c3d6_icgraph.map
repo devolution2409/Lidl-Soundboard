@@ -1,0 +1,10 @@
+<map id="LIDL::Controller::SaveController::SetStopShortcut" name="LIDL::Controller::SaveController::SetStopShortcut">
+<area shape="rect" id="node1" title=" " alt="" coords="1052,150,1255,191"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="801,99,1004,141"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,125,213,166"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="557,5,753,32"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="559,56,752,83"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,107,505,133"/>
+<area shape="rect" id="node8" href="$class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,157,509,184"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,56,488,83"/>
+</map>

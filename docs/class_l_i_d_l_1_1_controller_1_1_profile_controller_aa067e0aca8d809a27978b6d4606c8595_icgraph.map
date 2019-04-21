@@ -1,0 +1,16 @@
+<map id="LIDL::Controller::ProfileController::GetActiveProfile" name="LIDL::Controller::ProfileController::GetActiveProfile">
+<area shape="rect" id="node1" title="GetActiveProfile." alt="" coords="1313,334,1491,375"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="820,216,1017,243"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,215,213,257"/>
+<area shape="rect" id="node12" href="$class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a" title="holdPTT" alt="" coords="1082,299,1249,341"/>
+<area shape="rect" id="node13" href="$class_game_selector.html#a21641a84899124b6d56c0e5d224cc139" title="RefreshProfiles." alt="" coords="1065,427,1265,453"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="545,5,741,32"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="265,41,463,82"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="515,157,772,184"/>
+<area shape="rect" id="node8" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="277,245,451,286"/>
+<area shape="rect" id="node9" href="$class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="530,325,757,352"/>
+<area shape="rect" id="node11" href="$class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="547,209,740,250"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="261,193,467,220"/>
+<area shape="rect" id="node10" href="$class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="268,310,460,351"/>
+<area shape="rect" id="node14" href="$class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="821,427,1017,453"/>
+</map>

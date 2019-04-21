@@ -3,6 +3,7 @@ var class_sound_wrapper =
     [ "SoundWrapper", "class_sound_wrapper.html#a6e46655e51d534a2eac1a65b46f73a06", null ],
     [ "SoundWrapper", "class_sound_wrapper.html#adf420f194ccc8b20947f9a74040bd8c8", null ],
     [ "SoundWrapper", "class_sound_wrapper.html#ae338d43330773a630d45fa2f334b1259", null ],
+    [ "SoundWrapper", "class_sound_wrapper.html#ad1d86277b35f998b726e9f2ab2f86985", null ],
     [ "addSound", "class_sound_wrapper.html#a0e7c3c938c43af3dbabecbfcafdadcfd", null ],
     [ "checkFileExistence", "class_sound_wrapper.html#a8ebedf0a61169145dcff3ef5438136bd", null ],
     [ "clearShorcut", "class_sound_wrapper.html#acf8d463bb53ce4e983484383a63278a1", null ],

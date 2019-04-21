@@ -1,0 +1,7 @@
+<map id="Spoiler::setContentLayout" name="Spoiler::setContentLayout">
+<area shape="rect" id="node1" title=" " alt="" coords="437,97,609,123"/>
+<area shape="rect" id="node2" href="$class_preset_wizard_intro_page.html#a3c0474fd54295d5f0ceb73d986e560fb" title=" " alt="" coords="225,5,381,47"/>
+<area shape="rect" id="node3" href="$class_preset_wizard_intro_page.html#ae2fe5a4d9d9dd421b5bfe3634330e6ac" title=" " alt="" coords="5,35,169,76"/>
+<area shape="rect" id="node4" href="$class_spoiler.html#a513ad6da4a471770e0da25c5a52476fb" title=" " alt="" coords="217,122,389,149"/>
+<area shape="rect" id="node5" href="$class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="234,173,373,215"/>
+</map>

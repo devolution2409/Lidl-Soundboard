@@ -1,0 +1,6 @@
+<map id="LIDL::Controller::SettingsController::isEditing" name="LIDL::Controller::SettingsController::isEditing">
+<area shape="rect" id="node1" title="isEditing Is editing basically serves to know whether we should process shortcuts being pressed and p..." alt="" coords="587,5,753,47"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a8763d5d492f74373f8d6dd3d74d8700c" title="Function to deal with Shortcut being pressed." alt="" coords="360,5,539,47"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="261,13,312,39"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,5,213,47"/>
+</map>

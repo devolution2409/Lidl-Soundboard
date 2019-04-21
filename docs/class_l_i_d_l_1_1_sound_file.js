@@ -10,6 +10,7 @@ var class_l_i_d_l_1_1_sound_file =
     [ "getSize", "class_l_i_d_l_1_1_sound_file.html#a78cb9d0b4c150dc888f3c5a77f80b748", null ],
     [ "getVacVolume", "class_l_i_d_l_1_1_sound_file.html#a9d1328d646e72d9f2e2cdbbe54517c25", null ],
     [ "IsEqualTo", "class_l_i_d_l_1_1_sound_file.html#abf5c5013c3988b28e2829afb815c4e73", null ],
+    [ "operator=", "class_l_i_d_l_1_1_sound_file.html#afaf40a85062b51143018c7e7948adb69", null ],
     [ "operator!=", "class_l_i_d_l_1_1_sound_file.html#aedcb0d46d02ea8d0ee4c109e6ad9aae0", null ],
     [ "operator==", "class_l_i_d_l_1_1_sound_file.html#ad9de1ac179ebc14eef4717c43bfdde06", null ],
     [ "_mainVolume", "class_l_i_d_l_1_1_sound_file.html#af99194537a8b106aa6a96542a70f0307", null ],

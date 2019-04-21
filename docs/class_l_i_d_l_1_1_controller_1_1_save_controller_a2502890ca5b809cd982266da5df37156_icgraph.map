@@ -1,0 +1,5 @@
+<map id="LIDL::Controller::SaveController::SaveState" name="LIDL::Controller::SaveController::SaveState">
+<area shape="rect" id="node1" title="SaveState Saves the soundboard in the _snapshot variable." alt="" coords="548,23,751,65"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="261,5,500,32"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,23,213,65"/>
+</map>

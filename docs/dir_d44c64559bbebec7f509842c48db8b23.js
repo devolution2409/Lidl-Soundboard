@@ -1,6 +1,5 @@
 var dir_d44c64559bbebec7f509842c48db8b23 =
 [
-    [ "bitmask_operators.h", "bitmask__operators_8h.html", "bitmask__operators_8h" ],
     [ "CustomListWidget.h", "_custom_list_widget_8h.html", [
       [ "CustomListWidget", "class_custom_list_widget.html", "class_custom_list_widget" ]
     ] ],
@@ -22,16 +21,9 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "CustomTableView.h", "_custom_table_view_8h.html", [
       [ "CustomTableView", "class_custom_table_view.html", "class_custom_table_view" ]
     ] ],
-    [ "DarkStyle.h", "_dark_style_8h.html", [
-      [ "DarkStyle", "class_dark_style.html", "class_dark_style" ]
-    ] ],
     [ "EnumsAndStructs.h", "_enums_and_structs_8h.html", "_enums_and_structs_8h" ],
     [ "FancySlider.h", "_fancy_slider_8h.html", [
       [ "FancySlider", "class_fancy_slider.html", "class_fancy_slider" ]
-    ] ],
-    [ "framelesswindow.h", "framelesswindow_8h.html", [
-      [ "MouseButtonSignaler", "class_mouse_button_signaler.html", "class_mouse_button_signaler" ],
-      [ "FramelessWindow", "class_frameless_window.html", "class_frameless_window" ]
     ] ],
     [ "GameNameOverlay.h", "_game_name_overlay_8h.html", [
       [ "GameNameOverlay", "class_game_name_overlay.html", "class_game_name_overlay" ]
@@ -91,9 +83,6 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
       [ "Spoiler", "class_spoiler.html", "class_spoiler" ]
     ] ],
     [ "StyledDelegate.h", "_styled_delegate_8h.html", "_styled_delegate_8h" ],
-    [ "windowdragger.h", "windowdragger_8h.html", [
-      [ "WindowDragger", "class_window_dragger.html", "class_window_dragger" ]
-    ] ],
     [ "wrapperproperties.h", "wrapperproperties_8h.html", [
       [ "WrapperProperties", "class_wrapper_properties.html", "class_wrapper_properties" ]
     ] ]

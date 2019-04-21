@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['basestyle',['baseStyle',['../class_dark_style.html#aabaab25c8b3acad0d9d7c022937b09c7',1,'DarkStyle']]],
   ['bass_2eh',['bass.h',['../bass_8h.html',1,'']]],
   ['bass_5f3dalg_5fdefault',['BASS_3DALG_DEFAULT',['../bass_8h.html#aff4f92d937a68d37c1541d6ac5af4fac',1,'bass.h']]],
   ['bass_5f3dalg_5ffull',['BASS_3DALG_FULL',['../bass_8h.html#a02a27dde94e97f04f402153c7f605253',1,'bass.h']]],

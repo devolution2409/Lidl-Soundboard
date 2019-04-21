@@ -1,0 +1,4 @@
+<map id="CustomPlayer::Stop" name="CustomPlayer::Stop">
+<area shape="rect" id="node1" title="Stop all the channels of this player." alt="" coords="196,5,335,32"/>
+<area shape="rect" id="node2" href="$class_sound_wrapper.html#a4ec65454998a456cb49975fa5ee57672" title="Tell the player to stop playing the sound." alt="" coords="5,5,148,32"/>
+</map>

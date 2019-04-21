@@ -1,0 +1,5 @@
+<map id="LIDL::Controller::SettingsController::setEditing" name="LIDL::Controller::SettingsController::setEditing">
+<area shape="rect" id="node1" title="setEditing Allows shortcut to be dismissed if they are pressed while a user is editing a wrapper (see..." alt="" coords="192,39,359,80"/>
+<area shape="rect" id="node2" href="$class_wrapper_properties.html#a81b4d7a15c2057f18a1636321cd38924" title="Reimplemented to send a closed signal to the mainUI, so we can re&#45;enable the widgets." alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node3" href="$class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="5,71,144,112"/>
+</map>

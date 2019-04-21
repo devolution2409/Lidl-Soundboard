@@ -1,0 +1,5 @@
+<map id="CustomListWidgetItem::getSFX" name="CustomListWidgetItem::getSFX">
+<area shape="rect" id="node1" title="getSFX" alt="" coords="192,39,347,80"/>
+<area shape="rect" id="node2" href="$class_wrapper_properties.html#a027f95d0d736c0bcc12c4e4bbad1c55f" title="Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget." alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node3" href="$class_wrapper_properties.html#a75b87657531719f1f00cdf0fafcd14aa" title="Constructor of the &quot;Sound Entry Editor&quot; UI." alt="" coords="5,71,144,112"/>
+</map>

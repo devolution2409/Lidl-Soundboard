@@ -1,0 +1,6 @@
+<map id="CustomPlayer::resetShouldPlay" name="CustomPlayer::resetShouldPlay">
+<area shape="rect" id="node1" title="resetShouldPlay will reset the _shouldPlay boolean to true;" alt="" coords="439,31,645,57"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#a72c2d93f0b376483948bd25fa74a407c" title="CustomPlayer Default contructor, used by the default constructor of SoundWrapper." alt="" coords="196,5,391,32"/>
+<area shape="rect" id="node3" href="$class_custom_player.html#a43c73c291d287250726d621c209b0c67" title="Stop all the channels of this player." alt="" coords="224,56,363,83"/>
+<area shape="rect" id="node4" href="$class_sound_wrapper.html#a4ec65454998a456cb49975fa5ee57672" title="Tell the player to stop playing the sound." alt="" coords="5,56,148,83"/>
+</map>

@@ -1,5 +1,5 @@
 <map id="LIDL::Controller::ProfileController" name="LIDL::Controller::ProfileController">
-<area shape="rect" id="node1" title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="5,380,251,589"/>
+<area shape="rect" id="node1" title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="5,380,251,633"/>
 <area shape="rect" id="node2" title=" " alt="" coords="41,123,111,200"/>
 <area shape="rect" id="node3" href="$class_profile.html" title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit..." alt="" coords="136,5,349,317"/>
 </map>

@@ -104,12 +104,13 @@ $(document).ready(function(){initNavTree('_profile_8h.html','');});
 <code>#include &lt;QKeySequence&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;QJsonObject&gt;</code><br />
+<code>#include &lt;QDebug&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Profile.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_profile_8h__incl.png" border="0" usemap="#_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_profile_8h" alt=""/></div>
 <map name="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_profile_8h" id="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_profile_8h">
-<area shape="rect"  title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="241,5,384,61"/>
+<area shape="rect"  title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="295,5,437,61"/>
 <area shape="rect"  title=" " alt="" coords="5,109,76,136"/>
 <area shape="rect"  title=" " alt="" coords="101,109,167,136"/>
 <area shape="rect"  title=" " alt="" coords="192,109,263,136"/>
@@ -117,6 +118,7 @@ Include dependency graph for Profile.h:</div>
 <area shape="rect"  title=" " alt="" coords="363,109,476,136"/>
 <area shape="rect"  title=" " alt="" coords="501,109,570,136"/>
 <area shape="rect"  title=" " alt="" coords="595,109,692,136"/>
+<area shape="rect"  title=" " alt="" coords="717,109,786,136"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -124,31 +126,31 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_profile_8h__dep__incl.png" border="0" usemap="#_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_profile_8hdep" alt=""/></div>
 <map name="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_profile_8hdep" id="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2_profile_8hdep">
-<area shape="rect"  title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="921,5,1063,61"/>
-<area shape="rect"  href="_settings_controller_8h.html" title=" " alt="" coords="578,213,721,269"/>
-<area shape="rect"  href="_profile_8cpp.html" title=" " alt="" coords="5,533,168,574"/>
-<area shape="rect"  href="_profile_edit_8h.html" title=" " alt="" coords="815,317,958,373"/>
-<area shape="rect"  href="_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile." alt="" coords="921,109,1063,165"/>
-<area shape="rect"  href="_hook_controller_8h.html" title="File handling the Hook Controller Singleton as well as the definition of the CallBack." alt="" coords="1422,213,1565,269"/>
-<area shape="rect"  href="_save_controller_8h.html" title=" " alt="" coords="1141,213,1283,269"/>
-<area shape="rect"  href="_overlay_controller_8h.html" title=" " alt="" coords="1617,109,1759,165"/>
-<area shape="rect"  href="_game_selector_8h.html" title=" " alt="" coords="642,525,785,581"/>
-<area shape="rect"  href="soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="992,629,1136,685"/>
-<area shape="rect"  href="_custom_list_widget_8h.html" title="File describing the CustomListWidget class." alt="" coords="468,317,612,373"/>
-<area shape="rect"  href="wrapperproperties_8h.html" title=" " alt="" coords="193,525,335,581"/>
-<area shape="rect"  href="_settings_controller_8cpp.html" title=" " alt="" coords="213,325,443,366"/>
-<area shape="rect"  href="_game_selector_8cpp.html" title=" " alt="" coords="608,637,819,678"/>
-<area shape="rect"  href="main_8cpp.html" title=" " alt="" coords="1549,741,1704,782"/>
-<area shape="rect"  href="soundboard_main_u_i_8cpp.html" title=" " alt="" coords="965,733,1163,789"/>
-<area shape="rect"  href="_custom_list_widget_8cpp.html" title=" " alt="" coords="261,429,496,470"/>
-<area shape="rect"  href="soundwrapper_8h.html" title=" " alt="" coords="521,421,663,477"/>
-<area shape="rect"  href="soundwrapper_8cpp.html" title=" " alt="" coords="359,533,566,574"/>
-<area shape="rect"  href="wrapperproperties_8cpp.html" title=" " alt="" coords="149,637,379,678"/>
-<area shape="rect"  href="_profile_edit_8cpp.html" title=" " alt="" coords="840,429,1027,470"/>
-<area shape="rect"  href="_profile_controller_8cpp.html" title=" " alt="" coords="847,221,1065,262"/>
-<area shape="rect"  href="_hook_controller_8cpp.html" title=" " alt="" coords="1387,325,1599,366"/>
-<area shape="rect"  href="_save_controller_8cpp.html" title=" " alt="" coords="1101,325,1312,366"/>
-<area shape="rect"  href="_overlay_controller_8cpp.html" title=" " alt="" coords="1726,221,1951,262"/>
+<area shape="rect"  title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="885,5,1028,61"/>
+<area shape="rect"  href="_settings_controller_8h.html" title=" " alt="" coords="655,213,797,269"/>
+<area shape="rect"  href="_save_controller_8h.html" title=" " alt="" coords="1028,525,1171,581"/>
+<area shape="rect"  href="_profile_8cpp.html" title=" " alt="" coords="5,533,212,574"/>
+<area shape="rect"  href="_profile_edit_8h.html" title=" " alt="" coords="204,317,347,373"/>
+<area shape="rect"  href="_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile." alt="" coords="885,109,1028,165"/>
+<area shape="rect"  href="_hook_controller_8h.html" title="File handling the Hook Controller Singleton as well as the definition of the CallBack." alt="" coords="1129,213,1272,269"/>
+<area shape="rect"  href="_overlay_controller_8h.html" title=" " alt="" coords="1239,109,1381,165"/>
+<area shape="rect"  href="_custom_list_widget_8h.html" title="File describing the CustomListWidget class." alt="" coords="691,317,835,373"/>
+<area shape="rect"  href="_game_selector_8h.html" title=" " alt="" coords="267,525,409,581"/>
+<area shape="rect"  href="soundboard_main_u_i_8h.html" title="Soundboard Main UI file." alt="" coords="893,629,1037,685"/>
+<area shape="rect"  href="wrapperproperties_8h.html" title=" " alt="" coords="433,525,576,581"/>
+<area shape="rect"  href="_settings_controller_8cpp.html" title=" " alt="" coords="473,317,667,373"/>
+<area shape="rect"  href="soundwrapper_8h.html" title=" " alt="" coords="759,421,901,477"/>
+<area shape="rect"  href="_custom_list_widget_8cpp.html" title=" " alt="" coords="523,421,734,477"/>
+<area shape="rect"  href="soundwrapper_8cpp.html" title=" " alt="" coords="601,533,851,574"/>
+<area shape="rect"  href="_game_selector_8cpp.html" title=" " alt="" coords="151,637,405,678"/>
+<area shape="rect"  href="main_8cpp.html" title=" " alt="" coords="1323,741,1521,782"/>
+<area shape="rect"  href="soundboard_main_u_i_8cpp.html" title=" " alt="" coords="859,733,1071,789"/>
+<area shape="rect"  href="_save_controller_8cpp.html" title=" " alt="" coords="1061,637,1314,678"/>
+<area shape="rect"  href="wrapperproperties_8cpp.html" title=" " alt="" coords="429,637,701,678"/>
+<area shape="rect"  href="_profile_edit_8cpp.html" title=" " alt="" coords="166,421,347,477"/>
+<area shape="rect"  href="_profile_controller_8cpp.html" title=" " alt="" coords="822,213,1003,269"/>
+<area shape="rect"  href="_hook_controller_8cpp.html" title=" " alt="" coords="1180,325,1435,366"/>
+<area shape="rect"  href="_overlay_controller_8cpp.html" title=" " alt="" coords="1348,213,1536,269"/>
 </map>
 </div>
 </div>
@@ -157,7 +159,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile.html">Profile</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="class_profile.html" title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit...">Profile</a> class Describe a profile: Name List of linked executable that will make this profile switched to when the executable is detected List of sounds as a QVector&lt;shared_ptr&lt;SoundWrapper&gt;&gt; The owner ship of those element is shared between the profile and the main ui. So reference count should be like this: 1 for the UI (IF profile is currently active) 1 for the profile.  <a href="class_profile.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="class_profile.html" title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit...">Profile</a> class Describe a profile: Name List of linked executable that will make this profile switched to when the executable is detected List of sounds as a QVector&lt;shared_ptr&lt;SoundWrapper&gt;&gt; The owner ship of those element is shared between the profile and the main ui. So reference count should be like this:  <a href="class_profile.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_profile_1_1_builder.html">Profile::Builder</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>

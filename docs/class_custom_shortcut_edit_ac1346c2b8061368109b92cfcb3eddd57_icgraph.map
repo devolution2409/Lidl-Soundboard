@@ -1,0 +1,4 @@
+<map id="CustomShortcutEdit::sendSignal" name="CustomShortcutEdit::sendSignal">
+<area shape="rect" id="node1" title="sendSignal This slot is called whenever the editing is done, could be replaced by lambda but i&#39;m lazy..." alt="" coords="200,5,339,47"/>
+<area shape="rect" id="node2" href="$class_custom_shortcut_edit.html#aa5381aa4fa34a77c7ccdee5a3f60b691" title="CustomShortcutEdit." alt="" coords="5,5,152,47"/>
+</map>

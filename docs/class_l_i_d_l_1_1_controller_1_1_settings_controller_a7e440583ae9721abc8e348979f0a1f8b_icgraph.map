@@ -1,0 +1,6 @@
+<map id="LIDL::Controller::SettingsController::GetSupportedMimeTypes" name="LIDL::Controller::SettingsController::GetSupportedMimeTypes">
+<area shape="rect" id="node1" title="GetSupportedMimeTypes." alt="" coords="436,35,668,76"/>
+<area shape="rect" id="node2" href="$class_wrapper_properties.html#a49d6b0569f6776e0b77cb54c08fc112e" title="AddSoundFromUrl method." alt="" coords="221,5,359,47"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="192,71,388,98"/>
+<area shape="rect" id="node3" href="$class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="5,5,144,47"/>
+</map>

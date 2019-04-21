@@ -1,0 +1,5 @@
+<map id="SoundboardMainUI::setStopShortcut" name="SoundboardMainUI::setStopShortcut">
+<area shape="rect" id="node1" title="Function to register the Stop ALL Shortcut. It is used by the associated CustomShortcutEdit and the O..." alt="" coords="484,35,668,76"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="261,5,436,47"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,35,213,76"/>
+</map>

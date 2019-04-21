@@ -1,0 +1,4 @@
+<map id="SfxSettingsWidget::deactivateAll" name="SfxSettingsWidget::deactivateAll">
+<area shape="rect" id="node1" title="deactivateAll Deactivates all widgets except the checkbox." alt="" coords="192,5,331,47"/>
+<area shape="rect" id="node2" href="$class_wrapper_properties.html#a027f95d0d736c0bcc12c4e4bbad1c55f" title="Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget." alt="" coords="5,5,144,47"/>
+</map>

@@ -1,9 +1,6 @@
 var searchData=
 [
   ['darkeneffect',['DarkenEffect',['../class_darken_effect.html',1,'']]],
-  ['darkstyle',['DarkStyle',['../class_dark_style.html',1,'DarkStyle'],['../class_dark_style.html#aab8e01ad4fc1f604cc3af5e49632bf34',1,'DarkStyle::DarkStyle()'],['../class_dark_style.html#a4a8a8fafd23d02f5e4df919a5d01c29e',1,'DarkStyle::DarkStyle(QStyle *style)']]],
-  ['darkstyle_2ecpp',['DarkStyle.cpp',['../_dark_style_8cpp.html',1,'']]],
-  ['darkstyle_2eh',['DarkStyle.h',['../_dark_style_8h.html',1,'']]],
   ['data',['data',['../struct_t_a_g___a_p_e___b_i_n_a_r_y.html#a5ce86f75cb101a224885cb6d083e717a',1,'TAG_APE_BINARY::data()'],['../struct_t_a_g___f_l_a_c___p_i_c_t_u_r_e.html#a2d916e78236044ade209e7bef009519a',1,'TAG_FLAC_PICTURE::data()'],['../struct_t_a_g___f_l_a_c___m_e_t_a_d_a_t_a.html#a294d4a23aed86c2bcf46aee8a312c4e0',1,'TAG_FLAC_METADATA::data()'],['../bass_8h.html#a83e7e0785dfbdcf1365345822eb03fba',1,'data():&#160;bass.h']]],
   ['deactivateall',['deactivateAll',['../class_sfx_settings_widget.html#aaa4ebb2b6d87472ce724892826f2ee27',1,'SfxSettingsWidget']]],
   ['dealdraganddrop',['DealDragAndDrop',['../class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57',1,'SoundboardMainUI']]],
@@ -18,7 +15,6 @@ var searchData=
   ['description',['Description',['../struct_t_a_g___b_e_x_t.html#a481d2bd43b1711c5cb94144f063dd2b9',1,'TAG_BEXT']]],
   ['disablebuttons',['disableButtons',['../class_custom_table_view.html#acbd358826df8baee7aa679271c7bc402',1,'CustomTableView']]],
   ['distortion',['distortion',['../struct_l_i_d_l_1_1_s_f_x.html#a3b4e373378581336828517f8ce94c55e',1,'LIDL::SFX::distortion()'],['../namespace_l_i_d_l.html#aa96fd8d8599ffe548724f04d8ebc418facc37e30c52a2ed93e887ba77415e26b7',1,'LIDL::DISTORTION()']]],
-  ['doubleclicked',['doubleClicked',['../class_window_dragger.html#a5e9095527d7f32d7dec8018084d0d719',1,'WindowDragger']]],
   ['draganddropseveralwrappers',['dragAndDropSeveralWrappers',['../class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a8b04212ef30f5dcbea9427f3e0f98ed1',1,'LIDL::Controller::SettingsController']]],
   ['dragenterevent',['dragEnterEvent',['../class_custom_list_widget.html#aa2d1a3399772ca53ab9d8c324b3c0b40',1,'CustomListWidget::dragEnterEvent()'],['../class_soundboard_main_u_i.html#a49c98f352202de182de1bedceeb1c1d7',1,'SoundboardMainUI::dragEnterEvent()']]],
   ['draggedonrow',['draggedOnRow',['../class_custom_table_model.html#a364de58de567809137e10524643335d9',1,'CustomTableModel']]],

@@ -1,0 +1,8 @@
+<map id="LIDL::PresetController::PresetController" name="LIDL::PresetController::PresetController">
+<area shape="rect" id="node1" title="PresetController default constructor." alt="" coords="823,27,972,68"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_preset_controller.html#a13c94a9d88bc7bff8946ef4aef55a52d" title="GetInstance, returns the instance of the controller, creating one if it doesn&#39;t exist." alt="" coords="625,27,775,68"/>
+<area shape="rect" id="node3" href="$class_preset_wizard_intro_page.html#ae2fe5a4d9d9dd421b5bfe3634330e6ac" title=" " alt="" coords="5,19,169,60"/>
+<area shape="rect" id="node4" href="$class_preset_wizard_intro_page.html#a51f57903d532a3f9e53d65391e7bdee4" title=" " alt="" coords="421,27,577,68"/>
+<area shape="rect" id="node6" href="$class_sfx_settings_widget.html#a100ef320e6204b98401147657a24831a" title="SfxSettingsWidget Overloaded constructor to account for SFX name." alt="" coords="430,92,569,134"/>
+<area shape="rect" id="node5" href="$class_preset_wizard_intro_page.html#ab1abee0df4b9f551f305a1d45a5bdd7e" title=" " alt="" coords="217,78,373,119"/>
+</map>

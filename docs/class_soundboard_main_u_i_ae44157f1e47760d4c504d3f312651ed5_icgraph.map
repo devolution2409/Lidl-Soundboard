@@ -1,0 +1,9 @@
+<map id="SoundboardMainUI::ClearAllSounds" name="SoundboardMainUI::ClearAllSounds">
+<area shape="rect" id="node1" title="This function clears the soundboard, as if it was just opened without any file." alt="" coords="853,99,1037,141"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="585,56,769,83"/>
+<area shape="rect" id="node6" href="$class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="548,107,805,133"/>
+<area shape="rect" id="node7" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="293,158,468,199"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="261,5,500,32"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,74,213,115"/>
+<area shape="rect" id="node5" href="$class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="278,107,483,133"/>
+</map>

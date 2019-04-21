@@ -1,0 +1,5 @@
+<map id="CustomListWidgetItem::getSFXFlanger" name="CustomListWidgetItem::getSFXFlanger">
+<area shape="rect" id="node1" title=" " alt="" coords="395,5,549,47"/>
+<area shape="rect" id="node2" href="$class_custom_list_widget_item.html#a092c6e88ff6dae74e82b867ee8dd98a0" title=" " alt="" coords="192,5,347,47"/>
+<area shape="rect" id="node3" href="$class_wrapper_properties.html#a027f95d0d736c0bcc12c4e4bbad1c55f" title="Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget." alt="" coords="5,5,144,47"/>
+</map>

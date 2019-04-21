@@ -1,0 +1,8 @@
+<map id="SfxSettingsWidget::comboBoxValueChanged" name="SfxSettingsWidget::comboBoxValueChanged">
+<area shape="rect" id="node1" title="comboBoxValueChanged Emitted when a combo box text has changed." alt="" coords="608,71,776,112"/>
+<area shape="rect" id="node2" href="$class_sfx_settings_widget.html#adb22b8c5ad033d11f9fbc2d169eb346e" title="addComboBox Add a combo box to the widget." alt="" coords="421,37,560,79"/>
+<area shape="rect" id="node6" href="$class_wrapper_properties.html#a027f95d0d736c0bcc12c4e4bbad1c55f" title="Set the connection of all the widgets (sliders,combo boxes etc), contained in the widget." alt="" coords="421,103,560,144"/>
+<area shape="rect" id="node3" href="$class_preset_wizard_intro_page.html#a3c0474fd54295d5f0ceb73d986e560fb" title=" " alt="" coords="217,5,373,47"/>
+<area shape="rect" id="node5" href="$class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="226,71,365,112"/>
+<area shape="rect" id="node4" href="$class_preset_wizard_intro_page.html#ae2fe5a4d9d9dd421b5bfe3634330e6ac" title=" " alt="" coords="5,5,169,47"/>
+</map>

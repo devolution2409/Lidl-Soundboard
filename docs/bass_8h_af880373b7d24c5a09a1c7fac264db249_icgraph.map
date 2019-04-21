@@ -1,0 +1,7 @@
+<map id="BASS_ChannelIsActive" name="BASS_ChannelIsActive">
+<area shape="rect" id="node1" title=" " alt="" coords="660,31,817,57"/>
+<area shape="rect" id="node2" href="$class_custom_player.html#a1391841708ca081f2620d468e8f71999" title="PlayAt Will play the song at the specified index." alt="" coords="461,31,612,57"/>
+<area shape="rect" id="node3" href="$class_custom_player.html#a497e85ac7db0a32dccfa33c3a9f3cf09" title="PlayNext PlayNext function is called whenever the shortcut, or play button, is pressed." alt="" coords="248,31,413,57"/>
+<area shape="rect" id="node4" href="$class_custom_player.html#a72c2d93f0b376483948bd25fa74a407c" title="CustomPlayer Default contructor, used by the default constructor of SoundWrapper." alt="" coords="5,5,200,32"/>
+<area shape="rect" id="node5" href="$class_sound_wrapper.html#a7d0d74d9cf548fbf59adf930f9acf2a9" title="Tell the player to play the sound according to the playback mode." alt="" coords="31,56,174,83"/>
+</map>

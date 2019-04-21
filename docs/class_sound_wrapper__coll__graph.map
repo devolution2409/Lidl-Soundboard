@@ -1,5 +1,5 @@
 <map id="SoundWrapper" name="SoundWrapper">
-<area shape="rect" id="node1" title="Inherits QObject." alt="" coords="5,580,184,995"/>
+<area shape="rect" id="node1" title="Inherits QObject." alt="" coords="5,580,184,936"/>
 <area shape="rect" id="node2" title=" " alt="" coords="78,5,149,83"/>
 <area shape="rect" id="node3" href="$class_custom_player.html" title="The CustomPlayer class, inherits QObject to access signals and slots.*." alt="" coords="111,132,291,517"/>
 </map>

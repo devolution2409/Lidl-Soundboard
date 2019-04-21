@@ -1,0 +1,5 @@
+<map id="CustomListWidget::fileDragged" name="CustomListWidget::fileDragged">
+<area shape="rect" id="node1" title="fileDragged Signal to send when a file is dragged onto the view." alt="" coords="248,35,449,61"/>
+<area shape="rect" id="node2" href="$class_custom_list_widget.html#aef4a9dfad133762e427e4109d9df7a65" title="dropEvent If a dragEnterEvent was accepted, it will end in the dropEvent when release." alt="" coords="5,5,200,32"/>
+<area shape="rect" id="node3" href="$class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="33,57,172,98"/>
+</map>

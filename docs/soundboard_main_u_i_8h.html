@@ -148,8 +148,6 @@ $(document).ready(function(){initNavTree('soundboard_main_u_i_8h.html','');});
 <code>#include &lt;QMimeDatabase&gt;</code><br />
 <code>#include &lt;QProgressBar&gt;</code><br />
 <code>#include &lt;QThread&gt;</code><br />
-<code>#include &quot;<a class="el" href="_loading_widget_8h_source.html">LoadingWidget.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_loading_widget_worker_8h_source.html">LoadingWidgetWorker.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_preset_wizard_8h_source.html">PresetWizard.h</a>&quot;</code><br />
 <code>#include &lt;QDebug&gt;</code><br />
 <code>#include &quot;<a class="el" href="_overlay_controller_8h_source.html">OverlayController.h</a>&quot;</code><br />
@@ -157,14 +155,15 @@ $(document).ready(function(){initNavTree('soundboard_main_u_i_8h.html','');});
 <code>#include &quot;<a class="el" href="_hook_controller_8h_source.html">HookController.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_profile_controller_8h_source.html">ProfileController.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_save_controller_8h_source.html">SaveController.h</a>&quot;</code><br />
+<code>#include &lt;QSplashScreen&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="soundboard_main_u_i_8h__dep__incl.png" border="0" usemap="#_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2soundboard_main_u_i_8hdep" alt=""/></div>
 <map name="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2soundboard_main_u_i_8hdep" id="_d_1_2_qt_2_projects_2_lidl___soundboard_2include_2soundboard_main_u_i_8hdep">
-<area shape="rect"  title="Soundboard Main UI file." alt="" coords="111,5,255,61"/>
-<area shape="rect"  href="main_8cpp.html" title=" " alt="" coords="5,117,160,158"/>
-<area shape="rect"  href="soundboard_main_u_i_8cpp.html" title=" " alt="" coords="184,109,381,165"/>
+<area shape="rect"  title="Soundboard Main UI file." alt="" coords="147,5,291,61"/>
+<area shape="rect"  href="main_8cpp.html" title=" " alt="" coords="5,117,204,158"/>
+<area shape="rect"  href="soundboard_main_u_i_8cpp.html" title=" " alt="" coords="228,109,440,165"/>
 </map>
 </div>
 </div>
@@ -184,10 +183,6 @@ Macros</h2></td></tr>
 <tr class="separator:a6b2d0dbee4745049e0df5982809bd8f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2812cd7de68c54439a75558e476815e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="soundboard_main_u_i_8h.html#ab2812cd7de68c54439a75558e476815e">MOD_CONTROL</a>&#160;&#160;&#160;0x0002</td></tr>
 <tr class="separator:ab2812cd7de68c54439a75558e476815e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98ed931f97fef7e06e3ea441d0326c67"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="soundboard_main_u_i_8h.html#a98ed931f97fef7e06e3ea441d0326c67">VER</a>&#160;&#160;&#160;1.9.0</td></tr>
-<tr class="separator:a98ed931f97fef7e06e3ea441d0326c67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec977eff8d77d9c22f46665015a6f239"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="soundboard_main_u_i_8h.html#aec977eff8d77d9c22f46665015a6f239">VER_STRING</a>&#160;&#160;&#160;&quot;1.9.0&quot;</td></tr>
-<tr class="separator:aec977eff8d77d9c22f46665015a6f239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Soundboard Main UI file. </p>
@@ -234,34 +229,6 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define MOD_NOREPEAT&#160;&#160;&#160;0x4000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a98ed931f97fef7e06e3ea441d0326c67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98ed931f97fef7e06e3ea441d0326c67">&#9670;&nbsp;</a></span>VER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VER&#160;&#160;&#160;1.9.0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aec977eff8d77d9c22f46665015a6f239"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec977eff8d77d9c22f46665015a6f239">&#9670;&nbsp;</a></span>VER_STRING</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VER_STRING&#160;&#160;&#160;&quot;1.9.0&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

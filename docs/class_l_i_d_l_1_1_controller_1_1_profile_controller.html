@@ -110,7 +110,7 @@ Inheritance diagram for LIDL::Controller::ProfileController:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller__inherit__graph.png" border="0" usemap="#_l_i_d_l_1_1_controller_1_1_profile_controller_inherit__map" alt="Inheritance graph"/></div>
 <map name="_l_i_d_l_1_1_controller_1_1_profile_controller_inherit__map" id="_l_i_d_l_1_1_controller_1_1_profile_controller_inherit__map">
-<area shape="rect"  title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="5,131,251,369"/>
+<area shape="rect"  title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="5,131,251,413"/>
 <area shape="rect"  title=" " alt="" coords="93,5,163,83"/>
 </map>
 </div>
@@ -119,7 +119,7 @@ Collaboration diagram for LIDL::Controller::ProfileController:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller__coll__graph.png" border="0" usemap="#_l_i_d_l_1_1_controller_1_1_profile_controller_coll__map" alt="Collaboration graph"/></div>
 <map name="_l_i_d_l_1_1_controller_1_1_profile_controller_coll__map" id="_l_i_d_l_1_1_controller_1_1_profile_controller_coll__map">
-<area shape="rect"  title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="5,380,251,589"/>
+<area shape="rect"  title="The ProfileController class Basically when a profile is loaded, the array of sounds QVector&lt;shared_pt..." alt="" coords="5,380,251,633"/>
 <area shape="rect"  title=" " alt="" coords="41,123,111,200"/>
 <area shape="rect"  href="class_profile.html" title="The Profile class Describe a profile: Name List of linked executable that will make this profile swit..." alt="" coords="136,5,349,317"/>
 </map>
@@ -127,10 +127,12 @@ Collaboration diagram for LIDL::Controller::ProfileController:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signals</h2></td></tr>
-<tr class="memitem:ab2af05da2940bb6d4c355d69db497a3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab2af05da2940bb6d4c355d69db497a3f">ProfileConfigurationChanged</a> ()</td></tr>
-<tr class="separator:ab2af05da2940bb6d4c355d69db497a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acef217e0868c4f54db4ddab99665bcd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acef217e0868c4f54db4ddab99665bcd9">AddSoundsToMainUI</a> (QVector&lt; std::shared_ptr&lt; <a class="el" href="class_sound_wrapper.html">SoundWrapper</a> &gt;&gt;)</td></tr>
+<tr class="memdesc:acef217e0868c4f54db4ddab99665bcd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">AddSoundsToMainUI Triggers the main UI logic that will add the sound to both the active profile and the UI. So that ref count isn't fucked up.  <a href="#acef217e0868c4f54db4ddab99665bcd9">More...</a><br /></td></tr>
 <tr class="separator:acef217e0868c4f54db4ddab99665bcd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a444115f3b34149588135dc73df8589"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a1a444115f3b34149588135dc73df8589">RefreshComboBox</a> ()</td></tr>
+<tr class="memdesc:a1a444115f3b34149588135dc73df8589"><td class="mdescLeft">&#160;</td><td class="mdescRight">RefreshComboBox Signal sent by AutomaticConfigurationChange to notify the combobox it needs to update itself.  <a href="#a1a444115f3b34149588135dc73df8589">More...</a><br /></td></tr>
+<tr class="separator:a1a444115f3b34149588135dc73df8589"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -155,6 +157,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa067e0aca8d809a27978b6d4606c8595"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_profile.html">Profile</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595">GetActiveProfile</a> () const</td></tr>
 <tr class="memdesc:aa067e0aca8d809a27978b6d4606c8595"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetActiveProfile.  <a href="#aa067e0aca8d809a27978b6d4606c8595">More...</a><br /></td></tr>
 <tr class="separator:aa067e0aca8d809a27978b6d4606c8595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42f7945d0024225923eb17dfbbd22239"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a42f7945d0024225923eb17dfbbd22239">RemoveAllProfiles</a> ()</td></tr>
+<tr class="memdesc:a42f7945d0024225923eb17dfbbd22239"><td class="mdescLeft">&#160;</td><td class="mdescRight">RemoveAllProfiles Remove all profiles (included default constructed "default" one)  <a href="#a42f7945d0024225923eb17dfbbd22239">More...</a><br /></td></tr>
+<tr class="separator:a42f7945d0024225923eb17dfbbd22239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac19dd13679f56ca8d14045fc3b2d5759"><td class="memItemLeft" align="right" valign="top"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange</a> (const QString &amp;name, bool forceChange=false)</td></tr>
+<tr class="memdesc:ac19dd13679f56ca8d14045fc3b2d5759"><td class="mdescLeft">&#160;</td><td class="mdescRight">AutomaticConfigurationChange.  <a href="#ac19dd13679f56ca8d14045fc3b2d5759">More...</a><br /></td></tr>
+<tr class="separator:ac19dd13679f56ca8d14045fc3b2d5759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac08af28f7fd2de1184c617f3b27200a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_profile.html">Profile</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac08af28f7fd2de1184c617f3b27200a6">GetProfileForName</a> (QString name)</td></tr>
+<tr class="memdesc:ac08af28f7fd2de1184c617f3b27200a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetProfileForName.  <a href="#ac08af28f7fd2de1184c617f3b27200a6">More...</a><br /></td></tr>
+<tr class="separator:ac08af28f7fd2de1184c617f3b27200a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -211,6 +222,63 @@ Static Private Attributes</h2></td></tr>
 <p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a">GetInstance()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_acf5975c59e37b85a1eaf835d1ad2279a_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_acf5975c59e37b85a1eaf835d1ad2279a_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_acf5975c59e37b85a1eaf835d1ad2279a_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_acf5975c59e37b85a1eaf835d1ad2279a_icgraph">
+<area shape="rect"  title=" " alt="" coords="3068,385,3244,426"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="2865,385,3020,426"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="2369,31,2565,57"/>
+<area shape="rect"  href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139" title="RefreshProfiles." alt="" coords="2615,5,2815,32"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35" title="GetProfileForExe." alt="" coords="2613,158,2817,199"/>
+<area shape="rect"  href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="2373,165,2562,192"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,727,213,769"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="853,798,1056,839"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1867,723,2069,765"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ae57d92cf1ed28c3c0e7f0616ede0276d" title="GenerateSaveFile." alt="" coords="1867,658,2069,699"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="548,1437,805,1464"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a" title="holdPTT" alt="" coords="2136,326,2303,367"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="856,493,1053,520"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="589,595,764,637"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216" title="unHoldPTT" alt="" coords="2632,862,2799,903"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31" title="This function adds all the entries of the QMenuBar.(Reimplementation of the QMainWindow close event)." alt="" coords="853,1489,1056,1516"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="585,1539,769,1565"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="2117,158,2321,199"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="261,1008,500,1035"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="580,1117,773,1144"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="553,913,801,940"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="579,863,775,889"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="278,1412,483,1439"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#aae328ff1fc0d7d386b35e0144ea120cd" title=" " alt="" coords="1616,630,1819,671"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a8e1193d47f9243748ebfc03ac9d1c34e" title="CheckIfNeedsSaving Checks if the soundboard needs saving. IE is the previous stored snapshot equal to..." alt="" coords="1104,747,1317,789"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a2502890ca5b809cd982266da5df37156" title="SaveState Saves the soundboard in the _snapshot variable." alt="" coords="575,727,778,769"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#add9149f8827c18b359c4a42ec2327ac0" title="SaveAs." alt="" coords="1616,1001,1819,1042"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a5716e1b0645fbf32c05277224dce4d94" title="Save." alt="" coords="1365,849,1568,890"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b" title="This function Opens a Save As prompt, and save the active soundboard as a .lidljson file." alt="" coords="863,1439,1046,1465"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7" title="Function save the active lidljson file. If no file is already set, it will open the Save As prompt." alt="" coords="871,1279,1038,1305"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="282,545,479,586"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="563,439,790,465"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="580,1270,773,1311"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="285,427,477,469"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2d9f179f9e5531fedd6684b1fccadd84" title=" " alt="" coords="2373,981,2561,1022"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a8763d5d492f74373f8d6dd3d74d8700c" title="Function to deal with Shortcut being pressed." alt="" coords="1879,1861,2057,1902"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aed98ae192e70efc2fdbc1f18d76060dd" title=" " alt="" coords="2136,1205,2303,1246"/>
+<area shape="rect"  href="class_custom_list_widget.html#aa2d1a3399772ca53ab9d8c324b3c0b40" title="dragEnterEvent To deal with drag and drop events." alt="" coords="1871,942,2065,983"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a9f0a06aac0d756ab759ae10245369dd6" title=" " alt="" coords="1365,1329,1568,1370"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3152f03f43dd9f953d4d5a1a15e1e5bc" title="This function deals with editing the data that will be displayed according to user settings...." alt="" coords="1107,1657,1314,1684"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737" title="Function to generate the .lidljson save file." alt="" coords="1872,1110,2064,1151"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a49c98f352202de182de1bedceeb1c1d7" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="1871,1175,2065,1217"/>
+<area shape="rect"  href="class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="1648,1443,1787,1485"/>
+<area shape="rect"  href="class_wrapper_properties.html#a81b4d7a15c2057f18a1636321cd38924" title="Reimplemented to send a closed signal to the mainUI, so we can re&#45;enable the widgets." alt="" coords="1899,1293,2037,1334"/>
+<area shape="rect"  href="class_wrapper_properties.html#a9da30dd46e0fac1d24319c21adedcedf" title="AddSound method." alt="" coords="1899,1475,2037,1517"/>
+<area shape="rect"  href="class_wrapper_properties.html#a3e9677fb35cb3976473178de913b9c46" title="AddSoundFromDrop." alt="" coords="1899,1541,2037,1582"/>
+<area shape="rect"  href="class_wrapper_properties.html#a49d6b0569f6776e0b77cb54c08fc112e" title="AddSoundFromUrl method." alt="" coords="1899,1410,2037,1451"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a93b5ad8a346a2adda7f2fc95dcc4bedb" title=" " alt="" coords="1109,1211,1312,1253"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae44157f1e47760d4c504d3f312651ed5" title="This function clears the soundboard, as if it was just opened without any file." alt="" coords="863,1591,1047,1633"/>
+<area shape="rect"  href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="1441,1872,1492,1899"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -249,16 +317,45 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>, <a class="el" href="namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aa6c302b901f1c416def0c9dc8b881af74">LIDL::COPY</a>, <a class="el" href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a">Profile::GetConfigAsString()</a>, <a class="el" href="namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aa95e2f8d897352c9d1c5d4df6b7feb824">LIDL::MIRROR</a>, <a class="el" href="namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aac3904d1648151f4b082e7e65e8948754">LIDL::NO_COPY</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab2af05da2940bb6d4c355d69db497a3f">ProfileConfigurationChanged()</a>.</p>
+<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>, <a class="el" href="class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec">Profile::AddSound()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange()</a>, <a class="el" href="namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aa6c302b901f1c416def0c9dc8b881af74">LIDL::COPY</a>, <a class="el" href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a">Profile::GetConfigAsString()</a>, <a class="el" href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5">Profile::GetName()</a>, <a class="el" href="class_profile.html#a01ac144d81e64c073ad2c54db6712950">Profile::GetPttKeySequence()</a>, <a class="el" href="class_profile.html#ac4ff547c54850ff3b4e14f36afc7fcc1">Profile::GetPttScanCode()</a>, <a class="el" href="class_profile.html#af9f6c1bc8d9310c0559687a35dadd623">Profile::GetPttVirtualKey()</a>, <a class="el" href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab">Profile::GetSounds()</a>, <a class="el" href="namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aa95e2f8d897352c9d1c5d4df6b7feb824">LIDL::MIRROR</a>, <a class="el" href="namespace_l_i_d_l.html#a82592719be6d4af621c0fcaa8b8ed77aac3904d1648151f4b082e7e65e8948754">LIDL::NO_COPY</a>, <a class="el" href="class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6">Profile::SetPttKeySequence()</a>, <a class="el" href="class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1">Profile::SetPttScanCode()</a>, and <a class="el" href="class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5">Profile::SetPttVirtualKey()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86">SoundboardMainUI::ClearAll()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89">LIDL::Controller::SaveController::OpenSaveFile()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03">LIDL::Controller::SaveController::ParseOldSave()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_cgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_cgraph" alt=""/></div>
 <map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_cgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_cgraph">
-<area shape="rect"  title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="5,5,160,47"/>
-<area shape="rect"  href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a" title="GetConfig." alt="" coords="208,13,381,39"/>
+<area shape="rect"  title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="5,281,160,322"/>
+<area shape="rect"  href="class_profile.html#af4682f9f8d3ce4b7672f36c1add96aec" title="AddSound." alt="" coords="254,5,381,32"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759" title="AutomaticConfigurationChange." alt="" coords="208,107,427,163"/>
+<area shape="rect"  href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="484,45,605,72"/>
+<area shape="rect"  href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="479,197,610,224"/>
+<area shape="rect"  href="class_profile.html#af1612ed24d5b6d1b8d9e41c70841eb6a" title="GetConfig." alt="" coords="231,237,404,264"/>
+<area shape="rect"  href="class_profile.html#a01ac144d81e64c073ad2c54db6712950" title="SetPttKeySequence." alt="" coords="225,288,410,315"/>
+<area shape="rect"  href="class_profile.html#ac4ff547c54850ff3b4e14f36afc7fcc1" title="GetPttScanCode." alt="" coords="235,339,399,365"/>
+<area shape="rect"  href="class_profile.html#af9f6c1bc8d9310c0559687a35dadd623" title="GetPttVirtualKey." alt="" coords="235,389,399,416"/>
+<area shape="rect"  href="class_profile.html#a4bb4bb4575c9fdb30c864f0500df03c6" title="SetPttKeySequence." alt="" coords="225,440,409,467"/>
+<area shape="rect"  href="class_profile.html#a24c790eba28568250d8ed78c4ca7bbe1" title="SetPttScanCode." alt="" coords="236,491,399,517"/>
+<area shape="rect"  href="class_profile.html#a8df517ec5f95c11f0bf966beb0688ac5" title="SetPttVirtualKey." alt="" coords="236,541,399,568"/>
+<area shape="rect"  href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="482,96,607,123"/>
+<area shape="rect"  href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="475,147,615,173"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a781d2161f9f05ef9dbc12bef3028989d_icgraph">
+<area shape="rect"  title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="1303,57,1457,98"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="563,5,747,32"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="801,107,1004,149"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1052,57,1255,98"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,56,505,83"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,74,213,115"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,107,488,133"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="559,107,752,133"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,157,509,184"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="557,208,753,235"/>
 </map>
 </div>
 
@@ -287,7 +384,108 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">ManualGameConfigurationChanged()</a>, and <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+<p>AddSoundsToMainUI Triggers the main UI logic that will add the sound to both the active profile and the UI. So that ref count isn't fucked up. </p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">ManualGameConfigurationChanged()</a>, and <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_acef217e0868c4f54db4ddab99665bcd9_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_acef217e0868c4f54db4ddab99665bcd9_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_acef217e0868c4f54db4ddab99665bcd9_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_acef217e0868c4f54db4ddab99665bcd9_icgraph">
+<area shape="rect"  title="AddSoundsToMainUI Triggers the main UI logic that will add the sound to both the active profile and t..." alt="" coords="1888,69,2095,110"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759" title="AutomaticConfigurationChange." alt="" coords="1612,223,1831,279"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,162,213,203"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f" title="AutoGameConfigurationChange." alt="" coords="1603,61,1840,117"/>
+<area shape="rect"  href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="1362,347,1551,373"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d" title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="1379,165,1534,206"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="802,230,1005,271"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0" title="DeleteProfile." alt="" coords="1360,230,1553,271"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="801,339,1005,381"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="563,144,747,171"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1081,230,1283,271"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,195,505,221"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,93,488,120"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="559,93,752,120"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,271,509,297"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="557,245,753,272"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="1359,93,1555,120"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="1053,43,1311,69"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac19dd13679f56ca8d14045fc3b2d5759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac19dd13679f56ca8d14045fc3b2d5759">&#9670;&nbsp;</a></span>AutomaticConfigurationChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> LIDL::Controller::ProfileController::AutomaticConfigurationChange </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forceChange</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>AutomaticConfigurationChange. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td></td></tr>
+    <tr><td class="paramname">forceChange</td><td>(Default false) Will force the profile to change even if it's already loaded Call this when you need to change profile and then update the combo box :) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acef217e0868c4f54db4ddab99665bcd9">AddSoundsToMainUI()</a>, <a class="el" href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22">Profile::ClearSounds()</a>, <a class="el" href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5">Profile::GetName()</a>, <a class="el" href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9">Profile::GetParent()</a>, <a class="el" href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab">Profile::GetSounds()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a1a444115f3b34149588135dc73df8589">RefreshComboBox()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d">AddProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0">DeleteActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89">LIDL::Controller::SaveController::OpenSaveFile()</a>, and <a class="el" href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17">LIDL::Callback::ShowOverlay()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_cgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_cgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_cgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_cgraph">
+<area shape="rect"  title="AutomaticConfigurationChange." alt="" coords="5,67,224,123"/>
+<area shape="rect"  href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="272,5,412,32"/>
+<area shape="rect"  href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="281,56,403,83"/>
+<area shape="rect"  href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="279,107,405,133"/>
+<area shape="rect"  href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="277,157,407,184"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_ac19dd13679f56ca8d14045fc3b2d5759_icgraph">
+<area shape="rect"  title="AutomaticConfigurationChange." alt="" coords="1545,204,1764,260"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d" title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="1323,102,1478,143"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="802,135,1005,177"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0" title="DeleteProfile." alt="" coords="1304,295,1497,337"/>
+<area shape="rect"  href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="1060,252,1249,279"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="563,5,747,32"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1053,77,1256,118"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,107,505,133"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,150,213,191"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,157,488,184"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="559,157,752,184"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,208,509,235"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="557,56,753,83"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="801,249,1005,290"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -314,14 +512,18 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>, and <a class="el" href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5">Profile::GetName()</a>.</p>
+<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange()</a>, and <a class="el" href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5">Profile::GetName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_ad8db708dd85cf10a6097c489c71ff1d0_cgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_ad8db708dd85cf10a6097c489c71ff1d0_cgraph" alt=""/></div>
 <map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_ad8db708dd85cf10a6097c489c71ff1d0_cgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_ad8db708dd85cf10a6097c489c71ff1d0_cgraph">
-<area shape="rect"  title="DeleteProfile." alt="" coords="5,5,199,47"/>
-<area shape="rect"  href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="247,13,368,39"/>
+<area shape="rect"  title="DeleteProfile." alt="" coords="5,31,199,73"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759" title="AutomaticConfigurationChange." alt="" coords="247,56,465,112"/>
+<area shape="rect"  href="class_profile.html#a5ec9e3bd59e0b5f5d78e9aaaca2f65b5" title="GetName." alt="" coords="523,5,644,32"/>
+<area shape="rect"  href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22" title="ClearSounds Remove every sound from the array." alt="" coords="513,56,653,83"/>
+<area shape="rect"  href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9" title="GetParent." alt="" coords="521,107,646,133"/>
+<area shape="rect"  href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="518,157,649,184"/>
 </map>
 </div>
 
@@ -347,7 +549,28 @@ Here is the call graph for this function:</div>
 
 <p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>, <a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">GameSelector::RefreshProfiles()</a>, and <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a">LIDL::Controller::SettingsController::holdPTT()</a>, <a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">GameSelector::RefreshProfiles()</a>, and <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_aa067e0aca8d809a27978b6d4606c8595_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_aa067e0aca8d809a27978b6d4606c8595_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_aa067e0aca8d809a27978b6d4606c8595_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_aa067e0aca8d809a27978b6d4606c8595_icgraph">
+<area shape="rect"  title="GetActiveProfile." alt="" coords="1313,334,1491,375"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="820,216,1017,243"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,215,213,257"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a" title="holdPTT" alt="" coords="1082,299,1249,341"/>
+<area shape="rect"  href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139" title="RefreshProfiles." alt="" coords="1065,427,1265,453"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="545,5,741,32"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="265,41,463,82"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="515,157,772,184"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="277,245,451,286"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="530,325,757,352"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="547,209,740,250"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="261,193,467,220"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="268,310,460,351"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="821,427,1017,453"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -376,7 +599,7 @@ Here is the call graph for this function:</div>
 
 <p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a">ProfileController()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a0ed1db7f6ffa5b0f251232da25711a2e">SoundboardMainUI::addSeveralSounds()</a>, <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>, <a class="el" href="class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31">SoundboardMainUI::closeEvent()</a>, <a class="el" href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600">GameSelector::GameSelector()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35">LIDL::Controller::HookController::GetProfileForExe()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a">LIDL::Controller::SettingsController::holdPTT()</a>, <a class="el" href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b">SoundboardMainUI::OpenEXPSounboard()</a>, <a class="el" href="class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be">SoundboardMainUI::ProfileSwitched()</a>, <a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">GameSelector::RefreshProfiles()</a>, <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216">LIDL::Controller::SettingsController::unHoldPTT()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a89cfbbda29312c0d267467d89251575c">LIDL::Controller::SaveController::WriteSaveFile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f">SoundboardMainUI::addSound()</a>, <a class="el" href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86">SoundboardMainUI::ClearAll()</a>, <a class="el" href="class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31">SoundboardMainUI::closeEvent()</a>, <a class="el" href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600">GameSelector::GameSelector()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ae57d92cf1ed28c3c0e7f0616ede0276d">LIDL::Controller::SaveController::GenerateSaveFile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35">LIDL::Controller::HookController::GetProfileForExe()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a">LIDL::Controller::SettingsController::holdPTT()</a>, <a class="el" href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b">SoundboardMainUI::OpenEXPSounboard()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89">LIDL::Controller::SaveController::OpenSaveFile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03">LIDL::Controller::SaveController::ParseOldSave()</a>, <a class="el" href="class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be">SoundboardMainUI::ProfileSwitched()</a>, <a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">GameSelector::RefreshProfiles()</a>, <a class="el" href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17">LIDL::Callback::ShowOverlay()</a>, <a class="el" href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6">SoundboardMainUI::SoundboardMainUI()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216">LIDL::Controller::SettingsController::unHoldPTT()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -384,6 +607,63 @@ Here is the call graph for this function:</div>
 <map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a81e67e1fa68657fc706a2d64305bfb4a_cgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a81e67e1fa68657fc706a2d64305bfb4a_cgraph">
 <area shape="rect"  title=" " alt="" coords="5,5,160,47"/>
 <area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="208,5,384,47"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_a81e67e1fa68657fc706a2d64305bfb4a_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_a81e67e1fa68657fc706a2d64305bfb4a_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a81e67e1fa68657fc706a2d64305bfb4a_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a81e67e1fa68657fc706a2d64305bfb4a_icgraph">
+<area shape="rect"  title=" " alt="" coords="2865,556,3020,597"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a34073695e0ed5f5b59d9631ec2aad51f" title="This function add a soundwrapper to the main UI display, and adds/modify the entries in the private m..." alt="" coords="856,1750,1053,1776"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,758,213,800"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="548,1222,805,1248"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="589,1700,764,1741"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="585,715,769,742"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31" title="This function adds all the entries of the QMenuBar.(Reimplementation of the QMainWindow close event)." alt="" coords="853,614,1056,640"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="2369,487,2565,514"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ae57d92cf1ed28c3c0e7f0616ede0276d" title="GenerateSaveFile." alt="" coords="1867,438,2069,480"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="853,497,1056,538"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35" title="GetProfileForExe." alt="" coords="2613,154,2817,196"/>
+<area shape="rect"  href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="2373,103,2562,130"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a4856c3926df501ad0ccceb3140559b8a" title="holdPTT" alt="" coords="2136,1836,2303,1877"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1867,548,2069,589"/>
+<area shape="rect"  href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139" title="RefreshProfiles." alt="" coords="2615,462,2815,488"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a3165d8ab732919bc3d8c5511470e6216" title="unHoldPTT" alt="" coords="2632,844,2799,885"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="579,924,775,951"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1" title="This function opens the Sound Entry Editor to open the selected sound. It is used by both the EDIT bu..." alt="" coords="282,1816,479,1857"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a2f34e6597fafdcff3ae67b8edba6f20a" title="This function swaps two soundwrappers in the view." alt="" coords="563,1766,790,1792"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#acc3c6265faa909b6b0444320937e1dcb" title="This function will clear all the shortcuts in the soundboard." alt="" coords="580,1532,773,1573"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="278,1024,483,1051"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a2074cfb345e37f1c96500adca4620f57" title="This function deals with drag and drop in the view, or at least, attempts to." alt="" coords="285,1750,477,1792"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="261,664,500,691"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#aae328ff1fc0d7d386b35e0144ea120cd" title=" " alt="" coords="1616,380,1819,421"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a8e1193d47f9243748ebfc03ac9d1c34e" title="CheckIfNeedsSaving Checks if the soundboard needs saving. IE is the previous stored snapshot equal to..." alt="" coords="1104,489,1317,530"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a2502890ca5b809cd982266da5df37156" title="SaveState Saves the soundboard in the _snapshot variable." alt="" coords="575,216,778,257"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#add9149f8827c18b359c4a42ec2327ac0" title="SaveAs." alt="" coords="1616,598,1819,640"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="580,816,773,843"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="553,534,801,560"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a5716e1b0645fbf32c05277224dce4d94" title="Save." alt="" coords="1365,598,1568,640"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a7d4c7c89d3c1bab83dac1a04c3e8f55b" title="This function Opens a Save As prompt, and save the active soundboard as a .lidljson file." alt="" coords="863,1070,1046,1096"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ab4bc2d193fb6d0d2e068bde3104d81b7" title="Function save the active lidljson file. If no file is already set, it will open the Save As prompt." alt="" coords="871,968,1038,995"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="2117,82,2321,124"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#a2d9f179f9e5531fedd6684b1fccadd84" title=" " alt="" coords="2373,922,2561,964"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a8763d5d492f74373f8d6dd3d74d8700c" title="Function to deal with Shortcut being pressed." alt="" coords="1879,1684,2057,1725"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_settings_controller.html#aed98ae192e70efc2fdbc1f18d76060dd" title=" " alt="" coords="2136,1053,2303,1094"/>
+<area shape="rect"  href="class_custom_list_widget.html#aa2d1a3399772ca53ab9d8c324b3c0b40" title="dragEnterEvent To deal with drag and drop events." alt="" coords="1871,969,2065,1010"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a9f0a06aac0d756ab759ae10245369dd6" title=" " alt="" coords="1365,918,1568,960"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3152f03f43dd9f953d4d5a1a15e1e5bc" title="This function deals with editing the data that will be displayed according to user settings...." alt="" coords="1107,1514,1314,1540"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737" title="Function to generate the .lidljson save file." alt="" coords="1872,1137,2064,1178"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a49c98f352202de182de1bedceeb1c1d7" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="1871,1202,2065,1244"/>
+<area shape="rect"  href="class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="1648,1417,1787,1458"/>
+<area shape="rect"  href="class_wrapper_properties.html#a81b4d7a15c2057f18a1636321cd38924" title="Reimplemented to send a closed signal to the mainUI, so we can re&#45;enable the widgets." alt="" coords="1899,1268,2037,1309"/>
+<area shape="rect"  href="class_wrapper_properties.html#a9da30dd46e0fac1d24319c21adedcedf" title="AddSound method." alt="" coords="1899,1450,2037,1492"/>
+<area shape="rect"  href="class_wrapper_properties.html#a3e9677fb35cb3976473178de913b9c46" title="AddSoundFromDrop." alt="" coords="1899,1516,2037,1557"/>
+<area shape="rect"  href="class_wrapper_properties.html#a49d6b0569f6776e0b77cb54c08fc112e" title="AddSoundFromUrl method." alt="" coords="1899,1385,2037,1426"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#a93b5ad8a346a2adda7f2fc95dcc4bedb" title=" " alt="" coords="1109,868,1312,909"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae44157f1e47760d4c504d3f312651ed5" title="This function clears the soundboard, as if it was just opened without any file." alt="" coords="863,1357,1047,1398"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a4cd1a4f6794ae0b0c389bb57984bc2b8" title="This function is called whenever the window is resized, and just resizerowstocontent()...." alt="" coords="867,1422,1042,1464"/>
+<area shape="rect"  href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title=" " alt="" coords="1441,1675,1492,1702"/>
 </map>
 </div>
 
@@ -417,6 +697,47 @@ Here is the call graph for this function:</div>
 <p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35">LIDL::Controller::HookController::GetProfileForExe()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_afae55bb07068f30e99c87f17b207bcd1_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_afae55bb07068f30e99c87f17b207bcd1_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_afae55bb07068f30e99c87f17b207bcd1_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_afae55bb07068f30e99c87f17b207bcd1_icgraph">
+<area shape="rect"  title="GetForExe." alt="" coords="1003,5,1187,47"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a22ccc5a7d1644ad7e966b04faed3ee35" title="GetProfileForExe." alt="" coords="751,5,955,47"/>
+<area shape="rect"  href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="513,13,703,39"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="261,5,465,47"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,5,213,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac08af28f7fd2de1184c617f3b27200a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac08af28f7fd2de1184c617f3b27200a6">&#9670;&nbsp;</a></span>GetProfileForName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_profile.html">Profile</a> * LIDL::Controller::ProfileController::GetProfileForName </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GetProfileForName. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>.</p>
 
 </div>
 </div>
@@ -441,6 +762,16 @@ Here is the call graph for this function:</div>
 <p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139">GameSelector::RefreshProfiles()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_a9aed7c3c626becffdf0241c7875587ff_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_a9aed7c3c626becffdf0241c7875587ff_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a9aed7c3c626becffdf0241c7875587ff_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a9aed7c3c626becffdf0241c7875587ff_icgraph">
+<area shape="rect"  title="GetProfiles." alt="" coords="497,5,652,47"/>
+<area shape="rect"  href="class_game_selector.html#a21641a84899124b6d56c0e5d224cc139" title="RefreshProfiles." alt="" coords="249,13,449,39"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="5,13,201,39"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -476,7 +807,7 @@ Here is the call graph for this function:</div>
 
 <p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acef217e0868c4f54db4ddab99665bcd9">AddSoundsToMainUI()</a>, <a class="el" href="class_profile.html#acb38cdc09c8fa4e968b4306f78fa1f22">Profile::ClearSounds()</a>, <a class="el" href="class_profile.html#a9f2bbe00e09f1aec8cc9b88ae1d2ecf9">Profile::GetParent()</a>, and <a class="el" href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab">Profile::GetSounds()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a0ed1db7f6ffa5b0f251232da25711a2e">SoundboardMainUI::addSeveralSounds()</a>, <a class="el" href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600">GameSelector::GameSelector()</a>, and <a class="el" href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b">SoundboardMainUI::OpenEXPSounboard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600">GameSelector::GameSelector()</a>, and <a class="el" href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b">SoundboardMainUI::OpenEXPSounboard()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -488,11 +819,23 @@ Here is the call graph for this function:</div>
 <area shape="rect"  href="class_profile.html#adbde9472f7d2c85aaa06acec8dd02cab" title="GetSounds." alt="" coords="295,107,426,133"/>
 </map>
 </div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_ab8fcf7aefb1021c1f527f0a22c65017f_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_ab8fcf7aefb1021c1f527f0a22c65017f_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_ab8fcf7aefb1021c1f527f0a22c65017f_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_ab8fcf7aefb1021c1f527f0a22c65017f_icgraph">
+<area shape="rect"  title="AutoGameConfigurationChange." alt="" coords="820,16,1057,72"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="545,5,741,32"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af9213ab595233998fcfe78cb2b5d0c0b" title="This function allows the opening of .json files written by EXP Soundboard." alt="" coords="515,56,772,83"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="261,56,467,83"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,49,213,90"/>
+</map>
+</div>
 
 </div>
 </div>
-<a id="ab2af05da2940bb6d4c355d69db497a3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2af05da2940bb6d4c355d69db497a3f">&#9670;&nbsp;</a></span>ProfileConfigurationChanged</h2>
+<a id="a1a444115f3b34149588135dc73df8589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a444115f3b34149588135dc73df8589">&#9670;&nbsp;</a></span>RefreshComboBox</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -501,7 +844,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> LIDL::Controller::ProfileController::ProfileConfigurationChanged </td>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> LIDL::Controller::ProfileController::RefreshComboBox </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -514,7 +857,68 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d">AddProfile()</a>, and <a class="el" href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600">GameSelector::GameSelector()</a>.</p>
+<p>RefreshComboBox Signal sent by AutomaticConfigurationChange to notify the combobox it needs to update itself. </p>
+
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange()</a>, and <a class="el" href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600">GameSelector::GameSelector()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_a1a444115f3b34149588135dc73df8589_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_a1a444115f3b34149588135dc73df8589_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a1a444115f3b34149588135dc73df8589_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a1a444115f3b34149588135dc73df8589_icgraph">
+<area shape="rect"  title="RefreshComboBox Signal sent by AutomaticConfigurationChange to notify the combobox it needs to update..." alt="" coords="1812,245,2005,286"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759" title="AutomaticConfigurationChange." alt="" coords="1545,204,1764,260"/>
+<area shape="rect"  href="class_game_selector.html#a56dba23d2eb7eab27a6ed5e01a68e600" title=" " alt="" coords="1557,284,1753,311"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d" title="AddProfile Add a profile to the profiles array. Copy mode is either nothing, copy sounds from another..." alt="" coords="1323,102,1478,143"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ac9eff77747dc8fc158b75d26e68e0e89" title="OpenSaveFile." alt="" coords="802,135,1005,177"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0" title="DeleteProfile." alt="" coords="1304,295,1497,337"/>
+<area shape="rect"  href="namespace_l_i_d_l_1_1_callback.html#a4aaac5dc5ac631ba1896717c82b76b17" title="ShowOverlay." alt="" coords="1060,252,1249,279"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="563,5,747,32"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_save_controller.html#ad9968c8b29f1fc4a811a622b5188bf03" title=" " alt="" coords="1053,77,1256,118"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="266,107,505,133"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,150,213,191"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="283,157,488,184"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a95e0223651a41b85376e4935e1f8064b" title="This function Opens a Open prompt, and opens .lidljson file." alt="" coords="559,157,752,184"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#ae22c3acdc91870e079b9d7e6e51a56af" title="This function sets up the recent menu." alt="" coords="261,208,509,235"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a3598f96cf07f41f9c9692479bf245968" title="This function checks for the MIME type of files being dragged onto the sounboard." alt="" coords="557,56,753,83"/>
+<area shape="rect"  href="class_l_i_d_l_1_1_controller_1_1_hook_controller.html#a351c33ec1a229db57372e475c06b1974" title="SetHooks Sets up the hooks." alt="" coords="801,249,1005,290"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a42f7945d0024225923eb17dfbbd22239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42f7945d0024225923eb17dfbbd22239">&#9670;&nbsp;</a></span>RemoveAllProfiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="bass_8h.html#a723aadbc1884a3bad613aa6680634d08">void</a> LIDL::Controller::ProfileController::RemoveAllProfiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>RemoveAllProfiles Remove all profiles (included default constructed "default" one) </p>
+
+<p class="reference">References <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a2e734c77edcddaca2c3af9e73588eac5">_activeProfile</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a07c72306a8225563befaa315adafe4e1">_profiles</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86">SoundboardMainUI::ClearAll()</a>, and <a class="el" href="class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31">SoundboardMainUI::closeEvent()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_l_i_d_l_1_1_controller_1_1_profile_controller_a42f7945d0024225923eb17dfbbd22239_icgraph.png" border="0" usemap="#class_l_i_d_l_1_1_controller_1_1_profile_controller_a42f7945d0024225923eb17dfbbd22239_icgraph" alt=""/></div>
+<map name="class_l_i_d_l_1_1_controller_1_1_profile_controller_a42f7945d0024225923eb17dfbbd22239_icgraph" id="class_l_i_d_l_1_1_controller_1_1_profile_controller_a42f7945d0024225923eb17dfbbd22239_icgraph">
+<area shape="rect"  title="RemoveAllProfiles Remove all profiles (included default constructed &quot;default&quot; one)" alt="" coords="799,74,988,115"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a936300499169a61986cdf18b0bd85c86" title="ClearAll Clear everything including profiles." alt="" coords="557,56,741,83"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a971c4d50c01eb575c4ea83f5c8522c31" title="This function adds all the entries of the QMenuBar.(Reimplementation of the QMainWindow close event)." alt="" coords="548,107,751,133"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af71c92c732e7720dcff866e69f260fd5" title="PostConstruction is called after the mainUI is done constructing forsenE." alt="" coords="261,5,500,32"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,49,213,90"/>
+<area shape="rect"  href="class_soundboard_main_u_i.html#af587c7c5a8b5b10d1bc5d4156629fd2d" title="This function adds all the entries of the QMenuBar." alt="" coords="278,107,483,133"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -567,7 +971,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d">AddProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0">DeleteActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595">GetActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">ManualGameConfigurationChanged()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a">ProfileController()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0">DeleteActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595">GetActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">ManualGameConfigurationChanged()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a">ProfileController()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a42f7945d0024225923eb17dfbbd22239">RemoveAllProfiles()</a>.</p>
 
 </div>
 </div>
@@ -592,7 +996,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>Array of available profile, not a QVector because it doesnt work kek </p>
 
-<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d">AddProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0">DeleteActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#afae55bb07068f30e99c87f17b207bcd1">GetProfileForExe()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a9aed7c3c626becffdf0241c7875587ff">GetProfiles()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">ManualGameConfigurationChanged()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab9275b992a2a8c9ade6df1aacb9a1716">ReplaceProfiles()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a781d2161f9f05ef9dbc12bef3028989d">AddProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac19dd13679f56ca8d14045fc3b2d5759">AutomaticConfigurationChange()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ad8db708dd85cf10a6097c489c71ff1d0">DeleteActiveProfile()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#afae55bb07068f30e99c87f17b207bcd1">GetProfileForExe()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ac08af28f7fd2de1184c617f3b27200a6">GetProfileForName()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a9aed7c3c626becffdf0241c7875587ff">GetProfiles()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab8fcf7aefb1021c1f527f0a22c65017f">ManualGameConfigurationChanged()</a>, <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a42f7945d0024225923eb17dfbbd22239">RemoveAllProfiles()</a>, and <a class="el" href="class_l_i_d_l_1_1_controller_1_1_profile_controller.html#ab9275b992a2a8c9ade6df1aacb9a1716">ReplaceProfiles()</a>.</p>
 
 </div>
 </div>
@@ -620,7 +1024,7 @@ Here is the call graph for this function:</div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>D:/Qt/Projects/Lidl_Soundboard/include/<a class="el" href="_profile_controller_8h_source.html">ProfileController.h</a></li>
-<li>D:/Qt/Projects/Lidl_Soundboard/<a class="el" href="_profile_controller_8cpp.html">ProfileController.cpp</a></li>
+<li>D:/Qt/Projects/Lidl_Soundboard/source/<a class="el" href="_profile_controller_8cpp.html">ProfileController.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

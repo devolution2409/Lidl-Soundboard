@@ -1,5 +1,8 @@
 <map id="LIDL::Controller::SettingsController::holdPTT" name="LIDL::Controller::SettingsController::holdPTT">
-<area shape="rect" id="node1" title="holdPTT" alt="" coords="5,5,172,47"/>
-<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="220,5,375,47"/>
-<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="423,5,599,47"/>
+<area shape="rect" id="node1" title="holdPTT" alt="" coords="5,100,172,141"/>
+<area shape="rect" id="node2" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#aa067e0aca8d809a27978b6d4606c8595" title="GetActiveProfile." alt="" coords="220,5,397,47"/>
+<area shape="rect" id="node3" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#a81e67e1fa68657fc706a2d64305bfb4a" title=" " alt="" coords="231,71,386,112"/>
+<area shape="rect" id="node5" href="$class_profile.html#ac4ff547c54850ff3b4e14f36afc7fcc1" title="GetPttScanCode." alt="" coords="227,137,391,163"/>
+<area shape="rect" id="node6" href="$class_profile.html#af9f6c1bc8d9310c0559687a35dadd623" title="GetPttVirtualKey." alt="" coords="227,187,391,214"/>
+<area shape="rect" id="node4" href="$class_l_i_d_l_1_1_controller_1_1_profile_controller.html#acf5975c59e37b85a1eaf835d1ad2279a" title=" " alt="" coords="445,71,621,112"/>
 </map>

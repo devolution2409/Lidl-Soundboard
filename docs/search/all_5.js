@@ -56,7 +56,7 @@ var searchData=
   ['eax_5fpreset_5funderwater',['EAX_PRESET_UNDERWATER',['../bass_8h.html#a16e0774dc96cf5f9183ba6789731e218',1,'bass.h']]],
   ['echo',['echo',['../struct_l_i_d_l_1_1_s_f_x.html#afad717d7dc8fb5fec99bf295c11749b0',1,'LIDL::SFX::echo()'],['../namespace_l_i_d_l.html#aa96fd8d8599ffe548724f04d8ebc418fac5e82799fe1e1b9824b302735b6098ed',1,'LIDL::ECHO()']]],
   ['editsounddialog',['editSoundDialog',['../class_soundboard_main_u_i.html#ad268760f2ba346372ceed91d20638bf1',1,'SoundboardMainUI']]],
-  ['enable',['enable',['../structenable__bitmask__operators.html#ab1db4fea27fd43e3d3f7a48e69c25f22',1,'enable_bitmask_operators::enable()'],['../structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4.html#a210d6c62e14e4b32a0edee1abdaeb3b1',1,'enable_bitmask_operators&lt; LIDL::SFX_TYPE &gt;::enable()'],['../structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4.html#a39b14a52498a8e2415173f201fba1d9d',1,'enable_bitmask_operators&lt; LIDL::SHOW_SETTINGS &gt;::enable()']]],
+  ['enable',['enable',['../structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4.html#a210d6c62e14e4b32a0edee1abdaeb3b1',1,'enable_bitmask_operators&lt; LIDL::SFX_TYPE &gt;::enable()'],['../structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4.html#a39b14a52498a8e2415173f201fba1d9d',1,'enable_bitmask_operators&lt; LIDL::SHOW_SETTINGS &gt;::enable()'],['../structenable__bitmask__operators.html#ab1db4fea27fd43e3d3f7a48e69c25f22',1,'enable_bitmask_operators::enable()']]],
   ['enable_5fbitmask_5foperators',['enable_bitmask_operators',['../structenable__bitmask__operators.html',1,'']]],
   ['enable_5fbitmask_5foperators_3c_20lidl_3a_3asfx_5ftype_20_3e',['enable_bitmask_operators&lt; LIDL::SFX_TYPE &gt;',['../structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_f_x___t_y_p_e_01_4.html',1,'']]],
   ['enable_5fbitmask_5foperators_3c_20lidl_3a_3ashow_5fsettings_20_3e',['enable_bitmask_operators&lt; LIDL::SHOW_SETTINGS &gt;',['../structenable__bitmask__operators_3_01_l_i_d_l_1_1_s_h_o_w___s_e_t_t_i_n_g_s_01_4.html',1,'']]],
@@ -65,7 +65,6 @@ var searchData=
   ['endtime',['EndTime',['../struct_t_a_g___c_a_r_t.html#ab333ddc91a738a2e0eab9b8cfd05038f',1,'TAG_CART']]],
   ['enumsandstructs_2eh',['EnumsAndStructs.h',['../_enums_and_structs_8h.html',1,'']]],
   ['errorplaying',['ErrorPlaying',['../class_custom_player.html#aa45cd53b23b14565a470c236cf603a91',1,'CustomPlayer::ErrorPlaying()'],['../class_sound_wrapper.html#a67248253506b0cdaf854b63bda59646d',1,'SoundWrapper::ErrorPlaying()']]],
-  ['eventfilter',['eventFilter',['../class_mouse_button_signaler.html#a52f7cc8dd2bec7c17cc97bd49700741f',1,'MouseButtonSignaler']]],
   ['exists',['exists',['../class_l_i_d_l_1_1_sound_file.html#abe32b789521f11deed38b088e19367cf',1,'LIDL::SoundFile']]],
   ['exts',['exts',['../struct_b_a_s_s___p_l_u_g_i_n_f_o_r_m.html#a9aee80c1e2aa288d9e82ce5886c6a022',1,'BASS_PLUGINFORM']]]
 ];

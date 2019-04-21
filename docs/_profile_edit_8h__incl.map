@@ -1,52 +1,52 @@
 <map id="D:/Qt/Projects/Lidl_Soundboard/include/ProfileEdit.h" name="D:/Qt/Projects/Lidl_Soundboard/include/ProfileEdit.h">
-<area shape="rect" id="node1" title=" " alt="" coords="2661,5,2804,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="488,333,558,360"/>
-<area shape="rect" id="node3" title=" " alt="" coords="2904,109,2972,136"/>
-<area shape="rect" id="node4" title=" " alt="" coords="2620,333,2693,360"/>
-<area shape="rect" id="node5" title=" " alt="" coords="2996,109,3106,136"/>
-<area shape="rect" id="node6" title=" " alt="" coords="2628,184,2717,211"/>
-<area shape="rect" id="node7" title=" " alt="" coords="3130,109,3230,136"/>
-<area shape="rect" id="node8" href="$_profile_8h.html" title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="176,259,246,285"/>
-<area shape="rect" id="node15" href="$_settings_controller_8h.html" title=" " alt="" coords="1736,109,1872,136"/>
-<area shape="rect" id="node48" title=" " alt="" coords="2741,184,2849,211"/>
-<area shape="rect" id="node50" href="$_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile." alt="" coords="121,184,245,211"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1135,333,1202,360"/>
-<area shape="rect" id="node10" title=" " alt="" coords="393,333,464,360"/>
-<area shape="rect" id="node11" title=" " alt="" coords="196,333,248,360"/>
-<area shape="rect" id="node12" title=" " alt="" coords="634,333,748,360"/>
-<area shape="rect" id="node13" title=" " alt="" coords="102,333,171,360"/>
-<area shape="rect" id="node14" title=" " alt="" coords="272,333,369,360"/>
-<area shape="rect" id="node16" title=" " alt="" coords="1327,184,1426,211"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1516,408,1586,435"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1450,184,1569,211"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1594,184,1684,211"/>
-<area shape="rect" id="node20" title=" " alt="" coords="1709,184,1801,211"/>
-<area shape="rect" id="node21" title=" " alt="" coords="658,408,711,435"/>
-<area shape="rect" id="node22" title=" " alt="" coords="1812,408,1885,435"/>
-<area shape="rect" id="node23" title=" " alt="" coords="1825,184,1882,211"/>
-<area shape="rect" id="node24" title=" " alt="" coords="1907,184,1982,211"/>
-<area shape="rect" id="node25" title=" " alt="" coords="2006,184,2070,211"/>
-<area shape="rect" id="node26" title=" " alt="" coords="2094,184,2163,211"/>
-<area shape="rect" id="node27" href="$soundwrapper_8h.html" title=" " alt="" coords="1037,184,1150,211"/>
-<area shape="rect" id="node35" title=" " alt="" coords="1226,333,1290,360"/>
-<area shape="rect" id="node36" href="$_enums_and_structs_8h.html" title=" " alt="" coords="1354,408,1492,435"/>
-<area shape="rect" id="node42" href="$_custom_shortcut_edit_8h.html" title="Code of the mainUI." alt="" coords="2325,259,2476,285"/>
-<area shape="rect" id="node47" title=" " alt="" coords="2187,184,2270,211"/>
-<area shape="rect" id="node49" title=" " alt="" coords="2294,184,2350,211"/>
-<area shape="rect" id="node28" title=" " alt="" coords="676,259,757,285"/>
-<area shape="rect" id="node29" title=" " alt="" coords="1712,333,1806,360"/>
-<area shape="rect" id="node30" title=" " alt="" coords="1314,333,1433,360"/>
-<area shape="rect" id="node31" title=" " alt="" coords="782,259,835,285"/>
-<area shape="rect" id="node32" title=" " alt="" coords="859,259,968,285"/>
-<area shape="rect" id="node33" href="$_custom_player_8h.html" title="File describing the CustomPlayer class." alt="" coords="1043,259,1158,285"/>
-<area shape="rect" id="node39" href="$_custom_sound_file_8h.html" title=" " alt="" coords="924,333,1060,360"/>
-<area shape="rect" id="node40" href="$_custom_list_widget_8h.html" title="File describing the CustomListWidget class." alt="" coords="1932,259,2072,285"/>
-<area shape="rect" id="node41" href="$_custom_list_widget_item_8h.html" title="File describing the CustomListWidgetItem class." alt="" coords="1439,259,1604,285"/>
-<area shape="rect" id="node34" href="$bass_8h.html" title=" " alt="" coords="1184,483,1262,509"/>
-<area shape="rect" id="node37" title=" " alt="" coords="1392,483,1454,509"/>
-<area shape="rect" id="node38" title=" " alt="" coords="1530,483,1612,509"/>
-<area shape="rect" id="node43" title=" " alt="" coords="2459,333,2595,360"/>
-<area shape="rect" id="node44" title=" " alt="" coords="2158,333,2245,360"/>
-<area shape="rect" id="node45" title=" " alt="" coords="2270,333,2342,360"/>
-<area shape="rect" id="node46" title=" " alt="" coords="2366,333,2435,360"/>
+<area shape="rect" id="node1" title=" " alt="" coords="2478,5,2621,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="50,333,121,360"/>
+<area shape="rect" id="node3" title=" " alt="" coords="2721,109,2789,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="2594,333,2668,360"/>
+<area shape="rect" id="node5" title=" " alt="" coords="2814,109,2923,136"/>
+<area shape="rect" id="node6" title=" " alt="" coords="2445,184,2534,211"/>
+<area shape="rect" id="node7" title=" " alt="" coords="2948,109,3048,136"/>
+<area shape="rect" id="node8" href="$_profile_8h.html" title="Class describe a profile, which its associated sound, and PTT key." alt="" coords="339,259,408,285"/>
+<area shape="rect" id="node16" href="$_settings_controller_8h.html" title=" " alt="" coords="1554,109,1690,136"/>
+<area shape="rect" id="node48" title=" " alt="" coords="2558,184,2666,211"/>
+<area shape="rect" id="node50" href="$_profile_controller_8h.html" title="File describing the Profile Controller. The class dealing with storing and swapping profile." alt="" coords="212,184,336,211"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1184,333,1251,360"/>
+<area shape="rect" id="node10" title=" " alt="" coords="488,333,558,360"/>
+<area shape="rect" id="node11" title=" " alt="" coords="145,333,197,360"/>
+<area shape="rect" id="node12" title=" " alt="" coords="582,333,696,360"/>
+<area shape="rect" id="node13" title=" " alt="" coords="222,333,291,360"/>
+<area shape="rect" id="node14" title=" " alt="" coords="366,333,464,360"/>
+<area shape="rect" id="node15" title=" " alt="" coords="904,408,974,435"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1144,184,1243,211"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1268,184,1386,211"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1411,184,1502,211"/>
+<area shape="rect" id="node20" title=" " alt="" coords="1526,184,1618,211"/>
+<area shape="rect" id="node21" title=" " alt="" coords="340,408,394,435"/>
+<area shape="rect" id="node22" title=" " alt="" coords="2009,408,2082,435"/>
+<area shape="rect" id="node23" title=" " alt="" coords="1642,184,1700,211"/>
+<area shape="rect" id="node24" title=" " alt="" coords="1724,184,1799,211"/>
+<area shape="rect" id="node25" title=" " alt="" coords="1823,184,1887,211"/>
+<area shape="rect" id="node26" title=" " alt="" coords="1911,184,1980,211"/>
+<area shape="rect" id="node27" href="$soundwrapper_8h.html" title=" " alt="" coords="905,184,1018,211"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1275,333,1339,360"/>
+<area shape="rect" id="node36" href="$_enums_and_structs_8h.html" title=" " alt="" coords="1496,408,1635,435"/>
+<area shape="rect" id="node42" href="$_custom_shortcut_edit_8h.html" title="Code of the mainUI." alt="" coords="2188,259,2338,285"/>
+<area shape="rect" id="node47" title=" " alt="" coords="2004,184,2087,211"/>
+<area shape="rect" id="node49" title=" " alt="" coords="2111,184,2167,211"/>
+<area shape="rect" id="node28" title=" " alt="" coords="905,259,986,285"/>
+<area shape="rect" id="node29" title=" " alt="" coords="1710,333,1805,360"/>
+<area shape="rect" id="node30" title=" " alt="" coords="1364,333,1482,360"/>
+<area shape="rect" id="node31" title=" " alt="" coords="1011,259,1064,285"/>
+<area shape="rect" id="node32" title=" " alt="" coords="1088,259,1198,285"/>
+<area shape="rect" id="node33" href="$_custom_player_8h.html" title="File describing the CustomPlayer class." alt="" coords="664,259,779,285"/>
+<area shape="rect" id="node39" href="$_custom_sound_file_8h.html" title=" " alt="" coords="923,333,1059,360"/>
+<area shape="rect" id="node40" href="$_custom_list_widget_8h.html" title="File describing the CustomListWidget class." alt="" coords="1716,259,1856,285"/>
+<area shape="rect" id="node41" href="$_custom_list_widget_item_8h.html" title="File describing the CustomListWidgetItem class." alt="" coords="1475,259,1640,285"/>
+<area shape="rect" id="node34" href="$bass_8h.html" title=" " alt="" coords="1294,483,1373,509"/>
+<area shape="rect" id="node37" title=" " alt="" coords="1535,483,1596,509"/>
+<area shape="rect" id="node38" title=" " alt="" coords="1626,483,1708,509"/>
+<area shape="rect" id="node43" title=" " alt="" coords="2323,333,2459,360"/>
+<area shape="rect" id="node44" title=" " alt="" coords="2484,333,2570,360"/>
+<area shape="rect" id="node45" title=" " alt="" coords="2134,333,2206,360"/>
+<area shape="rect" id="node46" title=" " alt="" coords="2230,333,2299,360"/>
 </map>

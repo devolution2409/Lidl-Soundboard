@@ -1,0 +1,6 @@
+<map id="SfxSettingsWidget::addSlider" name="SfxSettingsWidget::addSlider">
+<area shape="rect" id="node1" title="addSlider" alt="" coords="421,39,560,80"/>
+<area shape="rect" id="node2" href="$class_preset_wizard_intro_page.html#a3c0474fd54295d5f0ceb73d986e560fb" title=" " alt="" coords="217,5,373,47"/>
+<area shape="rect" id="node4" href="$class_wrapper_properties.html#a7c4fee172515b17243265339c092b7e0" title="Default constructor, private because we only need the populated one." alt="" coords="226,71,365,112"/>
+<area shape="rect" id="node3" href="$class_preset_wizard_intro_page.html#ae2fe5a4d9d9dd421b5bfe3634330e6ac" title=" " alt="" coords="5,5,169,47"/>
+</map>

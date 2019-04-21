@@ -154,5 +154,4 @@ var menudata={children:[
 {text:"m",url:"globals_defs_m.html#index_m"},
 {text:"s",url:"globals_defs_s.html#index_s"},
 {text:"t",url:"globals_defs_t.html#index_t"},
-{text:"v",url:"globals_defs_v.html#index_v"},
 {text:"w",url:"globals_defs_w.html#index_w"}]}]}]}]}

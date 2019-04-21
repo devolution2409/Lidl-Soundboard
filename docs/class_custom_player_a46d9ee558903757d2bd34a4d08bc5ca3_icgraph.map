@@ -1,0 +1,6 @@
+<map id="CustomPlayer::SetOutputDevice" name="CustomPlayer::SetOutputDevice">
+<area shape="rect" id="node1" title="SetOutputDevice Sets the main output device of the player." alt="" coords="503,46,712,73"/>
+<area shape="rect" id="node2" href="$class_sound_wrapper.html#a78c2ea2698eeccd51b1d5f32be198baa" title="Set the main output device of the player according to the combo box in the UI." alt="" coords="259,5,452,47"/>
+<area shape="rect" id="node3" href="$class_sound_wrapper.html#a65f6270a42883c49952ddead9ab731a1" title="Set the index of the main output device." alt="" coords="256,71,455,112"/>
+<area shape="rect" id="node4" href="$class_sound_wrapper.html#ae338d43330773a630d45fa2f334b1259" title="ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE ILL EAGLE." alt="" coords="5,78,208,105"/>
+</map>

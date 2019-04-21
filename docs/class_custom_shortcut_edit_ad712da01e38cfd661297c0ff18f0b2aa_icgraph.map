@@ -1,0 +1,7 @@
+<map id="CustomShortcutEdit::getVirtualKey" name="CustomShortcutEdit::getVirtualKey">
+<area shape="rect" id="node1" title="getVirtualKey" alt="" coords="501,71,640,112"/>
+<area shape="rect" id="node2" href="$class_soundboard_main_u_i.html#ac1e1da89a9812412e2e9e92306925737" title="Function to generate the .lidljson save file." alt="" coords="261,5,453,47"/>
+<area shape="rect" id="node3" href="$class_soundboard_main_u_i.html#af2808822facdd4fb0bbcc223b605d6be" title="ProfileSwitched." alt="" coords="270,71,445,112"/>
+<area shape="rect" id="node5" href="$class_wrapper_properties.html#a75b87657531719f1f00cdf0fafcd14aa" title="Constructor of the &quot;Sound Entry Editor&quot; UI." alt="" coords="288,136,427,177"/>
+<area shape="rect" id="node4" href="$class_soundboard_main_u_i.html#a229f03bf1f6ea9bc13dc2afedf6533d6" title="SoundboardMainUI Default constructor." alt="" coords="5,71,213,112"/>
+</map>
