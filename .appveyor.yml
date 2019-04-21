@@ -28,9 +28,9 @@ after_build:
   - windeployqt dist/release/Lidl_soundboard.exe
     #  - cmd: cp LICENSE.md release/LICENSE.txt"
     #  - iscc innosetup.iss
-  - rm release/*.o
-  - rm release/*.cpp
-  - rm release/*.h
+  - rm dist/release/*.o
+  - rm dist/release/*.cpp
+  - rm dist/release/*.h
   - cmd: cp lib/*.dll release/
 artifacts:
   - path: Output\Lidl_soundboard-*.exe
