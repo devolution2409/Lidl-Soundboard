@@ -32,12 +32,14 @@ after_build:
   # - rm dist/release/*.o
   # - rm dist/release/*.cpp
   # - rm dist/release/*.h
-  - cmd: cp lib/*.dll release/
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - cmd: cp lib/*.dll dist/release/
+
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 artifacts:
   - path: Output\Lidl_soundboard-*.exe
-  - path: release
+  - path: dist/release
     type: zip
 
 
