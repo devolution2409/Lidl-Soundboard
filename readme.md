@@ -1,5 +1,6 @@
 # LIDL Soundboard
-
+![https://ci.appveyor.com/api/projects/status/github/devolution2409/lidl-soundboard?svg=true](https://ci.appveyor.com/api/projects/status/github/devolution2409/lidl-soundboard?svg=true)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/00ca84f2b10b4b9ab2ff52a7f9b67faa)](https://www.codacy.com/app/devolution2409/Lidl-Soundboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=devolution2409/Lidl-Soundboard&amp;utm_campaign=Badge_Grade)
 This project is a simple soundboard that can read .mp3, .wav, and .ogg files through shortcut, and send them to different audio output.
 
 ## Getting Started
@@ -34,9 +35,7 @@ Blabla, some licence shit that says this is open source and free to fork. But pl
 💿 OMEGALUL 
 
 
-## Build Status
-
-![https://ci.appveyor.com/api/projects/status/github/devolution2409/lidl-soundboard?svg=true](https://ci.appveyor.com/api/projects/status/github/devolution2409/lidl-soundboard?svg=true)
+## Nightly build
 
 Click [here](https://ci.appveyor.com/project/devolution2409/lidl-soundboard/build/artifacts) for nightly build.
 

@@ -115,7 +115,7 @@
 #include "ProfileController.h"
 #include "SaveController.h"
 #include <QSplashScreen>
-
+#include <UpdateChecker.h>
 
 /*!
  * \file soundboardMainUI.h

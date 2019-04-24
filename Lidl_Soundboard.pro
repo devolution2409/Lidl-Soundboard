@@ -10,10 +10,12 @@ QT += widgets \
 
 
 SOURCES += \
-       $$files(source/*.cpp)
+       $$files(source/*.cpp) \
+
 
 HEADERS += \
-    $$files(include/*.h)
+    $$files(include/*.h) \
+
 
 # Use Precompiled headers (PCH)
 PRECOMPILED_HEADER  +=  \

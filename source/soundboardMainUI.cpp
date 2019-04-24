@@ -2125,6 +2125,11 @@ void SoundboardMainUI::SetUpRecentMenu()
 
 void SoundboardMainUI::CheckForUpdates()
 {
+
+    qDebug() << "gneeee";
+    LIDL::Controller::UpdateChecker* test = new LIDL::Controller::UpdateChecker();
+    //delete test;
+    return;
     if (!_updateScheduled)
     {
         QProcess process;
