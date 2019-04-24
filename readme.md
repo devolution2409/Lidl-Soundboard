@@ -1,5 +1,7 @@
 # LIDL Soundboard
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/92fed92005354e0688d46085c18f85a7)](https://app.codacy.com/app/devolution2409/Lidl-Soundboard?utm_source=github.com&utm_medium=referral&utm_content=devolution2409/Lidl-Soundboard&utm_campaign=Badge_Grade_Settings)
+
 This project is a simple soundboard that can read .mp3, .wav, and .ogg files through shortcut, and send them to different audio output.
 
 ## Getting Started
