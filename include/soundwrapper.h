@@ -163,7 +163,7 @@ public:
 
 private:
 
-     QVector<LIDL::SoundFile*> _soundList; /*!< Vector containing the files.*/
+    QVector<LIDL::SoundFile*> _soundList; /*!< Vector containing the files.*/
 
     LIDL::Playback _playMode; /*!< Variable holding the playback mode (enumeration defined in EnumsAndStruct.h .*/
 

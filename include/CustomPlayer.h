@@ -101,6 +101,8 @@ public:
     int GetVACDevice();
 
 
+    bool IsPlaying();
+
 
     /*!
      * \brief SetPlaylist Set the playlist of the CustomPlayer.

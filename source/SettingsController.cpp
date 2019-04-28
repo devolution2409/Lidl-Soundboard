@@ -239,7 +239,7 @@ bool SettingsController::OpenSettings()
                       // of the index
                       // is the last opened soundboard
                       // else it is the other way around
-                      for (QJsonObject::iterator it = files.begin(); it!= files.end(); it++)
+                      for (QJsonObject::iterator it = files.begin(); it!= files.end(); ++it)
                       {
                           // if the file exists we push it into the array
                           if (QFileInfo(it.value().toString()).exists())

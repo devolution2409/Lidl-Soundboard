@@ -89,6 +89,11 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
 
 void SoundWrapper::Play()
 {
+    if (this->_playMode == LIDL::Playback::Auto)
+    {
+        if (_player->IsPlaying())
+            _player->Stop();
+    }
     _player->PlayNext();
 }
 

@@ -586,7 +586,7 @@ void SaveController::ParseOldSave(QJsonObject json)
 
 
                     // Have to use traditional iterators because auto doesn't allow to use key DansGame
-                    for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); it++)
+                    for (QJsonObject::iterator it = soundCollection.begin(); it!= soundCollection.end(); ++it)
                     {
                         QJsonObject settings;
                         QString fileName;
@@ -623,7 +623,7 @@ void SaveController::ParseOldSave(QJsonObject json)
                             if (sfx_obj.contains("Distortion"))
                             {
                                 QJsonObject distObj = sfx_obj.value("Distortion").toObject();
-                                for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();l++)
+                                for (QJsonObject::iterator l = distObj.begin(); l!= distObj.end();++l)
                                 {
                                     if (l.key() == "Cutoff")
                                         sfx.distortion.fPreLowpassCutoff = static_cast<float>(l.value().toInt());
@@ -640,7 +640,7 @@ void SaveController::ParseOldSave(QJsonObject json)
                             if (sfx_obj.contains("Chorus"))
                             {
                                 QJsonObject chorusObj = sfx_obj.value("Chorus").toObject();
-                                for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();l++)
+                                for (QJsonObject::iterator l = chorusObj.begin(); l!= chorusObj.end();++l)
                                 {
                                     if (l.key() == "Delay")
                                         sfx.chorus.fDelay = static_cast<float>(l.value().toInt());

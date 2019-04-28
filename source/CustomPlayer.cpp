@@ -439,6 +439,18 @@ int CustomPlayer::GetVACDevice()
     return static_cast<int>(this->_VACOutputDevice);
 }
 
+bool CustomPlayer::IsPlaying()
+{
+    //if neither of the channel is empty it means they are currecntly playing
+    // or it is scheduled
+    if ( !_vacChannel.isEmpty() || !_mainChannel.isEmpty() || _timerSequentialAutoPlay->remainingTime() > 0 )
+    {
+        return true;
+    }
+
+    return false;
+}
+
 // we can use (this) as user data or this.soundfile or w/e
 // to delete the last chan maybe we could use last+1 provided the size of the array is in fact already incremented when the callback
 // function is called.
