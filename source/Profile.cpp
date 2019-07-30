@@ -40,17 +40,20 @@ void Profile::AddSound(std::shared_ptr<SoundWrapper> wrapper)
     this->_sounds.push_back(wrapper);
 }
 
-void Profile::RemoveSoundFromSharedPtr(std::shared_ptr<SoundWrapper> wrapper)
+void Profile::RemoveSoundFromSharedPtr(const std::shared_ptr<SoundWrapper>& wrapper)
 {
     for (int i = 0; i < _sounds.size();  i++)
     {
         qDebug() << "i:" <<i;
-        if  ( _sounds.at(i) == wrapper)
+        if  ( _sounds.value(i) == wrapper)
         {
+            _sounds.value(i).reset();
             _sounds.removeAt(i);
-            return;
+            break;
         }
     }
+    qDebug() << "testing unicity here:" << wrapper.unique();
+
 }
 
 void Profile::SwapSound(std::shared_ptr<SoundWrapper> oldWrapper, std::shared_ptr<SoundWrapper> newWrapper)

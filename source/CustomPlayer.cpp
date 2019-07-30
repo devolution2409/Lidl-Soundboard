@@ -24,6 +24,9 @@ CustomPlayer::CustomPlayer(QObject *parent) : QObject(parent)
     _shouldPlay = true;
     _index = 0;
 
+    connect(this, &CustomPlayer::destroyed, this, [=]{
+        qDebug() << "[~CustomPlayer()] I'm either destroyed or about to be]";
+    });
 
 }
 

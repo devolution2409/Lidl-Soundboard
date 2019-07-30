@@ -40,7 +40,7 @@ DEFINES += VER=1.9.0
 
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc
-QMAKE_CXXFLAGS += -static-libgcc -Wno-error=date-time
+QMAKE_CXXFLAGS += -static-libgcc -Wno-error=date-time -fno-inline -fno-omit-frame-pointer
 
 #win32:CONFIG(release, debug|release):
 # LIBS += -L$$PWD/lib/ -lbass -lbassflac -lole32    #-lbassmix

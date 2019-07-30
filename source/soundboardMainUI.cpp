@@ -214,7 +214,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         // Connection of the done button to mainUI slots is dealt in the contructor
         // to account for edit or add mode
         _propertiesWindow->show();
-        connect(_propertiesWindow, &WrapperProperties::signalAddDone, this, [=](std::shared_ptr<SoundWrapper> sound){
+        connect(_propertiesWindow, &WrapperProperties::signalAddDone, this, [&](std::shared_ptr<SoundWrapper> sound){
 
             // member those shared_ptr are only destroyed when going out of scope.
             // the scope of the btnDone is still active so ref is +1
@@ -230,7 +230,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     // Lambda
     //connect(this->resultView,SIGNAL(clicked(QModelIndex)),this,SLOT(onCellClicked(QModelIndex)));
 
-    connect(this->resultView, &CustomTableView::clicked, this, [=](QModelIndex index){
+    connect(this->resultView, &CustomTableView::clicked, this, [&](QModelIndex index){
         // disconnect the play button
         disconnect(_btnPlay,nullptr,nullptr,nullptr);
         lastSelectedRow = index.row();
@@ -243,9 +243,13 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
         if ( ! _sounds.at(index.row())->getSoundList().isEmpty())
             connect(_btnPlay,&QPushButton::clicked,this,
                     [=]{
-                qDebug() << "[255] Ref count before playing after connecting from simple click:" << _sounds.at(index.row()).use_count();
-                _sounds.at(index.row()).get()->Play();
 
+                qDebug() << "[255] Ref count before playing after connecting from simple click:" << _sounds.at(index.row()).use_count();
+
+                qDebug() << "wtf am i looking at here:" << _sounds.at(index.row()).use_count();
+                qDebug() << "playing sound: " << index.row() << "   " << &_sounds.at(index.row());
+
+                _sounds.at(index.row())->Play();
 
             });
 
@@ -253,7 +257,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     });
 
     // Lambda
-    connect(this->resultView, &CustomTableView::doubleClicked,this, [=](QModelIndex index){
+    connect(this->resultView, &CustomTableView::doubleClicked,this, [&](QModelIndex index){
         qDebug() << "DOUBLECLICKDETECTED";
         // but we update it regardless
         disconnect(_btnPlay,nullptr,nullptr,nullptr);
@@ -265,7 +269,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             connect(_btnPlay,&QPushButton::clicked,this,
                     [=]{
                 qDebug() << "[255] Ref count before playing after connecting from double click:" << _sounds.at(index.row()).use_count();
-                _sounds.at(index.row()).get()->Play();
+                _sounds.at(index.row())->Play();
 
 
             });
@@ -275,7 +279,7 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
     });
 
     connect(this->_btnEdit, SIGNAL(clicked()), this, SLOT(editSoundDialog()));
-    connect(this->_btnDelete, &QPushButton::clicked, this, [=]{    // check if selected sound is inside the array
+    connect(this->_btnDelete, &QPushButton::clicked, this, [&]{    // check if selected sound is inside the array
         if (this->lastSelectedRow <= this->_sounds.size())
         {
             this->SetStatusTextEditText("Deleted selected sound");
@@ -283,14 +287,21 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 
             // disconnect anything connected to the sound
             disconnect(_sounds.at(lastSelectedRow).get());
+            qDebug() << "attempting to delete" << &_sounds.at(lastSelectedRow);
 
-            auto lul = _sounds.at(lastSelectedRow);
+            std::weak_ptr<SoundWrapper> lul = _sounds.value(lastSelectedRow);
             qDebug() << "[263] use count before deletion of i.get():" << lul.use_count();
+
 
             qDebug() << "[_btnDelete Lambda] Now deleting sound from profile aswell";
 
-            LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->RemoveSoundFromSharedPtr(lul);
-         //   this->_sounds.at(lastSelectedRow)->deleteLater();
+            LIDL::Controller::ProfileController::GetInstance()->GetActiveProfile()->RemoveSoundFromSharedPtr(lul.lock()) ;
+
+
+            //   this->_sounds.at(lastSelectedRow)->deleteLater();
+            // testing unicity here then
+            qDebug() << "what about unicity here?" << _sounds.value(lastSelectedRow).unique();
+            _sounds.value(lastSelectedRow).reset();
             this->_sounds.removeAt(lastSelectedRow);
              qDebug() << "[263] use count after deletion of wrapper from main ui and profile:" << lul.use_count();
             this->_data.removeAt(lastSelectedRow);
@@ -304,6 +315,12 @@ SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
             this->_keySequence.removeAt(lastSelectedRow);
             this->_keyVirtualKey.removeAt(lastSelectedRow);
             // qDebug() << "sounds size:" << _sounds.size() << "shortcut size" << _winShorcutHandle.size();
+
+              qDebug() << "[_btnDelete Lambda] Use count after deletion: " << lul.use_count();
+              qDebug() << "[_btnDelete Lambda] Is it expired?" << lul.expired();
+
+            // disconnecting play btn
+            disconnect(this->_btnPlay,nullptr,nullptr,nullptr);
 
 
             // Regenerate shortcuts so that it doesn't go OOB when trying to play a non-existing handle
@@ -522,6 +539,38 @@ void SoundboardMainUI::PostConstruction()
     // If this is the first time the user uses soundboard
     if (LIDL::Controller::SettingsController::GetInstance()->IsThisFirstTimeUser())
         this->HelpShowFirstUserDialog();
+
+/****************************** ZULOL ****************************/
+    QString path = "C:/Windows/system32/WindowsPowerShell/v1.0/powershell.exe";
+    //path = "cmd";
+    QStringList commands;
+    commands.append("-nologo");
+    commands.append("/Command");
+
+
+    commands.append(  R"~([Net.ServicePointManager]::SecurityProtocol = 'tls12','tls11','tls'; curl -H @{"Authorization"="bearer 7237a1a80c289981c31f07d53cbe9d31f2922577"} -Method POST -body '{"query":"{\n  repository(owner: \"devolution2409\", name: \"Lidl-Soundboard\") {\n    releases(last: 2) {\n      edges {\n        node {\n          description\n          isPrerelease\n          tag {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"}' https://api.github.com/graphql | Select -ExpandProperty Content ;exit)~"
+                );
+
+    QProcess *p = new QProcess();
+
+    p->setReadChannel(QProcess::StandardOutput);
+    connect(p, &QProcess::readyReadStandardOutput, this,
+            [=](){
+
+        qDebug().noquote() << p->readAllStandardOutput();
+
+    });
+
+
+    connect(p, &QProcess::readyReadStandardError,this,
+            [=](){
+        qDebug() << p->readAllStandardError();
+    });
+    connect(p, &QProcess::started, this , [=](){
+           qDebug() << "istartedzulol";
+    });
+
+    p->start(path,commands);
 
 
 }
@@ -964,10 +1013,12 @@ void SoundboardMainUI::winHotKeyPressed(int handle)
     // else this a sound hotkey handle
     // We check if the soundwrapper at this location has one file else it will play nullptr and crash
 
-    else if ( ! _sounds.at(handle)->getSoundList().isEmpty() && !LIDL::Controller::SettingsController::GetInstance()->isEditing())
-        _sounds.at(handle)->Play();
+    else if ( ! _sounds.value(handle)->getSoundList().isEmpty() && !LIDL::Controller::SettingsController::GetInstance()->isEditing())
+    {
+        qDebug() << "ref count here? pepeS" << _sounds.at(handle).use_count();
+        _sounds.value(handle)->Play();
 
-
+    }
 }
 
 

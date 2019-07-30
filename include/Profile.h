@@ -112,7 +112,7 @@ class Profile
          *
          * Will remove a shared_ptr from the QVector (when the sound was deleted or replaced in the main UI)
          */
-        void RemoveSoundFromSharedPtr(std::shared_ptr<SoundWrapper> wrapper);
+        void RemoveSoundFromSharedPtr(const std::shared_ptr<SoundWrapper>& wrapper);
 
 
         /*!

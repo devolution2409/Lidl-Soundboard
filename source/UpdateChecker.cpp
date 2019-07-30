@@ -8,21 +8,27 @@ UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
 {
 //    qDebug() << "dont mind just testing shit";
 //    QUrl url = QUrl("https://api.github.com/graphql");
-    QString path = "C:/Windows/system32/WindowsPowerShell/v1.0/powershell.exe";
-    path = "cmd";
+    QString path = "cmd";
     QStringList commands;
-    commands.append("-Command");
-    commands.append("pause");
+
 
     commands.clear();
-    commands.append("/C pause");
-    //commands.append("[Net.ServicePointManager]::SecurityProtocol = 'tls12','tls11','tls'");
+    commands.append("/C");
+    commands.append("[Net.ServicePointManager]::SecurityProtocol = 'tls12','tls11','tls'");
 
-    /*commands.append(  R"~(curl -H @{"Authorization"=bearer 15f55f1c38f68145c4231007cbd1b52a8622655d"} -Method POST -body '{"query":"{\n  repository(owner: \"devolution2409\", name: \"Lidl-Soundboard\") {\n    releases(last: 2) {\n      edges {\n        node {\n          description\n          isPrerelease\n          tag {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"}' https://api.github.com/graphql
-)~"
-                );
-*/
+    QString token = std::getenv("GITHUB_OAUTH_TOKEN");
+
+//    commands.append(  R"~(curl -H @{"Authorization"=bearer 15f55f1c38f68145c4231007cbd1b52a8622655d"} -Method POST -body '{"query":"{\n  repository(owner: \"devolution2409\", name: \"Lidl-Soundboard\") {\n    releases(last: 2) {\n      edges {\n        node {\n          description\n          isPrerelease\n          tag {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"}' https://api.github.com/graphql
+//)~"            );
+
+
+
+
+commands.append(
+        R"~(curl -H @{"Authorization"=bearer 15f55f1c38f68145c4231007cbd1b52a8622655d"} -Method POST -body '{"query":"{\n  repository(owner: \"devolution2409\", name: \"Lidl-Soundboard\") {\n    releases(last: 2) {\n      edges {\n        node {\n          description\n          isPrerelease\n          tag {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"}' https://api.github.com/graphql
+                          )~");
     QProcess *p = new QProcess();
+
 
     p->setReadChannel(QProcess::StandardOutput);
     connect(p, &QProcess::readyReadStandardOutput, this,
@@ -37,6 +43,11 @@ UpdateChecker::UpdateChecker(QObject *parent) : QObject(parent)
             [=](){
         qDebug() << p->readAllStandardError();
     });
+    connect(p, &QProcess::started, this , [=](){
+           qDebug() << "istartedzulol";
+    });
+
+
     p->start(path,commands);
     /*
      * curl -H "Authorization: bearer 15f55f1c38f68145c4231007cbd1b52a8622655d" -X POST -d '{"query":"{\n  repository(owner: \"devolution2409\", name: \"Lidl-Soundboard\") {\n    releases(last: 2) {\n      edges {\n        node {\n          description\n          isPrerelease\n          tag {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"}' https://api.github.com/graphql

@@ -1,5 +1,6 @@
 #include "soundwrapper.h"
 
+
 //I
 SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
 {
@@ -18,7 +19,8 @@ SoundWrapper::SoundWrapper(QObject *parent) : QObject(parent)
             emit holdPTTProxy(duration);
     });
 
-    connect(this,&CustomPlayer::destroyed, this, [=]{
+    connect(this,&SoundWrapper::destroyed, this, [=]{
+       this->_player->deleteLater();
        qDebug() << "[~SoundWrapper()] I'm either destroyed or about to be !";
 
     });
@@ -89,6 +91,7 @@ SoundWrapper::SoundWrapper(QVector<LIDL::SoundFile *> fileList, LIDL::Playback p
 
 void SoundWrapper::Play()
 {
+    qDebug() << "hello from SoundWrapper::Play() pajaHey";
     if (this->_playMode == LIDL::Playback::Auto)
     {
         if (_player->IsPlaying())
