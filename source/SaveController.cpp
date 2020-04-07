@@ -462,7 +462,8 @@ void SaveController::OpenSaveFile(QString fileName)
 
 
     // in any case we revert to default profile forsenT
-    LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange("Default");
+    // force the change :)
+    LIDL::Controller::ProfileController::GetInstance()->AutomaticConfigurationChange("Default",true);
 
     // we set the sounds output i guess
     emit SetDevices(mainOutputDevice,vacOutputDevice);

@@ -1367,8 +1367,7 @@ void SoundboardMainUI::ClearAllSounds()
 void SoundboardMainUI::OpenSlot()
 {
 
-        LIDL::Controller::SaveController::GetInstance()->OpenSaveFile();
-
+    LIDL::Controller::SaveController::GetInstance()->OpenSaveFile();
     return;
     // forsenT
 }
@@ -2179,7 +2178,7 @@ void SoundboardMainUI::CheckForUpdates()
 
     qDebug() << "gneeee";
     LIDL::Controller::UpdateChecker* test = new LIDL::Controller::UpdateChecker();
-    //delete test;
+    delete test;
     return;
     if (!_updateScheduled)
     {
