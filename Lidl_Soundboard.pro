@@ -34,9 +34,9 @@ RESOURCES +=  \
 RC_FILE = lidlsoundboard.rc
 CONFIG += c++17
 
-DEFINES += VER_STRING=\\\"1.9.0\\\"
+DEFINES += VER_STRING=\\\"1.9.1\\\"
 
-DEFINES += VER=1.9.0
+DEFINES += VER=1.9.1
 
 TARGET = Lidl_Soundboard
 #trying to staticly link libgcc

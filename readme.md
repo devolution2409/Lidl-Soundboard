@@ -40,3 +40,11 @@ Click [here](https://ci.appveyor.com/project/devolution2409/lidl-soundboard/buil
 
 Warning, it may contains some weird features or behavior. Do this at your own risk.
 HE DOESN'T KNOW forsenKek
+
+## How to build
+
+Bass libs are 32 bits so a 32-bit compiler should be used.
+MinGW was used. 
+Once built with Qt, use windeployqt tool to add the .dlls to the built folder.
+Then, the bass dll as well as the SSL dll (needed to play files over https) is necessary.
+
