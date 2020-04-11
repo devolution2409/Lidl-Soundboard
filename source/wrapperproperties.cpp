@@ -686,21 +686,35 @@ void WrapperProperties::SetItemVACVolume(int newValue)
 
 void WrapperProperties::AddSoundFromYoutube()
 {
-    QDialog *test = new QDialog(this);
-
+    QDialog *dialog = new QDialog(this);
+                dialog->setWindowFlag(Qt::WindowCloseButtonHint,false);
+    dialog->setWindowModality(Qt::WindowModal);
     Ui::YoutubeDialog ui;
-    ui.setupUi(test);
+
+    ui.setupUi(dialog);
+    ui.progressBar->setValue(0);
+
+    ui.progressBar->setEnabled(false);
+    ui.textEdit->setEnabled(false);
+
 
     // get default from settings, but for now we use workdir
     ui.fileLocation->setText( QApplication::applicationDirPath());
 
+    //select path button
+    QObject::connect(ui.localFile, &QPushButton::clicked, [=]{
+      // ui.fileLocation->setText(  QFileDialog::getSaveFileName(this,tr("Save As"),"",tr(".wav")));
+        QString path = QFileDialog::getExistingDirectory(0, ("Select Output Folder"), QDir::currentPath());
+        ui.fileLocation->setText(path);
+    });
 
 
-
-    test->show();
+    dialog->show();
     QProcess * ytdl = new QProcess();
 
 
+
+    QObject::connect(dialog, &QDialog::finished, ytdl, &QProcess::kill);
 
 
     QObject::connect(ytdl,&QProcess::started, [=]{
@@ -708,18 +722,84 @@ void WrapperProperties::AddSoundFromYoutube()
     });
 
     QObject::connect(ytdl, &QProcess::readyReadStandardOutput, [=]{
-         ui.textEdit->setText(ytdl->readAllStandardOutput());
+          QByteArray text = ytdl->readAllStandardOutput();
+          ui.textEdit->append(text);
+          QRegExp regexp("[download].+(\\d{1,3}\\.\\d+)%\\s+of(\\s+\\d+\\.\\d+)(\\S+)\\s+at\\s+(\\d+\\.\\d+)(\\S+)\\s+ETA\\s+(\\d+:\\d+)");
+          QString test = QString::fromStdString( text.toStdString());
+          if(test.contains(regexp)){
+              ui.progressBar->setRange(0,10000); // 0x100, 100x100
+              ui.progressBar->setValue(regexp.cap(1).toDouble() * 100);
+          }
+          /*
+           *    Group 1.	14-17	0.8
+                Group 2.	21-28	 827.29
+                Group 3.	28-31	KiB
+                Group 4.	35-41	310.39
+                Group 5.	41-46	KiB/s
+                Group 6.	51-56	00:02
+           */
+
+          //applying regex to find the progress :donk:
+          if (test.contains(QRegExp("^ERROR: audio conversion failed"))){
+              qDebug() << "idk kev put a link on how to do this shit";
+          }
+
+          // destination
+          QRegExp reg(".+Destination: (.+\\..+)");
+          if (test.contains(reg)){
+                qDebug() << ui.fileLocation->text() + "/" + reg.cap(1).replace("\n","");
+            QFileInfo file (ui.fileLocation->text() + "/" + reg.cap(1).replace("\n","") );
+            if (file.exists()){
+                qDebug() << "VI VON ZULUL";
+                qDebug() << file.fileName();
+                _soundListDisplay->insertItem( _soundListDisplay->count() , new CustomListWidgetItem(file.path() + "/" + file.fileName(),
+                                                                                                     static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultMainVolume()/100.0),
+                                                                                                     static_cast<float>(LIDL::Controller::SettingsController::GetInstance()->GetDefaultVacVolume()/100.0),
+                                                                                                     0,_soundListDisplay)) ;
+                if (_soundListDisplay->count()>1)
+                {
+
+                    _radioCancer->setEnabled(false);
+                    if (_radioGroup->checkedId() == 4)
+                    {
+                        _radioSequential->setChecked(true);
+                        _playBackMode = LIDL::Playback::Sequential;
+                    }
+                }
+
+                dialog->accept();
+
+            }else{
+                qDebug() << "vi lost";
+            }
+
+          }
+
+
     });
     QObject::connect(ytdl, &QProcess::readyReadStandardError, [=]{
-         ui.textEdit->setText(ytdl->readAllStandardError());
+         ui.textEdit->append(ytdl->readAllStandardError());
     });
     QObject::connect(ytdl,QOverload<int>::of(&QProcess::finished), [=]{
         qDebug() << "Youtubedl ended nam";
-        ytdl->deleteLater();
     });
+
+    /* APPLY BUTTON => download */
     QObject::connect(ui.buttonBox, &QDialogButtonBox::clicked, this, [=](QAbstractButton * button){
         if (button == ui.buttonBox->button(QDialogButtonBox::Apply)){
+            ui.progressBar->setEnabled(true);
+            ui.textEdit->setEnabled(true);
+            ui.fileLocation->setEnabled(false);
+            ui.videoUrl->setEnabled(false);
+            ui.localFile->setEnabled(false);
 
+            const QFileInfo outputDir(ui.fileLocation->text());
+            if ((!outputDir.exists()) || (!outputDir.isDir()) || (!outputDir.isWritable())) {
+                  qWarning() << "output directory does not exist, is not a directory, or is not writeable"
+                             << outputDir.absoluteFilePath();
+                ui.textEdit->setText("Specified folder doesn't exist");
+                return;
+            }
 
 
             // TODO: prevent retards from entering blank text
@@ -728,9 +808,10 @@ void WrapperProperties::AddSoundFromYoutube()
 
             ytdl->setReadChannel(QProcess::StandardOutput);
             ytdl->start("D:\\youtube-dl.exe", QStringList()
-                             << "-x"
+                              << "-x"
                               << "--audio-format" << "wav"
-                              << "https://youtu.be/z3CA_HTvULc");
+                              << "-o"   << "%(title)s.%(ext)s"
+                              << ui.videoUrl->text());
 
 
         }

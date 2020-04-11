@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,6 +56,14 @@
         </item>
         <item>
          <widget class="QComboBox" name="outputFormat">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>wav</string>
+           </property>
+          </item>
           <item>
            <property name="text">
             <string>&lt;Select Format&gt;</string>
@@ -91,11 +99,6 @@
             <string>opus</string>
            </property>
           </item>
-          <item>
-           <property name="text">
-            <string>wav</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -105,7 +108,7 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>File location</string>
+           <string>Ouput directory</string>
           </property>
          </widget>
         </item>
@@ -113,7 +116,7 @@
          <widget class="QLineEdit" name="fileLocation"/>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="localFile">
           <property name="text">
            <string>Select</string>
           </property>
@@ -125,11 +128,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="progressGroupBox">
      <property name="title">
       <string>Progress</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QTextEdit" name="textEdit">
         <property name="enabled">

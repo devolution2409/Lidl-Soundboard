@@ -62,6 +62,7 @@
 #include "CustomEventFilter.h"
 #include <QFuture>
 #include <QtConcurrent>
+#include <QErrorMessage>
 
 
 
