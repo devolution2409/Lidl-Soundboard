@@ -35,7 +35,7 @@ RESOURCES +=  \
 RC_FILE = lidlsoundboard.rc
 CONFIG += c++17
 
-DEFINES += VER_STRING=\\\"1.9.2alpha\\\"
+DEFINES += VER_STRING=\\\"1.9.2alpha1\\\"
 
 DEFINES += VER=1.9.2
 

@@ -807,7 +807,7 @@ void WrapperProperties::AddSoundFromYoutube()
             ytdl->setProcessChannelMode( QProcess::MergedChannels ); // merge stderr and stdout
 
             ytdl->setReadChannel(QProcess::StandardOutput);
-            ytdl->start("D:\\youtube-dl.exe", QStringList()
+            ytdl->start("youtube-dl.exe", QStringList()
                               << "-x"
                               << "--audio-format" << "wav"
                               << "-o"   << "%(title)s.%(ext)s"
