@@ -3,6 +3,8 @@
 SoundboardMainUI::SoundboardMainUI(QWidget *parent) : QMainWindow(parent)
 {
 
+
+
     //set up hooks
     LIDL::Controller::HookController::GetInstance()->SetHooks();
 

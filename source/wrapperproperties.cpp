@@ -40,12 +40,17 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
     _gLayout = new QGridLayout;
     // Add and delete
     _vLayout->addLayout(_gLayout);
-    _btnAdd = new QPushButton("Add local file");
-    _btnAddFromURL = new QPushButton("Add from URL");
+    _btnAdd = new QPushButton("Add local file",this);
+    _btnAddFromURL = new QPushButton("Add from URL",this);
+    _btnAddFromYoutube = new QPushButton("Add from YouTube",this);
+
     // connecting to show the modal
     connect(this->_btnAddFromURL, &QPushButton::clicked,this, &WrapperProperties::AddSoundFromUrl);
 
-    _btnDelete= new QPushButton("Delete");
+    // connecting to show the dialog
+    QObject::connect(this->_btnAddFromYoutube, &QPushButton::clicked,this, &WrapperProperties::AddSoundFromYoutube);
+
+    _btnDelete= new QPushButton("Delete",this);
     _btnDelete->setEnabled(false);
     _soundListHint = new QLabel("💡 " +  tr("You can Drag and Drop files into this window.\n     Use drag and drop to re-order the sound collection.\n     You can set the volume, and SFX, of each sound in the volume panel."));
     /*******************************************************
@@ -292,16 +297,18 @@ WrapperProperties::WrapperProperties(QWidget *parent) //: QWidget(parent)
      *                 Displaying widget                   *
      *                                                     *
      *******************************************************/
+    int colNumber = 8;
     _gLayout->addWidget(_btnAdd,0,0,1,2);
     _gLayout->addWidget(_btnAddFromURL,0,2,1,2);
-    _gLayout->addWidget(_btnDelete,0,4,1,2);
-    _gLayout->addWidget(_soundListHint,1,0,2,6);
-    _gLayout->addWidget(_sliderSpoiler,3,0,1,6 );
-    _gLayout->addWidget(_sfxSpoiler,4,0,3,6);
-    _gLayout->addWidget(_radioGroupBox,7,0,1,6);
-    _gLayout->addWidget(_shortcutGroup,8,0,1,6);
-    _gLayout->addWidget(_btnDone,9,0,1,4);
-    _gLayout->addWidget(_btnAbort,9,4,1,2);
+    _gLayout->addWidget(_btnAddFromYoutube,0,4,1,2);
+    _gLayout->addWidget(_btnDelete,0,6,1,2);
+    _gLayout->addWidget(_soundListHint,1,0,2,colNumber);
+    _gLayout->addWidget(_sliderSpoiler,3,0,1,colNumber);
+    _gLayout->addWidget(_sfxSpoiler,4,0,3,colNumber);
+    _gLayout->addWidget(_radioGroupBox,7,0,1,colNumber);
+    _gLayout->addWidget(_shortcutGroup,8,0,1,colNumber);
+    _gLayout->addWidget(_btnDone,9,0,1,colNumber-2);
+    _gLayout->addWidget(_btnAbort,9,colNumber-2,1,2);
 
     //_sfxTabWidget->setMinimumHeight(200);
 
@@ -677,6 +684,62 @@ void WrapperProperties::SetItemVACVolume(int newValue)
         this->_selectedItem->setVacVolume(static_cast<float>(newValue/100.0));
 }
 
+void WrapperProperties::AddSoundFromYoutube()
+{
+    QDialog *test = new QDialog(this);
+
+    Ui::YoutubeDialog ui;
+    ui.setupUi(test);
+
+    // get default from settings, but for now we use workdir
+    ui.fileLocation->setText( QApplication::applicationDirPath());
+
+
+
+
+    test->show();
+    QProcess * ytdl = new QProcess();
+
+
+
+
+    QObject::connect(ytdl,&QProcess::started, [=]{
+        qDebug() << "STARTED";
+    });
+
+    QObject::connect(ytdl, &QProcess::readyReadStandardOutput, [=]{
+         ui.textEdit->setText(ytdl->readAllStandardOutput());
+    });
+    QObject::connect(ytdl, &QProcess::readyReadStandardError, [=]{
+         ui.textEdit->setText(ytdl->readAllStandardError());
+    });
+    QObject::connect(ytdl,QOverload<int>::of(&QProcess::finished), [=]{
+        qDebug() << "Youtubedl ended nam";
+        ytdl->deleteLater();
+    });
+    QObject::connect(ui.buttonBox, &QDialogButtonBox::clicked, this, [=](QAbstractButton * button){
+        if (button == ui.buttonBox->button(QDialogButtonBox::Apply)){
+
+
+
+            // TODO: prevent retards from entering blank text
+            ytdl->setWorkingDirectory(ui.fileLocation->text());
+            ytdl->setProcessChannelMode( QProcess::MergedChannels ); // merge stderr and stdout
+
+            ytdl->setReadChannel(QProcess::StandardOutput);
+            ytdl->start("D:\\youtube-dl.exe", QStringList()
+                             << "-x"
+                              << "--audio-format" << "wav"
+                              << "https://youtu.be/z3CA_HTvULc");
+
+
+        }
+
+    });
+
+
+}
+
 
 void WrapperProperties::AddSoundFromUrl()
 {
@@ -693,6 +756,11 @@ void WrapperProperties::AddSoundFromUrl()
 
     if (ok && !urlString.isEmpty())
     {
+        //check for youtube beforehand
+        //run /youtube-dl.exe -x --audio-format wav https://www.youtube.com/watch?v=OWNOQA6fWC8
+        // maybe let the user check for wav or another format ppHop
+
+
         QUrl url(urlString);
         qDebug() << "url.scheme():" << url.scheme();
         // If the scheme wasn't provided we abort

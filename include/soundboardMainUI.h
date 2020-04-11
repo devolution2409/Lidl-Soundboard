@@ -118,7 +118,6 @@
 #include <UpdateChecker.h>
 
 #include <QEventLoop>
-
 /*!
  * \file soundboardMainUI.h
  * \brief Code of the mainUI.

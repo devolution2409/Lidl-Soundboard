@@ -345,7 +345,6 @@ void CustomListWidgetItem::setSFXGargle(LIDL::SFX_GARGLE_PARAM param, int value)
 
 int CustomListWidgetItem::getSFXGargle(LIDL::SFX_GARGLE_PARAM param)
 {
-    qDebug() << "tesqt";
     switch(param){
 
     case LIDL::SFX_GARGLE_PARAM::dwRateHz:

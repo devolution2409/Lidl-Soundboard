@@ -5,7 +5,8 @@ QT += widgets \
       core \
       gui \
       multimedia \
-      network
+      network \
+      concurrent
 #      autoupdatergui \
 
 

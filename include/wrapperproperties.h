@@ -57,10 +57,11 @@
 #include "SfxSettingsWidget.h"
 
 
+#include "ui_YoutubeDialog.h"
 
-
-
-
+#include "CustomEventFilter.h"
+#include <QFuture>
+#include <QtConcurrent>
 
 
 
@@ -120,6 +121,7 @@ private:
     // Buttons to add and delete
     QPushButton *_btnAdd; /*!< The add sound button. */
     QPushButton *_btnAddFromURL;/*!< The add sound from URL button.*/
+    QPushButton *_btnAddFromYoutube; /*!< The add from youtube button, opens a widget*/
     QPushButton *_btnDelete; /*!< The delete sound button.*/
     CustomListWidgetItem *_selectedItem; /*!< A pointer to the selected item.*/
 
@@ -272,6 +274,14 @@ public slots:
     void AddSoundFromDrop(QString);
 
     /*!
+     * \brief AddSoundFromYoutube
+     *
+     * This method will open the widget for youtube which downloads the file, and then add it.
+     */
+    void AddSoundFromYoutube();
+
+
+    /*!
      * \brief ItemWasClicked deals with connecting every slider and spinbox to the selected sound.
      * \param item The QListWidgetItem that was clicked (dynamic_cast from CustomListWidgetItem).
      */
@@ -380,7 +390,6 @@ void WrapperProperties::setUpConnection(SfxSettingsWidget *widget)
         //http://bass.radio42.com/help/html/f23be39f-2720-aca0-9b58-ef3a54af2c34.htm
         // index is equal to the value of the BASS_DX8 enum
         // specialValue is equal to EnumsAndStructs.h value
-        qDebug() << "nigger nigger ni " << specialValue;
         _selectedItem->setSFX<Param>(specialValue,newIndex);
     });
 
