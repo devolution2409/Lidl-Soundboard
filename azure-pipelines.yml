@@ -15,4 +15,4 @@ jobs:
   pool:
     vmImage: $(imageName)
   steps:
-    - template: ci/windows.yml
+    - template: .azure/windows.yml
